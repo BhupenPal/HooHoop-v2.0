@@ -4,6 +4,11 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
   mode: 'development',
+  devServer: {
+    historyApiFallback: true,
+    contentBase: './',
+    hot: true
+  },
   entry: {
     main: resolve(__dirname, 'src', 'index.js')
   },

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently -n 'client,server' \"cd .. && cd client && npm run start\" \"nodemon index.js\"",
-    "pro": "concurrently -n 'client,server' \"cd .. && cd client && npm run pro\" \"nodemon index.js\""
+    "pro": "concurrently -n 'client,server' \"cd .. && cd client && npm run build\" \"nodemon index.js\""
   },
   "author": "Bhupen Pal",
   "license": "ISC",

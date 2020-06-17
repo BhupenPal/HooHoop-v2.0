@@ -1,5 +1,7 @@
-html {
-    box-sizing: border-box;
-    color: lightblue;
-    font-size: 100%;
+@import './reset.css';
+
+#root {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
