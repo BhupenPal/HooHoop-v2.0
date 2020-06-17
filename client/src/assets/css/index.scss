@@ -5,3 +5,24 @@
     display: grid;
     grid-template-rows: auto 1fr auto;
 }
+
+header{
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 100px;
+    box-sizing: border-box;
+
+    .head-logo{
+        height: 80px;
+    }
+
+    .route-btn{
+        button{
+          margin: 0 10px;  
+        }
+    }
+}
+
+

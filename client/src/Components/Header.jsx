@@ -6,11 +6,15 @@ class Header extends Component {
   render() {
     return ( 
       <header>
-        <img src={Logo} alt=""/>
+        <img className="head-logo" src={Logo} alt=""/>
+        <div className="route-btn">
         <NavLink to='/login'>
         <button>Login</button>
         </NavLink>
+        <NavLink to='/register'>
         <button>Signup</button>
+        </NavLink>
+        </div>
       </header>
     )
   }

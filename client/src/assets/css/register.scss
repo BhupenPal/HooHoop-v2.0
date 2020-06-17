@@ -1,0 +1,69 @@
+$card-width: 500px;
+$basic-font: 500 20px 'Open Sans', sans-serif;
+$large-font: 500 50px 'Open Sans', sans-serif;
+
+.signup-wrapper{
+    height: 100vh;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .signup-card{
+        height: auto;
+        padding: 20px 10px;
+        width: $card-width;
+        border-radius: 10px;
+        background-color: #fff;
+
+        h1{
+            font: $large-font;
+            text-align: left;
+            box-sizing: border-box;
+            padding: 0 50px;
+            margin: 20px 0;
+            color: #1ea1f3;
+        }
+
+        .form-inp-container{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            input{
+                height: 40px;
+                width: 80%;
+                border: 1px solid #e1e1e1;
+                margin: 10px 0;
+                border-radius: 5px;
+                padding: 0 10px;
+                box-sizing: border-box;
+            }
+
+            .role-container{
+                display: flex;
+                align-items: center;
+                label{
+                    margin: 0 10px;
+                    font: $basic-font;
+                    cursor: pointer;
+                }
+
+                input{
+                    height: 20px;
+                    width: 20px;
+                    cursor: pointer;
+                }
+            }
+
+            .submit-btn{
+                display: flex;
+                width: 100%;
+                justify-content: flex-end;
+                box-sizing: border-box;
+                padding: 0 50px;
+                margin: 40px 0;
+            }
+        }
+    }
+}
