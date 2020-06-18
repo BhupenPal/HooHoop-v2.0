@@ -39,10 +39,14 @@ const UserSchema = mongoose.Schema({
     DealershipPhone: {
         type: Number
     },
-    DealershipRegNo: {
+    DealershipNZBN: {
         type: String
     },
     isActive: {
+        type: Boolean,
+        default: false
+    },
+    isDeleted: {
         type: Boolean,
         default: false
     },
