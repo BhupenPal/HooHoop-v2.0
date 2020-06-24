@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 
 const UserSchema = mongoose.Schema({
     FirstName: {
@@ -20,27 +21,37 @@ const UserSchema = mongoose.Schema({
     },
     Phone: {
         type: Number,
-        required: true
+        required: true,
+        unique: true
     },
     Address: {
         type: String
     },
+    State: {
+        type: String,
+        required: true
+    },
     Role: {
         type: String,
         required: true,
-        enum: ['admin', 'dealer', 'user']
+        enum: ['admin', 'dealer', 'user'],
+        default: 'user'
     },
     DealershipName: {
-        type: String
+        type: String,
+        default: null
     },
     DealershipEmail: {
-        type: String
+        type: String,
+        default: null
     },
     DealershipPhone: {
-        type: Number
+        type: Number,
+        default: null
     },
     DealershipNZBN: {
-        type: String
+        type: String,
+        default: null
     },
     isActive: {
         type: Boolean,
@@ -51,7 +62,8 @@ const UserSchema = mongoose.Schema({
         default: false
     },
     SecretToken: {
-        type: String
+        type: String,
+        default: null
     },
     ResetToken: {
         type: String,

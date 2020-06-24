@@ -1,12 +1,39 @@
 const express = require('express')
 const app = express()
-const path = require('path')
+const cors = require('cors')
 
-// app.use(express.static(path.resolve(__dirname, '..', 'client', 'dist')))
+app.use(express.json())
 
-// app.use('*', (req, res) => {
-//     res.sendFile(path.resolve(__dirname, '..', 'client', 'dist', 'index.html'))
-// })
+require('./config/database')()
 
+require('dotenv').config({
+    path: './config/.env'
+})
+
+const morgan = require('morgan')
+app.use(morgan('dev'))
+
+const passport = require('passport')
+app.use(passport.initialize())
+require('./helper/auth/passport')(passport);
+
+//Handling Routes and Controllers
+app.use('/api/', require('./api/Home.controller'))
+app.use('/api/users/', require('./api/User.controller'))
+
+//Serving Client Side
+if(process.env.NODE_ENV === 'DEV') {
+    app.use(cors({
+        origin: 'localhost:8080'
+    }))
+} else {
+    const path = require('path')
+    app.use(express.static(path.resolve(__dirname, '..', 'client', 'dist')))
+    app.use('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, '..', 'client', 'dist', 'index.html'))
+    })
+}
+
+//Heating up the PORT
 const PORT = process.env.PORT || 3000
 app.listen(PORT, console.log(`Server is running on PORT: ${PORT}`))

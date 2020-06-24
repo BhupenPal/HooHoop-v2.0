@@ -1,10 +1,9 @@
 const express = require('express')
 const Router = express.Router()
 
-module.exports = (Router) => {
+Router.get('/home', (req, res, next) => {
+    console.log('accessed')
+    res.json({ Successful: true })
+})
 
-    Router.get('/api/home', (req, res, next) => {
-        console.log('Hello')
-    })
-
-}
+module.exports = Router

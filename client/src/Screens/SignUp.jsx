@@ -1,4 +1,8 @@
 import React, { Component } from "react"
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { registerUser } from '../actions/authActions'
 import '../assets/css/register.scss'
 
 class SignUp extends Component {
@@ -49,8 +53,24 @@ class SignUp extends Component {
   handleSubmit = e => {
     e.preventDefault()
     const isValid = this.validate()
+
+    const newUser = {
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
+      password2: this.state.password2
+    };
+this.props.registerUser(newUser, this.props.history); 
+
+    
     if(isValid){
-      console.log(this.state)
+      const newUser = {
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password,
+        password2: this.state.password2
+      };
+  this.props.registerUser(newUser, this.props.history); 
     } else {
       console.log(this.state.Errors)
     }
@@ -141,4 +161,18 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp
+SignUp.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { registerUser }
+)(withRouter(SignUp));

@@ -7,7 +7,13 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     contentBase: './',
-    hot: true
+    hot: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true
+      }
+    }
   },
   entry: {
     main: resolve(__dirname, 'src', 'index.js')
