@@ -50,6 +50,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HTMLWebpackPlugin({
       filename: 'index.html',
+      favicon: "./src/assets/img/favicon.ico",
       inject: true,
       template: resolve(__dirname, 'src', 'index.html')
     })

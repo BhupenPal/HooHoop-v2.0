@@ -60,6 +60,7 @@ Router.post("/login", async (req, res, next) => {
         });
 
     } catch (err) {
+        console.log(err)
         Pilot.news.push(err)
         res.json(Pilot)
     }
@@ -73,6 +74,7 @@ Router.post("/register", (req, res, next) => {
 
         if (!FirstName || !LastName || !Email || !Password || !cPassword || !Phone || !State) {
             Pilot.news.push("Please fill in all the required fields");
+            return res.json(Pilot)
         }
 
         if (Pilot.news.length == 0) {
@@ -119,6 +121,7 @@ Router.post("/register", (req, res, next) => {
                                     res.json(Pilot)
                                 })
                                 .catch(err => {
+                                    console.log(err)
                                     Pilot.news.push(err)
                                     res.json(Pilot)
                                 })
@@ -129,6 +132,7 @@ Router.post("/register", (req, res, next) => {
         }
 
     } catch (err) {
+        console.log(err)
         Pilot.news.push(err)
         res.json(Pilot)
     }

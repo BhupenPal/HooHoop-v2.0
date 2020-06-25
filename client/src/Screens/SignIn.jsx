@@ -16,7 +16,6 @@ class SignIn extends Component {
   }
 
   componentDidMount() {
-    // If logged in and user navigates to Register page, should redirect them to dashboard
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
     }
@@ -24,7 +23,7 @@ class SignIn extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/dashboard"); // push user to dashboard when they login
+      this.props.history.push("/dashboard");
     }
     if (nextProps.errors) {
       this.setState({
@@ -42,22 +41,15 @@ class SignIn extends Component {
     })
   }
 
-  validate = () => {
-    return true
-  }
-
   handleSubmit = e => {
     e.preventDefault()
-    const isValid = this.validate()
-    if (isValid) {
-      const userData = {
-        email: this.state.email,
-        password: this.state.password
-      };
-      this.props.loginUser(userData); // since we handle the redirect within our component, we don't need to pass in this.props.history as a parameter
-    } else {
-      console.log(this.state.Errors)
-    }
+    
+    const userData = {
+      Email: this.state.Email,
+      Password: this.state.Password,
+      LogWithPhone: (isNaN(parseInt(this.state.Email))) ? false : true 
+    };
+    this.props.loginUser(userData);
   }
 
 
@@ -88,16 +80,8 @@ class SignIn extends Component {
 SignIn.propTypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
-  componentDidMount() {
-    // If logged in and user navigates to Login page, should redirect them to dashboard
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
-    }
-  }
+  errors: PropTypes.object.isRequired
 };
-
-
 
 const mapStateToProps = state => ({
   auth: state.auth,
