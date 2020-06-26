@@ -1,6 +1,10 @@
 $card-height: 500px;
 $card-width: 400px;
 $basic-font: 500 20px 'Open Sans', sans-serif;
+$btn-clr-primary: #40bad5;
+$primary-white: #ffffff;
+$border-radius-btn: 5px;
+$transition-default: 0.3s;
 
 .login-wrapper{
     height: 100vh;
@@ -40,23 +44,15 @@ $basic-font: 500 20px 'Open Sans', sans-serif;
                 height: 40px;
                 width: 80%;
                 border: 1px solid #e1e1e1;
-                margin: 10px 0;
+                margin: 0.5rem 0;
                 border-radius: 5px;
                 padding: 0 10px;
                 box-sizing: border-box;
-            }
-        }
 
-        .forgot-password-link{
-            .link{
-                text-decoration: none;
-                color: #008ec2;
-                font: $basic-font;
-                display: flex;
-                justify-content: flex-end;
-                box-sizing: border-box;
-                padding: 0 40px;
-                margin: 10px 0;
+                &:focus{
+                    border: 1px solid $btn-clr-primary;
+                    box-shadow: 0 0px 2px 1px $btn-clr-primary;
+                }
             }
         }
 
@@ -66,6 +62,21 @@ $basic-font: 500 20px 'Open Sans', sans-serif;
             box-sizing: border-box;
             padding: 0 40px;
             margin: 10px 0;
+
+            button{
+                height: 2rem;
+                width: 6rem;
+                background-color: $btn-clr-primary;
+                color: $primary-white;
+                border: none;
+                border-radius: $border-radius-btn;
+                opacity: 0.8;
+                transition: $transition-default;
+
+                &:hover{
+                    opacity: 1;
+                }
+            }
         }
     }
 }

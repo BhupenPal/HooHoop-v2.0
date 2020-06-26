@@ -2,7 +2,8 @@ import React, { Component } from "react"
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../actions/authActions";
-import '../assets/css/login.scss'
+import '../assets/css/login.scss';
+import Logo from '../assets/img/logo/Logo.png'
 
 class SignIn extends Component {
   constructor(props) {
@@ -56,23 +57,34 @@ class SignIn extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input
-          type="email"
-          name="Email"
-          placeholder="Email"
-          value={this.state.Email}
-          onChange={this.handleChange}
-        />
-        <input
-          type="password"
-          name="Password"
-          placeholder="Password"
-          value={this.state.Password}
-          onChange={this.handleChange}
-        />
-        <button type="submit">Submit</button>
-      </form>
+      <div className="login-wrapper">
+        <div className="login-card">
+          <div className="logo">
+            <img src={Logo} alt=""/>
+          </div>
+          <form onSubmit={this.handleSubmit}>
+            <div className="input-type-alpha">
+              <input
+                type="email"
+                name="Email"
+                placeholder="Email"
+                value={this.state.Email}
+                onChange={this.handleChange}
+              />
+              <input
+                type="password"
+                name="Password"
+                placeholder="Password"
+                value={this.state.Password}
+                onChange={this.handleChange}
+              />
+            </div>
+            <div className="login-btn">
+              <button type="submit">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
     )
   }
 }
