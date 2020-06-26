@@ -11,7 +11,7 @@ class SignIn extends Component {
     this.state = {
       Email: '',
       Password: '',
-      Errors: []
+      Errors: {}
     }
   }
 
@@ -19,6 +19,7 @@ class SignIn extends Component {
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
     }
+    console.log(this.props.errors)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -27,7 +28,7 @@ class SignIn extends Component {
     }
     if (nextProps.errors) {
       this.setState({
-        errors: nextProps.errors
+        Errors: nextProps.errors
       });
     }
   }
@@ -52,8 +53,6 @@ class SignIn extends Component {
     this.props.loginUser(userData);
   }
 
-
-
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
@@ -72,6 +71,11 @@ class SignIn extends Component {
           onChange={this.handleChange}
         />
         <button type="submit">Submit</button>
+        <div>
+          Error Show
+          <br/>
+          {this.state.Errors.news}
+        </div>
       </form>
     )
   }

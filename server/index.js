@@ -17,9 +17,8 @@ const passport = require('passport')
 app.use(passport.initialize())
 require('./helper/auth/passport')(passport);
 
-//Handling Routes and Controllers
 app.use('/api/', require('./api/Home.controller'))
-app.use('/api/users/', require('./api/User.controller'))
+app.use('/api/user/', require('./api/User.controller'))
 
 //Serving Client Side
 if(process.env.NODE_ENV === 'DEV') {

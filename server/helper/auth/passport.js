@@ -2,9 +2,12 @@ const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const UserModel = require('../../models/User.model');
 
-const opts = {};
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = 'THIS_SHOUDL_BE_A_SECRET';
+const opts = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: process.env.JWTSECRET,
+    algorithms: ['RS256'],
+    // audience: ''
+};
 
 module.exports = passport => {
     passport.use(
@@ -16,7 +19,10 @@ module.exports = passport => {
                     }
                     return done(null, false);
                 })
-                .catch(err => console.log(err));
+                .catch(err => { 
+                    console.log(err)
+                    return done(err, false)
+                });
         })
     );
 };
