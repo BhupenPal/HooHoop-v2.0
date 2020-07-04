@@ -30,6 +30,10 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    Gender: {
+        type: String,
+        enum: ['male', 'female', 'other']
+    },
     Role: {
         type: String,
         required: true,
@@ -74,7 +78,7 @@ const UserSchema = mongoose.Schema({
     },
     Credits: {
         type: Number,
-        default: 300
+        default: 100
     }
 },
 {

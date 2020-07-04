@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const UserSchema = mongoose.Schema({
+const CarSchema = mongoose.Schema({
     Make: {
         type: String,
         required: true
@@ -87,7 +87,7 @@ const UserSchema = mongoose.Schema({
         required: true
     },
     ONRoadCost: {
-        type: String
+        type: Boolean
     },
     Description: {
         type: String
@@ -128,4 +128,4 @@ const UserSchema = mongoose.Schema({
     timestamps: true
 })
 
-module.exports = mongoose.model('car list', UserSchema)
+module.exports = mongoose.model('car list', CarSchema)
