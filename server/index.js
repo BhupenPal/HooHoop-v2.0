@@ -19,6 +19,7 @@ require('./helper/auth/passport')(passport);
 
 app.use('/api/', require('./api/Home.controller'))
 app.use('/api/user/', require('./api/User.controller'))
+app.use('/api/user/dashboard/', require('./api/Dashboard.controller'))
 
 //Serving Client Side
 if(process.env.NODE_ENV === 'DEV') {

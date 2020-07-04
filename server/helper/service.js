@@ -1,6 +1,10 @@
 const bcrypt = require('bcrypt')
 
 module.exports = {
+  GenerateOTP: () => {
+    return Math.floor(100000 + Math.random() * 900000);
+  },
+
   GenerateRandom: (digits) => {
     var RandomString = "";
     var possible =
