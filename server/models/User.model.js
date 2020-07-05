@@ -16,11 +16,18 @@ const UserSchema = mongoose.Schema({
     },
     Password: {
         type: String,
-        required: true
+        default: null
+    },
+    GoogleID: {
+        type: String,
+        default: null
+    },
+    FacebookID: {
+        type: String,
+        default: null
     },
     Phone: {
         type: Number,
-        required: true,
         unique: true
     },
     Address: {
@@ -28,7 +35,7 @@ const UserSchema = mongoose.Schema({
     },
     State: {
         type: String,
-        required: true
+        default: null
     },
     Gender: {
         type: String,

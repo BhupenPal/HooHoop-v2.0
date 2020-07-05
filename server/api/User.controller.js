@@ -58,6 +58,44 @@ Router.post("/login", async (req, res, next) => {
     });
 });
 
+Router.get('/auth/google', passport.authenticate(
+    'google',
+    {
+        scope: ['profile', 'email']
+    }
+))
+
+Router.get('/auth/google/confirm', passport.authenticate(
+    'google',
+    {
+        failureRedirect: '/user/register'
+    }),
+    (req, res) => {
+        res.redirect('/api');
+    }
+)
+
+Router.get('/auth/facebook', passport.authenticate(
+    'facebook',
+    {
+        scope: "email"
+    }
+))
+
+Router.get('/auth/facebook/confirm', passport.authenticate(
+    'facebook',
+    { 
+        successRedirect: '/api/',
+        failureRedirect: '/api/' 
+    }
+))
+
+Router.get('/logout', (req, res, next) => {
+    req.logout();
+    req.session.destroy();
+    res.redirect("/");
+})
+
 Router.post("/register", (req, res, next) => {
     FlightReset(Pilot)
 
@@ -187,17 +225,18 @@ Router.patch('/genphoneotp', passport.authenticate('jwt', { session: false }), (
 
                 //SENDING SMS TO USER
                 const nexmo = new Nexmo({
-                    apiKey: '1042695d',
-                    apiSecret: 'ihmMDCYkK6oAlhD9',
+                    apiKey: process.env.NEXMO_KEY,
+                    apiSecret: process.env.NEXMO_SECRET
                 });
                 const from = 'HooHoop NZ';
-                const to = '64211143347';
+                const to = '919587551153';
                 const text = `Thank you for using HooHoop. You phone verification code is ${SecretToken}`;
                 nexmo.message.sendSms(from, to, text, (err, responseData) => {
+                    console.log(responseData)
                     if (err) {
                         console.log(err);
                     } else {
-                        if(responseData.messages[0]['status'] === "0") {
+                        if (responseData.messages[0]['status'] === "0") {
                             console.log("Message sent successfully.");
                         } else {
                             console.log(`Message failed with error: ${responseData.messages[0]['error-text']}`);
