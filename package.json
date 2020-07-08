@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "install": "concurrently -n 'client,server' \"cd client && npm i\" \"cd server && npm i\"",
+    "server": "cd server && nodemon index.js",
     "dev": "cd server && npm run dev",
     "pro": "cd server && npm run pro"
   },
@@ -17,5 +18,9 @@
     "url": "https://github.com/BhupenPal/MERN-Webpack-Boilerplate/issues"
   },
   "homepage": "https://github.com/BhupenPal/MERN-Webpack-Boilerplate#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "@material-ui/styles": "^4.10.0",
+    "recompose": "^0.30.0"
+  }
 }

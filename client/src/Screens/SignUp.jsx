@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { registerUser } from '../actions/authActions'
-import '../assets/css/register.scss'
 
 class SignUp extends Component {
 
