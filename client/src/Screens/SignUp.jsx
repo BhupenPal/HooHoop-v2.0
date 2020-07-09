@@ -1,49 +1,101 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import { registerUser } from '../actions/authActions'
+import React, { Component } from "react";
+import compose from "recompose/compose";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { registerUser } from "../actions/authActions";
+import {
+  Grid,
+  Typography,
+  TextField,
+  Paper,
+  Tabs,
+  Tab,
+  FormControlLabel,
+  Checkbox,
+  Button,
+  Divider,
+  Box,
+} from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
+import { NavLink } from "react-router-dom";
+
+const styles = (theme) => ({
+  heading: {
+    fontSize: "2.25rem",
+    fontWeight: 600,
+    margin: theme.spacing(4, 0, 2, 0),
+  },
+  image: {
+    backgroundImage: "url(https://source.unsplash.com/random)",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  },
+  form: {
+    width: "100%",
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    height: 40,
+    margin: theme.spacing(3, 0, 2, 0),
+  },
+  tabs: {
+    borderBottom: "1px solid #DDDDDD",
+    margin: theme.spacing(4, 0, 2, 0),
+  },
+  split: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  close: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  social: {
+    height: 45,
+    width: "100%",
+    margin: theme.spacing(3, 0, 2, 0),
+  },
+});
 
 class SignUp extends Component {
-
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      FirstName: '',
-      LastName: '',
-      Email: '',
-      Password: '',
-      cPassword: '',
-      Phone: '',
-      State: '',
+      FirstName: "",
+      LastName: "",
+      Email: "",
+      Password: "",
+      cPassword: "",
+      Phone: "",
+      State: "",
       Role: false,
-      DealershipName: '',
-      DealershipEmail: '',
-      DealershipPhone: '',
-      DealershipNZBN: '',
-      Errors: []
-    }
+      DealershipName: "",
+      DealershipEmail: "",
+      DealershipPhone: "",
+      DealershipNZBN: "",
+      Errors: [],
+    };
   }
 
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/dashboard")
+      this.props.history.push("/dashboard");
     }
   }
 
-
-  handleChange = e => {
-    const isCheckbox = e.target.type === 'checkbox'
+  handleChange = (e) => {
+    const isCheckbox = e.target.type === "checkbox";
     this.setState({
-      [e.target.name]: isCheckbox
-        ? e.target.checked
-        : e.target.value
-    })
-  }
+      [e.target.name]: isCheckbox ? e.target.checked : e.target.value,
+    });
+  };
 
-  handleSubmit = e => {
-    e.preventDefault()
+  handleSubmit = (e) => {
+    e.preventDefault();
 
     const NewUser = {
       FirstName: this.state.FirstName,
@@ -57,152 +109,166 @@ class SignUp extends Component {
       DealershipName: this.state.DealershipName,
       DealershipEmail: this.state.DealershipEmail,
       DealershipPhone: this.state.DealershipPhone,
-      DealershipNZBN: this.state.DealershipNZBN
-    }
+      DealershipNZBN: this.state.DealershipNZBN,
+    };
 
-    this.props.registerUser(NewUser, this.props.history)
-  }
+    this.props.registerUser(NewUser, this.props.history);
+  };
+
+  handleRedirect = (e, value) => {
+    !value
+      ? this.props.history.push("/register")
+      : this.props.history.push("/login");
+  };
 
   render() {
+    const { classes } = this.props;
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          name="FirstName"
-          placeholder="First Name"
-          value={this.state.FirstName}
-          onChange={this.handleChange}
-        />
-        <input
-          type="text"
-          name="LastName"
-          placeholder="Last Name"
-          value={this.state.LastName}
-          onChange={this.handleChange}
-        />
-        <input
-          type="email"
-          name="Email"
-          placeholder="Email"
-          value={this.state.Email}
-          onChange={this.handleChange}
-        />
-        <input
-          type="password"
-          name="Password"
-          placeholder="Password"
-          value={this.state.Password}
-          onChange={this.handleChange}
-        />
-        <input
-          type="password"
-          name="cPassword"
-          placeholder="Confirm Password"
-          value={this.state.cPassword}
-          onChange={this.handleChange}
-        />
-        <input
-          type="number"
-          name="Phone"
-          placeholder="Phone Number"
-          value={this.state.Phone}
-          onChange={this.handleChange}
-        />
-        <select
-          name="State"
-          value={this.state.State}
-          onChange={this.handleChange}
+      <Grid container component="main">
+        <Grid
+          item
+          container
+          justify="center"
+          sm={12}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
         >
-          <option value='' defaultValue disabled>Select State</option>
-          <option value="Andhra Pradesh">Andhra Pradesh</option>
-          <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-          <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-          <option value="Assam">Assam</option>
-          <option value="Bihar">Bihar</option>
-          <option value="Chandigarh">Chandigarh</option>
-          <option value="Chhattisgarh">Chhattisgarh</option>
-          <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
-          <option value="Daman and Diu">Daman and Diu</option>
-          <option value="Delhi">Delhi</option>
-          <option value="Lakshadweep">Lakshadweep</option>
-          <option value="Puducherry">Puducherry</option>
-          <option value="Goa">Goa</option>
-          <option value="Gujarat">Gujarat</option>
-          <option value="Haryana">Haryana</option>
-          <option value="Himachal Pradesh">Himachal Pradesh</option>
-          <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-          <option value="Jharkhand">Jharkhand</option>
-          <option value="Karnataka">Karnataka</option>
-          <option value="Kerala">Kerala</option>
-          <option value="Madhya Pradesh">Madhya Pradesh</option>
-          <option value="Maharashtra">Maharashtra</option>
-          <option value="Manipur">Manipur</option>
-          <option value="Meghalaya">Meghalaya</option>
-          <option value="Mizoram">Mizoram</option>
-          <option value="Nagaland">Nagaland</option>
-          <option value="Odisha">Odisha</option>
-          <option value="Punjab">Punjab</option>
-          <option value="Rajasthan">Rajasthan</option>
-          <option value="Sikkim">Sikkim</option>
-          <option value="Tamil Nadu">Tamil Nadu</option>
-          <option value="Telangana">Telangana</option>
-          <option value="Tripura">Tripura</option>
-          <option value="Uttar Pradesh">Uttar Pradesh</option>
-          <option value="Uttarakhand">Uttarakhand</option>
-          <option value="West Bengal">West Bengal</option>
-        </select>
-        <input
-          type="checkbox"
-          name="Role"
-          checked={this.state.Role}
-          onChange={this.handleChange}
-        />
-        <input
-          type="text"
-          name="DealershipName"
-          placeholder="Dealership Name"
-          value={this.state.DealershipName}
-          onChange={this.handleChange}
-        />
-        <input
-          type="text"
-          name="DealershipEmail"
-          placeholder="Dealership Email"
-          value={this.state.DealershipEmail}
-          onChange={this.handleChange}
-        />
-        <input
-          type="text"
-          name="DealershipPhone"
-          placeholder="Dealership Phone"
-          value={this.state.DealershipPhone}
-          onChange={this.handleChange}
-        />
-        <input
-          type="text"
-          name="DealershipNZBN"
-          placeholder="Dealership NZBN"
-          value={this.state.DealershipNZBN}
-          onChange={this.handleChange}
-        />
-        <button type="submit">Submit</button>
-      </form>
-    )
+          <Grid item xs={8}>
+            <Typography component="h1" className={classes.heading}>
+              Register at Hoohoop
+            </Typography>
+            <Typography>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Accusamus sed dolor vitae.
+            </Typography>
+            <Paper square className={classes.tabs}>
+              <Tabs
+                value={0}
+                indicatorColor="primary"
+                textColor="primary"
+                onChange={this.handleRedirect}
+              >
+                <Tab label="Register" />
+                <Tab label="Login" />
+              </Tabs>
+            </Paper>
+            <form className={classes.form}>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <TextField
+                    required
+                    label="First Name"
+                    type="text"
+                    name="FirstName"
+                    value={this.state.FirstName}
+                    onChange={this.handleChange}
+                    autoFocus
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    required
+                    label="Last Name"
+                    type="text"
+                    name="LastName"
+                    value={this.state.LastName}
+                    onChange={this.handleChange}
+                  />
+                </Grid>
+              </Grid>
+              <TextField
+
+                required
+                type="email"
+                label="Email Address"
+                name="Email"
+                autoComplete="email"
+              />
+              <TextField
+                required
+                type="number"
+                name="Phone"
+                label="Phone Number"
+                value={this.state.Phone}
+                onChange={this.handleChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                name="Password"
+                label="Password"
+                type="password"
+                autoComplete="current-password"
+              />
+              <Grid className={classes.split}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="Remember"
+                      value={this.state.Remember}
+                      color="primary"
+                      onChange={this.handleChange}
+                    />
+                  }
+                  label="By creating an account you agree to accept our terms and conditions."
+                />
+              </Grid>
+              <Button
+                type="submit"
+                color="primary"
+                className={classes.submit}
+              >
+                Create Account
+              </Button>
+              <Grid container className={classes.close}>
+                <Grid item xs={2}>
+                  <Divider />
+                </Grid>
+                <Box ml={2} mr={2}>
+                  <Typography align="center">or sign up with</Typography>
+                </Box>
+                <Grid item xs={2}>
+                  <Divider />
+                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <Button className={classes.social}>Google</Button>
+                </Grid>
+                <Grid item xs={6}>
+                  <Button className={classes.social}>Facebook</Button>
+                </Grid>
+              </Grid>
+              <Grid>
+                <Typography align="center">
+                  Are you a dealer? &nbsp;
+                  <NavLink to="/register">Sign Up</NavLink>
+                </Typography>
+              </Grid>
+            </form>
+          </Grid>
+        </Grid>
+        {/* RIGHT BANNER IMAGE */}
+        <Grid item sm={false} md={7} className={classes.image} />
+      </Grid>
+    );
   }
 }
 
 SignUp.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
 });
 
-export default connect(
-  mapStateToProps,
-  { registerUser }
-)(withRouter(SignUp));
+export default compose(
+  withStyles(styles, { withTheme: true }),
+  connect(mapStateToProps, { registerUser })
+)(SignUp);

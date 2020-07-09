@@ -1,25 +1,17 @@
-import { createMuiTheme } from "@material-ui/core";
-import Poppins from "../assets/fonts/Poppins-Regular.ttf";
-
-const PoppinsFont = {
-    fontFamily: "Poppins",
-    fontStyle: "normal",
-    fontWeight: 400,
-    src: `url(${Poppins})`,
-};
+import { createMuiTheme } from '@material-ui/core';
 
 const theme = createMuiTheme({
-    shadows: Array(25).fill("none"),
+    shadows: Array(25).fill('none'),
     palette: {
         primary: {
-            main: "#7E7E7E",
+            main: '#7E7E7E',
         },
         secondary: {
-            main: "#FFB6C1",
+            main: '#FFB6C1',
         },
     },
     typography: {
-        fontFamily: "Poppins",
+        fontFamily: 'Poppins',
         h4: {
             fontSize: 36,
             fontWeight: 600,
@@ -31,22 +23,28 @@ const theme = createMuiTheme({
     overrides: {
         MuiButton: {
             root: {
-                transform: "none",
+                transform: 'none'
             },
         },
     },
     props: {
         MuiButton: {
             disableRipple: true,
-            variant: "contained",
-            color: "primary"
+            variant: 'contained',
+            color: 'primary',
+            fullWidth: true
         },
         MuiCheckbox: {
             disableRipple: true,
         },
         MuiTextField: {
-            variant: "outlined",
+            variant: 'outlined',
+            fullWidth: true,
+            margin: 'normal'
         },
+        MuiTab: {
+            disableRipple: true
+        }
     },
 });
 

@@ -10,57 +10,55 @@ import {
   Paper,
   Tabs,
   Tab,
-  FormGroup,
   FormControlLabel,
   Checkbox,
   Button,
+  Divider,
+  Box
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
 
-const styles = () => ({
-  root: {
-    backgroundColor: "white",
-    justifyContent: "center",
-  },
-  options: {
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  divider: {
-    width: 80,
-    height: 2,
-    backgroundColor: "#999999",
-    margin: 30
-  },
-  loginHead: {
-    fontSize: "2.25rem",
+const styles = theme => ({
+  heading: {
+    fontSize: '2.25rem',
     fontWeight: 600,
-    marginTop: 30,
+    margin: theme.spacing(4, 0, 2, 0)
   },
-  loginSubHead: {
-    fontSize: "13.5px",
-    marginTop: 10,
-    marginBottom: 30,
+  image: {
+    backgroundImage: "url(https://source.unsplash.com/random)",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
   },
-  redirectTabs: {
+  form: {
+    width: "100%",
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    height: 40,
+    margin: theme.spacing(3, 0, 2, 0)
+  },
+  tabs: {
     borderBottom: "1px solid #DDDDDD",
-    marginBottom: 40,
+    margin: theme.spacing(4, 0, 2, 0)
   },
-  inputFields: {
-    marginBottom: 20,
+  split: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
-  loginButtons: {
+  close: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  social: {
     height: 45,
-    color: "#000",
-    fontSize: 13.5,
-  },
-  socialButtons: {
-    height: 45,
-    width: '48%',
-    marginBottom: 20
+    width: '100%',
+    margin: theme.spacing(3, 0, 2, 0)
   }
-});
+})
 
 class SignIn extends Component {
   constructor(props) {
@@ -118,17 +116,17 @@ class SignIn extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <Grid container>
-        {/* LEFT CONTAINER (LOGIN) */}
-        <Grid item container className={classes.root} sm={12} md={5}>
-          {/* CENTERED GRID */}
-          <Grid item sm={8}>
-            <Typography className={classes.loginHead}>Welcome Back</Typography>
-            <Typography className={classes.loginSubHead}>
-              lorem ipsum dolor set ami lorem ipsum dolor set ami.
+      <Grid container component="main">
+        <Grid item container justify="center" sm={12} md={5} component={Paper} elevation={6} square>
+          <Grid item xs={8}>
+            <Typography component="h1" className={classes.heading}>
+              Welcome Back
             </Typography>
-
-            <Paper square className={classes.redirectTabs}>
+            <Typography>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Accusamus sed dolor vitae.
+            </Typography>
+            <Paper square className={classes.tabs}>
               <Tabs
                 value={1}
                 indicatorColor="primary"
@@ -139,63 +137,69 @@ class SignIn extends Component {
                 <Tab label="Login" />
               </Tabs>
             </Paper>
-
-            <form onSubmit={this.handleSubmit}>
+            <form className={classes.form}>
               <TextField
-                className={classes.inputFields}
-                fullWidth
-                label="Email"
-                type="email"
+                margin="normal"
+                required
+                label="Email Address"
                 name="Email"
-                value={this.state.Email}
-                onChange={this.handleChange}
+                autoComplete="email"
+                autoFocus
               />
               <TextField
-                className={classes.inputFields}
-                fullWidth
+                margin="normal"
+                required
+                name="Password"
                 label="Password"
                 type="password"
-                name="Password"
-                value={this.state.Password}
-                onChange={this.handleChange}
+                autoComplete="current-password"
               />
-              <Grid className={classes.inputFields}>
-                <FormGroup row className={classes.options}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={this.state.Remember}
-                        onChange={this.handleChange}
-                        name="Remember"
-                        color="primary"
-                      />
-                    }
-                    label="Remember Me"
-                  />
-                  <NavLink to="/register">Forgot Password?</NavLink>
-                </FormGroup>
+              <Grid className={classes.split}>
+                <FormControlLabel
+                  control={<Checkbox name='Remember' value={this.state.Remember} color="primary" onChange={this.handleChange} />}
+                  label="Remember me"
+                />
+                <NavLink to="/forogot-password">
+                  <Typography>
+                    Forgot Password?
+                  </Typography>
+                </NavLink>
               </Grid>
-              <Button className={classes.loginButtons} fullWidth type="submit">
+              <Button
+                type="submit"
+                color="primary"
+                className={classes.submit}
+              >
                 Login
               </Button>
+              <Grid container className={classes.close}>
+                <Grid item xs={2}><Divider /></Grid>
+                <Box ml={2} mr={2}>
+                  <Typography align='center'>or log in with</Typography>
+                </Box>
+                <Grid item xs={2}><Divider /></Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <Button className={classes.social}>Google</Button>
+                </Grid>
+                <Grid item xs={6}>
+                  <Button className={classes.social}>Facebook</Button>
+                </Grid>
+              </Grid>
+              <Grid>
+                <Typography align='center'>
+                  Are you a dealer? &nbsp;
+                  <NavLink to="/register">
+                    Sign Up
+                  </NavLink>
+                </Typography>
+              </Grid>
             </form>
-            <Grid container alignItems="center" justify="center">
-              <Grid item className={classes.divider} sm={2} />
-              <Typography>or log in with</Typography>
-              <Grid item className={classes.divider} sm={2} />
-            </Grid>
-            <Grid container justify='space-between'>
-              <Button type="submit" className={classes.socialButtons}>Google</Button>
-              <Button type="submit" className={classes.socialButtons}>Facebook</Button>
-            </Grid>
-            <Grid>
-              <Typography align='center'>
-              Are you a dealer? <NavLink to="/register">Sign Up</NavLink>
-              </Typography>
-            </Grid>
           </Grid>
         </Grid>
-        <Grid>IDHAR IMAGE HOGI</Grid>
+        {/* RIGHT BANNER IMAGE */}
+        <Grid item sm={false} md={7} className={classes.image} />
       </Grid>
     );
   }
