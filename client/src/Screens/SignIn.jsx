@@ -190,7 +190,7 @@ class SignIn extends Component {
               <Grid>
                 <Typography align='center'>
                   Are you a dealer? &nbsp;
-                  <NavLink to="/register">
+                  <NavLink to="/register/dealer">
                     Sign Up
                   </NavLink>
                 </Typography>

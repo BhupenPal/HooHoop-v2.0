@@ -13,6 +13,7 @@ import Home from "./Screens/Home.jsx";
 import SignIn from "./Screens/SignIn.jsx";
 import SignUp from "./Screens/SignUp.jsx";
 import Dashboard from "./Screens/Dashboard.jsx";
+import PrivacyPolicy from "./Screens/PrivacyPolicy.jsx";
 
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
@@ -44,8 +45,9 @@ class App extends Component {
             <Switch>
               <Route path="/" exact component={Home} />
               <Route path="/login" component={SignIn} />
-              <Route path="/register" component={SignUp} />
+              <Route path="/register/:dealer?" component={SignUp} />
               <PrivateRoute path="/dashboard" component={Dashboard} />
+              <Route path="/privacy-policy" component={PrivacyPolicy} />
             </Switch>
             {/* <Footer /> */}
           </BrowserRouter>

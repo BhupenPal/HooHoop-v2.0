@@ -12,13 +12,18 @@ const theme = createMuiTheme({
     },
     typography: {
         fontFamily: 'Poppins',
+        h3: {
+            fontSize: '1.75rem',
+            fontWeight: 500,
+        },
         h4: {
-            fontSize: 36,
-            fontWeight: 600,
+            fontSize: '1.25rem',
+            fontWeight: 500
         },
-        body1: {
-            fontSize: 13.5,
-        },
+        h5: {
+            fontSize: '1rem',
+            fontWeight: 500
+        }
     },
     overrides: {
         MuiButton: {
@@ -44,6 +49,10 @@ const theme = createMuiTheme({
         },
         MuiTab: {
             disableRipple: true
+        },
+        MuiFormControl: {
+            variant: 'outlined',
+            fullWidth: true
         }
     },
 });

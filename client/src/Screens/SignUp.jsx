@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -10,11 +10,15 @@ import {
   Paper,
   Tabs,
   Tab,
+  FormControl,
   FormControlLabel,
+  InputLabel,
   Checkbox,
   Button,
   Divider,
   Box,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
@@ -58,6 +62,9 @@ const styles = (theme) => ({
     width: "100%",
     margin: theme.spacing(3, 0, 2, 0),
   },
+  controller: {
+    margin: theme.spacing(2, 0, 1, 0),
+  },
 });
 
 class SignUp extends Component {
@@ -84,6 +91,11 @@ class SignUp extends Component {
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
+    }
+    if (this.props.match.params.dealer == "dealer") {
+      this.setState({
+        Role: true,
+      });
     }
   }
 
@@ -121,8 +133,14 @@ class SignUp extends Component {
       : this.props.history.push("/login");
   };
 
+  toggle = () => {
+    this.setState({
+      Role: !this.state.Role,
+    });
+  };
   render() {
     const { classes } = this.props;
+
     return (
       <Grid container component="main">
         <Grid
@@ -179,7 +197,6 @@ class SignUp extends Component {
                 </Grid>
               </Grid>
               <TextField
-
                 required
                 type="email"
                 label="Email Address"
@@ -188,38 +205,99 @@ class SignUp extends Component {
               />
               <TextField
                 required
-                type="number"
+                type="tel"
                 name="Phone"
                 label="Phone Number"
                 value={this.state.Phone}
                 onChange={this.handleChange}
               />
+              <FormControl className={classes.controller}>
+                <InputLabel id="NZ-province">Province</InputLabel>
+                <Select
+                  required
+                  labelId="NZ-province"
+                  id="demo-simple-select-outlined"
+                  label="Province"
+                >
+                  <MenuItem><em>Select Province</em></MenuItem>
+                  <MenuItem value="Auckland">Auckland</MenuItem>
+                  <MenuItem value="Bay of Plenty">Bay of Plenty</MenuItem>
+                  <MenuItem value="Northland">Northland</MenuItem>
+                  <MenuItem value="Waikato">Waikato</MenuItem>
+                  <MenuItem value="Gisborne">Gisborne</MenuItem>
+                  <MenuItem value="Hawke's Bay">Hawke's Bay</MenuItem>
+                  <MenuItem value="Taranaki">Taranaki</MenuItem>
+                  <MenuItem value="Whanganui">Whanganui</MenuItem>
+                  <MenuItem value="Manawatu">Manawatu</MenuItem>
+                  <MenuItem value="Wairarapa">Wairarapa</MenuItem>
+                  <MenuItem value="Wellington">Wellington</MenuItem>
+                  <MenuItem value="Nelson Bays">Nelson Bays</MenuItem>
+                  <MenuItem value="Marlborough">Marlborough</MenuItem>
+                  <MenuItem value="West Coast">West Coast</MenuItem>
+                  <MenuItem value="Canterbury">Canterbury</MenuItem>
+                  <MenuItem value="Timaru">Timaru</MenuItem>
+                  <MenuItem value="Otago">Otago</MenuItem>
+                  <MenuItem value="Southland">Southland</MenuItem>
+                </Select>
+              </FormControl>
               <TextField
                 margin="normal"
                 required
                 name="Password"
                 label="Password"
                 type="password"
-                autoComplete="current-password"
               />
+              <TextField
+                margin="normal"
+                required
+                name="cPassword"
+                label="Confirm Password"
+                type="password"
+              />
+              {this.state.Role ? (
+                <React.Fragment>
+                  <TextField
+                    margin="normal"
+                    required
+                    name="DealershipName"
+                    label="Dealership Name"
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    name="DealershipEmail"
+                    label="Dealership Email"
+                  />
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <TextField
+                        required
+                        name="DealershipPhone"
+                        label="Deakership Phone"
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        required
+                        name="DealershipNZBN"
+                        label="Deakership NZBN"
+                      />
+                    </Grid>
+                  </Grid>
+                </React.Fragment>
+              ) : null}
               <Grid className={classes.split}>
                 <FormControlLabel
                   control={
                     <Checkbox
-                      name="Remember"
-                      value={this.state.Remember}
+                      required
                       color="primary"
-                      onChange={this.handleChange}
                     />
                   }
                   label="By creating an account you agree to accept our terms and conditions."
                 />
               </Grid>
-              <Button
-                type="submit"
-                color="primary"
-                className={classes.submit}
-              >
+              <Button type="submit" color="primary" className={classes.submit}>
                 Create Account
               </Button>
               <Grid container className={classes.close}>
@@ -241,12 +319,17 @@ class SignUp extends Component {
                   <Button className={classes.social}>Facebook</Button>
                 </Grid>
               </Grid>
-              <Grid>
+              <Box mt={2} mb={8}>
                 <Typography align="center">
-                  Are you a dealer? &nbsp;
-                  <NavLink to="/register">Sign Up</NavLink>
+                  Are you a {this.state.Role ? "buyer" : "dealer"}? &nbsp;
+                  <NavLink
+                    to={this.state.Role ? "/register" : "/register/dealer"}
+                    onClick={this.toggle}
+                  >
+                    Sign Up
+                  </NavLink>
                 </Typography>
-              </Grid>
+              </Box>
             </form>
           </Grid>
         </Grid>
