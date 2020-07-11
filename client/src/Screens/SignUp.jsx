@@ -104,6 +104,7 @@ class SignUp extends Component {
     this.setState({
       [e.target.name]: isCheckbox ? e.target.checked : e.target.value,
     });
+    console.log(this.state)
   };
 
   handleSubmit = (e) => {
@@ -202,6 +203,8 @@ class SignUp extends Component {
                 label="Email Address"
                 name="Email"
                 autoComplete="email"
+                value={this.state.Email}
+                onChange={this.handleChange}
               />
               <TextField
                 required
@@ -218,6 +221,9 @@ class SignUp extends Component {
                   labelId="NZ-province"
                   id="demo-simple-select-outlined"
                   label="Province"
+                  name="State"
+                  value={this.state.State} 
+                  onChange={this.handleChange}
                 >
                   <MenuItem><em>Select Province</em></MenuItem>
                   <MenuItem value="Auckland">Auckland</MenuItem>
@@ -246,6 +252,8 @@ class SignUp extends Component {
                 name="Password"
                 label="Password"
                 type="password"
+                value={this.state.Password}
+                onChange={this.handleChange}
               />
               <TextField
                 margin="normal"
@@ -253,6 +261,8 @@ class SignUp extends Component {
                 name="cPassword"
                 label="Confirm Password"
                 type="password"
+                value={this.state.cPassword}
+                onChange={this.handleChange}
               />
               {this.state.Role ? (
                 <React.Fragment>
@@ -261,12 +271,16 @@ class SignUp extends Component {
                     required
                     name="DealershipName"
                     label="Dealership Name"
+                    value={this.state.DealershipName}
+                    onChange={this.handleChange}
                   />
                   <TextField
                     margin="normal"
                     required
                     name="DealershipEmail"
                     label="Dealership Email"
+                    value={this.state.Email}
+                    onChange={this.handleChange}
                   />
                   <Grid container spacing={2}>
                     <Grid item xs={6}>
@@ -274,6 +288,8 @@ class SignUp extends Component {
                         required
                         name="DealershipPhone"
                         label="Deakership Phone"
+                        value={this.state.DealershipPhone}
+                        onChange={this.handleChange}
                       />
                     </Grid>
                     <Grid item xs={6}>
@@ -281,6 +297,8 @@ class SignUp extends Component {
                         required
                         name="DealershipNZBN"
                         label="Deakership NZBN"
+                        value={this.state.DealershipNZBN}
+                        onChange={this.handleChange}
                       />
                     </Grid>
                   </Grid>

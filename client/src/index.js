@@ -14,6 +14,7 @@ import SignIn from "./Screens/SignIn.jsx";
 import SignUp from "./Screens/SignUp.jsx";
 import Dashboard from "./Screens/Dashboard.jsx";
 import PrivacyPolicy from "./Screens/PrivacyPolicy.jsx";
+import TermsConditions from "./Screens/TermsConditions.jsx";
 
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
@@ -48,6 +49,7 @@ class App extends Component {
               <Route path="/register/:dealer?" component={SignUp} />
               <PrivateRoute path="/dashboard" component={Dashboard} />
               <Route path="/privacy-policy" component={PrivacyPolicy} />
+              <Route path="/terms-and-conditions" component={TermsConditions} />
             </Switch>
             {/* <Footer /> */}
           </BrowserRouter>

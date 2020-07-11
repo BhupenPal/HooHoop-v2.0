@@ -137,13 +137,15 @@ class SignIn extends Component {
                 <Tab label="Login" />
               </Tabs>
             </Paper>
-            <form className={classes.form}>
+            <form className={classes.form} onSubmit={this.handleSubmit}>
               <TextField
                 margin="normal"
                 required
                 label="Email Address"
                 name="Email"
                 autoComplete="email"
+                value={this.state.Email}
+                onChange={this.handleChange}
                 autoFocus
               />
               <TextField
@@ -152,6 +154,8 @@ class SignIn extends Component {
                 name="Password"
                 label="Password"
                 type="password"
+                value={this.state.Password}
+                onChange={this.handleChange}
                 autoComplete="current-password"
               />
               <Grid className={classes.split}>
