@@ -18,47 +18,7 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
-
-const styles = theme => ({
-  heading: {
-    fontSize: '2.25rem',
-    fontWeight: 600,
-    margin: theme.spacing(4, 0, 2, 0)
-  },
-  image: {
-    backgroundImage: "url(https://source.unsplash.com/random)",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  },
-  form: {
-    width: "100%",
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    height: 40,
-    margin: theme.spacing(3, 0, 2, 0)
-  },
-  tabs: {
-    borderBottom: "1px solid #DDDDDD",
-    margin: theme.spacing(4, 0, 2, 0)
-  },
-  split: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  close: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  social: {
-    height: 45,
-    width: '100%',
-    margin: theme.spacing(3, 0, 2, 0)
-  }
-})
+import styles from "../assets/material/LoginResgister"
 
 class SignIn extends Component {
   constructor(props) {
@@ -114,7 +74,7 @@ class SignIn extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
     return (
       <Grid container component="main">
         <Grid item container justify="center" sm={12} md={5} component={Paper} elevation={6} square>

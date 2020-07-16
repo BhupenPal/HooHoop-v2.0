@@ -4,7 +4,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 
 import "./assets/css/index.scss";
-import theme from "./utils/theme";
+import theme from "./assets/material/theme";
 import { ThemeProvider } from "@material-ui/core";
 
 import Header from "./Components/Header.jsx";
@@ -15,6 +15,7 @@ import SignUp from "./Screens/SignUp.jsx";
 import Dashboard from "./Screens/Dashboard.jsx";
 import PrivacyPolicy from "./Screens/PrivacyPolicy.jsx";
 import TermsConditions from "./Screens/TermsConditions.jsx";
+import AboutUs from "./Screens/AboutUs.jsx";
 
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
@@ -50,6 +51,7 @@ class App extends Component {
               <PrivateRoute path="/dashboard" component={Dashboard} />
               <Route path="/privacy-policy" component={PrivacyPolicy} />
               <Route path="/terms-and-conditions" component={TermsConditions} />
+              <Route path="/about-us" component={AboutUs} />
             </Switch>
             {/* <Footer /> */}
           </BrowserRouter>

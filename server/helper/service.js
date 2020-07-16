@@ -29,7 +29,7 @@ module.exports = {
   },
 
   FlightReset: (Pilot) => {
-    Pilot.status = 'failed',
-      Pilot.news = []
+    Pilot.status = 'failed'
+    Pilot.news = []
   }
 }

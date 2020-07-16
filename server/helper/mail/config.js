@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 
 module.exports = {
-    SendMail: (ToEmail, MailSubject, News) => {
+    SendMail: (ToEmail, MailSubject, MailHTML, News) => {
         let transporter = nodemailer.createTransport({
             host: 'cp-wc12.lon01.ds.network',
             port: 465,
@@ -19,7 +19,7 @@ module.exports = {
             from: '"HooHoop" <contact@hoohoop.co.nz>',
             to: ToEmail,
             subject: MailSubject,
-            html: 'Hello'
+            html: MailHTML
         }, (err, info) => {
             if (err) {
                 News.push("Email can't be sent.")

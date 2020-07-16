@@ -1,20 +1,15 @@
 import React from "react";
 import { withStyles, Paper, Grid, Typography } from "@material-ui/core";
-
-const styles = (theme) => ({
-    root: {
-        backgroundColor: "darkgreen",
-    },
-});
+import styles from '../assets/material/FooterPages';
 
 const TermsConditions = (props) => {
     const { classes } = props;
     return (
         <Paper>
-            <Grid container component="main" justify="center">
+            <Grid container component="main" justify="center" className={classes.marginBT90}>
                 <Grid item xs={11} sm={10}>
                     <Typography variant="h3">HOOHOOP TERMS OF SERVICE</Typography>
-                    <Typography>Last Updated on 19 January 2020</Typography>
+                    <Typography variant="h4" className={classes.updateNotice}>Last Updated on 19 January 2020</Typography>
                     <Typography>
                         Before you may use www.HooHoop.co.nz (hereinafter referred to as “Website”) and/or HooHoop (the “Application”), owned and operated by Hoohoop Limited, having its registered office at 150, rocking horse road South Shore, Christchurch 8062 (“Company” or “We” or “HooHoop”), you must read and accept all of the terms and conditions in this Terms of Use (“T&C” or “Terms”) and the linked Privacy Policy. This T&C is effective upon acceptance and grows the relationship between you and HooHoopLimited (hereinafter referred to as “Company” or “HooHoop” or “we” or “us”), including the performance of services on or through the Website or the Application, and the sale of vehicles through HooHoop. In this Terms of Use, the Application and the Website are collectively called the “Portal”. <br/>
                         The Company shall provide services to you subject to the T&C. Please read these terms carefully. These T&C, as modified or amended from time to time, are a binding contract between the Company and you as the Third Party Seller or Buyer (defined below), as the context may require, (“you” or “your” or “user”). If you visit, use, or transact at the Portal, you accept these T&C. <br/>
@@ -23,7 +18,7 @@ const TermsConditions = (props) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">1. General</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>1. General</Typography>
                     <Typography>
                         All terms and guidelines on the Portal, including our Sales Policy, Privacy Policy, Quick sell Facilitation Policy and Buy Back Facilitation Program Policy are part of these T&C. Unless explicitly stated otherwise, any features or services available at any time on Portal are subject to these Terms. Accessing the Portal in any manner, even though automated means, constitutes your use of the Portal and your agreement to be bound by these T&C. HooHoop may change these T&C from time to time. <br/>
                         These T&C apply exclusively to the relationship between HooHoop and the participants using the Portal. Any user’s own terms will be superseded by these T&C. The Portal includes materials and information collected from and provided by third parties that the Company has evaluated and reviewed. <br/>
@@ -31,13 +26,13 @@ const TermsConditions = (props) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">2. Scope of Services</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>2. Scope of Services</Typography>
                     <Typography>
                         The Portal is a vehicle listing and information service portal that brings together Buyers and Sellers. It is hereby clarified that the Company is not a party to any transaction between the Buyers and the Third Party Sellers that originates on or through the Portal. At no time shall the Company have any obligations or liabilities in respect of such transaction. It is further clarified that all information with respect to the vehicle is provided by the relevant Third Party Seller only. HooHoop in no way represents that this information is accurate. Except as otherwise stated herein, sale of HooHoop owned cars to Buyers shall only be subject to terms and conditions set out in the respective Vehicle Sale Agreement. Any other written additional terms and conditions in separate agreements between the Third Party Sellers and/or Buyers on one hand and HooHoop on the other hand shall prevail in case of a contradiction with these T&C.
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">3. Sale and Purchase of passenger cars</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>3. Sale and Purchase of passenger cars</Typography>
                     <Typography>
                         All terms and guidelines on the Portal, including our Sales Policy, Privacy Policy, Quick sell Facilitation Policy and Buy Back Facilitation Program Policy are part of these T&C. Unless explicitly stated otherwise, any features or services available at any time on Portal are subject to these Terms. Accessing the Portal in any manner, even though automated means, constitutes your use of the Portal and your agreement to be bound by these T&C. HooHoop may change these T&C from time to time. <br/>
                         These T&C apply exclusively to the relationship between HooHoop and the participants using the Portal. Any user’s own terms will be superseded by these T&C. The Portal includes materials and information collected from and provided by third parties that the Company has evaluated and reviewed. <br/>
@@ -45,7 +40,7 @@ const TermsConditions = (props) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">4. Listings</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>4. Listings</Typography>
                     <Typography>
                         HooHoop offers a numbers of options for the Third Party Sellers to sell passenger cars. On the “I WANT TO SELL MY CAR” tab provide your name, phone number and e-mail and we will arrange for a call back <br/>
                         In order to offer a vehicle for sale, the Third Party Seller must have possession of the actual vehicle listed and the ability to transfer title. To list a vehicle for sale on the Portal, the Third Party Sellers are required to provide accurate and correct identifying and contact information. The information must accurately identify the Third Party Seller and the method of contact must permit HooHoop to communicate directly with the Third Party Seller. The Portal cannot be used to promote any other website, product, or service. <br/>
@@ -55,7 +50,7 @@ const TermsConditions = (props) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">5. Listing on the Portal</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>5. Listing on the Portal</Typography>
                     <Typography>
                         Only passenger cars for sale shall be listed on the Portal. <br/>
                         Users are obliged to submit correct and full information about their vehicle. HooHoop shall not be responsible for any damage arising from placement of false information by any user of the Portal to HooHoop. <br/>
@@ -66,7 +61,7 @@ const TermsConditions = (props) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">6. User Content</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>6. User Content</Typography>
                     <Typography>
                         The user of the Portal assumes total responsibility and risk for the use of any interactive areas of the Portal. You acknowledge that any of the user generated content posted or transmitted through our Portal represents the views of the author, and not of HooHoop. You also acknowledge that your use of or reliance on such content is at your own risk. <br/>
                         When publishing anything on the Portal or using any social medial tools or interactive features, you agree that you will not transmit: <br/>
@@ -98,13 +93,13 @@ const TermsConditions = (props) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">7. Other Content</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>7. Other Content</Typography>
                     <Typography>
                         HooHoop makes best efforts to ensure the content on the Portal is accurate. However, HooHoop is not responsible or liable for any loss or damage incurred as a result of the use of this content.
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">8. Personal and Non Commercial Use Only</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>8. Personal and Non Commercial Use Only</Typography>
                     <Typography>
                         Use of the Portal is for your personal and non-commercial use only. Except for the information related to the product and service offers, vehicle data, valuations, software and links and other content supplied by HooHoop and third parties (“Materials”) held in your computers cache or a single permanent copy of the Material for your personal use you must not without the prior written approval of HooHoop: <br/>
                     </Typography>
@@ -120,7 +115,7 @@ const TermsConditions = (props) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">9. Sales Policy</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>9. Sales Policy</Typography>
                     <Typography>
                         1. HooHoop shall at no point of time assure the Third Party Seller of a vehicle that the payment he or she receives from the Buyer is legitimate. The Third Party Seller and the Buyer must exercise goodjudgment while transacting with each other. <br/>
                         2. The price and other terms of any sale are subject to negotiation(s) between the Buyer and the Third Party Seller. <br/>
@@ -129,25 +124,25 @@ const TermsConditions = (props) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">10. Deletion of Listings</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>10. Deletion of Listings</Typography>
                     <Typography>
                         HooHoop shall remove the listing of the vehicles as soon as such vehicle is sold or is no longer available for sale. HooHoop expressly reserves the right to remove listing from its database when the vehicle can no longer be assumed to be for sale.
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">11. Vehicle Search and System Integrity</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>11. Vehicle Search and System Integrity</Typography>
                     <Typography>
                     Vehicles in HooHoop’s database may be searched for only via the search functions offered on the Portal. Users may not interfere with the Portal’s proprietary contents and coding. Attempts to influence the contents of other party’s listings are also forbidden. Any such attempts will be prosecuted.
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">12. Termination</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>12. Termination</Typography>
                     <Typography>
                         You agree that we may, under some circumstances and without prior notice to you, terminate your use of and access to any of the parts of our Portal to which we restrict access, for example, by requiring registration. Without limiting the foregoing, the Company shall have the right to immediately terminate any passwords or accounts of the user in the event of any conduct by the user which the Company, in its sole discretion, considers to be unacceptable, or in the event of any breach by the user of this Agreement. Some of the reasons for such termination may include, but are not limited to, (a) a breach or violation or suspected breach or violation of this T&C, (b) a request by law enforcement or another government agency, (c) our decision to discontinue or change all or part of the Portal, (d) technical or security issues, and (e) fraudulent or illegal activities. All terminations will be made in our sole discretion and you agree that we will not be liable for any termination of your use of or access to the Portal or any part of the Portal. Notwithstanding any other provisions of this T&C, or any general legal principles to the contrary, any provision of this T&C that imposes or contemplates continuing obligations on a party will survive the expiration or termination of this T&C.
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">13. Copyrights and Trademarks</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>13. Copyrights and Trademarks</Typography>
                     <Typography>
                         The trademarks, logos and service marks (“Marks”) displayed on the Portal are the property of the Company and other respective persons. Users are prohibited from using any Marks for any purpose including, but not limited to use as metatags on other pages or sites on the World Wide Web without the written permission of the Company or such third party which may own the Marks. All information and content including any software programs available on or through the Portal (“Content”) is protected by copyright. Users are prohibited from modifying, copying, distributing, transmitting, displaying, publishing, selling, licensing, creating derivative works or using any Content available on or through the Sites for commercial or public purposes. <br/>
                         The Portal contains copyrighted material, trademarks and other proprietary information, including, but not limited to, text, software, photos, video, graphics, music, sound, and the entire contents of the Company protected by copyright as a collective work under the applicable copyright laws. The Company owns a copyright in the selection, coordination, arrangement and enhancement of such content, as well as in the content original to it. Users may not modify, publish, transmit, participate in the transfer or sale, create derivative works, or in any way exploit, any of the content, in whole or in part. Users may download / print / save copyrighted material for the user’s personal use only. Except as otherwise expressly stated under copyright law, no copying, redistribution, retransmission, publication or commercial exploitation of downloaded material without the express permission of the Company and the copyright owner is permitted. If copying, redistribution or publication of copyrighted material is permitted, no changes in or deletion of author attribution, trademark legend or copyright notice shall be made. The user acknowledges that he/she does not acquire any ownership rights by downloading copyrighted material. The trademarks that are located within or on the Portal or a site otherwise owned or operated in conjunction with the Company shall not be deemed to be in the public domain but rather the exclusive property of the Company, unless such site is under license from the trademark owner thereof in which case such license is for the exclusive benefit and use of the Company, unless otherwise stated. <br/>
@@ -156,13 +151,13 @@ const TermsConditions = (props) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">14. Severability</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>14. Severability</Typography>
                     <Typography>
                         In case any of the provisions in these Terms and Conditions are deemed ineffective or invalid, they will be replaced with legal effective and valid provisions as close as possible in meaning to these provisions. This will in no way affect the validity of the remaining provisions. The same applies to omissions in these terms and conditions.
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">15. Disclaimer of Warranties and Limitation of Liability</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>15. Disclaimer of Warranties and Limitation of Liability</Typography>
                     <Typography>
                         ALL CONTENT AND SERVICES ON THE PORTAL, OR OBTAINED FROM A SITE TO WHICH THE PORTAL IS LINKED (A “LINKED SITE”) ARE PROVIDED TO YOU “AS IS” WITHOUT WARRANTY OF ANY KIND EITHER EXPRESS OR IMPLIED INCLUDING,BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, TITLE, NON-INFRINGEMENT, SECURITY OR ACCURACY. <br/>
                         THE COMPANY DOES NOT ENDORSE AND IS NOT RESPONSIBLE FOR (A) THE ACCURACY OR RELIABILITY OF ANY OPINION, ADVICE OR STATEMENT MADE THROUGH THE PORTAL BY ANY PARTY OTHER THAN THE COMPANY, (B) ANY CONTENT PROVIDED ON LINKED SITES OR (C) THE CAPABILITIES OR RELIABILITY OF ANY PRODUCT OR SERVICE OBTAINED FROM A LINKED SITE. <br/>
@@ -171,43 +166,43 @@ const TermsConditions = (props) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">16. Indemnity</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>16. Indemnity</Typography>
                     <Typography>
                         You agree to indemnify and hold the Company (and its officers, directors, agents, subsidiaries, joint ventures, and employees) harmless from any claim or demand, including reasonable attorneys’ fees, or arising out of or related to your breach of this T&C, or your violation of any law or the rights of a third party. The user releases HooHoop from all third party claims against HooHoop in such circumstances that the user’s use of the Portal violates the rights of this third party. The user also agrees to assume any necessary costs, including but not limited to, legal and court fees necessary to protect the rights of HooHoop
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">17. Current and Future Communications</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>17. Current and Future Communications</Typography>
                     <Typography>
                         By using HooHoop and filling any form on our Portal, you authorise the Company and its current and future associate partners including but not limited to financial partners and several automotive partners to communicate with you via SMS, email, phone or any other means to offer you their and our services, imparting product knowledge, offering promotional offers listed on the Portal and offers offered by the associated third parties, regardless of your DNC or DND status.
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">18. Fraudulent and declined transactions</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>18. Fraudulent and declined transactions</Typography>
                     <Typography>
                         The Company reserves the right to recover the cost of services, collection charges and lawyer’s fees from persons using the Portal fraudulently. The Company also reserves the right to initiate legal proceedings against such persons for fraudulent use of the Portal and any other unlawful acts or omissions in breach of these terms.
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">19. Credit Card Details</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>19. Credit Card Details</Typography>
                     <Typography>
                         If any of these Terms are deemed invalid, void, or for any reason unenforceable, the parties agree that the court should endeavour to give effect to the parties’ intentions as reflected in the provision, and the unenforceable condition shall be deemed severable and shall not affect the validity and enforceability of any remaining condition. From time to time, the Company may offer special promotional offers which may or may not apply to your Portal’s account. To avail of such promotional offers, you agree to be bound by any additional terms and conditions for these special offers which are laid down by the Company. This T&C and the relationship between you and the Company will be governed by the laws as applicable in India. Any disputes will be handled in the competent courts of Mumbai, India. The failure of the Company to act with respect to a breach by you or others does not waive its right to act with respect to subsequent or similar breaches. The Company does not guarantee it will take action against all breaches of this T&C. Except as otherwise, expressly provided in this T&C, there shall be no third-party beneficiaries to this T&C. This T&C constitutes the entire agreement between you and the Company and governs your use of the Portal, superseding any prior agreements between you and the Company with respect to the Portal.
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">21. Notices</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>21. Notices</Typography>
                     <Typography>
                         All notices and other communications required or permitted hereunder to be given to a party will be in writing, in the English language, and will be sent by facsimile, e-mail, or mailed by prepaid internationally-recognized courier, or otherwise delivered by hand or by messenger, addressed to such party’s address as set forth below or at such other address as the party would have furnished to the other party in writing in accordance with this provision: If to Company: info@HooHoop.co.nz If to you: at the email address provided by you to us when you registered on the Portal.
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">22. Report Abuse</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>22. Report Abuse</Typography>
                     <Typography>
                         In the event you come across any abuse or violation of the Terms or if you become aware of any objectionable content on the Portal, please report to info@HooHoop.co.nz
                     </Typography>
                 </Grid>
                 <Grid item xs={11} sm={10}>
-                    <Typography variant="h3">23. Waiver</Typography>
+                    <Typography variant="h3" className={classes.pointSeprator}>23. Waiver</Typography>
                     <Typography>
                         No term of these Terms will be deemed waived and no breach excused, unless such waiver or consent will be in writing and signed by the Company. Any consent by the Company to, or waiver of a breach by you, whether expressed or implied, will not constitute consent to, waiver of, or excuse for any other different or subsequent breach
                     </Typography>

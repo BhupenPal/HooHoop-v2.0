@@ -8,20 +8,24 @@ const theme = createMuiTheme({
         },
         secondary: {
             main: '#FFB6C1',
-        },
+        }
     },
     typography: {
         fontFamily: 'Poppins',
         h3: {
             fontSize: '1.75rem',
-            fontWeight: 500,
+            fontWeight: 600,
         },
         h4: {
             fontSize: '1.25rem',
-            fontWeight: 500
+            fontWeight: 600
         },
         h5: {
             fontSize: '1rem',
+            fontWeight: 500
+        },
+        h6: {
+            fontSize: '0.75rem',
             fontWeight: 500
         }
     },
