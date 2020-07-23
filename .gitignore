@@ -2,3 +2,5 @@ node_modules/
 .DS_Store
 dist/
 config/
+client/webpack.config.dev.js
+client/webpack.config.prod.js
