@@ -5,12 +5,15 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 module.exports = {
   mode: 'development',
   devServer: {
+    host: '192.168.1.7',
+    port: 8080,
+    disableHostCheck: true,
     historyApiFallback: true,
     contentBase: './',
     hot: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: '192.168.1.7:3000',
         changeOrigin: true
       }
     }
