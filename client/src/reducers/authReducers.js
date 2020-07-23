@@ -1,26 +1,61 @@
-import { SET_CURRENT_USER, USER_LOADING } from "../actions/types";
-
-const isEmpty = require("is-empty");
+import {
+  USER_LOADING,
+  SET_CURRENT_USER,
+  LOGIN_SUCCESS,
+  REGISTER_SUCCESS,
+  LOGOUT_SUCCESS,
+  AUTH_ERROR,
+  LOGIN_FAIL,
+  REGISTER_FAIL,
+} from "../actions/types";
+import setAuthToken from "../utils/setAuthToken";
 
 const initialState = {
-  isAuthenticated: false,
-  user: {},
-  loading: false,
+  token: localStorage.getItem('JWTToken'),
+  isAuthenticated: null,
+  isLoading: false,
+  user: null
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case SET_CURRENT_USER:
-      return {
-        ...state,
-        isAuthenticated: !isEmpty(action.payload),
-        user: action.payload,
-      };
     case USER_LOADING:
       return {
         ...state,
-        loading: true,
+        loading: true
       };
+
+    case SET_CURRENT_USER:
+      return {
+        ...state,
+        isAuthenticated: true,
+        isLoading: false,
+        user: action.payload
+      };
+
+    case LOGIN_SUCCESS:
+    case REGISTER_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+        isAuthenticated: true,
+        isLoading: false
+      };
+    
+    case LOGOUT_SUCCESS:
+    case AUTH_ERROR:
+    case LOGIN_FAIL:
+    case REGISTER_FAIL:
+      localStorage.removeItem('JWTToken')
+      setAuthToken(false)
+      return {
+        ...state,
+        token: null,
+        user: null,
+        isAuthenticated: false,
+        isLoading: false
+      }
+
     default:
       return state;
   }

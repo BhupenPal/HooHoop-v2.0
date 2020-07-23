@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const bcrypt = require('bcrypt')
 
 const UserSchema = mongoose.Schema({
     FirstName: {
@@ -13,15 +12,23 @@ const UserSchema = mongoose.Schema({
     Email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        lowercase: true
     },
     Password: {
         type: String,
-        required: true
+        default: null
+    },
+    GoogleID: {
+        type: String,
+        default: null
+    },
+    FacebookID: {
+        type: String,
+        default: null
     },
     Phone: {
         type: Number,
-        required: true,
         unique: true
     },
     Address: {
@@ -29,7 +36,11 @@ const UserSchema = mongoose.Schema({
     },
     State: {
         type: String,
-        required: true
+        default: null
+    },
+    Gender: {
+        type: String,
+        enum: ['male', 'female', 'other']
     },
     Role: {
         type: String,
@@ -53,7 +64,11 @@ const UserSchema = mongoose.Schema({
         type: String,
         default: null
     },
-    isActive: {
+    EmailVerified: {
+        type: Boolean,
+        default: false
+    },
+    PhoneVerified: {
         type: Boolean,
         default: false
     },
@@ -68,7 +83,14 @@ const UserSchema = mongoose.Schema({
     ResetToken: {
         type: String,
         default: null
+    },
+    Credits: {
+        type: Number,
+        default: 100
     }
+},
+{
+    timestamps: true
 })
 
-module.exports = mongoose.model('user lists', UserSchema)
+module.exports = mongoose.model('user list', UserSchema)

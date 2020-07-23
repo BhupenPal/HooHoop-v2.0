@@ -1,7 +1,9 @@
 const express = require('express')
 const app = express()
+const helmet = require('helmet')
 const cors = require('cors')
 
+app.use(helmet());
 app.use(express.json())
 
 require('./config/database')()
@@ -11,18 +13,34 @@ require('dotenv').config({
 })
 
 const morgan = require('morgan')
-app.use(morgan('dev'))
+// app.use(morgan('dev'))
 
 const passport = require('passport')
-app.use(passport.initialize())
 require('./helper/auth/passport')(passport);
+//Session for storing user
+const session = require("express-session");
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: false
+}))
 
-//Handling Routes and Controllers
+app.use(passport.initialize())
+app.use(passport.session())
+
+//Passing user to application
+app.use(function (req, res, next) {
+    res.locals.user = req.user || null;
+    res.locals.session = req.session;
+    next();
+});
+
 app.use('/api/', require('./api/Home.controller'))
-app.use('/api/users/', require('./api/User.controller'))
+app.use('/api/user/', require('./api/User.controller'))
+app.use('/api/user/dashboard/', require('./api/Dashboard.controller'))
 
 //Serving Client Side
-if(process.env.NODE_ENV === 'DEV') {
+if (process.env.NODE_ENV === 'DEV') {
     app.use(cors({
         origin: 'localhost:8080'
     }))

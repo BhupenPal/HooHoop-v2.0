@@ -1,50 +1,71 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import axios from 'axios';
-import { registerUser } from '../actions/authActions'
-import '../assets/css/register.scss'
+import React, { Component, Fragment } from "react";
+import compose from "recompose/compose";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { registerUser } from "../actions/authActions";
+import {
+  Grid,
+  Typography,
+  TextField,
+  Paper,
+  Tabs,
+  Tab,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  Checkbox,
+  Button,
+  Divider,
+  Box,
+  Select,
+  MenuItem
+} from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
+import { NavLink } from "react-router-dom";
+import styles from '../assets/material/LoginResgister'
 
 class SignUp extends Component {
-
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      FirstName: '',
-      LastName: '',
-      Email: '',
-      Password: '',
-      cPassword: '',
-      Phone: '',
-      State: '',
+      FirstName: "",
+      LastName: "",
+      Email: "",
+      Password: "",
+      cPassword: "",
+      Phone: "",
+      State: "",
       Role: false,
-      DealershipName: '',
-      DealershipEmail: '',
-      DealershipPhone: '',
-      DealershipNZBN: '',
-      Errors: []
-    }
+      DealershipName: "",
+      DealershipEmail: "",
+      DealershipPhone: "",
+      DealershipNZBN: "",
+      Errors: [],
+    };
   }
 
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/dashboard")
+      this.props.history.push("/dashboard");
+    }
+    if (this.props.match.params.dealer == "dealer") {
+      this.setState({
+        Role: true,
+      });
     }
   }
 
-  handleChange = e => {
-    const isCheckbox = e.target.type === 'checkbox'
+  handleChange = (e) => {
+    const isCheckbox = e.target.type === "checkbox";
     this.setState({
-      [e.target.name]: isCheckbox
-        ? e.target.checked
-        : e.target.value
-    })
-  }
+      [e.target.name]: isCheckbox ? e.target.checked : e.target.value,
+    });
+    console.log(this.state)
+  };
 
-  handleSubmit = e => {
-    e.preventDefault()
+  handleSubmit = (e) => {
+    e.preventDefault();
 
     const NewUser = {
       FirstName: this.state.FirstName,
@@ -58,170 +79,254 @@ class SignUp extends Component {
       DealershipName: this.state.DealershipName,
       DealershipEmail: this.state.DealershipEmail,
       DealershipPhone: this.state.DealershipPhone,
-      DealershipNZBN: this.state.DealershipNZBN
-    }
+      DealershipNZBN: this.state.DealershipNZBN,
+    };
 
-    this.props.registerUser(NewUser, this.props.history)
-  }
+    this.props.registerUser(NewUser, this.props.history);
+  };
 
+  handleRedirect = (e, value) => {
+    !value
+      ? this.props.history.push("/register")
+      : this.props.history.push("/login");
+  };
+
+  toggle = () => {
+    this.setState({
+      Role: !this.state.Role,
+    });
+  };
   render() {
+    const { classes } = this.props;
+
     return (
-      <div className="signup-wrapper">
-        <div className="signup-card">
-          <h1>Register</h1>
-          <form onSubmit={this.handleSubmit} className="form-inp-container">
-            <input
-              type="text"
-              name="FirstName"
-              placeholder="First Name"
-              value={this.state.FirstName}
-              onChange={this.handleChange}
-            />
-            <input
-              type="text"
-              name="LastName"
-              placeholder="Last Name"
-              value={this.state.LastName}
-              onChange={this.handleChange}
-            />
-            <input
-              type="email"
-              name="Email"
-              placeholder="Email"
-              value={this.state.Email}
-              onChange={this.handleChange}
-            />
-            <input
-              type="password"
-              name="Password"
-              placeholder="Password"
-              value={this.state.Password}
-              onChange={this.handleChange}
-            />
-            <input
-              type="password"
-              name="cPassword"
-              placeholder="Confirm Password"
-              value={this.state.cPassword}
-              onChange={this.handleChange}
-            />
-            <input
-              type="number"
-              name="Phone"
-              placeholder="Phone Number"
-              value={this.state.Phone}
-              onChange={this.handleChange}
-            />
-            <select
-              name="State"
-              value={this.state.State}
-              onChange={this.handleChange}
-            >
-              <option value='' defaultValue disabled>Select State</option>
-              <option value="Andhra Pradesh">Andhra Pradesh</option>
-              <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-              <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-              <option value="Assam">Assam</option>
-              <option value="Bihar">Bihar</option>
-              <option value="Chandigarh">Chandigarh</option>
-              <option value="Chhattisgarh">Chhattisgarh</option>
-              <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
-              <option value="Daman and Diu">Daman and Diu</option>
-              <option value="Delhi">Delhi</option>
-              <option value="Lakshadweep">Lakshadweep</option>
-              <option value="Puducherry">Puducherry</option>
-              <option value="Goa">Goa</option>
-              <option value="Gujarat">Gujarat</option>
-              <option value="Haryana">Haryana</option>
-              <option value="Himachal Pradesh">Himachal Pradesh</option>
-              <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-              <option value="Jharkhand">Jharkhand</option>
-              <option value="Karnataka">Karnataka</option>
-              <option value="Kerala">Kerala</option>
-              <option value="Madhya Pradesh">Madhya Pradesh</option>
-              <option value="Maharashtra">Maharashtra</option>
-              <option value="Manipur">Manipur</option>
-              <option value="Meghalaya">Meghalaya</option>
-              <option value="Mizoram">Mizoram</option>
-              <option value="Nagaland">Nagaland</option>
-              <option value="Odisha">Odisha</option>
-              <option value="Punjab">Punjab</option>
-              <option value="Rajasthan">Rajasthan</option>
-              <option value="Sikkim">Sikkim</option>
-              <option value="Tamil Nadu">Tamil Nadu</option>
-              <option value="Telangana">Telangana</option>
-              <option value="Tripura">Tripura</option>
-              <option value="Uttar Pradesh">Uttar Pradesh</option>
-              <option value="Uttarakhand">Uttarakhand</option>
-              <option value="West Bengal">West Bengal</option>
-            </select>
-            <div className="role-encloser">
-              <label htmlFor="role">Are you a Dealer ?</label>
-              <input
-                type="checkbox"
-                name="Role"
-                id="role"
-                checked={this.state.Role}
+      <Grid container component="main">
+        <Grid
+          item
+          container
+          justify="center"
+          sm={12}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
+        >
+          <Grid item xs={8}>
+            <Typography component="h1" className={classes.heading}>
+              Register at Hoohoop
+            </Typography>
+            <Typography>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Accusamus sed dolor vitae.
+            </Typography>
+            <Paper square className={classes.tabs}>
+              <Tabs
+                value={0}
+                indicatorColor="primary"
+                textColor="primary"
+                onChange={this.handleRedirect}
+              >
+                <Tab label="Register" />
+                <Tab label="Login" />
+              </Tabs>
+            </Paper>
+            <form className={classes.form}>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <TextField
+                    required
+                    label="First Name"
+                    type="text"
+                    name="FirstName"
+                    value={this.state.FirstName}
+                    onChange={this.handleChange}
+                    autoFocus
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    required
+                    label="Last Name"
+                    type="text"
+                    name="LastName"
+                    value={this.state.LastName}
+                    onChange={this.handleChange}
+                  />
+                </Grid>
+              </Grid>
+              <TextField
+                required
+                type="email"
+                label="Email Address"
+                name="Email"
+                autoComplete="email"
+                value={this.state.Email}
                 onChange={this.handleChange}
               />
-            </div>
-            <input
-              type="text"
-              name="DealershipName"
-              placeholder="Dealership Name"
-              value={this.state.DealershipName}
-              onChange={this.handleChange}
-            />
-            <input
-              type="text"
-              name="DealershipEmail"
-              placeholder="Dealership Email"
-              value={this.state.DealershipEmail}
-              onChange={this.handleChange}
-            />
-            <input
-              type="text"
-              name="DealershipPhone"
-              placeholder="Dealership Phone"
-              value={this.state.DealershipPhone}
-              onChange={this.handleChange}
-            />
-            <input
-              type="text"
-              name="DealershipNZBN"
-              placeholder="Dealership NZBN"
-              value={this.state.DealershipNZBN}
-              onChange={this.handleChange}
-            />
-            <div className="submit-btn">
-              <button type="submit">Submit</button>
-            </div>
-          </form>
-        </div>
-        <div className="error-div">
-          <div className="headline-err">
-              <span>errors</span>
-              <hr/>
-          </div>
-          <div className="error-container">{this.state.Errors}</div>
-        </div>
-      </div>
-    )
+              <TextField
+                required
+                type="tel"
+                name="Phone"
+                label="Phone Number"
+                value={this.state.Phone}
+                onChange={this.handleChange}
+              />
+              <FormControl className={classes.controller}>
+                <InputLabel id="NZ-province">Province</InputLabel>
+                <Select
+                  required
+                  labelId="NZ-province"
+                  id="demo-simple-select-outlined"
+                  label="Province"
+                  name="State"
+                  value={this.state.State} 
+                  onChange={this.handleChange}
+                >
+                  <MenuItem><em>Select Province</em></MenuItem>
+                  <MenuItem value="Auckland">Auckland</MenuItem>
+                  <MenuItem value="Bay of Plenty">Bay of Plenty</MenuItem>
+                  <MenuItem value="Northland">Northland</MenuItem>
+                  <MenuItem value="Waikato">Waikato</MenuItem>
+                  <MenuItem value="Gisborne">Gisborne</MenuItem>
+                  <MenuItem value="Hawke's Bay">Hawke's Bay</MenuItem>
+                  <MenuItem value="Taranaki">Taranaki</MenuItem>
+                  <MenuItem value="Whanganui">Whanganui</MenuItem>
+                  <MenuItem value="Manawatu">Manawatu</MenuItem>
+                  <MenuItem value="Wairarapa">Wairarapa</MenuItem>
+                  <MenuItem value="Wellington">Wellington</MenuItem>
+                  <MenuItem value="Nelson Bays">Nelson Bays</MenuItem>
+                  <MenuItem value="Marlborough">Marlborough</MenuItem>
+                  <MenuItem value="West Coast">West Coast</MenuItem>
+                  <MenuItem value="Canterbury">Canterbury</MenuItem>
+                  <MenuItem value="Timaru">Timaru</MenuItem>
+                  <MenuItem value="Otago">Otago</MenuItem>
+                  <MenuItem value="Southland">Southland</MenuItem>
+                </Select>
+              </FormControl>
+              <TextField
+                margin="normal"
+                required
+                name="Password"
+                label="Password"
+                type="password"
+                value={this.state.Password}
+                onChange={this.handleChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                name="cPassword"
+                label="Confirm Password"
+                type="password"
+                value={this.state.cPassword}
+                onChange={this.handleChange}
+              />
+              {this.state.Role ? (
+                <React.Fragment>
+                  <TextField
+                    margin="normal"
+                    required
+                    name="DealershipName"
+                    label="Dealership Name"
+                    value={this.state.DealershipName}
+                    onChange={this.handleChange}
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    name="DealershipEmail"
+                    label="Dealership Email"
+                    value={this.state.Email}
+                    onChange={this.handleChange}
+                  />
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <TextField
+                        required
+                        name="DealershipPhone"
+                        label="Deakership Phone"
+                        value={this.state.DealershipPhone}
+                        onChange={this.handleChange}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        required
+                        name="DealershipNZBN"
+                        label="Deakership NZBN"
+                        value={this.state.DealershipNZBN}
+                        onChange={this.handleChange}
+                      />
+                    </Grid>
+                  </Grid>
+                </React.Fragment>
+              ) : null}
+              <Grid className={classes.split}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      required
+                      color="primary"
+                    />
+                  }
+                  label="By creating an account you agree to accept our terms and conditions."
+                />
+              </Grid>
+              <Button type="submit" color="primary" className={classes.submit}>
+                Create Account
+              </Button>
+              <Grid container className={classes.close}>
+                <Grid item xs={2}>
+                  <Divider />
+                </Grid>
+                <Box ml={2} mr={2}>
+                  <Typography align="center">or sign up with</Typography>
+                </Box>
+                <Grid item xs={2}>
+                  <Divider />
+                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <Button className={classes.social}>Google</Button>
+                </Grid>
+                <Grid item xs={6}>
+                  <Button className={classes.social}>Facebook</Button>
+                </Grid>
+              </Grid>
+              <Box mt={2} mb={8}>
+                <Typography align="center">
+                  Are you a {this.state.Role ? "buyer" : "dealer"}? &nbsp;
+                  <NavLink
+                    to={this.state.Role ? "/register" : "/register/dealer"}
+                    onClick={this.toggle}
+                  >
+                    Sign Up
+                  </NavLink>
+                </Typography>
+              </Box>
+            </form>
+          </Grid>
+        </Grid>
+        {/* RIGHT BANNER IMAGE */}
+        <Grid item sm={false} md={7} className={classes.image} />
+      </Grid>
+    );
   }
 }
 
 SignUp.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
 });
 
-export default connect(
-  mapStateToProps,
-  { registerUser }
-)(withRouter(SignUp));
+export default compose(
+  withStyles(styles, { withTheme: true }),
+  connect(mapStateToProps, { registerUser })
+)(SignUp);
