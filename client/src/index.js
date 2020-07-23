@@ -16,6 +16,9 @@ import Dashboard from "./Screens/Dashboard.jsx";
 import PrivacyPolicy from "./Screens/PrivacyPolicy.jsx";
 import TermsConditions from "./Screens/TermsConditions.jsx";
 import AboutUs from "./Screens/AboutUs.jsx";
+import FAQ from "./Screens/FAQ.jsx";
+import CancellationPolicy from "./Screens/CancellationPolicy.jsx";
+import ContactUs from "./Screens/ContactUs.jsx";
 
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
@@ -52,8 +55,11 @@ class App extends Component {
               <Route path="/privacy-policy" component={PrivacyPolicy} />
               <Route path="/terms-and-conditions" component={TermsConditions} />
               <Route path="/about-us" component={AboutUs} />
+              <Route path="/faq" component={FAQ} />
+              <Route path="/cancellation-policy" component={CancellationPolicy} />
+              <Route path="/contact-us" component={ContactUs} />
             </Switch>
-            {/* <Footer /> */}
+            <Footer />
           </BrowserRouter>
         </ThemeProvider>
       </Provider>

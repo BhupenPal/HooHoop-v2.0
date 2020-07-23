@@ -51,5 +51,28 @@ export default theme => ({
         marginTop: '5vh',
         fontWeight: 600,
         margin: 'auto'
+    },
+
+    //FAQ
+    faqIntro: {
+        height: 375,
+        justifyContent: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: '#EEEEEE',
+        position: 'relative'
+    },
+    circleArrow: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 60,
+        width: 60,
+        position: 'absolute',
+        bottom: '-30px',
+        left: 'calc(50% - 30px)',
+        backgroundColor: '#C4C4C4',
+        borderRadius: 30,
+        cursor: 'pointer'
     }
 });

@@ -77,8 +77,8 @@ class SignIn extends Component {
     const { classes } = this.props
     return (
       <Grid container component="main">
-        <Grid item container justify="center" sm={12} md={5} component={Paper} elevation={6} square>
-          <Grid item xs={8}>
+        <Grid item container justify="center" md={12} lg={5} component={Paper} elevation={6} square>
+          <Grid item sm={10} md={8}>
             <Typography component="h1" className={classes.heading}>
               Welcome Back
             </Typography>
@@ -163,7 +163,7 @@ class SignIn extends Component {
           </Grid>
         </Grid>
         {/* RIGHT BANNER IMAGE */}
-        <Grid item sm={false} md={7} className={classes.image} />
+        <Grid item md={false} lg={7} className={classes.image} />
       </Grid>
     );
   }

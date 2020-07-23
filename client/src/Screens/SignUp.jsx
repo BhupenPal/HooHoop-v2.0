@@ -105,8 +105,8 @@ class SignUp extends Component {
           item
           container
           justify="center"
-          sm={12}
-          md={5}
+          md={12}
+          lg={5}
           component={Paper}
           elevation={6}
           square
@@ -309,7 +309,7 @@ class SignUp extends Component {
           </Grid>
         </Grid>
         {/* RIGHT BANNER IMAGE */}
-        <Grid item sm={false} md={7} className={classes.image} />
+        <Grid item md={false} lg={7} className={classes.image} />
       </Grid>
     );
   }

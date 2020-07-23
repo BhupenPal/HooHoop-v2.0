@@ -12,20 +12,28 @@ const theme = createMuiTheme({
     },
     typography: {
         fontFamily: 'Poppins',
-        h3: {
-            fontSize: '1.75rem',
-            fontWeight: 600,
-        },
-        h4: {
-            fontSize: '1.25rem',
+        h1: {
+            fontSize: '2rem', //32px
             fontWeight: 600
         },
+        h2: {
+            fontSize: '1.75rem', //28px
+            fontWeight: 600
+        },
+        h3: {
+            fontSize: '1.50rem', //24px
+            fontWeight: 500
+        },
+        h4: {
+            fontSize: '1.25rem', //20px
+            fontWeight: 500
+        },
         h5: {
-            fontSize: '1rem',
+            fontSize: '1rem', //16px
             fontWeight: 500
         },
         h6: {
-            fontSize: '0.75rem',
+            fontSize: '0.75rem', //12px
             fontWeight: 500
         }
     },
