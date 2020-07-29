@@ -1,12 +1,22 @@
-@import './reset.css';
-
 @font-face {
     font-family: 'Poppins';
     src: url('../fonts/Poppins-Regular.ttf')
 }
 
-#root {
-    min-height: 100vh;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
+* {
+    margin: 0;
+    font-family: Poppins;
+    text-decoration: none;
+}
+
+html, body {
+    background-color: #F4F6F8;
+}
+
+.header-options * {
+    margin: 0 10px;
+}
+
+.wt-600 {
+    font-weight: 600;
 }
