@@ -5,7 +5,7 @@ class Footer extends Component {
   render() {
     return ( 
       <footer>
-        <img src={Logo} alt=""/>
+        <img src={Logo} style={{height: "2rem"}} alt=""/>
       </footer>
     )
   }
