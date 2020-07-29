@@ -8,5 +8,9 @@ export default theme => ({
         position: 'absolute',
         backgroundPostion: '50px 0',
         zIndex: -10
+    },
+    AdImage: {
+        width: '100%',
+        postion: 'absolute'
     }
 });

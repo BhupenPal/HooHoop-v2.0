@@ -4,7 +4,7 @@ const theme = createMuiTheme({
     shadows: Array(25).fill('none'),
     palette: {
         primary: {
-            main: '#fff',
+            main: '#7E7E7E',
         },
         secondary: {
             main: '#FFB6C1',
@@ -46,7 +46,6 @@ const theme = createMuiTheme({
         MuiButton: {
             disableRipple: true,
             variant: 'contained',
-            color: 'primary',
             fullWidth: true
         },
         MuiCheckbox: {
