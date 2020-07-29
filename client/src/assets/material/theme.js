@@ -4,7 +4,7 @@ const theme = createMuiTheme({
     shadows: Array(25).fill('none'),
     palette: {
         primary: {
-            main: '#7E7E7E',
+            main: '#fff',
         },
         secondary: {
             main: '#FFB6C1',
@@ -12,35 +12,33 @@ const theme = createMuiTheme({
     },
     typography: {
         fontFamily: 'Poppins',
-        h1: {
-            fontSize: '2rem', //32px
-            fontWeight: 600
-        },
         h2: {
-            fontSize: '1.75rem', //28px
-            fontWeight: 600
+            fontSize: '2.00rem' //32px
         },
         h3: {
-            fontSize: '1.50rem', //24px
-            fontWeight: 500
+            fontSize: '1.75rem' //28px
         },
         h4: {
-            fontSize: '1.25rem', //20px
-            fontWeight: 500
+            fontSize: '1.50rem' //24px
         },
         h5: {
-            fontSize: '1rem', //16px
-            fontWeight: 500
+            fontSize: '1.25rem' //20px
         },
         h6: {
-            fontSize: '0.75rem', //12px
-            fontWeight: 500
+            fontSize: '1.00rem' //16px
+        },
+        body1: {
+
+        },
+        body2: {
+
         }
     },
     overrides: {
         MuiButton: {
             root: {
-                transform: 'none'
+                transform: 'none',
+                textTransform: 'none'
             },
         },
     },

@@ -2,16 +2,40 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { Link, NavLink } from "react-router-dom";
+import Logo from '../assets/img/logo/Logo.png'
 
 const HeaderStyles = makeStyles(() => ({
-  title: {
-    flexGrow: 1
+  HeaderStyle: {
+    margin: '10px 6%',
+    justifyContent: 'space-between',
+    fontSize: 13.5,
+    fontWeight: 500
   },
-  Head: {
-    height: 87
+  HeaderLogo: {
+    width: 300,
+    objectFit: 'contain'
+  },
+  OptButton: {
+    width: 50,
+    height: 30,
+    backgroundColor: '#fff',
+    color: '#333'
+  },
+  RegisterButton: {
+    width: 175,
+    height: 30,
+    backgroundColor: '#fff',
+    color: '#000',
+    border: '1px solid #DDDDDD'
+  },
+  LoginButton: {
+    background: 'linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%)',
+    color: '#fff',
+    width: 100,
+    height: 30,
+    borderRadius: 5
   }
 }));
 
@@ -19,19 +43,28 @@ const Header = () => {
   const classes = HeaderStyles();
 
   return (
-      <AppBar position="static">
-        <Toolbar  className={classes.Head}>
-          <Typography variant="h6" className={classes.title}>
-            <Link to="/">HooHoop</Link>
-          </Typography>
-          <NavLink to="/login">
-            <Button color="inherit">Login</Button>
+    <AppBar position="static">
+      <Toolbar className={classes.HeaderStyle}>
+        <Link to="/">
+          <img src={Logo} alt="Hoohoop Logo" className={classes.HeaderLogo} />
+        </Link>
+
+        <div className='header-options'>
+          <NavLink to="/search-cars">
+            <Button color="inherit" className={classes.OptButton}>Buy</Button>
+          </NavLink>
+          <NavLink to="/sell-car">
+            <Button color="inherit" className={classes.OptButton}>Sell</Button>
           </NavLink>
           <NavLink to="/register">
-            <Button color="inherit">Register</Button>
+            <Button color="inherit" className={classes.RegisterButton}>Create Account</Button>
           </NavLink>
-        </Toolbar>
-      </AppBar>
+          <NavLink to="/login">
+            <Button color="inherit" className={classes.LoginButton}>Sign In</Button>
+          </NavLink>
+        </div>
+      </Toolbar>
+    </AppBar>
   );
 };
 
