@@ -4,7 +4,7 @@ const theme = createMuiTheme({
     shadows: Array(25).fill('none'),
     palette: {
         primary: {
-            main: '#fff',
+            main: '#7E7E7E',
         },
         secondary: {
             main: '#FFB6C1',
@@ -38,15 +38,29 @@ const theme = createMuiTheme({
         MuiButton: {
             root: {
                 transform: 'none',
-                textTransform: 'none'
+                textTransform: 'none',
+                color: "#E85513",
+            },
+            outlined: {
+                border: "1px solid #E85513",
+                '&:hover': {
+                    backgroundColor: "#E8551310"
+                }
             },
         },
+        MuiCardHeader : {
+            title: {
+                fontWeight: 900
+            },
+            subheader: {
+                fontWeight: 900
+            }
+        }
     },
     props: {
         MuiButton: {
             disableRipple: true,
             variant: 'contained',
-            color: 'primary',
             fullWidth: true
         },
         MuiCheckbox: {
@@ -63,7 +77,7 @@ const theme = createMuiTheme({
         MuiFormControl: {
             variant: 'outlined',
             fullWidth: true
-        }
+        },
     },
 });
 

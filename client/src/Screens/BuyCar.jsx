@@ -14,7 +14,8 @@ import {
   Box
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import styles from '../assets/material/Buycar'
+import styles from '../assets/material/Buycar';
+import CardComponent from '../Components/CardComponent.jsx'
 
 class BuyCar extends Component {
     constructor(props){
@@ -30,12 +31,18 @@ class BuyCar extends Component {
     render() {
       const { classes } = this.props
       return ( 
-        <Grid container component="main">
-          <Grid item xs={false} sm={2} />
-          <Grid item xs={12} sm={8}>
-            
+        <Grid container justify="center" component="main" className={classes.pageDefault}>
+          <Grid item container xs={12} sm={8} justify="center">
+            <CardComponent />
+            <CardComponent />
+            <CardComponent />
+            <CardComponent />
+            <CardComponent />
+            <CardComponent />
+            <CardComponent />
+            <CardComponent />
+            <CardComponent />
           </Grid>
-          <Grid item xs={false} sm={2} />
         </Grid>
       )
     }

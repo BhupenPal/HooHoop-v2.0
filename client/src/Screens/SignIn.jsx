@@ -76,21 +76,19 @@ class SignIn extends Component {
   render() {
     const { classes } = this.props
     return (
-      <Grid container component="main">
+      <Grid container component="main" style={{ minHeight: 'calc(100vh - 101px)' }}>
         <Grid item container justify="center" md={12} lg={5} component={Paper} elevation={6} square>
           <Grid item sm={10} md={8}>
             <Typography component="h1" className={classes.heading}>
               Welcome Back
             </Typography>
             <Typography>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              Accusamus sed dolor vitae.
+              Continue to login at HooHoop. Once Logged In you’ll be able to manage all your listings and purchases. 
             </Typography>
             <Paper square className={classes.tabs}>
               <Tabs
                 value={1}
-                indicatorColor="primary"
-                textColor="primary"
+                TabIndicatorProps={{style: {background:'#000'}}}
                 onChange={this.handleRedirect}
               >
                 <Tab label="Register" />
@@ -131,7 +129,6 @@ class SignIn extends Component {
               </Grid>
               <Button
                 type="submit"
-                color="primary"
                 className={classes.submit}
               >
                 Login

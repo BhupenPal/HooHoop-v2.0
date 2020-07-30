@@ -116,14 +116,12 @@ class SignUp extends Component {
               Register at Hoohoop
             </Typography>
             <Typography>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              Accusamus sed dolor vitae.
+              Register Now to buy or sell car. Earn money by selling cars while sitting at your home.
             </Typography>
             <Paper square className={classes.tabs}>
               <Tabs
                 value={0}
-                indicatorColor="primary"
-                textColor="primary"
+                TabIndicatorProps={{style: {background:'#000'}}}
                 onChange={this.handleRedirect}
               >
                 <Tab label="Register" />

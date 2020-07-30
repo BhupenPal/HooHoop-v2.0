@@ -4,7 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import { Link, NavLink } from "react-router-dom";
-import Logo from '../assets/img/logo/Logo.png'
+import Logo from '../assets/img/logo/Logo.png';
 
 const HeaderStyles = makeStyles(() => ({
   HeaderStyle: {
@@ -43,7 +43,7 @@ const Header = () => {
   const classes = HeaderStyles();
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" style={{ backgroundColor: '#fff' }}>
       <Toolbar className={classes.HeaderStyle}>
         <Link to="/">
           <img src={Logo} alt="Hoohoop Logo" className={classes.HeaderLogo} />

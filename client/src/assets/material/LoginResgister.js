@@ -1,3 +1,5 @@
+const Background = require('../img/LoginRegister/bg1.png')
+
 export default theme => ({
     heading: {
         fontSize: "2.25rem",
@@ -5,7 +7,7 @@ export default theme => ({
         margin: theme.spacing(4, 0, 2, 0)
     },
     image: {
-        backgroundImage: "url(https://source.unsplash.com/random)",
+        backgroundImage: `url(${Background.default})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center"
