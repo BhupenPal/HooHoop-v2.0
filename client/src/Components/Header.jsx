@@ -50,7 +50,7 @@ const Header = () => {
         </Link>
 
         <div className='header-options'>
-          <NavLink to="/search-cars">
+          <NavLink to="/buy-car">
             <Button color="inherit" className={classes.OptButton}>Buy</Button>
           </NavLink>
           <NavLink to="/sell-car">
