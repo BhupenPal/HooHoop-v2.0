@@ -49,12 +49,26 @@ const theme = createMuiTheme({
             },
         },
         MuiCardHeader : {
+            root:{
+                padding: "0.5rem 1rem"
+            },
             title: {
                 fontWeight: 900
             },
             subheader: {
                 fontWeight: 900
             }
+        },
+        MuiSlider : {
+            root: {
+                color: "#E85513"
+            },
+            rail: {
+                color: "#707070"
+            },
+            track:{
+                height: 3
+            },
         }
     },
     props: {

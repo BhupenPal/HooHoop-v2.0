@@ -3,7 +3,7 @@ import { withRouter } from "react-router";
 import compose from "recompose/compose";
 import { Card, CardContent, CardHeader, CardMedia, Box, Typography, Avatar, IconButton, Button } from "@material-ui/core";
 import Sports from '../assets/img/Home/sports.png'
-import RoomIcon from '@material-ui/icons/Room';
+import RoomOutlinedIcon from '@material-ui/icons/RoomOutlined';
 import LocalTaxiIcon from '@material-ui/icons/LocalTaxi';
 import SpeedIcon from '@material-ui/icons/Speed';
 import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
@@ -15,14 +15,14 @@ class CardComponent extends Component {
   render() {
     const { classes } = this.props;
     return (
-        <Card className={classes.root}>
+        <Card className={classes.rootCard}>
             <CardHeader title="Ford Ecosport" subheader="2018 Model" />
             <CardMedia className={classes.media} image={Sports} />
-            <CardContent>
+            <CardContent className={classes.cardContent}>
               <Box display="flex" justifyContent="space-between" alignItems="center">
                   <Typography variant="h5" component="h2" className={classes.typoBold}>₹17Lakh</Typography>
                   <Typography variant="h5" component="h2" className={classes.typoBold}>
-                  <IconButton><RoomIcon /></IconButton>New Delhi
+                  <IconButton className={classes.LocationIcon}><RoomOutlinedIcon /></IconButton>New Delhi
                   </Typography>
               </Box>
               <Box display="flex" justifyContent="center" margin="1rem 0">

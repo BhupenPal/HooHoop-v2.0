@@ -20,7 +20,7 @@ import FAQ from "./Screens/FAQ.jsx";
 import CancellationPolicy from "./Screens/CancellationPolicy.jsx";
 import ContactUs from "./Screens/ContactUs.jsx";
 import BuyCar from "./Screens/BuyCar.jsx";
-import SellCar from "./Screens/SellCar.jsx"
+import SellCar from "./Screens/SellCar.jsx";
 
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
