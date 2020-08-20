@@ -69,7 +69,7 @@ const theme = createMuiTheme({
             track:{
                 height: 3
             },
-        }
+        },
     },
     props: {
         MuiButton: {

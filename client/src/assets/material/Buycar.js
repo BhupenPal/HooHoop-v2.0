@@ -77,6 +77,7 @@ export default BuyCar => ({
     },
     expandedFilter:{
         maxHeight: "15rem",
-        minHeight: "15rem"
+        minHeight: "15rem",
+        overflow: "auto"
     },
 })

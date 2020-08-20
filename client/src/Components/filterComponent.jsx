@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography, Button, withStyles, IconButton, InputLabel, FormControl, OutlinedInput, InputAdornment, Collapse, Slider, Avatar } from "@material-ui/core";
+import { Box, Typography, Button, withStyles, IconButton, InputLabel, FormControl, OutlinedInput, InputAdornment, Collapse, Slider, Checkbox } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import styles from '../assets/material/Buycar';
@@ -110,6 +110,16 @@ const filterComponent = (props) => {
         }
     }
 
+    function getModel(){
+        let MakeCheck = document.querySelectorAll(".MakeCheck")
+        let MakeArray=[];
+        for(let i=0; i<MakeCheck.length; i++){
+            if(MakeCheck[i].classList.contains("Mui-checked")){
+                MakeArray.push(MakeCheck[i].previousSibling.textContent)
+            }
+        }
+    }
+
     return (
         <Box className="filterContainer">
             <Typography variant="h4" component="h3">Search by Filters</Typography>
@@ -137,10 +147,16 @@ const filterComponent = (props) => {
                     <IconButton size="small" className="collapsed" onClick={() => toggleFilter('State0')}>{filterstate.State0 ? <RemoveIcon /> : <AddIcon />}</IconButton>
                 </div>
                 <Collapse in={filterstate.State0} >
-                    <div className={classes.expandedFilter}>
+                    <div className={classes.expandedFilter} id="BrandNames">
                         {
                             MakeModels.map((item, index) => {
-                                return <div>{item.Make}</div>
+                                return <div key={index} className="carMakes"><span>{item.Make}</span>
+                                <Checkbox
+                                color="primary"
+                                inputProps={{ 'aria-label': 'secondary checkbox' }}
+                                onClick={getModel}
+                                className="MakeCheck"
+                              /></div>
                             })
                         }
                     </div>

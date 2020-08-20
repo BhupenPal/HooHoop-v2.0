@@ -62,6 +62,7 @@ class App extends Component {
               <Route path="/contact-us" component={ContactUs} />
               <Route path="/buy-car" component={BuyCar} />
               <PrivateRoute path="/sell-car" component={SellCar} />
+              <Route path="/sellcar" component={SellCar}/>
             </Switch>
             <Footer />
           </BrowserRouter>

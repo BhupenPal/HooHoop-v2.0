@@ -1,0 +1,375 @@
+.IconImage{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    cursor: pointer;
+
+    img{
+        height: 2.5rem;
+        width: 2.5rem;
+        // filter: brightness(0) invert(0.6) !important;
+    }
+    
+    span{
+        margin-top: 0.4rem;
+        font-weight: bold;
+        // color: #828282 !important;
+    }
+
+    &:first-child{
+        span{
+            color: #1E874B;
+        }
+    }
+
+    &:nth-child(3){
+        span{
+            color: #E85513;
+        }
+    }
+
+    &:nth-child(5){
+        span{
+            color: #e4c200;
+        }
+        img{
+            filter: invert(75%) sepia(85%) saturate(843%) hue-rotate(358deg) brightness(90%) contrast(104%);
+        }
+    }
+
+    &:last-child{
+        span{
+            color: #708DC7;
+        }
+        img{
+            filter: invert(66%) sepia(5%) saturate(4560%) hue-rotate(186deg) brightness(110%) contrast(85%);
+        }
+    }
+}
+
+#APIbox{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 16px rgba($color: #000000, $alpha: 0.25);
+    h3{
+        font-weight: bolder;
+        margin-top: 1.5rem;
+    }
+    padding-bottom: 2rem !important;
+}
+
+.searchField{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40%;
+    button{
+        height: max-content;
+        border: 1px solid #cccccc;
+        padding: 7px 1rem;
+        margin: 0 0.5rem;
+        border-radius: 5px;
+        margin-top: 6px;
+        outline: none;
+        transition: 0.2s;
+        cursor: pointer;
+        background-color: #FABF01;
+        color: #000000;
+        font-weight: bold;
+        opacity: 0.8;
+        &:active{
+            transform: scale(0.9);
+        }
+        &:hover{
+            opacity: 1;
+        }
+    }
+    div{
+        input{
+            padding: 0.5rem;
+        }
+        label{
+            transform: translate(14px, 9px);
+        }
+    }
+    fieldset{
+        top: -5px;
+        background-color: #ffffff;
+    }
+}
+
+.FetchData{
+    border: 2px solid #707070;
+    background-color: #ffffff;
+    width: 85%;
+    min-height: 13rem;
+    border-radius: 5px;
+    margin: 1rem 0;
+    h3{
+        margin-top: 1rem !important;
+    }
+}
+
+.DetailsContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1rem;
+    span{
+        min-width: 33%;
+        margin: 0.2rem 0;
+        font-weight: bold;
+        font-size: 1rem;
+        box-sizing: border-box;
+        padding-left: 2rem;
+        span{
+            font-weight: normal;
+            font-size: 0.8rem;
+            margin: 0;
+            padding-left: 0;
+        }
+    }
+}
+
+.PriceSetter{
+    background-color: #708DC7;
+    padding: 0 3rem;
+    width: 100%;
+    box-sizing: border-box;
+    height: 8rem;
+    display: flex;
+    h1{
+        color: #ffffff;
+        width: max-content;
+        margin: 0;
+        width: max-content;
+        height: max-content;
+        font-weight: bold;
+    }
+    .priceinputs{
+        width: 20rem;
+        margin: 0 0 0 10rem;
+        div{
+            input{
+                padding: 1rem;
+                z-index: 1;
+                &::-webkit-inner-spin-button{
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    appearance: none;
+                    margin: 0;
+                }
+                &::-webkit-outer-spin-button{
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    appearance: none;
+                    margin: 0;
+                }
+            }
+        }
+        fieldset{
+            background-color: #ffffff;
+        }
+        .MuiFormLabel-root{
+            transform: translate(14px, 18px);
+            font-weight: bolder;
+        }
+        .MuiInputLabel-shrink{
+            transform: translate(10px, -5px) scale(0.75);
+            color: #E85513;
+            background-color: #ffffff;
+            width: 65%;
+            text-align: center;
+            padding: 0.3rem 0;
+            border-radius: 3px;
+            font-weight: normal;
+        }
+    }
+}
+
+.Fetched_Details{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.BasicDetails,.ExtraDetails,.Description,.FileUpload{
+    background-color: #ffffff;
+    border-radius: 5px;
+    h3{
+        width: 100%;
+    }
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1.5rem 0;
+    box-shadow: 0 4px 16px rgba($color: #000000, $alpha: 0.25);
+}
+
+.BasicDetails{
+    max-width: 900px;
+    width: max-content;
+    justify-content: center;
+    h3{
+        box-sizing: border-box;
+        padding-left: 4rem;
+        margin: 1rem 0;
+        font-weight: bold;
+    }
+    .MuiFormControl-root{
+        width: 350px;
+        margin: 0.8rem 2.5rem;
+        .MuiFormLabel-asterisk{
+            color: red;
+        }
+    }
+}
+
+.ExtraDetails{
+    max-width: 550px;
+    width: max-content;
+    justify-content: center;
+    h3{
+        box-sizing: border-box;
+        padding-left: 5rem;
+        margin: 1rem 0;
+        font-weight: bold;
+    }
+    .MuiFormControl-root{
+        width: 400px;
+        margin: 0.8rem 2.5rem;
+    }
+}
+
+.Description{
+    padding: 1rem 4rem 2rem 4rem;
+    margin: 4rem 0 0 0;
+    h3{
+        margin: 1rem 0;
+        font-weight: bold;
+        width: max-content;
+    }
+}
+
+.FileUpload{
+    margin: 3rem 0 0 0;
+    padding: 1rem 4rem 3rem 4rem;
+    justify-content: space-between;
+    h3{
+        margin: 1rem 0;
+        font-weight: bold;
+        width: 100%;
+    }
+    .InteriorImages,.ExteriorImages{
+        width: 45%;
+        margin-top: 2rem;
+        h3{
+            text-align: center;
+        }
+        div{
+            display: flex;
+            justify-content: center;
+            button{
+                height: 90px;
+                width: 90px;
+                background-color: #ffffff;
+                border: 2px solid #E85513;
+                opacity: 0.9;
+                transition: 0.2s;
+                position: relative;
+                display: flex;
+                svg{
+                    color: #E85513;
+                    height: 3rem;
+                    width: 3rem;
+                    opacity: 0.9;
+                }
+                margin: 4rem 2rem;
+                &:hover{
+                    background-color: #ffd7c5;
+                }
+                &:active{
+                    background-color: #ffc4a8;
+                    transform: scale(0.95);
+                    opacity: 1;
+                    svg{
+                        opacity: 1;
+                        transform: scale(0.95);
+                    }
+                }
+            }
+            margin-bottom: 4rem;
+        }
+    }
+    .MuiDivider-vertical{
+        width: 2px;
+        margin-top: 2rem;
+        border-radius: 5px;
+        background-color: #707070;
+    }
+}
+
+.InteriorImages{
+    div{
+        button{
+            &::after{
+                position: absolute;
+                top: 115%;
+                left: 0;
+                right: 0;
+                margin: auto;
+                font-size: 1.2rem;
+                opacity: 1;
+            }
+            &:first-child{
+                &::after{
+                    content: 'Front';
+                }
+            }
+            &:nth-child(2){
+                &::after{
+                    content: 'Middle';
+                }
+            }
+            &:nth-child(3){
+                &::after{
+                    content: 'Rear';
+                }
+            }
+        }
+    }
+}
+
+.ExteriorImages{
+    div{
+        button{
+            &::after{
+                position: absolute;
+                top: 115%;
+                left: 0;
+                right: 0;
+                margin: auto;
+                font-size: 1.2rem;
+                opacity: 1;
+            }
+            &:first-child{
+                &::after{
+                    content: "Slider Images";
+                    width: max-content;
+                    left: -1.2rem;
+                }
+            }
+            &:last-child{
+                &::after{
+                    content: "Video";
+                    width: max-content;
+                    left: 0;
+                }
+            }
+        }
+    }
+}
