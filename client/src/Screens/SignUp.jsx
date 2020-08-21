@@ -60,29 +60,14 @@ class SignUp extends Component {
     const isCheckbox = e.target.type === "checkbox";
     this.setState({
       [e.target.name]: isCheckbox ? e.target.checked : e.target.value,
-    });
-    console.log(this.state)
+    })
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const NewUser = {
-      FirstName: this.state.FirstName,
-      LastName: this.state.LastName,
-      Email: this.state.Email,
-      Password: this.state.Password,
-      cPassword: this.state.cPassword,
-      Phone: this.state.Phone,
-      State: this.state.State,
-      Role: this.state.Role,
-      DealershipName: this.state.DealershipName,
-      DealershipEmail: this.state.DealershipEmail,
-      DealershipPhone: this.state.DealershipPhone,
-      DealershipNZBN: this.state.DealershipNZBN,
-    };
-
-    this.props.registerUser(NewUser, this.props.history);
+    //State Contains The Complete New User Data
+    this.props.registerUser(this.state, this.props.history);
   };
 
   handleRedirect = (e, value) => {
@@ -270,7 +255,7 @@ class SignUp extends Component {
                   label="By creating an account you agree to accept our terms and conditions."
                 />
               </Grid>
-              <Button type="submit" color="primary" className={classes.submit}>
+              <Button type="submit" color="primary" className={classes.submit} onClick={this.handleSubmit}>
                 Create Account
               </Button>
               <Grid container className={classes.close}>

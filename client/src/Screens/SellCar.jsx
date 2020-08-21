@@ -18,10 +18,20 @@ import '../assets/css/sellcarpage.scss';
 import CarDetails from '../assets/data/CarDetails';
 import SelectBox from '../Components/SelectBox.jsx';
 import AddIcon from '@material-ui/icons/Add';
-
+import axios from 'axios'
 
 const SellCar = (props) => {
     const {classes} = props;
+
+    const FetchJam = () => {
+        axios.get(`/api/user/car-data-fetch/A`)
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
 
     return(
         <Grid container justify="center" component="main" className={classes.pageDefault}>
@@ -41,7 +51,7 @@ const SellCar = (props) => {
                         <Typography component="h3" variant="h5">Tell us about the car you are selling</Typography>
                         <div className="searchField">
                             <TextField id="outlined-basic" label="Enter your number plate" variant="outlined" />
-                            <button>Search</button>
+                            <button onClick={() => FetchJam()}>Search</button>
                         </div>
                         <Box display="flex" flexDirection="column" alignItems="center" className="FetchData">
                             <Typography component="h3" variant="h4">Car Details</Typography>

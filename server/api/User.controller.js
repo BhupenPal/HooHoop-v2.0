@@ -1,10 +1,11 @@
-const express = require("express");
-const Router = express.Router();
+const express = require("express")
+const Router = express.Router()
 const UserModel = require('../models/User.model')
 const bcrypt = require('bcrypt')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const Nexmo = require('nexmo')
+const axios = require('axios')
 
 //Pilot is sent to client with status
 let Pilot = { status: 'failed', news: [] };
@@ -84,9 +85,9 @@ Router.get('/auth/facebook', passport.authenticate(
 
 Router.get('/auth/facebook/confirm', passport.authenticate(
     'facebook',
-    { 
+    {
         successRedirect: '/api/',
-        failureRedirect: '/api/' 
+        failureRedirect: '/api/'
     }
 ))
 
@@ -98,7 +99,8 @@ Router.get('/logout', (req, res, next) => {
 
 Router.post("/register", (req, res, next) => {
     FlightReset(Pilot)
-
+    console.log('hEl')
+    res.send('Hello')
     let { FirstName, LastName, Email, Password, cPassword, Phone, Address, State, Role, DealershipName, DealershipEmail, DealershipPhone, DealershipNZBN } = req.body;
 
     if (!FirstName || !LastName || !Email || !Password || !cPassword || !Phone || !State) {
@@ -123,11 +125,11 @@ Router.post("/register", (req, res, next) => {
         res.json(Pilot)
     }
     else {
-        UserModel.findOne({ Email: Email }, (err, doc) => {
+        UserModel.findOne({ Email }, (err, doc) => {
             if (doc) {
                 return res.status(400).json({ news: 'Email already exists' })
             } else {
-                UserModel.findOne({ Phone: Phone }, async (err, doc) => {
+                UserModel.findOne({ Phone }, async (err, doc) => {
                     if (doc) {
                         return res.status(400).json({ news: 'Phone number already exists' })
                     } else {
@@ -138,7 +140,7 @@ Router.post("/register", (req, res, next) => {
                         })
                             .save()
                             .then(user => {
-                                SendMail(Email, 'HooHoop Account Activation Email', Pilot.news)
+                                SendMail(Email, 'HooHoop Account Activation Email', 'MSG', Pilot.news)
                                 if (Pilot.news > 0) {
                                     return res.json(Pilot)
                                 }
@@ -267,6 +269,20 @@ Router.patch('/phoneactivate', passport.authenticate('jwt', { session: false }),
             Pilot.status = 'success'
             return res.json(Pilot)
         })
+})
+
+
+//Sell Form Routes
+Router.get('/car-data-fetch/:CarPlate', async (req, res, next) => {
+    FlightReset(Pilot)
+
+    try {
+        const response = await axios.get(`https://carjam.co.nz/a/vehicle:abcd?key=${process.env.CARJAM_API_KEY}&plate=${req.params.CarPlate}`);
+        res.status(200).send(response.data);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error')
+    }
 })
 
 module.exports = Router;

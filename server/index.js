@@ -13,7 +13,7 @@ require('dotenv').config({
 })
 
 const morgan = require('morgan')
-// app.use(morgan('dev'))
+app.use(morgan('dev'))
 
 const passport = require('passport')
 require('./helper/auth/passport')(passport);
@@ -42,7 +42,7 @@ app.use('/api/user/dashboard/', require('./api/Dashboard.controller'))
 //Serving Client Side
 if (process.env.NODE_ENV === 'DEV') {
     app.use(cors({
-        origin: 'localhost:8080'
+        origin: '192.168.1.7:8080'
     }))
 } else {
     const path = require('path')
