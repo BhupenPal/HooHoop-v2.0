@@ -4,9 +4,8 @@ const ContactModel = require('../models/Contact.model')
 const CarModel = require('../models/Car.model')
 
 Router.get('/', async (req, res, next) => {
-    // const allcars = await CarModel.find().limit(25)
-    // res.json(allcars)
-    res.json(req.user)
+    const allcars = await CarModel.find().limit(10)
+    res.json(allcars)
 })
 
 Router.post('/contact-us', (req, res, next) => {

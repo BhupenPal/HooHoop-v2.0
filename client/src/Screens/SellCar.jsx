@@ -76,7 +76,7 @@ const SellCar = (props) => {
                     <Grid className="Fetched_Details">
                         <div className="BasicDetails">
                             <Typography component="h3" variant="h5">Please Enter the details of your car</Typography>
-                            <SelectBox Label="Select Maker" />
+                            <SelectBox Label="Select Make" />
                             <SelectBox Label="Model" />
                             <SelectBox required={true} Label="Model Year" />
                             <SelectBox required={true} Label="Body Type" />

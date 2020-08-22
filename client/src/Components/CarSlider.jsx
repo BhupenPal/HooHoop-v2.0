@@ -26,7 +26,7 @@ const ForwardIcon = (props) => {
     const { className, style, onClick } = props;
     return (
         <Fragment>
-            <ArrowForwardIosIcon style={{...style, color: '#708DC7'}} className={className} onClick={onClick} fontSize='large' />
+            <ArrowForwardIosIcon style={{ ...style, color: '#708DC7' }} className={className} onClick={onClick} fontSize='large' />
         </Fragment>
     )
 }
@@ -35,7 +35,7 @@ const BackwardIcon = (props) => {
     const { className, style, onClick } = props;
     return (
         <Fragment>
-            <ArrowBackIosIcon style={{...style, color: '#708DC7'}} className={className} onClick={onClick} fontSize='large' />
+            <ArrowBackIosIcon style={{ ...style, color: '#708DC7' }} className={className} onClick={onClick} fontSize='large' />
         </Fragment>
     )
 }
@@ -47,7 +47,7 @@ const settings = {
     slidesToScroll: 1,
     initialSlide: 0,
     nextArrow: <ForwardIcon />,
-    prevArrow: <BackwardIcon/>,
+    prevArrow: <BackwardIcon />,
     responsive: [
         {
             breakpoint: 1024,
@@ -76,142 +76,31 @@ const settings = {
     ]
 };
 
-const CarSlider = () => {
+const CarSlider = ({ data }) => {
     const classes = CarSliderStyles();
 
     return (
         <div style={{ width: '100%', margin: '30px 0' }}>
             <Slider {...settings}>
-                <div>
-                    <div className={classes.SliderCar}>
-                        <img src={Car} alt="" className={classes.SlideCarImage} />
-                        <div className={classes.CarDetails}>
-                            <div>
-                                Ford Mustang
+                {
+                    data.map((item, index) => {
+                        return (
+                            <div key={index}>
+                                <div className={classes.SliderCar}>
+                                    <img src={Car} alt="" className={classes.SlideCarImage} />
+                                    <div className={classes.CarDetails}>
+                                        <div>
+                                            {item.Make}
+                                        </div>
+                                        <div>
+                                            {item.minPrice}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                ₹ 34 Lakh
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div className={classes.SliderCar}>
-                        <img src={Car} alt="" className={classes.SlideCarImage} />
-                        <div className={classes.CarDetails}>
-                            <div>
-                                Ford Mustang
-                            </div>
-                            <div>
-                                ₹ 34 Lakh
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div className={classes.SliderCar}>
-                        <img src={Car} alt="" className={classes.SlideCarImage} />
-                        <div className={classes.CarDetails}>
-                            <div>
-                                Ford Mustang
-                            </div>
-                            <div>
-                                ₹ 34 Lakh
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div className={classes.SliderCar}>
-                        <img src={Car} alt="" className={classes.SlideCarImage} />
-                        <div className={classes.CarDetails}>
-                            <div>
-                                Ford Mustang
-                            </div>
-                            <div>
-                                ₹ 34 Lakh
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div className={classes.SliderCar}>
-                        <img src={Car} alt="" className={classes.SlideCarImage} />
-                        <div className={classes.CarDetails}>
-                            <div>
-                                Ford Mustang
-                            </div>
-                            <div>
-                                ₹ 34 Lakh
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div className={classes.SliderCar}>
-                        <img src={Car} alt="" className={classes.SlideCarImage} />
-                        <div className={classes.CarDetails}>
-                            <div>
-                                Ford Mustang
-                            </div>
-                            <div>
-                                ₹ 34 Lakh
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div className={classes.SliderCar}>
-                        <img src={Car} alt="" className={classes.SlideCarImage} />
-                        <div className={classes.CarDetails}>
-                            <div>
-                                Ford Mustang
-                            </div>
-                            <div>
-                                ₹ 34 Lakh
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div className={classes.SliderCar}>
-                        <img src={Car} alt="" className={classes.SlideCarImage} />
-                        <div className={classes.CarDetails}>
-                            <div>
-                                Ford Mustang
-                            </div>
-                            <div>
-                                ₹ 34 Lakh
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div className={classes.SliderCar}>
-                        <img src={Car} alt="" className={classes.SlideCarImage} />
-                        <div className={classes.CarDetails}>
-                            <div>
-                                Ford Mustang
-                            </div>
-                            <div>
-                                ₹ 34 Lakh
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div className={classes.SliderCar}>
-                        <img src={Car} alt="" className={classes.SlideCarImage} />
-                        <div className={classes.CarDetails}>
-                            <div>
-                                Ford Mustang
-                            </div>
-                            <div>
-                                ₹ 34 Lakh
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        )
+                    })
+                }
             </Slider>
         </div>
     );

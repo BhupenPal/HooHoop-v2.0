@@ -41,7 +41,7 @@ const CarSchema = mongoose.Schema({
             type: Number
         }
     },
-    VinNum: {
+    VINum: {
         type: String,
         required: true,
         unique: true
@@ -122,6 +122,10 @@ const CarSchema = mongoose.Schema({
     },
     State: {
         type: String
+    },
+    isNewCar: {
+        type: Boolean,
+        default: false
     }
 },
 {

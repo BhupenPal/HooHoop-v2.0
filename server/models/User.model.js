@@ -87,6 +87,14 @@ const UserSchema = mongoose.Schema({
     Credits: {
         type: Number,
         default: 100
+    },
+    CanSellNewCar: {
+        type: Boolean,
+        default: false
+    },
+    EncryptedCore: {
+        type: String,
+        required: true
     }
 },
 {

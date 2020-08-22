@@ -7,6 +7,9 @@ const jwt = require('jsonwebtoken')
 const Nexmo = require('nexmo')
 const axios = require('axios')
 
+//Car media upload manager
+const CarUpload = require('../helper/upload manager/carupload')
+
 //Pilot is sent to client with status
 let Pilot = { status: 'failed', news: [] };
 
@@ -99,8 +102,6 @@ Router.get('/logout', (req, res, next) => {
 
 Router.post("/register", (req, res, next) => {
     FlightReset(Pilot)
-    console.log('hEl')
-    res.send('Hello')
     let { FirstName, LastName, Email, Password, cPassword, Phone, Address, State, Role, DealershipName, DealershipEmail, DealershipPhone, DealershipNZBN } = req.body;
 
     if (!FirstName || !LastName || !Email || !Password || !cPassword || !Phone || !State) {
@@ -274,8 +275,6 @@ Router.patch('/phoneactivate', passport.authenticate('jwt', { session: false }),
 
 //Sell Form Routes
 Router.get('/car-data-fetch/:CarPlate', async (req, res, next) => {
-    FlightReset(Pilot)
-
     try {
         const response = await axios.get(`https://carjam.co.nz/a/vehicle:abcd?key=${process.env.CARJAM_API_KEY}&plate=${req.params.CarPlate}`);
         res.status(200).send(response.data);
@@ -283,6 +282,10 @@ Router.get('/car-data-fetch/:CarPlate', async (req, res, next) => {
         console.error(error);
         res.status(500).send('Error')
     }
+})
+
+Router.post('/sell-form/submit', CarUpload, (req, res, next) => {
+
 })
 
 module.exports = Router;
