@@ -11,7 +11,7 @@ import {
 import setAuthToken from "../utils/setAuthToken";
 
 const initialState = {
-  token: localStorage.getItem('JWTToken'),
+  token: localStorage.getItem('accessToken'),
   isAuthenticated: null,
   isLoading: false,
   user: null
@@ -46,11 +46,12 @@ export default function (state = initialState, action) {
     case AUTH_ERROR:
     case LOGIN_FAIL:
     case REGISTER_FAIL:
-      localStorage.removeItem('JWTToken')
+      localStorage.removeItem('accessToken')
+      localStorage.removeItem('refreshToken')
       setAuthToken(false)
       return {
         ...state,
-        token: null,
+        accessToken: null,
         user: null,
         isAuthenticated: false,
         isLoading: false

@@ -27,11 +27,12 @@ import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import PrivateRoute from "./Components/private-route/PrivateRoute";
 import store from "./store";
+import GoogleBtn from "./Components/GoogleLoginBtn.jsx";
 
 class App extends Component {
   componentDidMount() {
-    if (localStorage.JWTToken) {
-      const token = localStorage.JWTToken;
+    if (localStorage.accessToken) {
+      const token = localStorage.accessToken;
       setAuthToken(token);
       const decoded = jwt_decode(token);
       store.dispatch(setCurrentUser(decoded));

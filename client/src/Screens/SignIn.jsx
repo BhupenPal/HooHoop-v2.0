@@ -62,8 +62,9 @@ class SignIn extends Component {
     const userData = {
       Email: this.state.Email,
       Password: this.state.Password,
-      LogWithPhone: isNaN(parseInt(this.state.Email)) ? false : true,
+      LogWithPhone: isNaN(parseInt(this.state.Email)) ? false : true
     };
+
     this.props.loginUser(userData);
   };
 

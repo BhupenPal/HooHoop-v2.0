@@ -38,10 +38,11 @@ export const loginUser = userData => dispatch => {
     .post("/api/user/login", userData)
     .then(res => {
       if (res.status === 200) {
-        const { token } = res.data;
-        localStorage.setItem("JWTToken", token);
-        setAuthToken(token);
-        const decoded = jwt_decode(token);
+        const { accessToken, refreshToken } = res.data;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        setAuthToken(accessToken);
+        const decoded = jwt_decode(accessToken);
         dispatch(setCurrentUser(decoded));
       }
     })
@@ -63,5 +64,15 @@ export const setCurrentUser = decoded => {
 
 // Log user out
 export const logoutUser = () => dispatch => {
-  dispatch({ type: LOGOUT_SUCCESS })
+  axios
+  .post("/api/user/logout", { refreshToken: localStorage.refreshToken})
+  .then(res => {
+    dispatch({ type: LOGOUT_SUCCESS })
+  })
+  .catch(err => {
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    })
+  });
 }

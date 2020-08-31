@@ -3,7 +3,11 @@ const Router = express.Router()
 const UserModel = require('../models/User.model')
 const bcrypt = require('bcrypt')
 const passport = require('passport')
+
+//Redis and JWT
+const client = require('../config/redis')
 const jwt = require('jsonwebtoken')
+
 const Nexmo = require('nexmo')
 const axios = require('axios')
 
@@ -15,6 +19,7 @@ let Pilot = { status: 'failed', news: [] };
 
 const { PassCheck } = require('../helper/validation')
 const { GenerateOTP, HashSalt, FlightReset } = require('../helper/service')
+const { signAccessToken, verifyAccessToken, signRefreshToken, verifyRefreshToken } = require('../helper/auth/JWT_service')
 const { SendMail } = require('../helper/mail/config')
 
 Router.post("/login", async (req, res, next) => {
@@ -35,32 +40,31 @@ Router.post("/login", async (req, res, next) => {
         return res.status(400).json({ news: 'User does not exist' })
     }
 
-    bcrypt.compare(Password, User.Password, (err, isMatch) => {
+    bcrypt.compare(Password, User.Password, async (err, isMatch) => {
         if (isMatch) {
-            const Payload = {
-                id: User._id,
-                FirstName: User.FirstName,
-                LastName: User.LastName,
-                Email: User.Email
-            }
-            jwt.sign(
-                Payload,
-                process.env.JWTSECRET,
-                {
-                    expiresIn: 31556926, // 1 year in seconds
-                },
-                (err, token) => {
-                    res.status(200).json({
-                        token: 'Bearer ' + token,
-                        user: Payload
-                    })
-                }
-            )
+            const accessToken = await signAccessToken(User)
+            const refreshToken = await signRefreshToken(User)
+            res.status(200).json({ accessToken, refreshToken })
         } else {
-            return res.status(400).json({ news: 'Incorrect Password' })
+            return res.status(400).json({ news: 'Password does not match' })
         }
     });
 });
+
+Router.post('/refresh-token', async (req, res, next) => {
+    try {
+        const { refreshToken } = req.body
+        if (!refreshToken)
+            return next({ message: 'Bad Request' })
+        
+        const userId = await verifyRefreshToken(refreshToken)
+        const newAccessToken = await signAccessToken(user)
+        const newRefreshToken = await signRefreshToken()
+    } catch (err) {
+        console.log(err)
+        next(err)
+    }
+})
 
 Router.get('/auth/google', passport.authenticate(
     'google',
@@ -94,10 +98,24 @@ Router.get('/auth/facebook/confirm', passport.authenticate(
     }
 ))
 
-Router.get('/logout', (req, res, next) => {
-    req.logout();
-    req.session.destroy();
-    res.redirect("/");
+Router.post('/logout', async (req, res, next) => {
+    try {
+        const { refreshToken } = req.body
+        if (!refreshToken) throw "EEEROOOR"
+        const userId = await verifyRefreshToken(refreshToken.split(' ')[1])
+        client.DEL(userId, (err, val) => {
+            console.log(userId)
+            if (err) {
+                console.log(err.message)
+                throw 'dont know'
+            }
+            console.log(val)
+            res.sendStatus(200)
+        })
+    } catch (error) {
+        console.log(error)
+        next(error)
+    }
 })
 
 Router.post("/register", (req, res, next) => {
@@ -128,42 +146,28 @@ Router.post("/register", (req, res, next) => {
     else {
         UserModel.findOne({ Email }, (err, doc) => {
             if (doc) {
-                return res.status(400).json({ news: 'Email already exists' })
+                return res.status(409).json({ news: 'Email already exists' })
             } else {
                 UserModel.findOne({ Phone }, async (err, doc) => {
                     if (doc) {
-                        return res.status(400).json({ news: 'Phone number already exists' })
+                        return res.status(409).json({ news: 'Phone number already exists' })
                     } else {
                         const SecretToken = GenerateOTP(6)
+                        const EncryptedCore = await HashSalt(process.env.DEFAULT_CREDIT)
                         Password = await HashSalt(Password)
+                        console.log()
                         new UserModel({
-                            FirstName, LastName, Email, Password, Phone, Address, State, Role, DealershipName, DealershipEmail, DealershipPhone, DealershipNZBN, SecretToken
+                            FirstName, LastName, Email, Password, Phone, Address, State, Role, DealershipName, DealershipEmail, DealershipPhone, DealershipNZBN, SecretToken, EncryptedCore
                         })
                             .save()
-                            .then(user => {
+                            .then(async user => {
                                 SendMail(Email, 'HooHoop Account Activation Email', 'MSG', Pilot.news)
                                 if (Pilot.news > 0) {
                                     return res.json(Pilot)
                                 }
-                                const Payload = {
-                                    id: user._id,
-                                    FirstName: user.FirstName,
-                                    LastName: user.LastName,
-                                    Email: user.Email
-                                }
-                                jwt.sign(
-                                    Payload,
-                                    process.env.JWTSECRET,
-                                    {
-                                        expiresIn: 31556926, // 1 year in seconds
-                                    },
-                                    (err, token) => {
-                                        res.status(200).json({
-                                            token: 'Bearer ' + token,
-                                            user: Payload
-                                        })
-                                    }
-                                )
+                                const accessToken = await signAccessToken(user)
+                                const refreshToken = await signRefreshToken(user)
+                                res.status(200).json({accessToken, refreshToken})
                             })
                             .catch(err => {
                                 console.log(err)
@@ -177,7 +181,7 @@ Router.post("/register", (req, res, next) => {
     }
 });
 
-Router.patch('/genmailotp', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+Router.patch('/genmailotp', verifyAccessToken, (req, res, next) => {
     FlightReset(Pilot)
     const SecretToken = GenerateOTP(6)
     UserModel.findById(req.user._id)
@@ -201,7 +205,7 @@ Router.patch('/genmailotp', passport.authenticate('jwt', { session: false }), (r
         })
 })
 
-Router.patch('/mailactivate', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+Router.patch('/mailactivate', verifyAccessToken, (req, res, next) => {
     FlightReset(Pilot)
     UserModel.findOne({ SecretToken: req.body.value })
         .then(user => {
@@ -217,7 +221,7 @@ Router.patch('/mailactivate', passport.authenticate('jwt', { session: false }), 
         })
 })
 
-Router.patch('/genphoneotp', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+Router.patch('/genphoneotp', verifyAccessToken, (req, res, next) => {
     FlightReset(Pilot)
     const SecretToken = GenerateOTP()
     UserModel.findById(req.user._id)
@@ -256,7 +260,7 @@ Router.patch('/genphoneotp', passport.authenticate('jwt', { session: false }), (
         })
 })
 
-Router.patch('/phoneactivate', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+Router.patch('/phoneactivate', verifyAccessToken, (req, res, next) => {
     FlightReset(Pilot)
     UserModel.findOne({ SecretToken: req.body.value })
         .then(user => {

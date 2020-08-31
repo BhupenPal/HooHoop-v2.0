@@ -86,7 +86,7 @@ const UserSchema = mongoose.Schema({
     },
     Credits: {
         type: Number,
-        default: 100
+        default: process.env.DEFAULT_CREDIT
     },
     CanSellNewCar: {
         type: Boolean,

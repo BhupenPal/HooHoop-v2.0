@@ -5,8 +5,8 @@
   "scripts": {
     "install": "concurrently -n 'client,server' \"cd client && npm i\" \"cd server && npm i\"",
     "server": "cd server && nodemon index.js",
-    "dev": "cd server && npm run dev",
-    "pro": "cd server && npm run pro"
+    "dev": "cd server && npm run dev && redis-server",
+    "pro": "cd server && npm run pro && redis-server"
   },
   "repository": {
     "type": "git",

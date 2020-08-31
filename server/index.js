@@ -15,34 +15,31 @@ require('dotenv').config({
 const morgan = require('morgan')
 app.use(morgan('dev'))
 
-const passport = require('passport')
-require('./helper/auth/passport')(passport);
-//Session for storing user
-const session = require("express-session");
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: true,
-    saveUninitialized: false
-}))
-
-app.use(passport.initialize())
-app.use(passport.session())
-
-//Passing user to application
-app.use(function (req, res, next) {
-    res.locals.user = req.user || null;
-    res.locals.session = req.session;
-    next();
-});
-
 app.use('/api/', require('./api/Home.controller'))
 app.use('/api/user/', require('./api/User.controller'))
 app.use('/api/user/dashboard/', require('./api/Dashboard.controller'))
 
+//Error Handling
+app.use(async (req, res, next) => {
+    const error = new Error("Not Found")
+    error.status = 404
+    next(error)
+})
+
+app.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    res.send({
+        error: {
+            status: err.status || 500,
+            message: err.message
+        }
+    })
+})
+
 //Serving Client Side
 if (process.env.NODE_ENV === 'DEV') {
     app.use(cors({
-        origin: '192.168.1.7:8080'
+        origin: '192.168.1.13:8080'
     }))
 } else {
     const path = require('path')
