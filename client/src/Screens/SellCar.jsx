@@ -22,11 +22,54 @@ import axios from 'axios'
 
 const SellCar = (props) => {
     const {classes} = props;
+    let dataarray = [];
+    const [dataobject, changedata] = React.useState({
+        Make : '',
+        Model : '',
+        Year : '',
+        BodyStyle : '',
+        Transmission : '',
+        EngineSize : '',
+        FuelType : '',
+        Kilometers : '',
+        Color : '',
+        Plate : '',
+        Seats : '',
+        Doors : ''
+    })
 
     const FetchJam = () => {
-        axios.get(`/api/user/car-data-fetch/A`)
+        var platenum = document.getElementsByName("platenum")[0].value
+        axios.get(`/api/user/car-data-fetch/${platenum}`)
         .then(res => {
-            console.log(res)
+            console.log(res.data)
+            document.querySelector("#Make").textContent = res.data.make
+            document.querySelector("#Year").textContent = res.data.year_of_manufacture
+            document.querySelector("#BodyStyle").textContent = res.data.body_style
+            document.querySelector("#Model").textContent = res.data.model
+            document.querySelector("#NoOweners").textContent = res.data.number_of_owners
+            document.querySelector("#Color").textContent = res.data.main_colour
+            document.querySelector("#FuelType").textContent = res.data.fuel_type
+            document.querySelector("#VIN").textContent = res.data.vin
+            document.querySelector("#EngineNo").textContent = res.data.engine_no
+            document.querySelector("#PlateNumber").textContent = res.data.plate
+            document.querySelector("#Chassis").textContent = res.data.chassis
+            document.querySelector("#Seats").textContent = res.data.no_of_seats
+            dataarray.push(res.data);
+            changedata({
+                Make : res.make,
+                Model : res.model,
+                Year : res.year_of_manufacture,
+                BodyStyle : res.body_style,
+                Transmission : res.transmission,
+                EngineSize : res.cc_rating,
+                FuelType : res.fuel_type,
+                Kilometers : res.latest_odometer_reading,
+                Color : res.main_colour,
+                Plate : res.plate,
+                Seats : res.no_of_seats,
+                Doors : 5
+            })
         })
         .catch(err => {
             console.log(err)
@@ -50,17 +93,24 @@ const SellCar = (props) => {
                     <Box className={classes.ContainerType_one} id="APIbox">
                         <Typography component="h3" variant="h5">Tell us about the car you are selling</Typography>
                         <div className="searchField">
-                            <TextField id="outlined-basic" label="Enter your number plate" variant="outlined" />
+                            <TextField id="outlined-basic" name="platenum" label="Enter your number plate" variant="outlined" />
                             <button onClick={() => FetchJam()}>Search</button>
                         </div>
                         <Box display="flex" flexDirection="column" alignItems="center" className="FetchData">
                             <Typography component="h3" variant="h4">Car Details</Typography>
                             <div className="DetailsContainer">
-                                {
-                                    CarDetails.map((item, index) => {
-                                    return <span key={index}>{item.DetailName} : <span>{item.DummyData}</span></span>
-                                    })
-                                }
+                                <span>Make : <span id="Make"></span></span>
+                                <span>Year : <span id="Year"></span></span>
+                                <span>Body Style : <span id="BodyStyle"></span></span>
+                                <span>Model : <span id="Model"></span></span>
+                                <span>No of Oweners : <span id="NoOweners"></span></span>
+                                <span>Color : <span id="Color"></span></span>
+                                <span>Fuel Type : <span id="FuelType"></span></span>
+                                <span>VIN : <span id="VIN"></span></span>
+                                <span>Engine No : <span id="EngineNo"></span></span>
+                                <span>Plate Number : <span id="PlateNumber"></span></span>
+                                <span>Chassis : <span id="Chassis"></span></span>
+                                <span>Seats : <span id="Seats"></span></span>
                             </div>
                         </Box>
                     </Box>
@@ -76,18 +126,18 @@ const SellCar = (props) => {
                     <Grid className="Fetched_Details">
                         <div className="BasicDetails">
                             <Typography component="h3" variant="h5">Please Enter the details of your car</Typography>
-                            <SelectBox Label="Select Make" />
-                            <SelectBox Label="Model" />
-                            <SelectBox required={true} Label="Model Year" />
-                            <SelectBox required={true} Label="Body Type" />
-                            <SelectBox required={true} Label="Transmission" />
-                            <SelectBox required={true} Label="Engine Size" />
-                            <SelectBox required={true} Label="Fuel Type" />
-                            <SelectBox required={true} Label="Kilometers Ran" />
-                            <SelectBox required={true} Label="Color Type" />
-                            <SelectBox required={true} Label="Number Plate" />
-                            <SelectBox required={true} Label="Number of seats" />
-                            <SelectBox required={true} Label="Number of doors" />
+                            <SelectBox data={dataobject.Make || ''} Label="Select Make" />
+                            <SelectBox data={dataobject.Model || ''} Label="Model" />
+                            <SelectBox data={dataobject.Year || ''} required={true} Label="Model Year" />
+                            <SelectBox data={dataobject.BodyStyle || ''} required={true} Label="Body Type" />
+                            <SelectBox data={dataobject.Transmission || ''} required={true} Label="Transmission" />
+                            <SelectBox data={dataobject.EngineSize || ''} required={true} Label="Engine Size" />
+                            <SelectBox data={dataobject.FuelType || ''} required={true} Label="Fuel Type" />
+                            <SelectBox data={dataobject.Kilometers || ''} required={true} Label="Kilometers Ran" />
+                            <SelectBox data={dataobject.Color || ''} required={true} Label="Color Type" />
+                            <SelectBox data={dataobject.Plate || ''} required={true} Label="Number Plate" />
+                            <SelectBox data={dataobject.Seats || ''} required={true} Label="Number of seats" />
+                            <SelectBox data={dataobject.Doors || ''} required={true} Label="Number of doors" />
                         </div>
                         <div className="ExtraDetails">
                             <Typography component="h3" variant="h5">Help us know more about your car</Typography>

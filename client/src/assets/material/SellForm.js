@@ -68,5 +68,5 @@ export default SellForm => ({
         "&:active": {
             transform: "scale(0.95)"
         }
-    }
+    },
 })
