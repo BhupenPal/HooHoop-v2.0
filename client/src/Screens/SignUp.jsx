@@ -219,7 +219,7 @@ class SignUp extends Component {
                     required
                     name="DealershipEmail"
                     label="Dealership Email"
-                    value={this.state.Email}
+                    value={this.state.DealershipEmail}
                     onChange={this.handleChange}
                   />
                   <Grid container spacing={2}>

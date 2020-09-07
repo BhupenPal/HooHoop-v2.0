@@ -23,7 +23,7 @@ function Home(props) {
   useEffect(() => {
     axios.get('/api/')
     .then(res => {
-      setCars(res.data)
+      setCars(res.data.usedCars)
     })
     .catch(err => {
       alert('Error fetching data')

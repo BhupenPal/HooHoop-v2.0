@@ -5,8 +5,8 @@
   "scripts": {
     "install": "concurrently -n 'client,server' \"cd client && npm i\" \"cd server && npm i\"",
     "server": "cd server && nodemon index.js",
-    "dev": "cd server && npm run dev && redis-server",
-    "pro": "cd server && npm run pro && redis-server"
+    "dev": "concurrently \"redis-server --daemonize yes\" && cd server && npm run dev",
+    "pro": "concurrently \"redis-server --daemonize yes\" && cd server && npm run pro"
   },
   "repository": {
     "type": "git",
@@ -17,8 +17,5 @@
   "bugs": {
     "url": "https://github.com/BhupenPal/MERN-Webpack-Boilerplate/issues"
   },
-  "homepage": "https://github.com/BhupenPal/MERN-Webpack-Boilerplate#readme",
-  "dependencies": {
-    "@material-ui/lab": "^4.0.0-alpha.56"
-  }
+  "homepage": "https://github.com/BhupenPal/MERN-Webpack-Boilerplate#readme"
 }
