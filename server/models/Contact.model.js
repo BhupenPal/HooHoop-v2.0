@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 
 const ContactSchema = mongoose.Schema({
+    ComplaintNum: {
+        type: String,
+        required: true
+    },
     FullName: {
         type: String,
         required: true
@@ -16,9 +20,6 @@ const ContactSchema = mongoose.Schema({
     Message: {
         type: String,
         required: true
-    },
-    Files: {
-        type: Boolean
     }
 },
 {
