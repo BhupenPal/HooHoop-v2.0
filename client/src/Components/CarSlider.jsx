@@ -93,7 +93,7 @@ const CarSlider = ({ data }) => {
                                             {item.Make}
                                         </div>
                                         <div>
-                                            {item.minPrice}
+                                        &#36; {item.Price}
                                         </div>
                                     </div>
                                 </div>
