@@ -4,7 +4,6 @@ const express = require("express"),
     bcrypt = require('bcrypt'),
     createError = require('http-errors'),
     client = require('../config/redis'),
-    jwt = require('jsonwebtoken'),
     Nexmo = require('nexmo'),
     axios = require('axios'),
     isMailValid = require('email-validator')
@@ -94,7 +93,7 @@ Router.post("/register", (req, res, next) => {
         console.log('User Controller Register Catch: ' + error.message)
         next(error)
     }
-});
+})
 
 Router.post('/refresh-token', async (req, res, next) => {
     try {
@@ -105,7 +104,7 @@ Router.post('/refresh-token', async (req, res, next) => {
 
         let accessToken = await signAccessToken(user)
         refreshToken = await signRefreshToken(user)
-        
+
         res.status(200).send({ accessToken, refreshToken })
     } catch (err) {
         console.log(err)
@@ -133,109 +132,110 @@ Router.delete('/logout', async (req, res, next) => {
 })
 
 Router.patch('/genmailotp', verifyAccessToken, (req, res, next) => {
-    FlightReset(Pilot)
-    const SecretToken = GenerateOTP(6)
-    UserModel.findById(req.user._id)
-        .then(user => {
-            if (user) {
-                user.SecretToken = SecretToken
-                user.save()
+    try {
+        const SecretToken = GenerateOTP(6)
+        UserModel.findById(req.payload.aud)
+            .then(user => {
+                if (user) {
+                    user.SecretToken = SecretToken
+                    user.save()
 
-                SendMail(Email, 'HooHoop Account Activation Email', Pilot.news)
+                    SendMail(Email, 'HooHoop Account Activation Email')
 
-                if (Pilot.news > 0) {
-                    return res.json(Pilot)
+                    res.statusCode(201)
                 } else {
-                    Pilot.status = 'success'
-                    res.json(Pilot)
+                    throw createError.Forbidden()
                 }
-            } else {
-                Pilot.news.push('No user found')
-                res.json(Pilot)
-            }
-        })
+            })
+    } catch (error) {
+        console.log(error.message)
+        next(error)
+    }
 })
 
 Router.patch('/mailactivate', verifyAccessToken, (req, res, next) => {
-    FlightReset(Pilot)
-    UserModel.findOne({ SecretToken: req.body.value })
-        .then(user => {
-            if (!user) {
-                Pilot.news.push('Token Not Valid')
-                return res.json(Pilot)
-            }
-            user.SecretToken = null
-            user.EmailVerified = true
-            user.save()
-            Pilot.status = 'success'
-            return res.json(Pilot)
-        })
+    try {
+        UserModel.findOne({ SecretToken: req.body.value })
+            .then(user => {
+                if (!user) {
+                    throw createError.BadRequest()
+                }
+                user.SecretToken = null
+                user.EmailVerified = true
+                user.save()
+                res.statusCode(201)
+            })
+    } catch (error) {
+        console.log(error.message)
+        next(error)
+    }
 })
 
 Router.patch('/genphoneotp', verifyAccessToken, (req, res, next) => {
-    FlightReset(Pilot)
-    const SecretToken = GenerateOTP()
-    UserModel.findById(req.user._id)
-        .then(user => {
-            if (user) {
-                user.SecretToken = SecretToken
-                user.save()
+    try {
+        const SecretToken = GenerateOTP()
+        UserModel.findById(req.payload.aud)
+            .then(user => {
+                if (user) {
+                    user.SecretToken = SecretToken
+                    user.save()
 
-                //SENDING SMS TO USER
-                const nexmo = new Nexmo({
-                    apiKey: process.env.NEXMO_KEY,
-                    apiSecret: process.env.NEXMO_SECRET
-                });
-                const from = 'HooHoop NZ';
-                const to = '919587551153';
-                const text = `Thank you for using HooHoop. You phone verification code is ${SecretToken}`;
-                nexmo.message.sendSms(from, to, text, (err, responseData) => {
-                    console.log(responseData)
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        if (responseData.messages[0]['status'] === "0") {
-                            console.log("Message sent successfully.");
+                    //SENDING SMS TO USER
+                    const nexmo = new Nexmo({
+                        apiKey: process.env.NEXMO_KEY,
+                        apiSecret: process.env.NEXMO_SECRET
+                    });
+                    const from = 'HooHoop NZ';
+                    const to = user.Phone;
+                    const text = `Thank you for using HooHoop. You phone verification code is ${SecretToken}`;
+                    nexmo.message.sendSms(from, to, text, (err, responseData) => {
+                        if (err) {
+                            throw createError.InternalServerError()
                         } else {
-                            console.log(`Message failed with error: ${responseData.messages[0]['error-text']}`);
+                            if (responseData.messages[0]['status'] !== "0") {
+                                console.log(`Message failed with error: ${responseData.messages[0]['error-text']}`);
+                                throw createError.InternalServerError()
+                            }
                         }
-                    }
-                });
+                    });
 
-                Pilot.status = 'success'
-                res.json(Pilot)
-            } else {
-                Pilot.news.push('No user found')
-                res.json(Pilot)
-            }
-        })
+                    res.statusCode(201)
+                } else {
+                    throw createError.Forbidden()
+                }
+            })
+    } catch (error) {
+        console.log(error.message)
+        next(error)
+    }
 })
 
 Router.patch('/phoneactivate', verifyAccessToken, (req, res, next) => {
-    FlightReset(Pilot)
-    UserModel.findOne({ SecretToken: req.body.value })
+    try {
+        UserModel.findOne({ SecretToken: req.body.value })
         .then(user => {
             if (!user) {
-                Pilot.news.push('Token Not Valid')
-                return res.json(Pilot)
+                throw createError.BadRequest()
             }
             user.SecretToken = null
             user.PhoneVerified = true
             user.save()
-            Pilot.status = 'success'
-            return res.json(Pilot)
+            res.statusCode(201)
         })
+    } catch (error) {
+        console.log(error.message)
+        next(error)
+    }
 })
-
 
 //Sell Form Routes
 Router.get('/car-data-fetch/:CarPlate', async (req, res, next) => {
     try {
         const response = await axios.get(`https://carjam.co.nz/a/vehicle:abcd?key=${process.env.CARJAM_API_KEY}&plate=${req.params.CarPlate}`);
-        res.status(200).send(response.data);
+        res.statusCode(200).send(response.data);
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Error')
+        console.error(error.message);
+        next(createError.InternalServerError())
     }
 })
 

@@ -17,6 +17,10 @@ module.exports = {
     return RandomString;
   },
 
+  RandomChar: () => {
+    return String.fromCharCode(65 + Math.floor(Math.random() * 26))
+  },
+
   HashSalt: async (Passcode) => {
     return await new Promise((resolve, reject) => {
       bcrypt.genSalt(12, (err, salt) =>
