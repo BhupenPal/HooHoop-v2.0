@@ -55,7 +55,7 @@ function Home(props) {
   let {usedCars = [],under5K = [],under10K = [],above10K = []} = carsData;
 
   const renderRangeCars = () => {
-    const tabs = [under10K,under5K,under10K];
+    const tabs = [under5K,under10K,above10K];
     return <CarSlider data={tabs[rangeTab]} />
   }
   return (
@@ -74,7 +74,7 @@ function Home(props) {
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Popular</span> Used Cars
           </Typography>
-          <CarSlider data={above10K} />
+          <CarSlider data={usedCars} />
         </Grid>
         <Grid item xs={10} style={{ marginTop: 70 }}>
           <Typography variant="h2" className="home-subhead">
@@ -106,9 +106,9 @@ function Home(props) {
             onChange={handleRangeChange}
             TabIndicatorProps={{ style: { background: "#000" } }}
           >
-            <Tab label="UNDER 30000" index={0} />
-            <Tab label="UNDER 40000" index={1} />
-            <Tab label="UNDER 50000" index={2} />
+            <Tab label="UNDER 5000" index={0} />
+            <Tab label="UNDER 10000" index={1} />
+            <Tab label="Above 10000" index={2} />
           </Tabs>
           {renderRangeCars()}
         </Grid>

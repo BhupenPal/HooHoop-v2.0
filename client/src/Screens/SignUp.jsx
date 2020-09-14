@@ -113,11 +113,12 @@ class SignUp extends Component {
                 <Tab label="Login" />
               </Tabs>
             </Paper>
-            <form className={classes.form}>
+            <form className={classes.form} onSubmit={this.handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <TextField
                     required
+                    error = {this.state.FirstName && this.state.FirstName.length < 1}
                     label="First Name"
                     type="text"
                     name="FirstName"
@@ -255,7 +256,7 @@ class SignUp extends Component {
                   label="By creating an account you agree to accept our terms and conditions."
                 />
               </Grid>
-              <Button type="submit" color="primary" className={classes.submit} onClick={this.handleSubmit}>
+              <Button type="submit" color="primary" className={classes.submit}>
                 Create Account
               </Button>
               <Grid container className={classes.close}>
