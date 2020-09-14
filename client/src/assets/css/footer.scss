@@ -5,11 +5,13 @@
     justify-content: space-around;
     align-items: center;    
     padding: 2rem 0;
+
     &__follow-us{
         display: flex;
         align-items: center;
         
     }
+    
     &__logo{
         background-color: #fff;
         height: 1.5rem;
@@ -19,6 +21,7 @@
         margin: 0rem 0 0rem 1rem;
         border-radius: 100rem;
     }
+    
     &__copyrights{
         font-size: 0.8rem;
         margin-top: 1rem;

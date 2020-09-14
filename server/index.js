@@ -19,7 +19,7 @@ app.use('/api/user/', require('./api/User.controller'))
 app.use('/api/user/dashboard/', require('./api/Dashboard.controller'))
 
 if (process.env.NODE_ENV === 'DEV') {
-    app.use(cors({ origin: '192.168.1.8:8080' }))
+    app.use(cors({ origin: `${process.env.HOST_IP}:8080` }))
 } else {
     const { resolve } = require('path')
     app.use(express.static(resolve(__dirname, '..', 'dist')))

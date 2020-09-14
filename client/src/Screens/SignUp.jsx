@@ -12,17 +12,19 @@ import {
   Tab,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   InputLabel,
+  OutlinedInput,
   Checkbox,
   Button,
   Divider,
   Box,
   Select,
-  MenuItem
+  MenuItem,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
-import styles from '../assets/material/LoginResgister'
+import styles from "../assets/material/LoginResgister";
 
 class SignUp extends Component {
   constructor(props) {
@@ -60,7 +62,7 @@ class SignUp extends Component {
     const isCheckbox = e.target.type === "checkbox";
     this.setState({
       [e.target.name]: isCheckbox ? e.target.checked : e.target.value,
-    })
+    });
   };
 
   handleSubmit = (e) => {
@@ -69,7 +71,10 @@ class SignUp extends Component {
     //State Contains The Complete New User Data
     this.props.registerUser(this.state, this.props.history);
   };
-
+  validateEmail = (email) => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  };
   handleRedirect = (e, value) => {
     !value
       ? this.props.history.push("/register")
@@ -83,7 +88,7 @@ class SignUp extends Component {
   };
   render() {
     const { classes } = this.props;
-
+    const { FirstName, LastName, Email, Password, cPassword } = this.state;
     return (
       <Grid container component="main">
         <Grid
@@ -101,12 +106,13 @@ class SignUp extends Component {
               Register at Hoohoop
             </Typography>
             <Typography>
-              Register Now to buy or sell car. Earn money by selling cars while sitting at your home.
+              Register Now to buy or sell car. Earn money by selling cars while
+              sitting at your home.
             </Typography>
             <Paper square className={classes.tabs}>
               <Tabs
                 value={0}
-                TabIndicatorProps={{style: {background:'#000'}}}
+                TabIndicatorProps={{ style: { background: "#000" } }}
                 onChange={this.handleRedirect}
               >
                 <Tab label="Register" />
@@ -118,11 +124,10 @@ class SignUp extends Component {
                 <Grid item xs={6}>
                   <TextField
                     required
-                    error = {this.state.FirstName && this.state.FirstName.length < 1}
                     label="First Name"
                     type="text"
                     name="FirstName"
-                    value={this.state.FirstName}
+                    value={FirstName}
                     onChange={this.handleChange}
                     autoFocus
                   />
@@ -140,6 +145,7 @@ class SignUp extends Component {
               </Grid>
               <TextField
                 required
+                error={Email && !this.validateEmail(Email)}
                 type="email"
                 label="Email Address"
                 name="Email"
@@ -149,7 +155,8 @@ class SignUp extends Component {
               />
               <TextField
                 required
-                type="tel"
+                error={this.state.Phone && this.state.Phone.length !== 10}
+                type="number"
                 name="Phone"
                 label="Phone Number"
                 value={this.state.Phone}
@@ -163,10 +170,12 @@ class SignUp extends Component {
                   id="demo-simple-select-outlined"
                   label="Province"
                   name="State"
-                  value={this.state.State} 
+                  value={this.state.State}
                   onChange={this.handleChange}
                 >
-                  <MenuItem><em>Select Province</em></MenuItem>
+                  <MenuItem>
+                    <em>Select Province</em>
+                  </MenuItem>
                   <MenuItem value="Auckland">Auckland</MenuItem>
                   <MenuItem value="Bay of Plenty">Bay of Plenty</MenuItem>
                   <MenuItem value="Northland">Northland</MenuItem>
@@ -198,6 +207,7 @@ class SignUp extends Component {
               />
               <TextField
                 margin="normal"
+                error = {cPassword && cPassword !== Password}
                 required
                 name="cPassword"
                 label="Confirm Password"
@@ -247,12 +257,7 @@ class SignUp extends Component {
               ) : null}
               <Grid className={classes.split}>
                 <FormControlLabel
-                  control={
-                    <Checkbox
-                      required
-                      color="primary"
-                    />
-                  }
+                  control={<Checkbox required color="primary" />}
                   label="By creating an account you agree to accept our terms and conditions."
                 />
               </Grid>
