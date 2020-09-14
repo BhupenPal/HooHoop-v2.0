@@ -3,7 +3,7 @@ import compose from "recompose/compose";
 import Slider from "react-slick";
 import styles from "../assets/material/Home";
 import { withStyles } from "@material-ui/core/styles";
-import { Grid, Typography, Tabs, Tab, AppBar } from "@material-ui/core";
+import { Grid, Typography, Tabs, Tab } from "@material-ui/core";
 import axios from "axios";
 
 // Slider Images
@@ -32,7 +32,7 @@ function Home(props) {
         console.log(err);
       });
   }, []);
-  
+
   const SliderImages = [
     { id: 1, url: IndexBackground },
     { id: 2, url: WoxWagon },
@@ -48,16 +48,17 @@ function Home(props) {
     slidesToScroll: 1,
   };
 
-  const handleRangeChange = (e,index) => {
-  
+  const handleRangeChange = (e, index) => {
     setRangeTab((val) => index);
   };
-  let {usedCars = [],under5K = [],under10K = [],above10K = []} = carsData;
+
+  let { usedCars = [], under5K = [], under10K = [], above10K = [] } = carsData;
 
   const renderRangeCars = () => {
-    const tabs = [under10K,under5K,under10K];
-    return <CarSlider data={tabs[rangeTab]} />
-  }
+    const tabs = [under10K, under5K, under10K];
+    return <CarSlider data={tabs[rangeTab]} />;
+  };
+
   return (
     <Fragment>
       <Slider {...settings}>
@@ -100,15 +101,14 @@ function Home(props) {
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Shop</span> by Range
           </Typography>
- 
           <Tabs
             value={rangeTab}
             onChange={handleRangeChange}
             TabIndicatorProps={{ style: { background: "#000" } }}
           >
-            <Tab label="UNDER 30000" index={0} />
-            <Tab label="UNDER 40000" index={1} />
-            <Tab label="UNDER 50000" index={2} />
+            <Tab label="UNDER $5000" index={0} />
+            <Tab label="UNDER $10000" index={1} />
+            <Tab label="ABOVE $10000" index={2} />
           </Tabs>
           {renderRangeCars()}
         </Grid>

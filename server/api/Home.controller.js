@@ -14,7 +14,7 @@ Router.get('/', async (req, res, next) => {
     const hatchbackType = await CarModel.find({ BodyType: 'Hatchback' }).limit(10)
     const suvType = await CarModel.find({ BodyType: 'SUV' }).limit(10)
     const under5K = await CarModel.find({ Price: {$lte: 5000} }).limit(10)
-    const under10K = await CarModel.find({ Price: {$lte: 10000} }).limit(10)
+    const under10K = await CarModel.find({ Price: {$gt: 5000, $lte: 10000} }).limit(10)
     const above10K = await CarModel.find({ Price: {$gt: 10000} }).limit(10)
 
     res.send({ usedCars, recentCars, sedanType, hatchbackType, suvType, under5K, under10K, above10K })
