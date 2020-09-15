@@ -25,7 +25,7 @@ export const registerUser = (userData, setError , history) => dispatch => {
       }
     })
     .catch(err => {
-      const message = err.response.data.error.message;
+      const message = err.response?.data?.error?.message || err.message;
       setError(message)
       dispatch(returnErrors(err.response.data, err.response.status))
       dispatch({
@@ -36,7 +36,7 @@ export const registerUser = (userData, setError , history) => dispatch => {
 }
 
 // Login - get user token
-export const loginUser = userData => dispatch => {
+export const loginUser = (userData,setError) => dispatch => {
   axios
     .post("/api/user/login", userData)
     .then(res => {
@@ -50,6 +50,8 @@ export const loginUser = userData => dispatch => {
       }
     })
     .catch(err => {
+      const message = err.response?.data?.error?.message || err.message;
+      setError(message)
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
