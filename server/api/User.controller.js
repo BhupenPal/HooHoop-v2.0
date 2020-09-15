@@ -81,7 +81,7 @@ Router.post("/register", (req, res, next) => {
                     .then(async user => {
                         SendMail(Email, 'HooHoop Account Activation Email', 'MSG')
                         //For making it compatible with JWT_SERVICES
-                        User.aud = User.id
+                        user.aud = user.id
                         const accessToken = await signAccessToken(user)
                         const refreshToken = await signRefreshToken(user)
                         res.status(200).json({ accessToken, refreshToken })
