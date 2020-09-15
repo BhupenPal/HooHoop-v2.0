@@ -6,7 +6,7 @@ const express = require("express"),
     client = require('../config/redis'),
     Nexmo = require('nexmo'),
     axios = require('axios'),
-    isMailValid = require('email-validator')
+    isMail = require('email-validator')
 
 //Car media upload manager
 const CarUpload = require('../helper/upload manager/carupload')
@@ -34,6 +34,8 @@ Router.post("/login", async (req, res, next) => {
         bcrypt.compare(Password, User.Password, async (err, isMatch) => {
             if (!isMatch) throw createError.Unauthorized('Password does not match')
             else {
+                //For making it compatible with JWT_SERVICES
+                User.aud = User.id
                 const accessToken = await signAccessToken(User)
                 const refreshToken = await signRefreshToken(User)
                 res.status(200).json({ accessToken, refreshToken })
@@ -51,7 +53,7 @@ Router.post("/register", (req, res, next) => {
 
         if (!FirstName || !LastName || !Email || !Password || !cPassword || !Phone || !State) throw createError.BadRequest('Please fill in all the required fields')
 
-        if (!isMailValid(Email)) throw createError.BadRequest('Invalid Email')
+        if (!isMail.validate(Email)) throw createError.BadRequest('Invalid Email')
 
         if (!PassCheck(Password, cPassword)) throw createError.BadRequest('Invalid Password')
 
@@ -66,7 +68,7 @@ Router.post("/register", (req, res, next) => {
         }
 
         UserModel.findOne({ Email }, (err, doc) => {
-            if (doc) throw createError.conflict('Email already exists')
+            if (doc) throw createError.Conflict('Email already exists')
             UserModel.findOne({ Phone }, async (err, doc) => {
                 if (doc) throw createError.conflict('Phone number already exists')
                 const SecretToken = GenerateOTP(6)
@@ -78,6 +80,8 @@ Router.post("/register", (req, res, next) => {
                     .save()
                     .then(async user => {
                         SendMail(Email, 'HooHoop Account Activation Email', 'MSG')
+                        //For making it compatible with JWT_SERVICES
+                        User.aud = User.id
                         const accessToken = await signAccessToken(user)
                         const refreshToken = await signRefreshToken(user)
                         res.status(200).json({ accessToken, refreshToken })
@@ -85,7 +89,6 @@ Router.post("/register", (req, res, next) => {
                     .catch(err => {
                         throw createError.ExpectationFailed()
                     })
-
             })
         })
 
@@ -122,7 +125,6 @@ Router.delete('/logout', async (req, res, next) => {
                 console.log(err.message)
                 throw createError.InternalServerError()
             }
-            console.log(val)
             res.sendStatus(204)
         })
     } catch (error) {

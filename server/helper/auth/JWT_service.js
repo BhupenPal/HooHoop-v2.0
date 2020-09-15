@@ -15,7 +15,7 @@ module.exports = {
             const options = {
                 expiresIn: '1h',
                 issuer: 'hoohoop.co.nz',
-                audience: USER.id
+                audience: USER.aud
             }
             JWT.sign(Payload, secret, options, (err, token) => {
                 if (err) {
@@ -50,14 +50,14 @@ module.exports = {
             const options = {
                 expiresIn: '1y',
                 issuer: 'hoohoop.co.nz',
-                audience: USER.id
+                audience: USER.aud
             }
             JWT.sign(Payload, secret, options, (err, token) => {
                 if (err) {
                     console.log(err.message)
                     reject(createError.InternalServerError())
                 }
-                client.SET(USER.id, token, 'EX', 31536000, (err, reply) => {
+                client.SET(USER.aud, token, 'EX', 31536000, (err, reply) => {
                     if (err) {
                         console.log(err.message)
                         reject(createError.InternalServerError())

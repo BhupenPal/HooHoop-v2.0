@@ -8,13 +8,13 @@ module.exports = {
             secure: true,
             auth: {
                 user: 'contact@hoohoop.co.nz',
-                pass: process.env.EMAILPASS
+                pass: process.env.EMAIL_PASS
             },
             tls: {
                 rejectUnauthorized: false
             }
         });
-
+        
         transporter.sendMail({
             from: '"HooHoop" <contact@hoohoop.co.nz>',
             to: ToEmail,
