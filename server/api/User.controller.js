@@ -32,7 +32,7 @@ Router.post("/login", async (req, res, next) => {
         if (!User) throw createError.NotFound('User does not exist')
 
         bcrypt.compare(Password, User.Password, async (err, isMatch) => {
-            if (!isMatch) throw createError.Unauthorized('Password does not match')
+            if (!isMatch) return next(createError.Unauthorized('Password does not match'))
             else {
                 //For making it compatible with JWT_SERVICES
                 User.aud = User.id
