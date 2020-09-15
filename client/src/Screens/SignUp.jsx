@@ -71,10 +71,10 @@ class SignUp extends Component {
       Phone: "",
       State: "",
       Role: false,
-      DealershipName: "",
-      DealershipEmail: "",
-      DealershipPhone: "",
-      DealershipNZBN: "",
+      DealershipName: null,
+      DealershipEmail: null,
+      DealershipPhone: null,
+      DealershipNZBN: null,
       Errors: [],
     };
   }
@@ -126,7 +126,7 @@ class SignUp extends Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    if (validateForm()) {
+    if (this.validateForm()) {
       //State Contains The Complete New User Data
       this.props.registerUser(this.state, this.props.history);
     }
@@ -305,7 +305,7 @@ class SignUp extends Component {
                   label="By creating an account you agree to accept our terms and conditions."
                 />
               </Grid>
-              <Button type="submit" color="primary" className={classes.submit}>
+              <Button type="submit" color="primary" className={classes[this.validateForm() ? "active":"submit"]} >
                 Create Account
               </Button>
               <Grid container className={classes.close}>

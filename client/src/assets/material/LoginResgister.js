@@ -18,7 +18,13 @@ export default theme => ({
     },
     submit: {
         height: 40,
-        margin: theme.spacing(3, 0, 2, 0)
+        margin: theme.spacing(3, 0, 2, 0),
+    },
+    active: {
+
+        height: 40,
+        margin: theme.spacing(3, 0, 2, 0),
+        background: 'linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%)',
     },
     tabs: {
         borderBottom: "1px solid #DDDDDD",
