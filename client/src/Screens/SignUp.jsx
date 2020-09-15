@@ -21,10 +21,12 @@ import {
   Box,
   Select,
   MenuItem,
+  Snackbar,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
 import styles from "../assets/material/LoginResgister";
+import { Alert } from "@material-ui/lab";
 
 const states = [
   "Auckland",
@@ -75,7 +77,8 @@ class SignUp extends Component {
       DealershipEmail: null,
       DealershipPhone: null,
       DealershipNZBN: null,
-      Errors: [],
+      error: false,
+      errorMessage: "",
     };
   }
 
@@ -89,6 +92,13 @@ class SignUp extends Component {
       });
     }
   }
+
+  showError = (message) => {
+    this.setState({ error: true, errorMessage: message });
+  };
+  closeError = () => {
+    this.setState({ error: false, errorMessage: "" });
+  };
 
   handleChange = (e) => {
     const isCheckbox = e.target.type === "checkbox";
@@ -128,7 +138,7 @@ class SignUp extends Component {
     e.preventDefault();
     if (this.validateForm()) {
       //State Contains The Complete New User Data
-      this.props.registerUser(this.state, this.props.history);
+      this.props.registerUser(this.state, this.showError, this.props.history);
     }
   };
 
@@ -145,7 +155,16 @@ class SignUp extends Component {
   };
   render() {
     const { classes } = this.props;
-    const { FirstName, LastName,Phone, Email, Password, cPassword } = this.state;
+    const {
+      FirstName,
+      LastName,
+      Phone,
+      Email,
+      Password,
+      cPassword,
+      error,
+      errorMessage,
+    } = this.state;
     return (
       <Grid container component="main">
         <Grid
@@ -235,7 +254,9 @@ class SignUp extends Component {
                     <em>Select Province</em>
                   </MenuItem>
                   {states.map((state, index) => (
-                    <MenuItem key={index} value={state}>{state}</MenuItem>
+                    <MenuItem key={index} value={state}>
+                      {state}
+                    </MenuItem>
                   ))}
                 </Select>
               </FormControl>
@@ -305,7 +326,11 @@ class SignUp extends Component {
                   label="By creating an account you agree to accept our terms and conditions."
                 />
               </Grid>
-              <Button type="submit" color="primary" className={classes[this.validateForm() ? "active":"submit"]} >
+              <Button
+                type="submit"
+                color="primary"
+                className={classes[this.validateForm() ? "active" : "submit"]}
+              >
                 Create Account
               </Button>
               <Grid container className={classes.close}>
@@ -336,6 +361,9 @@ class SignUp extends Component {
                   >
                     Sign Up
                   </NavLink>
+                  <Snackbar open={error} autoHideDuration={6000} onClose={this.closeError}>
+                    <Alert onClose={this.closeError} severity="error">{errorMessage}</Alert>
+                  </Snackbar>
                 </Typography>
               </Box>
             </form>
