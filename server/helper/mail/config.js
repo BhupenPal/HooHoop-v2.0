@@ -14,7 +14,7 @@ module.exports = {
                 rejectUnauthorized: false
             }
         });
-        
+        console.log(ToEmail)
         transporter.sendMail({
             from: '"HooHoop" <contact@hoohoop.co.nz>',
             to: ToEmail,

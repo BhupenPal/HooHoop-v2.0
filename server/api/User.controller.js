@@ -68,9 +68,9 @@ Router.post("/register", (req, res, next) => {
         }
 
         UserModel.findOne({ Email }, (err, doc) => {
-            if (doc) throw createError.Conflict('Email already exists')
+            if (doc) return next(createError.Conflict('Email already exists'))
             UserModel.findOne({ Phone }, async (err, doc) => {
-                if (doc) throw createError.conflict('Phone number already exists')
+                if (doc) return next(createError.Conflict('Phone number already exists'))
                 const SecretToken = GenerateOTP(6)
                 const EncryptedCore = await HashSalt(process.env.DEFAULT_CREDIT)
                 Password = await HashSalt(Password)
