@@ -26,6 +26,38 @@ import { withStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
 import styles from "../assets/material/LoginResgister";
 
+const states = [
+  "Auckland",
+  "Bay of Plenty",
+  "Northland",
+  "Waikato",
+  "Gisborne",
+  "Hawke's Bay",
+  "Taranaki",
+  "Whanganui",
+  "Manawatu",
+  "Wairarapa",
+  "Wellington",
+  "Nelson Bays",
+  "Marlborough",
+  "West Coast",
+  "Canterbury",
+  "Timaru",
+  "Otago",
+  "Southland",
+];
+
+const validateEmail = (email) => {
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+};
+
+const validPassword = (password) => {
+  // Minimum eight characters, at least one letter, one number and one special character
+  const re = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+  return re.test(password);
+};
+
 class SignUp extends Component {
   constructor(props) {
     super(props);
@@ -65,16 +97,41 @@ class SignUp extends Component {
     });
   };
 
+  validateForm = () => {
+    const {
+      FirstName,
+      LastName,
+      Email,
+      Password,
+      cPassword,
+      Phone,
+      State,
+    } = this.state;
+    if (!FirstName || FirstName.length < 1) {
+      return false;
+    } else if (!LastName || LastName.length < 1) {
+      return false;
+    } else if (!Email || !validateEmail(Email)) {
+      return false;
+    } else if (!Password || !validPassword(Password)) {
+      return false;
+    } else if (cPassword !== Password) {
+      return false;
+    } else if (!Phone || Phone.length !== 10) {
+      return false;
+    } else if (!states.includes(State)) {
+      return false;
+    }
+    return true;
+  };
   handleSubmit = (e) => {
     e.preventDefault();
+    if (validateForm()) {
+      //State Contains The Complete New User Data
+      this.props.registerUser(this.state, this.props.history);
+    }
+  };
 
-    //State Contains The Complete New User Data
-    this.props.registerUser(this.state, this.props.history);
-  };
-  validateEmail = (email) => {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  };
   handleRedirect = (e, value) => {
     !value
       ? this.props.history.push("/register")
@@ -88,7 +145,7 @@ class SignUp extends Component {
   };
   render() {
     const { classes } = this.props;
-    const { FirstName, LastName, Email, Password, cPassword } = this.state;
+    const { FirstName, LastName,Phone, Email, Password, cPassword } = this.state;
     return (
       <Grid container component="main">
         <Grid
@@ -145,7 +202,8 @@ class SignUp extends Component {
               </Grid>
               <TextField
                 required
-                error={Email && !this.validateEmail(Email)}
+                error={!!Email && !validateEmail(Email)}
+                helperText={Email && !validateEmail(Email) && "Invalid Email"}
                 type="email"
                 label="Email Address"
                 name="Email"
@@ -155,7 +213,7 @@ class SignUp extends Component {
               />
               <TextField
                 required
-                error={this.state.Phone && this.state.Phone.length !== 10}
+                error={!!Phone && Phone.length !== 10}
                 type="number"
                 name="Phone"
                 label="Phone Number"
@@ -176,29 +234,15 @@ class SignUp extends Component {
                   <MenuItem>
                     <em>Select Province</em>
                   </MenuItem>
-                  <MenuItem value="Auckland">Auckland</MenuItem>
-                  <MenuItem value="Bay of Plenty">Bay of Plenty</MenuItem>
-                  <MenuItem value="Northland">Northland</MenuItem>
-                  <MenuItem value="Waikato">Waikato</MenuItem>
-                  <MenuItem value="Gisborne">Gisborne</MenuItem>
-                  <MenuItem value="Hawke's Bay">Hawke's Bay</MenuItem>
-                  <MenuItem value="Taranaki">Taranaki</MenuItem>
-                  <MenuItem value="Whanganui">Whanganui</MenuItem>
-                  <MenuItem value="Manawatu">Manawatu</MenuItem>
-                  <MenuItem value="Wairarapa">Wairarapa</MenuItem>
-                  <MenuItem value="Wellington">Wellington</MenuItem>
-                  <MenuItem value="Nelson Bays">Nelson Bays</MenuItem>
-                  <MenuItem value="Marlborough">Marlborough</MenuItem>
-                  <MenuItem value="West Coast">West Coast</MenuItem>
-                  <MenuItem value="Canterbury">Canterbury</MenuItem>
-                  <MenuItem value="Timaru">Timaru</MenuItem>
-                  <MenuItem value="Otago">Otago</MenuItem>
-                  <MenuItem value="Southland">Southland</MenuItem>
+                  {states.map((state, index) => (
+                    <MenuItem key={index} value={state}>{state}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <TextField
                 margin="normal"
                 required
+                error={!!Password && !validPassword(Password)}
                 name="Password"
                 label="Password"
                 type="password"
@@ -207,7 +251,7 @@ class SignUp extends Component {
               />
               <TextField
                 margin="normal"
-                error = {cPassword && cPassword !== Password}
+                error={!!cPassword && cPassword !== Password}
                 required
                 name="cPassword"
                 label="Confirm Password"
