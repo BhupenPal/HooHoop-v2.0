@@ -31,6 +31,8 @@ Router.post("/login", async (req, res, next) => {
 
         if (!User) throw createError.NotFound('User does not exist')
 
+        if (!User.EmailVerified) throw createError.BadRequest('Please activate your account.')
+
         bcrypt.compare(Password, User.Password, async (err, isMatch) => {
             if (!isMatch) return next(createError.Unauthorized('Password does not match'))
             else {
@@ -80,11 +82,7 @@ Router.post("/register", (req, res, next) => {
                     .save()
                     .then(async user => {
                         SendMail(Email, 'HooHoop Account Activation Email', 'MSG')
-                        //For making it compatible with JWT_SERVICES
-                        user.aud = user.id
-                        const accessToken = await signAccessToken(user)
-                        const refreshToken = await signRefreshToken(user)
-                        res.status(200).json({ accessToken, refreshToken })
+                        res.status(200).send()
                     })
                     .catch(err => {
                         console.log(err)
@@ -92,7 +90,6 @@ Router.post("/register", (req, res, next) => {
                     })
             })
         })
-
     } catch (error) {
         console.log('User Controller Register Catch: ' + error.message)
         next(error)
@@ -229,6 +226,10 @@ Router.patch('/phoneactivate', verifyAccessToken, (req, res, next) => {
         console.log(error.message)
         next(error)
     }
+})
+
+Router.patch('/forgot-password', (req, res, next) => {
+    
 })
 
 //Sell Form Routes
