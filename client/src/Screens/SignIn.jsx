@@ -14,11 +14,12 @@ import {
   Checkbox,
   Button,
   Divider,
-  Box
+  Box, Snackbar
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
 import styles from "../assets/material/LoginResgister"
+import { Alert } from "@material-ui/lab";
 
 class SignIn extends Component {
   constructor(props) {
@@ -29,6 +30,8 @@ class SignIn extends Component {
       Password: "",
       Remember: false,
       Errors: null,
+      loginError:false,
+      errorMessage:""
     };
   }
 
@@ -49,6 +52,12 @@ class SignIn extends Component {
     }
   }
 
+  showError = (message) => {
+    this.setState({ loginError: true, errorMessage: message });
+  };
+  hideError = () => {
+    this.setState({ loginError: false, errorMessage: "" });
+  }
   handleChange = (e) => {
     const isCheckbox = e.target.type === "checkbox";
     this.setState({
@@ -65,7 +74,7 @@ class SignIn extends Component {
       LogWithPhone: isNaN(parseInt(this.state.Email)) ? false : true
     };
 
-    this.props.loginUser(userData);
+    this.props.loginUser(userData,this.showError);
   };
 
   handleRedirect = (e, value) => {
@@ -76,6 +85,7 @@ class SignIn extends Component {
 
   render() {
     const { classes } = this.props
+    const { errorMessage,loginError } = this.state;
     return (
       <Grid container component="main" style={{ minHeight: 'calc(100vh - 101px)' }}>
         <Grid item container justify="center" md={12} lg={5} component={Paper} elevation={6} square>
@@ -156,6 +166,9 @@ class SignIn extends Component {
                     Sign Up
                   </NavLink>
                 </Typography>
+                <Snackbar open={loginError} autoHideDuration={6000} onClose={this.hideError}>
+                    <Alert onClose={this.hideError} severity="error">{errorMessage}</Alert>
+                  </Snackbar>
               </Grid>
             </form>
           </Grid>

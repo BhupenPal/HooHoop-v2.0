@@ -96,7 +96,7 @@ class SignUp extends Component {
   showError = (message) => {
     this.setState({ error: true, errorMessage: message });
   };
-  closeError = () => {
+  hideError = () => {
     this.setState({ error: false, errorMessage: "" });
   };
 
@@ -361,8 +361,8 @@ class SignUp extends Component {
                   >
                     Sign Up
                   </NavLink>
-                  <Snackbar open={error} autoHideDuration={6000} onClose={this.closeError}>
-                    <Alert onClose={this.closeError} severity="error">{errorMessage}</Alert>
+                  <Snackbar open={error} autoHideDuration={6000} onClose={this.hideError}>
+                    <Alert onClose={this.hideError} severity="error">{errorMessage}</Alert>
                   </Snackbar>
                 </Typography>
               </Box>
