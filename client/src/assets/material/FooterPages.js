@@ -6,8 +6,11 @@ export default theme => ({
         marginBottom: "90px !important",
 
     },
+    leftMargin:{
+        marginLeft:"2%"
+    },
     updateNotice: {
-        color: '#828282',
+        color: "#E85513",
         marginBottom: 30,
         fontWeight: 500,
 

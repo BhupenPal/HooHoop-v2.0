@@ -6,7 +6,7 @@ const PrivacyPolicy = (props) => {
     const { classes } = props;
     return (
         <Paper>
-            <Grid container component="main" justify="center" className={classes.marginBT90}>
+            <Grid container component="main" justify="center" style={{background:"#F4F6F8"}} className={classes.marginBT90}>
                 <Grid item xs={11} sm={10}>
                     <Typography variant="h3">Privacy Policy</Typography>
                     <Typography variant="h4" className={classes.updateNotice}>Last Updated on 19 January 2020</Typography>
@@ -24,7 +24,7 @@ const PrivacyPolicy = (props) => {
                 </Grid>
                 <Grid item xs={11} sm={10}>
                     <Typography variant="h3" className={classes.pointSeprator}>Users Information and Privacy</Typography>
-                    <Typography>
+                    <Typography className={classes.leftMargin}>
                         HooHoop is committed to protecting all the information you share
                         with us. We ensure the privacy of all our users. We follow stringent
                         procedures to help protect the confidentiality, security, and
@@ -54,7 +54,7 @@ const PrivacyPolicy = (props) => {
                 </Grid>
                 <Grid item xs={11} sm={10}>
                     <Typography variant="h3" className={classes.pointSeprator}>Service Providers</Typography>
-                    <Typography>
+                    <Typography className={classes.leftMargin}>
                         HooHoop may use various outside agencies (third party service
                         providers) to make our portal operate. For example, we may use third
                         parties to host our portal, operate various features made available
@@ -74,7 +74,7 @@ const PrivacyPolicy = (props) => {
                 </Grid>
                 <Grid item xs={11} sm={10}>
                     <Typography variant="h3" className={classes.pointSeprator}>Exceptions</Typography>
-                    <Typography>
+                    <Typography className={classes.leftMargin}>
                         HooHoop may be forced to disclose information in order to comply
                         with a subpoena, court order, administrative or governmental order,
                         or any other requirement of law, or when HooHoop, in its sole
@@ -90,7 +90,7 @@ const PrivacyPolicy = (props) => {
                 </Grid>
                 <Grid item xs={11} sm={10}>
                     <Typography variant="h3" className={classes.pointSeprator}>General Terms</Typography>
-                    <Typography>
+                    <Typography className={classes.leftMargin}>
                         The accuracy and confidentiality of your account information is your
                         responsibility. You are responsible for maintaining the secrecy and
                         accuracy of your password, email address, and other account
@@ -109,7 +109,7 @@ const PrivacyPolicy = (props) => {
                 </Grid>
                 <Grid item xs={11} sm={10}>
                     <Typography variant="h3" className={classes.pointSeprator}>Sale/Merger</Typography>
-                    <Typography>
+                    <Typography className={classes.leftMargin}>
                         Information about our Users and our Portal is a business asset of
                         www.HooHoop.co.nz. Consequently, information about our Users,
                         including personal information, will be disclosed as part of any
@@ -122,9 +122,9 @@ const PrivacyPolicy = (props) => {
                 </Grid>
                 <Grid item xs={11} sm={10}>
                     <Typography variant="h3" className={classes.pointSeprator}>Security</Typography>
-                    <Typography>
+                    <Typography className={classes.leftMargin}>
                         We use commercially reasonable security measures to protect the
-                        loss, misuse, and alterationof the information under our control.
+                        loss, misuse, and alteration of the information under our control.
                         However, we cannot absolutely guarantee the protection of any
                         information shared with us. The use of the Portal will be at user’s
                         risk and the Company does not assume any liability for any
@@ -149,7 +149,7 @@ const PrivacyPolicy = (props) => {
                 </Grid>
                 <Grid item xs={11} sm={10}>
                     <Typography variant="h3" className={classes.pointSeprator}>Cookies</Typography>
-                    <Typography>
+                    <Typography className={classes.leftMargin}>
                         Like many other transactional websites, we use “cookies” to improve
                         your shopping experience and to save your time. Cookies are little
                         tags that we place onto your computer. We assign a cookie to your
@@ -167,7 +167,7 @@ const PrivacyPolicy = (props) => {
                 </Grid>
                 <Grid item xs={11} sm={10}>
                     <Typography variant="h3" className={classes.pointSeprator}>Grievance Redressal</Typography>
-                    <Typography>
+                    <Typography className={classes.leftMargin}>
                         If you have any questions about this Privacy Policy, please feel free 
                         to contact the Company through our Website or write to us at 
                         info@HooHoop.co.nz. In accordance with Information Technology Act —– and 
