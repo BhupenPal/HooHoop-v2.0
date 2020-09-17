@@ -1,6 +1,6 @@
+//Dependencies
 const express = require("express"),
     Router = express.Router(),
-    UserModel = require('../models/User.model'),
     bcrypt = require('bcrypt'),
     createError = require('http-errors'),
     client = require('../config/redis'),
@@ -8,13 +8,18 @@ const express = require("express"),
     axios = require('axios'),
     isMail = require('email-validator')
 
-//Car media upload manager
-const CarUpload = require('../helper/upload manager/carupload')
+//MongoDB Models
+    UserModel = require('../models/User.model'),
 
-const { PassCheck } = require('../helper/validation')
-const { GenerateOTP, HashSalt } = require('../helper/service')
-const { signAccessToken, verifyAccessToken, signRefreshToken, verifyRefreshToken } = require('../helper/auth/JWT_service')
-const { SendMail } = require('../helper/mail/config')
+//Helper and Services
+    { PassCheck } = require('../helper/validation'),
+    { GenerateOTP, HashSalt, GenerateRandom } = require('../helper/service'),
+    { signAccessToken, verifyAccessToken, signRefreshToken, verifyRefreshToken } = require('../helper/auth/JWT_service'),
+    { SendMail } = require('../helper/mail/config'),
+    { AccActivationMail } = require("../helper/mail/content");
+
+//Car media upload manager
+    CarUpload = require('../helper/upload manager/carupload')
 
 Router.post("/login", async (req, res, next) => {
     try {
@@ -80,11 +85,11 @@ Router.post("/register", (req, res, next) => {
                     FirstName, LastName, Email, Password, Phone, Address, State, Role, DealershipName, DealershipEmail, DealershipPhone, DealershipNZBN, SecretToken, EncryptedCore
                 })
                     .save()
-                    .then(async user => {
-                        SendMail(Email, 'HooHoop Account Activation Email', 'MSG')
+                    .then(() => {
+                        SendMail(Email, 'HooHoop Account Activation Email', AccActivationMail(FirstName, SecretToken))
                         res.status(200).send()
                     })
-                    .catch(err => {
+                    .catch(() => {
                         throw createError.ExpectationFailed()
                     })
             })
@@ -212,23 +217,68 @@ Router.patch('/genphoneotp', verifyAccessToken, (req, res, next) => {
 Router.patch('/phoneactivate', verifyAccessToken, (req, res, next) => {
     try {
         UserModel.findOne({ SecretToken: req.body.value })
-        .then(user => {
-            if (!user) {
-                throw createError.BadRequest()
-            }
-            user.SecretToken = null
-            user.PhoneVerified = true
-            user.save()
-            res.statusCode(201)
-        })
+            .then(user => {
+                if (!user) {
+                    throw createError.BadRequest()
+                }
+                user.SecretToken = null
+                user.PhoneVerified = true
+                user.save()
+                res.statusCode(201)
+            })
     } catch (error) {
         console.log(error.message)
         next(error)
     }
 })
 
-Router.patch('/forgot-password', (req, res, next) => {
-    
+Router.patch('/forgot-password', async (req, res, next) => {
+    try {
+        const { Email, FindWithPhone } = req.body;
+        let User = null;
+
+        if (!Email) throw createError.BadRequest('Please enter email or phone number registered with hoohoop')
+
+        if (FindWithPhone) {
+            User = await UserModel.findOne({ Phone: Email })
+        } else {
+            User = await UserModel.findOne({ Email: Email })
+        }
+
+        if (!User) throw createError.NotFound('This email/phone is not registered')
+
+        User.PassResetToken = GenerateRandom(12)
+        User.save()
+            .then(() => {
+                SendMail('USER KO TOKEN BHEJNA HAI')
+                res.status(200).send()
+            })
+            .catch(() => {
+                throw createError.ExpectationFailed()
+            })
+    } catch (error) {
+        console.log(error.message)
+        next(error)
+    }
+})
+
+Router.patch('/forgot-password/confirm', (req, res, next) => {
+  const { PassResetToken, Password, cPassword } = req.body
+  
+  UserModel.findOne({ PassResetToken }, async (err, doc) => {
+    if (!doc) return next(createError.NotFound('Invalid URL'))
+    if (!PassCheck(Password, cPassword)) return next(createError.BadRequest('Invalid Password'))
+    Password = await HashSalt(Password)
+    doc.Password = Password
+    doc.save()
+    .then(() => {
+
+    })
+    .catch(() => {
+        
+    })
+  })
+
 })
 
 //Sell Form Routes

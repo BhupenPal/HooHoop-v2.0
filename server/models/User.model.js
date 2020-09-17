@@ -84,7 +84,7 @@ const UserSchema = mongoose.Schema({
         type: String,
         default: null
     },
-    ResetToken: {
+    PassResetToken: {
         type: String,
         default: null
     },
