@@ -12,7 +12,11 @@ const CarSliderStyles = makeStyles(() => ({
         width: 280,
         backgroundColor: '#fff',
         borderRadius: 5,
-        margin: '0 auto'
+        margin: '2rem auto',
+        transition: "box-shadow 0.2s",
+        "&:hover" :{
+            boxShadow:"0 0.1rem 1rem rgba(0,0,0,0.2)"
+        }
     },
     SlideCarImage: {
         width: '100%'

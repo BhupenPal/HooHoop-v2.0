@@ -2,7 +2,11 @@ import React from "react";
 import { withStyles, Paper, Grid, Typography, Card, CardContent } from "@material-ui/core";
 import styles from '../assets/material/FooterPages';
 import classNames from 'classnames'
-
+import trust from "../assets/img/svgs/trust.svg";
+import view360 from "../assets/img/svgs/360.svg";
+import timer from "../assets/img/svgs/timer.svg";
+import money from "../assets/img/svgs/money.svg";
+import aboutImg from "../assets/img/FooterPages/about_us.jpeg";
 const AboutUs = (props) => {
     const { classes } = props;
     return (
@@ -14,7 +18,10 @@ const AboutUs = (props) => {
                 <Grid item xs={6} md={3}>
                     <Card className={classes.root}>
                         <CardContent className={classes.allCen}>
-                            <div className={classes.circle}></div>
+                            <div className={classes.circle}>
+                            <img src={trust} alt="Trust" />
+
+                            </div>
                             <Typography align='center' variant='h4'>Trust</Typography>
                             <Typography align='center' variant='h6' className={classes.compText}>
                                 Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis
@@ -25,7 +32,9 @@ const AboutUs = (props) => {
                 <Grid item xs={6} md={3}>
                     <Card className={classes.root}>
                         <CardContent className={classes.allCen}>
-                            <div className={classes.circle}></div>
+                            <div className={classes.circle}>
+                                <img src={view360} alt="360 view" />
+                            </div>
                             <Typography align='center' variant='h4'>360 View</Typography>
                             <Typography align='center' variant='h6' className={classes.compText}>
                                 Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis
@@ -36,7 +45,10 @@ const AboutUs = (props) => {
                 <Grid item xs={6} md={3}>
                     <Card className={classes.root}>
                         <CardContent className={classes.allCen}>
-                            <div className={classes.circle}></div>
+                            <div className={classes.circle}>
+                            <img src={money} alt="Save Money" />
+
+                            </div>
                             <Typography align='center' variant='h4'>Save Money</Typography>
                             <Typography align='center' variant='h6' className={classes.compText}>
                                 Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis
@@ -47,7 +59,10 @@ const AboutUs = (props) => {
                 <Grid item xs={6} md={3}>
                     <Card className={classes.root}>
                         <CardContent className={classes.allCen}>
-                            <div className={classes.circle}></div>
+                            <div className={classes.circle}>
+                            <img src={timer} alt="Save Time" />
+
+                            </div>
                             <Typography align='center' variant='h4'>Save Time</Typography>
                             <Typography align='center' variant='h6' className={classes.compText}>
                                 Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis
@@ -57,7 +72,7 @@ const AboutUs = (props) => {
                 </Grid>
             </Grid>
             
-            <Typography variant="h3" align='center' style={{ margin: '65px 0 100px 0' }}>
+            <Typography variant="h3" align='center' style={{ margin: '65px 0 100px 0',color:"#E85513" }}>
                 We dont sell vehicles here at Hoohoop, we promote stress free, joyful trading
             </Typography>
 
@@ -69,9 +84,7 @@ const AboutUs = (props) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <div className={classes.whoImage}>
-
-                    </div>
+                    <img src={aboutImg} className={classes.whoImage}/>
                 </Grid>
             </Grid>
             <Grid item xs={12} style={{ marginTop: 90 }}>
