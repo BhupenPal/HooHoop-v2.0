@@ -3,12 +3,15 @@ export default theme => ({
     //Common
     marginBT90: {
         marginTop: "90px !important",
-        marginBottom: "90px !important"
+        marginBottom: "90px !important",
+
     },
     updateNotice: {
         color: '#828282',
         marginBottom: 30,
-        fontWeight: 500
+        fontWeight: 500,
+
+
     },
     pointSeprator: {
         marginBottom: 10,
@@ -20,7 +23,12 @@ export default theme => ({
         margin: "0 auto",
         display: "flex",
         justifyContent: "center",
-        background:'unset'
+        background:'unset',
+
+    },
+    unsetBg: {
+        background:'#F4F6F8 !important',
+
     },
     circle: {
         backgroundColor: '#FFFFFF', 
