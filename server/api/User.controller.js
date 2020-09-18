@@ -135,34 +135,12 @@ Router.delete('/logout', async (req, res, next) => {
     }
 })
 
-Router.patch('/genmailotp', verifyAccessToken, (req, res, next) => {
-    try {
-        const SecretToken = GenerateOTP(6)
-        UserModel.findById(req.payload.aud)
-            .then(user => {
-                if (user) {
-                    user.SecretToken = SecretToken
-                    user.save()
-
-                    SendMail(Email, 'HooHoop Account Activation Email')
-
-                    res.statusCode(201)
-                } else {
-                    throw createError.Forbidden()
-                }
-            })
-    } catch (error) {
-        console.log(error.message)
-        next(error)
-    }
-})
-
-Router.patch('/mailactivate', verifyAccessToken, (req, res, next) => {
+Router.patch('/mailactivate', (req, res, next) => {
     try {
         UserModel.findOne({ SecretToken: req.body.value })
             .then(user => {
                 if (!user) {
-                    throw createError.BadRequest()
+                    return next(createError.BadRequest())
                 }
                 user.SecretToken = null
                 user.EmailVerified = true
