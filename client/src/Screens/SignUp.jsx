@@ -12,17 +12,53 @@ import {
   Tab,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   InputLabel,
+  OutlinedInput,
   Checkbox,
   Button,
   Divider,
   Box,
   Select,
-  MenuItem
+  MenuItem,
+  Snackbar,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
-import styles from '../assets/material/LoginResgister'
+import styles from "../assets/material/LoginResgister";
+import { Alert } from "@material-ui/lab";
+
+const states = [
+  "Auckland",
+  "Bay of Plenty",
+  "Northland",
+  "Waikato",
+  "Gisborne",
+  "Hawke's Bay",
+  "Taranaki",
+  "Whanganui",
+  "Manawatu",
+  "Wairarapa",
+  "Wellington",
+  "Nelson Bays",
+  "Marlborough",
+  "West Coast",
+  "Canterbury",
+  "Timaru",
+  "Otago",
+  "Southland",
+];
+
+const validateEmail = (email) => {
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+};
+
+const validPassword = (password) => {
+  // Minimum eight characters, at least one letter, one number and one special character
+  const re = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+  return re.test(password);
+};
 
 class SignUp extends Component {
   constructor(props) {
@@ -37,11 +73,12 @@ class SignUp extends Component {
       Phone: "",
       State: "",
       Role: false,
-      DealershipName: "",
-      DealershipEmail: "",
-      DealershipPhone: "",
-      DealershipNZBN: "",
-      Errors: [],
+      DealershipName: null,
+      DealershipEmail: null,
+      DealershipPhone: null,
+      DealershipNZBN: null,
+      error: false,
+      errorMessage: "",
     };
   }
 
@@ -56,18 +93,53 @@ class SignUp extends Component {
     }
   }
 
+  showError = (message) => {
+    this.setState({ error: true, errorMessage: message });
+  };
+  hideError = () => {
+    this.setState({ error: false, errorMessage: "" });
+  };
+
   handleChange = (e) => {
     const isCheckbox = e.target.type === "checkbox";
     this.setState({
       [e.target.name]: isCheckbox ? e.target.checked : e.target.value,
-    })
+    });
   };
 
+  validateForm = () => {
+    const {
+      FirstName,
+      LastName,
+      Email,
+      Password,
+      cPassword,
+      Phone,
+      State,
+    } = this.state;
+    if (!FirstName || FirstName.length < 1) {
+      return false;
+    } else if (!LastName || LastName.length < 1) {
+      return false;
+    } else if (!Email || !validateEmail(Email)) {
+      return false;
+    } else if (!Password || !validPassword(Password)) {
+      return false;
+    } else if (cPassword !== Password) {
+      return false;
+    } else if (!Phone || Phone.length !== 10) {
+      return false;
+    } else if (!states.includes(State)) {
+      return false;
+    }
+    return true;
+  };
   handleSubmit = (e) => {
     e.preventDefault();
-
-    //State Contains The Complete New User Data
-    this.props.registerUser(this.state, this.props.history);
+    if (this.validateForm()) {
+      //State Contains The Complete New User Data
+      this.props.registerUser(this.state, this.showError, this.props.history);
+    }
   };
 
   handleRedirect = (e, value) => {
@@ -83,7 +155,16 @@ class SignUp extends Component {
   };
   render() {
     const { classes } = this.props;
-
+    const {
+      FirstName,
+      LastName,
+      Phone,
+      Email,
+      Password,
+      cPassword,
+      error,
+      errorMessage,
+    } = this.state;
     return (
       <Grid container component="main">
         <Grid
@@ -101,19 +182,20 @@ class SignUp extends Component {
               Register at Hoohoop
             </Typography>
             <Typography>
-              Register Now to buy or sell car. Earn money by selling cars while sitting at your home.
+              Register Now to buy or sell car. Earn money by selling cars while
+              sitting at your home.
             </Typography>
             <Paper square className={classes.tabs}>
               <Tabs
                 value={0}
-                TabIndicatorProps={{style: {background:'#000'}}}
+                TabIndicatorProps={{ style: { background: "#000" } }}
                 onChange={this.handleRedirect}
               >
                 <Tab label="Register" />
                 <Tab label="Login" />
               </Tabs>
             </Paper>
-            <form className={classes.form}>
+            <form className={classes.form} onSubmit={this.handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <TextField
@@ -121,7 +203,7 @@ class SignUp extends Component {
                     label="First Name"
                     type="text"
                     name="FirstName"
-                    value={this.state.FirstName}
+                    value={FirstName}
                     onChange={this.handleChange}
                     autoFocus
                   />
@@ -139,6 +221,8 @@ class SignUp extends Component {
               </Grid>
               <TextField
                 required
+                error={!!Email && !validateEmail(Email)}
+                helperText={Email && !validateEmail(Email) && "Invalid Email"}
                 type="email"
                 label="Email Address"
                 name="Email"
@@ -148,7 +232,8 @@ class SignUp extends Component {
               />
               <TextField
                 required
-                type="tel"
+                error={!!Phone && Phone.length !== 10}
+                type="number"
                 name="Phone"
                 label="Phone Number"
                 value={this.state.Phone}
@@ -162,33 +247,23 @@ class SignUp extends Component {
                   id="demo-simple-select-outlined"
                   label="Province"
                   name="State"
-                  value={this.state.State} 
+                  value={this.state.State}
                   onChange={this.handleChange}
                 >
-                  <MenuItem><em>Select Province</em></MenuItem>
-                  <MenuItem value="Auckland">Auckland</MenuItem>
-                  <MenuItem value="Bay of Plenty">Bay of Plenty</MenuItem>
-                  <MenuItem value="Northland">Northland</MenuItem>
-                  <MenuItem value="Waikato">Waikato</MenuItem>
-                  <MenuItem value="Gisborne">Gisborne</MenuItem>
-                  <MenuItem value="Hawke's Bay">Hawke's Bay</MenuItem>
-                  <MenuItem value="Taranaki">Taranaki</MenuItem>
-                  <MenuItem value="Whanganui">Whanganui</MenuItem>
-                  <MenuItem value="Manawatu">Manawatu</MenuItem>
-                  <MenuItem value="Wairarapa">Wairarapa</MenuItem>
-                  <MenuItem value="Wellington">Wellington</MenuItem>
-                  <MenuItem value="Nelson Bays">Nelson Bays</MenuItem>
-                  <MenuItem value="Marlborough">Marlborough</MenuItem>
-                  <MenuItem value="West Coast">West Coast</MenuItem>
-                  <MenuItem value="Canterbury">Canterbury</MenuItem>
-                  <MenuItem value="Timaru">Timaru</MenuItem>
-                  <MenuItem value="Otago">Otago</MenuItem>
-                  <MenuItem value="Southland">Southland</MenuItem>
+                  <MenuItem>
+                    <em>Select Province</em>
+                  </MenuItem>
+                  {states.map((state, index) => (
+                    <MenuItem key={index} value={state}>
+                      {state}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <TextField
                 margin="normal"
                 required
+                error={!!Password && !validPassword(Password)}
                 name="Password"
                 label="Password"
                 type="password"
@@ -197,6 +272,7 @@ class SignUp extends Component {
               />
               <TextField
                 margin="normal"
+                error={!!cPassword && cPassword !== Password}
                 required
                 name="cPassword"
                 label="Confirm Password"
@@ -246,16 +322,15 @@ class SignUp extends Component {
               ) : null}
               <Grid className={classes.split}>
                 <FormControlLabel
-                  control={
-                    <Checkbox
-                      required
-                      color="primary"
-                    />
-                  }
+                  control={<Checkbox required color="primary" />}
                   label="By creating an account you agree to accept our terms and conditions."
                 />
               </Grid>
-              <Button type="submit" color="primary" className={classes.submit} onClick={this.handleSubmit}>
+              <Button
+                type="submit"
+                color="primary"
+                className={classes[this.validateForm() ? "active" : "submit"]}
+              >
                 Create Account
               </Button>
               <Grid container className={classes.close}>
@@ -286,6 +361,9 @@ class SignUp extends Component {
                   >
                     Sign Up
                   </NavLink>
+                  <Snackbar open={error} autoHideDuration={6000} onClose={this.hideError}>
+                    <Alert onClose={this.hideError} severity="error">{errorMessage}</Alert>
+                  </Snackbar>
                 </Typography>
               </Box>
             </form>

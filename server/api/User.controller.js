@@ -89,7 +89,8 @@ Router.post("/register", (req, res, next) => {
                         SendMail(Email, 'HooHoop Account Activation Email', AccActivationMail(FirstName, SecretToken))
                         res.status(200).send()
                     })
-                    .catch(() => {
+                    .catch(err => {
+                        console.log(err)
                         throw createError.ExpectationFailed()
                     })
             })

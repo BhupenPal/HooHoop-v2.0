@@ -3,12 +3,18 @@ export default theme => ({
     //Common
     marginBT90: {
         marginTop: "90px !important",
-        marginBottom: "90px !important"
+        marginBottom: "90px !important",
+
+    },
+    leftMargin:{
+        marginLeft:"2%"
     },
     updateNotice: {
-        color: '#828282',
+        color: "#E85513",
         marginBottom: 30,
-        fontWeight: 500
+        fontWeight: 500,
+
+
     },
     pointSeprator: {
         marginBottom: 10,
@@ -20,14 +26,25 @@ export default theme => ({
         margin: "0 auto",
         display: "flex",
         justifyContent: "center",
+        background:'unset',
+
+    },
+    unsetBg: {
+        background:'#F4F6F8 !important',
+
     },
     circle: {
-        backgroundColor: '#C4C4C4', 
+        backgroundColor: '#FFFFFF', 
+        border: "2px solid black",
         height: 140,
         width: 140,
-        borderRadius: 70,
+        borderRadius: 7000,
         marginTop: 65,
-        marginBottom: 18
+        marginBottom: 18,
+        display:"flex",
+        justifyContent:'center',
+        alignItems:'center',
+
     },
     compText: {
         width: 180
@@ -43,14 +60,14 @@ export default theme => ({
         height: 300,
         margin: '0 auto',
         borderRadius: 10,
-        backgroundColor: '#C4C4C4'
     },
     whoText: {
         width: '80%',
         fontSize: 18,
         marginTop: '5vh',
         fontWeight: 600,
-        margin: 'auto'
+        margin: 'auto',
+        color:"#666666"
     },
 
     //FAQ
@@ -59,8 +76,15 @@ export default theme => ({
         justifyContent: 'center',
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: '#EEEEEE',
-        position: 'relative'
+        //backgroundColor: '#EEEEEE',
+        background:"url('src/assets/img/FooterPages/faq_bg.svg')",
+        backgroundSize:'cover',
+        backgroundPositionY: "65%",
+        position: 'relative',
+        color:"#ffffff"
+    },
+    faqHeading: {
+        fontSize:"4rem"
     },
     circleArrow: {
         display: 'flex',
@@ -71,7 +95,7 @@ export default theme => ({
         position: 'absolute',
         bottom: '-30px',
         left: 'calc(50% - 30px)',
-        backgroundColor: '#C4C4C4',
+        backgroundColor: '#005195 !important',
         borderRadius: 30,
         cursor: 'pointer'
     }

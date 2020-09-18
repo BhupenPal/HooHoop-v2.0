@@ -5,6 +5,7 @@ import "../assets/css/footer.scss";
 import Facebook from "../assets/img/svgs/facebook.svg";
 import Twitter from "../assets/img/svgs/twitter.svg";
 import Instagram from "../assets/img/svgs/instagram.svg";
+import { Link } from "react-router-dom";
 
 class Footer extends Component {
   render() {
@@ -29,16 +30,16 @@ class Footer extends Component {
         <p className="footer__copyrights">Copyright &copy; HoopHoop.co.nz</p>
         </div>
         <div>
-          About Us
+          <Link to="/about-us">About Us</Link>
         </div>
         <div>
-          FAQ
+          <Link to="/faq">FAQ</Link>
         </div>
         <div>
-          Privacy Policy
+          <Link to="/privacy-policy">Privacy Policy</Link>
         </div>
         <div>
-          Terms of Use
+          <Link to="/terms-and-conditions"> Terms of Use </Link>
         </div>
       </footer>
     )

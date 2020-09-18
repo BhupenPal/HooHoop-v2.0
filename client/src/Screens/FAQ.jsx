@@ -11,8 +11,8 @@ const FAQ = (props) => {
     const { classes } = props;
     return (
         <Grid container component='main' className={classes.root}>
-            <Grid item xs={12} className={classes.faqIntro}>
-                <Typography variant='h1' align='center'>We are here to help you</Typography>
+            <Grid item xs={12} className={classes.faqIntro} >
+                <Typography variant='h2' className={classes.faqHeading}  align='center'>We are here to help you</Typography>
                 <Typography align='center'>Browse through the most frequently asked questions</Typography>
                 <div className={classes.circleArrow}>
                     <KeyboardArrowDownIcon />

@@ -1,7 +1,8 @@
 export default theme => ({
     SliderDiv: {
         height: 500,
-        position: 'relative'
+        position: 'relative',
+    
     },
     SliderImage: {
         width: '100%',
@@ -9,8 +10,45 @@ export default theme => ({
         backgroundPostion: '50px 0',
         zIndex: -10
     },
+    SliderContent: {
+        color:"#fff",
+        margin:"10%",
+    },
+    SliderHighlight:{
+        color:"#EC7E35 !important"
+    },
+    SliderText:{
+        fontSize:"3rem",
+        fontWeight:"900"
+
+    },
+    SliderInput : {
+        background:"rgba(255,255,255,1)",
+        color:"#000",
+        padding: "0.5rem 1rem",
+        margin:"1rem 0 0.2rem 0",
+    },
     AdImage: {
+        
         width: '100%',
-        postion: 'absolute'
+        height: 350,
+        color:"#fff",
+        padding: "5% 10%",
+        postion: 'absolute',
+        background:"url(src/assets/img/Home/Advetisement.png)",
+        backgroundSize: 'cover',
+        
+        
+    },
+    AdContent:{
+        lineHeight:'1.4em',
+
+    },
+    AdButton: {
+        background: 'linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%)',
+        width:'auto',
+        margin:"1rem 0",
+        padding: "0.5rem 2rem"
     }
+
 });

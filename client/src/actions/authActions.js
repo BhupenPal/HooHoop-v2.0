@@ -15,7 +15,7 @@ import {
 import { returnErrors, clearErrors } from './errorActions'
 
 // Register User
-export const registerUser = (userData, history) => dispatch => {
+export const registerUser = (userData, setError , history) => dispatch => {
   dispatch({ type: USER_LOADING })
   axios
     .post("/api/user/register", userData)
@@ -25,15 +25,18 @@ export const registerUser = (userData, history) => dispatch => {
       }
     })
     .catch(err => {
+      const message = err.response?.data?.error?.message || err.message;
+      setError(message)
       dispatch(returnErrors(err.response.data, err.response.status))
       dispatch({
         type: AUTH_ERROR
       })
+      
     });
 }
 
 // Login - get user token
-export const loginUser = userData => dispatch => {
+export const loginUser = (userData,setError) => dispatch => {
   axios
     .post("/api/user/login", userData)
     .then(res => {
@@ -47,6 +50,8 @@ export const loginUser = userData => dispatch => {
       }
     })
     .catch(err => {
+      const message = err.response?.data?.error?.message || err.message;
+      setError(message)
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
