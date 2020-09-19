@@ -6,7 +6,7 @@ const PrivacyPolicy = (props) => {
     const { classes } = props;
     return (
         <Paper>
-            <Grid container component="main" justify="center" style={{background:"#F4F6F8"}} className={classes.marginBT90}>
+            <Grid container component="main" justify="center" className={classes.marginBT90}>
                 <Grid item xs={11} sm={10}>
                     <Typography variant="h3">Privacy Policy</Typography>
                     <Typography variant="h4" className={classes.updateNotice}>Last Updated on 19 January 2020</Typography>

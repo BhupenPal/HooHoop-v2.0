@@ -10,7 +10,6 @@ const TermsConditions = (props) => {
         container
         component="main"
         justify="center"
-        style={{ background: "#F4F6F8" }}
         className={classes.marginBT90}
       >
         <Grid item xs={11} sm={10}>
