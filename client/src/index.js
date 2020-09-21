@@ -28,6 +28,7 @@ import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import PrivateRoute from "./Components/private-route/PrivateRoute";
 import store from "./store";
+import MyListing from "./Screens/MyListing.jsx";
 
 if (localStorage.accessToken) {
   const token = localStorage.accessToken;
@@ -65,6 +66,7 @@ class App extends Component {
               <PrivateRoute path="/sell-car" component={SellCar} />
               <Route path="/sellcar" component={SellCar}/>
               <Route path='/carpage' component={CarPage} />
+              <PrivateRoute path="/my-listing" component={MyListing} />
             </Switch>
             <Footer />
           </BrowserRouter>
