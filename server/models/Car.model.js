@@ -100,17 +100,23 @@ const CarSchema = mongoose.Schema({
     Description: {
         type: String
     },
-    AuthorID: {
-        type: String
-    },
-    AuthorName: {
-        type: String
-    },
-    AuthorEmail: {
-        type: String
-    },
-    AuthorPhone: {
-        type: String
+    Author: {
+        ID: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true
+        },
+        Name: {
+            type: String,
+            required: true
+        },
+        Email: {
+            type: String,
+            required: true
+        },
+        Phone: {
+            type: String,
+            required: true
+        }
     },
     Visitors: {
         type: Number,

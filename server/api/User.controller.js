@@ -146,7 +146,7 @@ Router.patch('/mailactivate', (req, res, next) => {
                 user.SecretToken = null
                 user.EmailVerified = true
                 user.save()
-                res.statusCode(201)
+                res.status(201).send()
             })
     } catch (error) {
         console.log(error.message)
