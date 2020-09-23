@@ -118,7 +118,7 @@ const CarSchema = mongoose.Schema({
             required: true
         }
     },
-    Visitors: {
+    ViewsCount: {
         type: Number,
         default: 0
     },

@@ -1,16 +1,70 @@
+//Dependencies
 const express = require('express'),
     Router = express.Router(),
     createError = require('http-errors'),
+
+    //MongoDB Models
     UserModel = require('../models/User.model'),
     CarModel = require('../models/Car.model'),
-    { verifyAccessToken } = require('../helper/auth/JWT_service')
+
+    //Helper and Services
+    { verifyAccessToken } = require('../helper/auth/JWT_service'),
+    { PassCheck } = require('../helper/validation')
 
 Router.get('/profile', verifyAccessToken, (req, res, next) => {
+    UserModel.findById(req.payload.aud, 'FirstName LastName Phone Address EmailVerified PhoneVerified Credits Role')
+        .then(user => {
+            if (!user) return next(createError.Forbidden())
+            res.status(201).json(user)
+        })
+})
+
+Router.put('/update/profile', verifyAccessToken, (req, res, next) => {
+    let { FirstName, LastName, Address, State, Gender } = req.body;
+    UserModel.findById(req.payload.aud, 'FirstName LastName Address Gender')
+        .then(user => {
+            if (!user) return next(createError.Forbidden())
+            if (user._id !== req.payload.aud || user.Role !== 'admin') return next(createError.Forbidden())
+            FirstName = (!FirstName) ? user.FirstName : FirstName
+            LastName = (!LastName) ? user.LastName : LastName
+            Address = (!Address) ? user.Address : Address
+            Gender = (!Gender) ? user.Gender : Gender
+            UserModel.updateOne(
+                { _id: req.payload.aud },
+                {
+                    $set: { FirstName, LastName, Address, State, Gender },
+                },
+                (err, user) => {
+                    if (err) return next(createError.ExpectationFailed())
+                    res.sendStatus(200)
+                }
+            )
+        })
+})
+
+Router.patch('/update/password', verifyAccessToken, (req, res, next) => {
     try {
-        UserModel.findById(req.payload.aud, '-Password -GoogleID -FacebookID -Gender -Role -_id -isDeleted -EncryptedCore -updatedAt -SecretToken -PassResetToken')
+        let { originalPass, Password, cPassword } = req.body
+        if (!originalPass || !Password || !cPassword) throw createError.BadRequest('Please fill in all the required fields')
+        if (!PassCheck(Password, cPassword)) throw createError.BadRequest('Invalid Password')
+        UserModel.findById(req.payload.aud, 'Password')
             .then(user => {
                 if (!user) return next(createError.Forbidden())
-                res.status(201).json(user)
+                bcrypt.compare(originalPass, user.Password, async (err, isMatch) => {
+                    if (!isMatch) return next(createError.Unauthorized('Password does not match'))
+                    if (user._id !== req.payload.aud || user.Role !== 'admin') return next(createError.Forbidden())
+                    else {
+                        Password = await HashSalt(Password)
+                        UserModel.updateOne(
+                            req.payload.aud,
+                            { $set: { Password } },
+                            () => {
+                                res.sendStatus(201)
+                                //SEND MAIL HERE FOR PASSWORD RESET
+                            }
+                        );
+                    }
+                })
             })
     } catch (error) {
         console.log(error.message)
@@ -18,55 +72,74 @@ Router.get('/profile', verifyAccessToken, (req, res, next) => {
     }
 })
 
+/* Listing Handles */
 Router.get('/listings', verifyAccessToken, (req, res, next) => {
+    CarModel.find({ 'Author.ID': req.payload.aud })
+        .then(cars => {
+            if (!cars) return res.sendStatus(204)
+            res.json(cars)
+        })
+})
+
+Router.get('/admin/listings', verifyAccessToken, (req, res, next) => {
+    UserModel.findById(req.payload.aud, 'Make Model Price isNewCar Featured VINum Author.Name Author.Email Author.Phone ViewsCount')
+        .then(user => {
+            if (user.Role !== 'admin') return next(createError.NotFound())
+            CarModel.find({ 'Author.ID': req.payload.aud })
+                .then(cars => {
+                    if (!cars) return res.sendStatus(204)
+                    res.status(200).json(cars)
+                })
+        })
+})
+
+Router.delete('/delete/listing', verifyAccessToken, (req, res, next) => {
+    UserModel.findById(req.payload.aud)
+        .then(async user => {
+            if (!user) return next(createError.Forbidden())
+            await CarModel.deleteOne({ VINum: req.body.value })
+            res.send(200)
+        })
+})
+
+Router.patch('/update/listing/status', verifyAccessToken, (req, res, next) => {
+    CarModel.findOneAndUpdate({ VINum: req.body.value }, { $set: { isActive: !req.body.isActive } }, (err, doc) => {
+        res.send(200)
+    })
+})
+
+Router.post('/edit/listing', verifyAccessToken, (req, res, next) => {
     try {
-        CarModel.find({ 'Author.ID': req.payload.aud })
-            .then(cars => {
-                if (!cars) return res.status(204).send()
-                res.json(cars)
-            })
+        // Edit APUI to be set here
     } catch (error) {
         console.log(error.message)
         next(error)
     }
 })
+/* Listing Handle */
 
-// Complete Car Listing For Admin
-Router.get('/all-listings', verifyAccessToken, (req, res, next) => {
-    try {
-        UserModel.findById(req.payload.aud, '-Password -GoogleID -FacebookID -Gender -Role -_id -isDeleted -EncryptedCore -updatedAt -SecretToken -PassResetToken')
-            .then(user => {
-                if (user.Role !== 'admin') return next(createError.NotFound())
-                CarModel.find({ 'Author.ID': req.payload.aud })
-                    .then(cars => {
-                        if (!cars) return res.status(204).send()
-                        res.json(cars)
-                    })
-            })
-    } catch (error) {
-        console.log(error.message)
-        next(error)
-    }
-})
-
-//Complete User Listing For Admin 
+/* User Handles */
 Router.get('/all-users', verifyAccessToken, (req, res, next) => {
-    try {
-        UserModel.findById(req.payload.aud, '-Password -GoogleID -FacebookID -Gender -Role -_id -isDeleted -EncryptedCore -updatedAt -SecretToken -PassResetToken')
-            .then(user => {
-                if (user.Role !== 'admin') return next(createError.NotFound())
-                UserModel.find()
-                    .then(users => {
-                        if (!users) return res.status(204).send()
-                        res.json(users)
-                    })
-            })
-    } catch (error) {
-        console.log(error.message)
-        next(error)
-    }
+    UserModel.findById(req.payload.aud, 'FirstName LastName Email Phone EmailVerified PhoneVerified Role State')
+        .then(user => {
+            if (user.Role !== 'admin') return next(createError.NotFound())
+            UserModel.find({ _id: { $nin: user._id } })
+                .then(users => {
+                    if (!users) return res.sendStatus(204)
+                    res.json(users)
+                })
+        })
 })
 
-
+Router.delete('/delete-user', verifyAccessToken, (req, res, next) => {
+    UserModel.findById(req.payload.aud)
+        .then(async user => {
+            if (!user) return next(createError.Forbidden())
+            if (user.Role !== 'admin') return next(createError.Forbidden())
+            await UserModel.deleteOne(req.body.value)
+            res.sendStatus(200)
+        })
+})
+/* User Handles */
 
 module.exports = Router

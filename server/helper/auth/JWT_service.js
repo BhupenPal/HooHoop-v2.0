@@ -15,7 +15,8 @@ module.exports = {
             const options = {
                 expiresIn: '1h',
                 issuer: 'hoohoop.co.nz',
-                audience: USER.aud
+                audience: USER.aud,
+                role: USER.Role
             }
             JWT.sign(Payload, secret, options, (err, token) => {
                 if (err) {

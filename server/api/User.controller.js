@@ -4,21 +4,22 @@ const express = require("express"),
     bcrypt = require('bcrypt'),
     createError = require('http-errors'),
     client = require('../config/redis'),
-    Nexmo = require('nexmo'),
     axios = require('axios'),
-    isMail = require('email-validator')
+    isMail = require('email-validator'),
 
-//MongoDB Models
+    //MongoDB Models
     UserModel = require('../models/User.model'),
 
-//Helper and Services
+    //Helper and Services
     { PassCheck } = require('../helper/validation'),
     { GenerateOTP, HashSalt, GenerateRandom } = require('../helper/service'),
     { signAccessToken, verifyAccessToken, signRefreshToken, verifyRefreshToken } = require('../helper/auth/JWT_service'),
     { SendMail } = require('../helper/mail/config'),
-    { AccActivationMail } = require("../helper/mail/content");
+    { AccActivationMail } = require("../helper/mail/content"),
+    { SendSMS } = require('../helper/sms/config'),
+    { PhoneVerification } = require("../helper/sms/content"),
 
-//Car media upload manager
+    //Car media upload manager
     CarUpload = require('../helper/upload manager/carupload')
 
 Router.post("/login", async (req, res, next) => {
@@ -87,7 +88,7 @@ Router.post("/register", (req, res, next) => {
                     .save()
                     .then(() => {
                         SendMail(Email, 'HooHoop Account Activation Email', AccActivationMail(FirstName, SecretToken))
-                        res.status(200).send()
+                        res.sendStatus(200)
                     })
                     .catch(err => {
                         console.log(err)
@@ -146,7 +147,7 @@ Router.patch('/mailactivate', (req, res, next) => {
                 user.SecretToken = null
                 user.EmailVerified = true
                 user.save()
-                res.status(201).send()
+                res.sendStatus(201)
             })
     } catch (error) {
         console.log(error.message)
@@ -157,32 +158,17 @@ Router.patch('/mailactivate', (req, res, next) => {
 Router.patch('/genphoneotp', verifyAccessToken, (req, res, next) => {
     try {
         const SecretToken = GenerateOTP()
-        UserModel.findById(req.payload.aud)
+        UserModel.findById(req.payload.aud, '-LastName -Password -GoogleID -FacebookID -Gender -Role -_id -isDeleted -EncryptedCore -updatedAt -PassResetToken')
             .then(user => {
                 if (user) {
                     user.SecretToken = SecretToken
                     user.save()
 
                     //SENDING SMS TO USER
-                    const nexmo = new Nexmo({
-                        apiKey: process.env.NEXMO_KEY,
-                        apiSecret: process.env.NEXMO_SECRET
-                    });
-                    const from = 'HooHoop NZ';
-                    const to = user.Phone;
-                    const text = `Thank you for using HooHoop. You phone verification code is ${SecretToken}`;
-                    nexmo.message.sendSms(from, to, text, (err, responseData) => {
-                        if (err) {
-                            throw createError.InternalServerError()
-                        } else {
-                            if (responseData.messages[0]['status'] !== "0") {
-                                console.log(`Message failed with error: ${responseData.messages[0]['error-text']}`);
-                                throw createError.InternalServerError()
-                            }
-                        }
-                    });
-
-                    res.statusCode(201)
+                    if (!SendSMS(user.Phone, PhoneVerification(FirstName, SecretToken)))
+                        return next(createError.BadGateway())
+                    else
+                        res.status(201)
                 } else {
                     throw createError.Forbidden()
                 }
@@ -195,15 +181,17 @@ Router.patch('/genphoneotp', verifyAccessToken, (req, res, next) => {
 
 Router.patch('/phoneactivate', verifyAccessToken, (req, res, next) => {
     try {
-        UserModel.findOne({ SecretToken: req.body.value })
+        const { Phone, SecretToken } = req.body;
+        UserModel.findOne({ SecretToken })
             .then(user => {
                 if (!user) {
                     throw createError.BadRequest()
                 }
+                user.Phone = Phone
                 user.SecretToken = null
                 user.PhoneVerified = true
                 user.save()
-                res.statusCode(201)
+                res.sendStatus(201)
             })
     } catch (error) {
         console.log(error.message)
@@ -230,7 +218,7 @@ Router.patch('/forgot-password', async (req, res, next) => {
         User.save()
             .then(() => {
                 SendMail('USER KO TOKEN BHEJNA HAI')
-                res.status(200).send()
+                res.sendStatus(201)
             })
             .catch(() => {
                 throw createError.ExpectationFailed()
@@ -242,21 +230,21 @@ Router.patch('/forgot-password', async (req, res, next) => {
 })
 
 Router.patch('/forgot-password/confirm', (req, res, next) => {
-  const { PassResetToken, Password, cPassword } = req.body
-  
-  UserModel.findOne({ PassResetToken }, async (err, doc) => {
-    if (!doc) return next(createError.NotFound('Invalid URL'))
-    if (!PassCheck(Password, cPassword)) return next(createError.BadRequest('Invalid Password'))
-    Password = await HashSalt(Password)
-    doc.Password = Password
-    doc.save()
-    .then(() => {
+    const { PassResetToken, Password, cPassword } = req.body
 
+    UserModel.findOne({ PassResetToken }, async (err, doc) => {
+        if (!doc) return next(createError.NotFound('Invalid URL'))
+        if (!PassCheck(Password, cPassword)) return next(createError.BadRequest('Invalid Password'))
+        Password = await HashSalt(Password)
+        doc.Password = Password
+        doc.save()
+            .then(() => {
+
+            })
+            .catch(() => {
+
+            })
     })
-    .catch(() => {
-        
-    })
-  })
 
 })
 

@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const ContactSchema = mongoose.Schema({
     ComplaintNum: {
-        type: String,
+        type: Number,
         required: true
     },
     FullName: {
