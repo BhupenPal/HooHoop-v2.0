@@ -11,8 +11,12 @@ module.exports = {
             toPhone,
             SMSContent,
             (err, responseData) => {
-                if (err || responseData.messages[0]["status"] !== "0") return false
-                return true
+                console.log(err)
+                console.log(responseData)
+                if (err || responseData.messages[0]["status"] !== "0")
+                    return false
+                else
+                    return true
             }
         );
     },

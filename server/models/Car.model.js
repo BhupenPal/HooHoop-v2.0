@@ -101,22 +101,9 @@ const CarSchema = mongoose.Schema({
         type: String
     },
     Author: {
-        ID: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true
-        },
-        Name: {
-            type: String,
-            required: true
-        },
-        Email: {
-            type: String,
-            required: true
-        },
-        Phone: {
-            type: String,
-            required: true
-        }
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user list',
+        required: true
     },
     ViewsCount: {
         type: Number,
@@ -142,8 +129,8 @@ const CarSchema = mongoose.Schema({
         default: false
     }
 },
-{
-    timestamps: true
-})
+    {
+        timestamps: true
+    })
 
 module.exports = mongoose.model('car list', CarSchema)

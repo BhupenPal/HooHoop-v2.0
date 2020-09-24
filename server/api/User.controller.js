@@ -20,7 +20,7 @@ const express = require("express"),
     { PhoneVerification } = require("../helper/sms/content"),
 
     //Car media upload manager
-    CarUpload = require('../helper/upload manager/carupload')
+    CarUpload = require('../helper/upload manager/carupload');
 
 Router.post("/login", async (req, res, next) => {
     try {
@@ -42,6 +42,7 @@ Router.post("/login", async (req, res, next) => {
         bcrypt.compare(Password, User.Password, async (err, isMatch) => {
             if (!isMatch) return next(createError.Unauthorized('Password does not match'))
             else {
+                console.log(User.Password)
                 //For making it compatible with JWT_SERVICES
                 User.aud = User.id
                 const accessToken = await signAccessToken(User)
@@ -105,6 +106,8 @@ Router.post("/register", (req, res, next) => {
 Router.post('/refresh-token', async (req, res, next) => {
     try {
         let { refreshToken } = req.body
+        refreshToken = refreshToken.split(' ')[1]
+
         if (!refreshToken) throw createError.BadRequest()
 
         const user = await verifyRefreshToken(refreshToken)
@@ -158,20 +161,16 @@ Router.patch('/mailactivate', (req, res, next) => {
 Router.patch('/genphoneotp', verifyAccessToken, (req, res, next) => {
     try {
         const SecretToken = GenerateOTP()
-        UserModel.findById(req.payload.aud, '-LastName -Password -GoogleID -FacebookID -Gender -Role -_id -isDeleted -EncryptedCore -updatedAt -PassResetToken')
+        UserModel.findById(req.payload.aud, '-LastName -Password -GoogleID -FacebookID -Gender -Role -isDeleted -EncryptedCore -updatedAt -PassResetToken')
             .then(user => {
-                if (user) {
-                    user.SecretToken = SecretToken
-                    user.save()
-
-                    //SENDING SMS TO USER
-                    if (!SendSMS(user.Phone, PhoneVerification(FirstName, SecretToken)))
-                        return next(createError.BadGateway())
-                    else
-                        res.status(201)
-                } else {
-                    throw createError.Forbidden()
-                }
+                if (!user) return next(createError.Forbidden())
+                user.SecretToken = SecretToken
+                user.save()
+                //SENDING SMS TO USER
+                if (!SendSMS(user.Phone, PhoneVerification(user.FirstName, SecretToken)))
+                    return next(createError.BadGateway())
+                else
+                    res.status(201)
             })
     } catch (error) {
         console.log(error.message)

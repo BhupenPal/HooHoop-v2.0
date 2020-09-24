@@ -9,14 +9,14 @@ module.exports = {
             const Payload = {
                 FirstName: USER.FirstName,
                 LastName: USER.LastName,
-                Email: USER.Email
+                Email: USER.Email,
+                role: USER.Role
             }
             const secret = process.env.JWT_ACCESS_TOKEN
             const options = {
                 expiresIn: '1h',
                 issuer: 'hoohoop.co.nz',
-                audience: USER.aud,
-                role: USER.Role
+                audience: USER.aud
             }
             JWT.sign(Payload, secret, options, (err, token) => {
                 if (err) {

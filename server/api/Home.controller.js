@@ -9,9 +9,17 @@ const express = require('express'),
 
     //Helper and Services
     { GenerateOTP, EscapeRegex } = require('../helper/service'),
-    { SendMail } = require('../helper/mail/config')
+    { SendMail } = require('../helper/mail/config'),
+    { ContactMail } = require('../helper/mail/content');
 
 Router.get('/', (req, res, next) => {
+    const DataToFetch = {
+        Make: '$Make',
+        Model: '$Model',
+        Price: '$Price',
+        ViewsCount: '$ViewsCount',
+        VINum: '$VINum'
+    }
     CarModel.aggregate([{
         $match: {
             isActive: true
@@ -24,72 +32,44 @@ Router.get('/', (req, res, next) => {
                 $push: {
                     $cond: [{
                         $lte: ['$ModelYear', 2019]
-                    }, {
-                        Make: '$Make',
-                        Model: '$Model',
-                        Price: '$Price',
-                        ViewsCount: '$ViewsCount'
-                    }, '$$REMOVE']
+                    },
+                        DataToFetch, '$$REMOVE'
+                    ]
                 }
             },
             recentCars: {
                 $push: {
                     $cond: [{
                         $eq: ['$ModelYear', 2020]
-                    }, {
-                        Make: '$Make',
-                        Model: '$Model',
-                        Price: '$Price',
-                        ViewsCount: '$ViewsCount'
-                    }, '$$REMOVE']
+                    }, DataToFetch, '$$REMOVE']
                 }
             },
             suvType: {
                 $push: {
                     $cond: [{
                         $eq: ['$BodyType', 'SUV']
-                    }, {
-                        Make: '$Make',
-                        Model: '$Model',
-                        Price: '$Price',
-                        ViewsCount: '$ViewsCount'
-                    }, '$$REMOVE']
+                    }, DataToFetch, '$$REMOVE']
                 }
             },
             hatchbackType: {
                 $push: {
                     $cond: [{
                         $eq: ['$BodyType', 'Hatchback']
-                    }, {
-                        Make: '$Make',
-                        Model: '$Model',
-                        Price: '$Price',
-                        ViewsCount: '$ViewsCount'
-                    }, '$$REMOVE']
+                    }, DataToFetch, '$$REMOVE']
                 }
             },
             sedanType: {
                 $push: {
                     $cond: [{
                         $eq: ['$BodyType', 'Sedan']
-                    }, {
-                        Make: '$Make',
-                        Model: '$Model',
-                        Price: '$Price',
-                        ViewsCount: '$ViewsCount'
-                    }, '$$REMOVE']
+                    }, DataToFetch, '$$REMOVE']
                 }
             },
             under5K: {
                 $push: {
                     $cond: [{
                         $lt: ['$Price', 5000]
-                    }, {
-                        Make: '$Make',
-                        Model: '$Model',
-                        Price: '$Price',
-                        ViewsCount: '$ViewsCount'
-                    }, '$$REMOVE']
+                    }, DataToFetch, '$$REMOVE']
                 }
             },
             under10K: {
@@ -100,24 +80,14 @@ Router.get('/', (req, res, next) => {
                         }, {
                             $lte: ['$Price', 10000]
                         }]
-                    }, {
-                        Make: '$Make',
-                        Model: '$Model',
-                        Price: '$Price',
-                        ViewsCount: '$ViewsCount'
-                    }, '$$REMOVE']
+                    }, DataToFetch, '$$REMOVE']
                 }
             },
             above10K: {
                 $push: {
                     $cond: [{
                         $gt: ['$Price', 10000]
-                    }, {
-                        Make: '$Make',
-                        Model: '$Model',
-                        Price: '$Price',
-                        ViewsCount: '$ViewsCount'
-                    }, '$$REMOVE']
+                    }, DataToFetch, '$$REMOVE']
                 }
             },
         }
@@ -169,8 +139,7 @@ Router.post('/contact', (req, res, next) => {
     })
         .save()
         .then(() => {
-            SendMail(Email, `HooHoop #${ComplaintNum}: ${Subject}`, Message)
-            SendMail('contact@hoohoop.co.nz', `HooHoop #${ComplaintNum}: ${Subject}`, Message)
+            SendMail('contact@hoohoop.co.nz', `#${ComplaintNum}: ${Subject}`, ContactMail(Email, Subject, FullName, Message))
             res.sendStatus(200)
         })
 })
@@ -246,7 +215,8 @@ Router.get('/buy-car', (req, res, next) => {
 })
 
 Router.get('/car/:VINum', (req, res, next) => {
-    CarModel.findOne({ VINum: req.body.VINum }, '-Featured.validTill')
+    const { VINum } = req.params
+    CarModel.findOne({ VINum }, '-Featured.validTill')
         .then(doc => {
             if (!doc) return next(createError.BadRequest())
             res.json(doc)
