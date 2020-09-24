@@ -31,12 +31,19 @@ const UserSchema = mongoose.Schema({
         type: Number,
         unique: true
     },
+    DisplayPic: {
+        type: Boolean,
+        default: null
+    },
     Address: {
         type: String
     },
     State: {
         type: String,
         default: null
+    },
+    DOB: {
+        type: Date
     },
     Gender: {
         type: String,

@@ -14,7 +14,7 @@ const express = require('express'),
     { HashSalt } = require('../helper/service');
 
 Router.get('/profile', verifyAccessToken, (req, res, next) => {
-    UserModel.findById(req.payload.aud, 'FirstName LastName Phone Address EmailVerified PhoneVerified Credits Role -_id')
+    UserModel.findById(req.payload.aud, 'FirstName LastName Email Phone DOB DisplayPic Address EmailVerified PhoneVerified Credits Role -_id')
         .then(user => {
             if (!user) return next(createError.Forbidden())
             res.status(201).json(user)
@@ -22,9 +22,9 @@ Router.get('/profile', verifyAccessToken, (req, res, next) => {
 })
 
 Router.put('/update/profile', verifyAccessToken, (req, res, next) => {
-    let { FirstName, LastName, Address, State, Gender } = req.body;
+    let { FirstName, LastName, Address, State, Gender, DOB } = req.body;
     if (!FirstName && !LastName && !Address && !State && !Gender) return next(createError.BadRequest())
-    UserModel.findById(req.payload.aud, 'FirstName LastName Address Gender State Role')
+    UserModel.findById(req.payload.aud, 'FirstName LastName Address Gender State Role DOB')
         .then(user => {
             if (!user) return next(createError.Forbidden())
             if (user._id == req.payload.aud || user.Role === 'admin') {
@@ -33,6 +33,7 @@ Router.put('/update/profile', verifyAccessToken, (req, res, next) => {
                 Address = (!Address) ? user.Address : Address
                 Gender = (!Gender) ? user.Gender : Gender
                 State = (!State) ? user.State : State
+                DOB = (!DOB) ? user.DOB : DOB
                 UserModel.updateOne(
                     { _id: req.payload.aud },
                     {
