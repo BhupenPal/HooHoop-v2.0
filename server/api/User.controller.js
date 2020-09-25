@@ -42,7 +42,6 @@ Router.post("/login", async (req, res, next) => {
         bcrypt.compare(Password, User.Password, async (err, isMatch) => {
             if (!isMatch) return next(createError.Unauthorized('Password does not match'))
             else {
-                console.log(User.Password)
                 //For making it compatible with JWT_SERVICES
                 User.aud = User.id
                 const accessToken = await signAccessToken(User)

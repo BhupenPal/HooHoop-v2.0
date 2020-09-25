@@ -7,21 +7,24 @@ const express = require('express'),
     //MongoDB Models
     UserModel = require('../models/User.model'),
     CarModel = require('../models/Car.model'),
+    LeadsGeneratedModel = require('../models/GeneratedLead.model'),
 
     //Helper and Services
     { verifyAccessToken } = require('../helper/auth/JWT_service'),
     { PassCheck } = require('../helper/validation'),
     { HashSalt } = require('../helper/service');
 
-Router.get('/profile', verifyAccessToken, (req, res, next) => {
-    UserModel.findById(req.payload.aud, 'FirstName LastName Email Phone DOB DisplayPic Address EmailVerified PhoneVerified Credits Role -_id')
+Router.use(verifyAccessToken)
+
+Router.get('/profile', (req, res, next) => {
+    UserModel.findById(req.payload.aud, 'FirstName LastName Email Phone DOB Address EmailVerified PhoneVerified Credits Role -_id')
         .then(user => {
             if (!user) return next(createError.Forbidden())
             res.status(201).json(user)
         })
 })
 
-Router.put('/update/profile', verifyAccessToken, (req, res, next) => {
+Router.put('/update/profile', (req, res, next) => {
     let { FirstName, LastName, Address, State, Gender, DOB } = req.body;
     if (!FirstName && !LastName && !Address && !State && !Gender) return next(createError.BadRequest())
     UserModel.findById(req.payload.aud, 'FirstName LastName Address Gender State Role DOB')
@@ -50,7 +53,7 @@ Router.put('/update/profile', verifyAccessToken, (req, res, next) => {
         })
 })
 
-Router.put('/update/password', verifyAccessToken, (req, res, next) => {
+Router.put('/update/password', (req, res, next) => {
     try {
         let { originalPass, Password, cPassword } = req.body
         if (!originalPass || !Password || !cPassword) throw createError.BadRequest('Please fill in all the required fields')
@@ -77,21 +80,20 @@ Router.put('/update/password', verifyAccessToken, (req, res, next) => {
 })
 
 /* Listing Handles */
-Router.get('/listings', verifyAccessToken, (req, res, next) => {
-    CarModel.find({ 'Author': req.payload.aud })
-        .populate('Author', 'FirstName LastName Phone Email DealershipEmail Role')
+Router.get('/listings', (req, res, next) => {
+    CarModel.find({ Author: req.payload.aud }, 'Make Model Price isNewCar VINum ViewsCount createdAt')
         .then(cars => {
             if (!cars) return res.sendStatus(204)
             res.json(cars)
         })
 })
 
-Router.get('/admin/listings', verifyAccessToken, (req, res, next) => {
+Router.get('/admin/listings', (req, res, next) => {
     UserModel.findById(req.payload.aud)
         .then(user => {
             if (user.Role !== 'admin') return next(createError.NotFound())
-            CarModel.find({}, 'Make Model Price isNewCar Featured VINum Author.Name Author.Email Author.Phone ViewsCount')
-                .populate('Author', 'FirstName LastName Phone Email DealershipEmail Role')
+            CarModel.find({}, 'Make Model Price isNewCar Featured VINum ViewsCount')
+                .populate('Author', 'FirstName LastName Email Phone DealershipEmail DealershipPhone Role _id')
                 .then(cars => {
                     if (!cars) return res.sendStatus(204)
                     res.status(200).json(cars)
@@ -99,7 +101,7 @@ Router.get('/admin/listings', verifyAccessToken, (req, res, next) => {
         })
 })
 
-Router.delete('/delete/listing', verifyAccessToken, (req, res, next) => {
+Router.delete('/delete/listing', (req, res, next) => {
     UserModel.findById(req.payload.aud)
         .then(async user => {
             if (!user) return next(createError.Forbidden())
@@ -113,13 +115,13 @@ Router.delete('/delete/listing', verifyAccessToken, (req, res, next) => {
         })
 })
 
-Router.patch('/update/listing/status', verifyAccessToken, (req, res, next) => {
+Router.patch('/update/listing/status', (req, res, next) => {
     CarModel.findOneAndUpdate({ VINum: req.body.value }, { $set: { isActive: !req.body.isActive } }, () => {
         res.sendStatus(200)
     })
 })
 
-Router.post('/edit/listing', verifyAccessToken, (req, res, next) => {
+Router.post('/edit/listing', (req, res, next) => {
     try {
         // Edit APUI to be set here
     } catch (error) {
@@ -130,7 +132,7 @@ Router.post('/edit/listing', verifyAccessToken, (req, res, next) => {
 /* Listing Handle */
 
 /* User Handles */
-Router.get('/all-users', verifyAccessToken, (req, res, next) => {
+Router.get('/all-users', (req, res, next) => {
     UserModel.findById(req.payload.aud)
         .then(user => {
             if (user.Role !== 'admin') return next(createError.NotFound())
@@ -142,7 +144,7 @@ Router.get('/all-users', verifyAccessToken, (req, res, next) => {
         })
 })
 
-Router.delete('/delete/user', verifyAccessToken, (req, res, next) => {
+Router.delete('/delete/user', (req, res, next) => {
     UserModel.findById(req.payload.aud)
         .then(async user => {
             if (!user) return next(createError.Forbidden())
@@ -153,5 +155,81 @@ Router.delete('/delete/user', verifyAccessToken, (req, res, next) => {
         })
 })
 /* User Handles */
+
+/* Client Management */
+Router.get('/test-drives', (req, res, next) => {
+    LeadsGeneratedModel.find({ $and: [{ Author: req.payload.aud }, { 'QueryFor.TestDrive': true }] }, 'createdAt FullName Email Phone VINum Status MakeModel')
+        .then(docs => {
+            if (!docs) return res.sendStatus(204)
+            res.json(docs)
+        })
+})
+
+Router.get('/callback-request', (req, res, next) => {
+    LeadsGeneratedModel.find({ $and: [{ Author: req.payload.aud }, { 'QueryFor.CallBack': true }] }, 'createdAt FullName Email Phone VINum Status MakeModel')
+        .then(docs => {
+            if (!docs) return res.sendStatus(204)
+            res.json(docs)
+        })
+})
+
+Router.get('/shipment', (req, res, next) => {
+    LeadsGeneratedModel.find({ $and: [{ Author: req.payload.aud }, { 'QueryFor.CallBack': true }] }, 'createdAt FullName Email Phone CarID Status MakeModel')
+        .then(docs => {
+            if (!docs) return res.sendStatus(204)
+            res.json(docs)
+        })
+})
+
+Router.get('/admin/test-drives', (req, res, next) => {
+    LeadsGeneratedModel.find({ 'QueryFor.TestDrive': true }, 'createdAt FullName Email Phone VINum Status MakeModel')
+        .populate('Author', 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id')
+        .then(docs => {
+            if (!docs) return res.sendStatus(204)
+            res.json(docs)
+        })
+})
+
+Router.get('/admin/callback-request', (req, res, next) => {
+    LeadsGeneratedModel.find({ 'QueryFor.CallBack': true }, 'createdAt FullName Email Phone VINum Status MakeModel')
+        .populate('Author', 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id')
+        .then(docs => {
+            if (!docs) return res.sendStatus(204)
+            res.json(docs)
+        })
+})
+
+Router.get('/admin/shipment', (req, res, next) => {
+    LeadsGeneratedModel.find({ 'QueryFor.Shipment': true }, 'createdAt FullName Email Phone CarID Status MakeModel')
+        .populate('Author', 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id')
+        .then(docs => {
+            if (!docs) return res.sendStatus(204)
+            res.json(docs)
+        })
+})
+
+Router.post('/car/leads/submission', (req, res, next) => {
+    const { FullName, Phone, WantsToTrade, CallbackQuery, ShipmentQuery, TestDriveQuery } = req.body;
+
+    const Data = {
+        FullName: FullName,
+        Email: req.payload.Email,
+        Phone: Phone
+    }
+
+    Data.QueryFor.TestDrive = (TestDriveQuery) ? true : false
+    Data.QueryFor.CallBack = (CallbackQuery) ? true : false
+    Data.QueryFor.Shipment = (ShipmentQuery) ? true : false
+    Data.WantsToTrade = (WantsToTrade) ? true : false
+
+    new LeadsGeneratedModel(Data).save()
+        .then(() => {
+            res.sendStatus(200)
+        })
+        .catch(() => {
+            return next(createError.ExpectationFailed())
+        })
+})
+/* Client Management */
 
 module.exports = Router

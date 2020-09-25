@@ -10,7 +10,8 @@ module.exports = {
                 FirstName: USER.FirstName,
                 LastName: USER.LastName,
                 Email: USER.Email,
-                role: USER.Role
+                Role: USER.Role,
+                DP: User.DisplayPic
             }
             const secret = process.env.JWT_ACCESS_TOKEN
             const options = {

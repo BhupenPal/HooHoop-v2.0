@@ -19,10 +19,12 @@ const CarSchema = mongoose.Schema({
     },
     Featured: {
         value: {
-            type: Boolean
+            type: Boolean,
+            default: null
         },
         validTill: {
-            type: Date
+            type: Date,
+            default: null
         }
     },
     MinPrice: {
