@@ -165,7 +165,7 @@ Router.get('/test-drives', (req, res, next) => {
         })
 })
 
-Router.get('/callback-request', (req, res, next) => {
+Router.get('/callback-requests', (req, res, next) => {
     LeadsGeneratedModel.find({ $and: [{ Author: req.payload.aud }, { 'QueryFor.CallBack': true }] }, 'createdAt FullName Email Phone VINum Status MakeModel')
         .then(docs => {
             if (!docs) return res.sendStatus(204)
@@ -173,7 +173,7 @@ Router.get('/callback-request', (req, res, next) => {
         })
 })
 
-Router.get('/shipment', (req, res, next) => {
+Router.get('/shipments', (req, res, next) => {
     LeadsGeneratedModel.find({ $and: [{ Author: req.payload.aud }, { 'QueryFor.CallBack': true }] }, 'createdAt FullName Email Phone CarID Status MakeModel')
         .then(docs => {
             if (!docs) return res.sendStatus(204)
@@ -182,52 +182,41 @@ Router.get('/shipment', (req, res, next) => {
 })
 
 Router.get('/admin/test-drives', (req, res, next) => {
-    LeadsGeneratedModel.find({ 'QueryFor.TestDrive': true }, 'createdAt FullName Email Phone VINum Status MakeModel')
-        .populate('Author', 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id')
-        .then(docs => {
-            if (!docs) return res.sendStatus(204)
-            res.json(docs)
+    UserModel.findById(req.payload.aud)
+        .then(user => {
+            if (!user || user.Role !== 'admin') return next(createError.Forbidden())
+            LeadsGeneratedModel.find({ 'QueryFor.TestDrive': true }, 'createdAt FullName Email Phone VINum Status MakeModel')
+                .populate('Author', 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id')
+                .then(docs => {
+                    if (!docs) return res.sendStatus(204)
+                    res.json(docs)
+                })
         })
 })
 
-Router.get('/admin/callback-request', (req, res, next) => {
-    LeadsGeneratedModel.find({ 'QueryFor.CallBack': true }, 'createdAt FullName Email Phone VINum Status MakeModel')
-        .populate('Author', 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id')
-        .then(docs => {
-            if (!docs) return res.sendStatus(204)
-            res.json(docs)
+Router.get('/admin/callback-requests', (req, res, next) => {
+    UserModel.findById(req.payload.aud)
+        .then(user => {
+            if (!user || user.Role !== 'admin') return next(createError.Forbidden())
+            LeadsGeneratedModel.find({ 'QueryFor.CallBack': true }, 'createdAt FullName Email Phone VINum Status MakeModel')
+                .populate('Author', 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id')
+                .then(docs => {
+                    if (!docs) return res.sendStatus(204)
+                    res.json(docs)
+                })
         })
 })
 
-Router.get('/admin/shipment', (req, res, next) => {
-    LeadsGeneratedModel.find({ 'QueryFor.Shipment': true }, 'createdAt FullName Email Phone CarID Status MakeModel')
-        .populate('Author', 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id')
-        .then(docs => {
-            if (!docs) return res.sendStatus(204)
-            res.json(docs)
-        })
-})
-
-Router.post('/car/leads/submission', (req, res, next) => {
-    const { FullName, Phone, WantsToTrade, CallbackQuery, ShipmentQuery, TestDriveQuery } = req.body;
-
-    const Data = {
-        FullName: FullName,
-        Email: req.payload.Email,
-        Phone: Phone
-    }
-
-    Data.QueryFor.TestDrive = (TestDriveQuery) ? true : false
-    Data.QueryFor.CallBack = (CallbackQuery) ? true : false
-    Data.QueryFor.Shipment = (ShipmentQuery) ? true : false
-    Data.WantsToTrade = (WantsToTrade) ? true : false
-
-    new LeadsGeneratedModel(Data).save()
-        .then(() => {
-            res.sendStatus(200)
-        })
-        .catch(() => {
-            return next(createError.ExpectationFailed())
+Router.get('/admin/shipments', (req, res, next) => {
+    UserModel.findById(req.payload.aud)
+        .then(user => {
+            if (!user || user.Role !== 'admin') return next(createError.Forbidden())
+            LeadsGeneratedModel.find({ 'QueryFor.Shipment': true }, 'createdAt FullName Email Phone CarID Status MakeModel')
+                .populate('Author', 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id')
+                .then(docs => {
+                    if (!docs) return res.sendStatus(204)
+                    res.json(docs)
+                })
         })
 })
 /* Client Management */

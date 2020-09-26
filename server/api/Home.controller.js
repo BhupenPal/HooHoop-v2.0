@@ -1,3 +1,5 @@
+const { verifyAccessToken } = require('../helper/auth/JWT_service');
+
 //Dependencies
 const express = require('express'),
     Router = express.Router(),
@@ -6,6 +8,7 @@ const express = require('express'),
     //MongoDB Models
     ContactModel = require('../models/Contact.model'),
     CarModel = require('../models/Car.model'),
+    LeadsGeneratedModel = require('../models/GeneratedLead.model'),
 
     //Helper and Services
     { GenerateOTP, EscapeRegex } = require('../helper/service'),
@@ -220,6 +223,34 @@ Router.get('/car/:VINum', (req, res, next) => {
         .then(doc => {
             if (!doc) return next(createError.BadRequest())
             res.json(doc)
+        })
+})
+
+Router.post('/car/leads/submission',verifyAccessToken, (req, res, next) => {
+    const { FullName, Phone, WantsToTrade, CallbackQuery, ShipmentQuery, TestDriveQuery, MakeModel, VINum, AuthorID } = req.body;
+
+    const Data = {
+        FullName: FullName,
+        Email: req.payload.Email,
+        Phone: Phone,
+        QueryFor: {},
+        Author: AuthorID,
+        MakeModel: MakeModel,
+        VINum: VINum
+    }
+
+    Data.QueryFor.TestDrive = (TestDriveQuery) ? true : false
+    Data.QueryFor.CallBack = (CallbackQuery) ? true : false
+    Data.QueryFor.Shipment = (ShipmentQuery) ? true : false
+    Data.WantsToTrade = (WantsToTrade) ? true : false
+
+    new LeadsGeneratedModel(Data).save()
+        .then(() => {
+            res.sendStatus(200)
+        })
+        .catch((err) => {
+            console.log(err)
+            return next(createError.ExpectationFailed())
         })
 })
 
