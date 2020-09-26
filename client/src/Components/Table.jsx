@@ -9,9 +9,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles({
+  tableContainer:{
+    background:"transparent"
+  },
   table: {
     minWidth: 650,
-    backgroundColor:"#F4F6F8",
 
     borderCollapse: "separate",
     borderSpacing: "0 0.5rem",
@@ -25,8 +27,7 @@ const useStyles = makeStyles({
       margin:"1rem",
   },
   cell:{
-    border:"none"
-      
+    border:"none"      
   }
 
 });
@@ -35,7 +36,7 @@ export default function CustomTable({header,rows}) {
   const classes = useStyles();
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer className={classes.tableContainer} component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead className={classes.header}>
           <TableRow>

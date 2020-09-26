@@ -20,7 +20,11 @@ import Logout from "../assets/img/sidebarIcons/logout.svg";
 import Dashboard from "../Screens/Dashboard.jsx";
 import MyListingScreen from "../Screens/MyListing.jsx";
 import AllListingScreen from "../Screens/AllListings.jsx";
+import UserManagementScreen from "../Screens/UserManagements.jsx";
+import MyClientManagementScreen from "../Screens/MyClientManagement.jsx";
+import AllClientManagementScreen from "../Screens/AllClientsManagement.jsx";
 
+import "../assets/css/dashboard.scss";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -130,6 +134,11 @@ function SideBar(props) {
           <Route path="/user/dashboard" component={Dashboard} />
           <Route path="/user/my-listing" component={MyListingScreen} />
           <Route path="/user/all-listing" component={AllListingScreen} />
+          <Route path="/user/user-management" component={UserManagementScreen} />
+          <Route path="/user/my-client-management" component={MyClientManagementScreen} />
+          <Route path="/user/all-client-management" component={AllClientManagementScreen} />
+
+
 
         </Switch>
       </div>

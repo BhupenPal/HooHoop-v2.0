@@ -6,19 +6,10 @@ import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
 import { getMyListing } from "../services/listings.js";
+import { Skeleton } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: "2rem",
-  },
-  header: {
-    padding: "2rem",
-    display: "flex",
-    alignItems: "baseline",
-  },
-  heading: {
-    margin: "0 1rem",
-  },
+
   vehicle: {
     display: "flex",
     alignItems: "center",
@@ -30,12 +21,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 function MyListing(props) {
   const classes = useStyles();
-  const [myListing,setMyListing] = useState([])
+  const [myListing,setMyListing] = useState([]);
+  const [listLoader,setListLoader] = useState(false);
+
   useEffect(() => {
+    setListLoader(true);
     getMyListing()
     .then(listing => {
-      console.log(listing)
+      setListLoader(false);
       setMyListing(listing);
+    })
+    .catch(() => {
+     setListLoader(false);
     })
   },[])
   const header = [
@@ -56,10 +53,6 @@ function MyListing(props) {
       key: "ViewsCount",
     },
 
-    {
-      title: "Clicks",
-      key: "clicks",
-    },
 
     {
       title: "Unique ID",
@@ -82,14 +75,13 @@ function MyListing(props) {
   
   const makeData = (rows) => {
     return rows.map((row, index) => ({
-      sno: index,
+      sno: index + 1,
       date: row.date,
       Make: row.Make,
       ViewsCount: row.ViewsCount,
-      clicks: row.clicks,
       VINum: row.VINum,
       Price: row.Price,
-      Email: row.Author.Email,
+      Email: row.Author.Email || "Not Available",
       manage: renderOptions(index),
     }));
   };
@@ -113,13 +105,15 @@ function MyListing(props) {
     );
   };
   return (
-      <div className={classes.root}>
-        <div className={classes.header}>
-          <h1 className={classes.heading}>My Listings</h1>
-          <p className={classes.heading}>144 Total</p>
-          <p className={classes.heading}>Sort by :</p>
+      <div className="dashboard">
+        <div className="dashboard__header">
+          <h1 className={"dashboard__heading"}>My Listings</h1>
+          <p className={"dashboard__heading"}>{myListing.length} Total</p>
+          <p className={"dashboard__heading"}>Sort by :</p>
         </div>
         <Table header={header} rows={makeData(myListing)} />
+        {listLoader ? <Skeleton variant="rect" width={"100%"} height={60} /> : null}
+
       </div>
   );
 }
