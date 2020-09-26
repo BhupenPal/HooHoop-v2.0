@@ -84,7 +84,7 @@ class SignUp extends Component {
 
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
+      this.props.history.push("/user/dashboard");
     }
     if (this.props.match.params.dealer == "dealer") {
       this.setState({

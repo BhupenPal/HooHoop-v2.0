@@ -1,3 +1,4 @@
+$primary-gradient: linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%);
 @font-face {
     font-family: 'Poppins';
     src: url('../fonts/Poppins-Regular.ttf')
@@ -19,4 +20,8 @@
 
 .wt-600 {
     font-weight: 600;
+}
+
+.primary-bg {
+    background-color: $primary-gradient ;
 }

@@ -1,10 +1,11 @@
-import React from 'react';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-
+import React from "react";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { Route, Switch, Link } from "react-router-dom";
+import PrivateRoute from "./private-route/PrivateRoute.js";
 import Profile from "../assets/img/sidebarIcons/profile.svg";
 import MyFavourites from "../assets/img/sidebarIcons/favourites.svg";
 import MyListing from "../assets/img/sidebarIcons/listing.svg";
@@ -16,49 +17,83 @@ import MyOffers from "../assets/img/sidebarIcons/my_offers.svg";
 import NoDealCustomers from "../assets/img/sidebarIcons/no_ideal_customers.svg";
 import YourPayments from "../assets/img/sidebarIcons/your_payments.svg";
 import Logout from "../assets/img/sidebarIcons/logout.svg";
-
+import Dashboard from "../Screens/Dashboard.jsx";
+import MyListingScreen from "../Screens/MyListing.jsx";
+import AllListingScreen from "../Screens/AllListings.jsx";
 
 const useStyles = makeStyles((theme) => ({
-    
   root: {
-    display: 'flex',
+    display: "flex",
   },
   drawer: {
     // [theme.breakpoints.up('sm')]: {
     //   width: drawerWidth,
     //   flexShrink: 0,
     // },
-    width:"17rem",
+    width: "17rem",
     backgroundColor: "#fff",
-    minHeight:"80vh",
+    minHeight: "80vh",
     boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.15)",
     marginTop: -2,
   },
-  listItem:{
-    fontSize:"14px !important",
+  listItem: {
+    fontSize: "14px !important",
   },
-  gap:{
-    height:"3rem"
+  gap: {
+    height: "3rem",
   },
-  content:{
-    flex:1,
-    backgroundColor:"#F4F6F8",
-  }
-
+  content: {
+    flex: 1,
+    backgroundColor: "#F4F6F8",
+  },
 }));
 
 const Navs = {
-    'Profile': Profile,
-    'My Favorites': MyFavourites,
-    'My Listing' : MyListing,
-    'User Management' : UserManagement,
-    'My Client Management':MyClientManagement,
-    'All Client Management': AllClientManagement,
-    'My Offers':MyOffers,
-    'No Deal Customers':NoDealCustomers,
-    'Your Payments':YourPayments,
-    'Logout':Logout
-}
+  Profile: {
+    route: "/user/dashboard",
+    component: Profile,
+  },
+  "My Favorites": {
+    route: "/user/my-favourites",
+    component: MyFavourites,
+  },
+  "My Listing": {
+    route: "/user/my-listing",
+    component: MyListing,
+  },
+  "All Listing": {
+    route: "/user/all-listing",
+    component: AllListing,
+  },
+  "User Management": {
+    route: "/user/user-management",
+    component: UserManagement,
+  },
+  "My Client Management": {
+    route: "/user/my-client-management",
+    component: MyClientManagement,
+  },
+  "All Client Management": {
+    route: "/user/all-client-management",
+    component: AllClientManagement,
+  },
+  "My Offers": {
+    route: "/user/my-offers",
+    component: MyOffers,
+  },
+  "No Deal Customers": {
+    route: "/user/my-deal-customer",
+    component: NoDealCustomers,
+  },
+  "Your Payments": {
+    route: "/user/your-payments",
+    component: YourPayments,
+  },
+  Logout: {
+    route: "/",
+    component: Logout,
+  },
+};
 function SideBar(props) {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -66,32 +101,38 @@ function SideBar(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
   const drawer = (
     <div>
-    
       <List>
-        <div className={classes.gap}/>
+        <div className={classes.gap} />
         {Object.keys(Navs).map((text, index) => (
-          <ListItem button key={text} key={index} >
-            <ListItemIcon><img src={Navs[text]} height="20rem" alt="nav item"/></ListItemIcon>
-            <ListItemText primary={<span className={classes.listItem}>{text}</span>} />
-          </ListItem>
+          <Link to={Navs[text].route}>
+            <ListItem button key={index}>
+              <ListItemIcon>
+                <img src={Navs[text].component} height="20rem" alt="nav item" />
+              </ListItemIcon>
+              <ListItemText
+                primary={<span className={classes.listItem}>{text}</span>}
+              />
+            </ListItem>
+          </Link>
         ))}
       </List>
-      
     </div>
   );
 
-
   return (
     <div className={classes.root}>
-        <div className={classes.drawer}>
-            {drawer}
-        </div>
-        <div className={classes.content}>
-        {props.children}
-        </div>
+      <div className={classes.drawer}>{drawer}</div>
+      <div className={classes.content}>
+        {/* {props.children} */}
+        <Switch>
+          <Route path="/user/dashboard" component={Dashboard} />
+          <Route path="/user/my-listing" component={MyListingScreen} />
+          <Route path="/user/all-listing" component={AllListingScreen} />
+
+        </Switch>
+      </div>
     </div>
   );
 }

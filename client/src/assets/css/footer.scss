@@ -1,14 +1,25 @@
 .footer{
     background-color: #333333;
     color: #fff;
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    grid-template-rows: 1rem;
+    justify-content: center;
     align-items: center;    
     padding: 2rem 0;
+    *{
+        text-align: center;
+    }
+    @media (max-width:992px) {
+        flex-direction: column;
+    grid-template-columns: repeat(1,1fr);
+    grid-template-rows: 4rem;
 
+    }
     &__follow-us{
         display: flex;
         align-items: center;
+        justify-content: center;
         
     }
     a{

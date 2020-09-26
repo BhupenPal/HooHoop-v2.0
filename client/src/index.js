@@ -21,7 +21,7 @@ import CancellationPolicy from "./Screens/CancellationPolicy.jsx";
 import ContactUs from "./Screens/ContactUs.jsx";
 import BuyCar from "./Screens/BuyCar.jsx";
 import SellCar from "./Screens/SellCar.jsx";
-import CarPage from './Screens/CarPage.jsx'
+import CarPage from "./Screens/CarPage.jsx";
 
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
@@ -29,6 +29,8 @@ import { setCurrentUser, logoutUser } from "./actions/authActions";
 import PrivateRoute from "./Components/private-route/PrivateRoute";
 import store from "./store";
 import MyListing from "./Screens/MyListing.jsx";
+import userLayout from "./Components/userLayout.jsx";
+import SideBar from "./Components/Sidebar.jsx";
 
 if (localStorage.accessToken) {
   const token = localStorage.accessToken;
@@ -43,7 +45,6 @@ if (localStorage.accessToken) {
 }
 
 class App extends Component {
-
   render() {
     console.log("hello");
     return (
@@ -55,18 +56,30 @@ class App extends Component {
               <Route path="/" exact component={Home} />
               <Route path="/login" component={SignIn} />
               <Route path="/register/:dealer?" component={SignUp} />
-              <PrivateRoute path="/dashboard" component={Dashboard} />
+              {/* <Route path="/dashboard" exact>
+                <SideBar>
+                  <PrivateRoute path="/" exact component={Dashboard} />
+                  <PrivateRoute
+                    path="/my-listing"
+                    exact
+                    component={MyListing}
+                  />
+                </SideBar>
+              </Route> */}
+              <PrivateRoute path="/user" component={SideBar} />
               <Route path="/privacy-policy" component={PrivacyPolicy} />
               <Route path="/terms-and-conditions" component={TermsConditions} />
               <Route path="/about-us" component={AboutUs} />
               <Route path="/faq" component={FAQ} />
-              <Route path="/cancellation-policy" component={CancellationPolicy} />
+              <Route
+                path="/cancellation-policy"
+                component={CancellationPolicy}
+              />
               <Route path="/contact-us" component={ContactUs} />
               <Route path="/buy-car" component={BuyCar} />
               <PrivateRoute path="/sell-car" component={SellCar} />
-              <Route path="/sellcar" component={SellCar}/>
-              <Route path='/carpage' component={CarPage} />
-              <PrivateRoute path="/my-listing" component={MyListing} />
+              <Route path="/sellcar" component={SellCar} />
+              <Route path="/carpage" component={CarPage} />
             </Switch>
             <Footer />
           </BrowserRouter>
@@ -74,7 +87,6 @@ class App extends Component {
       </Provider>
     );
   }
-  
 }
 
 ReactDOM.render(<App />, document.getElementById("root"));

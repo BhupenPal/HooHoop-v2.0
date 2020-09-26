@@ -14,7 +14,7 @@ class Footer extends Component {
     }
     return (
       <footer className="footer">
-        <div>
+        
         <div className="footer__follow-us">
           <p>Follow us on</p>
           <span className="footer__logo">
@@ -26,8 +26,6 @@ class Footer extends Component {
           <span className="footer__logo">
             <img src={Instagram} />
           </span>
-        </div>
-        <p className="footer__copyrights">Copyright &copy; HoopHoop.co.nz</p>
         </div>
         <div>
           <Link to="/about-us">About Us</Link>
@@ -41,6 +39,8 @@ class Footer extends Component {
         <div>
           <Link to="/terms-and-conditions"> Terms of Use </Link>
         </div>
+        <p className="footer__copyrights">Copyright &copy; HoopHoop.co.nz</p>
+
       </footer>
     )
   }

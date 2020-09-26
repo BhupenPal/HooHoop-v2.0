@@ -2,18 +2,22 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-const PrivateRoute = ({ component: Component, auth, ...rest }) => (
+const PrivateRoute = ({ component: Component, auth,path , ...rest }) => {
+  console.log(path);
+  return (
   <Route
     {...rest}
     render={props =>
       auth.isAuthenticated === true ? (
-        <Component {...props} />
+
+       <Route path={path} component={() => <Component {...props} />}/>
       ) : (
         <Redirect to="/login" />
       )
     }
   />
 );
+}
 PrivateRoute.propTypes = {
   auth: PropTypes.object.isRequired
 };

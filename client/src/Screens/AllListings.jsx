@@ -5,7 +5,7 @@ import Table from "../Components/Table.jsx";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
-import { getMyListing } from "../services/listings.js";
+import { getAllListings } from "../services/listings.js";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,14 +28,14 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "0.5rem",
   },
 }));
-function MyListing(props) {
+function AllListings(props) {
   const classes = useStyles();
-  const [myListing,setMyListing] = useState([])
+  const [allListings,setAllListing] = useState([])
   useEffect(() => {
-    getMyListing()
+    getAllListings()
     .then(listing => {
       console.log(listing)
-      setMyListing(listing);
+      setAllListing(listing);
     })
   },[])
   const header = [
@@ -119,9 +119,9 @@ function MyListing(props) {
           <p className={classes.heading}>144 Total</p>
           <p className={classes.heading}>Sort by :</p>
         </div>
-        <Table header={header} rows={makeData(myListing)} />
+        <Table header={header} rows={makeData(allListings)} />
       </div>
   );
 }
 
-export default MyListing;
+export default AllListings;
