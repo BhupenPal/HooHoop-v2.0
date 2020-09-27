@@ -123,7 +123,7 @@ Router.patch('/update/listing/status', (req, res, next) => {
 
 Router.post('/edit/listing', (req, res, next) => {
     try {
-        // Edit APUI to be set here
+        // Edit API to be set here
     } catch (error) {
         console.log(error.message)
         next(error)
@@ -178,6 +178,57 @@ Router.get('/shipments', (req, res, next) => {
         .then(docs => {
             if (!docs) return res.sendStatus(204)
             res.json(docs)
+        })
+})
+
+Router.patch('/update/test-drive/status', (req, res, next) => {
+    LeadsGeneratedModel.findOneAndUpdate(req.body.value, { $set: { 'QueryFor.TestDriveStatus': !req.body.isActive } }, () => {
+        res.sendStatus(200)
+    })
+})
+
+Router.patch('/update/callback-request/status', (req, res, next) => {
+    LeadsGeneratedModel.findOneAndUpdate(req.body.value, { $set: { 'QueryFor.CallBackstatus': !req.body.isActive } }, () => {
+        res.sendStatus(200)
+    })
+})
+
+Router.patch('/update/shipment/status', (req, res, next) => {
+    LeadsGeneratedModel.findOneAndUpdate(req.body.value, { $set: { 'QueryFor.ShipmentStatus': !req.body.isActive } }, () => {
+        res.sendStatus(200)
+    })
+})
+
+Router.delete('/delete/test-drive', (req, res, next) => {
+    LeadsGeneratedModel.findById(req.body.value)
+        .then(doc => {
+            doc.TestDrive = !req.body.isActive
+            if (doc.TestDrive || doc.CallBack || doc.Shipment) return res.sendStatus(200)
+            else doc.remove(() => {
+                res.sendStatus(200)
+            })
+        })
+})
+
+Router.delete('/delete/callback-request', (req, res, next) => {
+    LeadsGeneratedModel.findById(req.body.value)
+        .then(doc => {
+            doc.CallBack = !req.body.isActive
+            if (doc.TestDrive || doc.CallBack || doc.Shipment) return res.sendStatus(200)
+            else doc.remove(() => {
+                res.sendStatus(200)
+            })
+        })
+})
+
+Router.delete('/delete/shipment-status', (req, res, next) => {
+    LeadsGeneratedModel.findById(req.body.value)
+        .then(doc => {
+            doc.Shipment = !req.body.isActive
+            if (doc.TestDrive || doc.CallBack || doc.Shipment) return res.sendStatus(200)
+            else doc.remove(() => {
+                res.sendStatus(200)
+            })
         })
 })
 

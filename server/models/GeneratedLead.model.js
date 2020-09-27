@@ -35,19 +35,19 @@ const LeadGenratedModel = mongoose.Schema({
             type: Boolean,
             default: true
         },
-        Shipment: {
-            type: Boolean,
-            default: false,
-        },
-        ShipmentStatus: {
-            type: Boolean,
-            default: true
-        },
         CallBack: {
             type: Boolean,
             default: false
         },
         CallBackstatus: {
+            type: Boolean,
+            default: true
+        },
+        Shipment: {
+            type: Boolean,
+            default: false,
+        },
+        ShipmentStatus: {
             type: Boolean,
             default: true
         }
