@@ -92,7 +92,7 @@ Router.get('/admin/listings', (req, res, next) => {
     UserModel.findById(req.payload.aud)
         .then(user => {
             if (user.Role !== 'admin') return next(createError.NotFound())
-            CarModel.find({}, 'Make Model Price isNewCar Featured VINum ViewsCount')
+            CarModel.find({}, 'Make Model Price isNewCar Featured VINum ViewsCount createdAt')
                 .populate('Author', 'FirstName LastName Email Phone DealershipEmail DealershipPhone Role _id')
                 .then(cars => {
                     if (!cars) return res.sendStatus(204)
@@ -136,7 +136,7 @@ Router.get('/all-users', (req, res, next) => {
     UserModel.findById(req.payload.aud)
         .then(user => {
             if (user.Role !== 'admin') return next(createError.NotFound())
-            UserModel.find({ _id: { $nin: user._id } }, 'FirstName LastName Email Phone EmailVerified PhoneVerified Role State')
+            UserModel.find({ _id: { $nin: user._id } }, 'FirstName LastName Email Phone EmailVerified PhoneVerified Role State isActive')
                 .then(users => {
                     if (!users) return res.sendStatus(204)
                     res.json(users)
@@ -202,33 +202,42 @@ Router.patch('/update/shipment/status', (req, res, next) => {
 Router.delete('/delete/test-drive', (req, res, next) => {
     LeadsGeneratedModel.findById(req.body.value)
         .then(doc => {
-            doc.TestDrive = !req.body.isActive
-            if (doc.TestDrive || doc.CallBack || doc.Shipment) return res.sendStatus(200)
-            else doc.remove(() => {
-                res.sendStatus(200)
-            })
+            doc.QueryFor.TestDrive = !req.body.isActive
+            if (doc.QueryFor.TestDrive || doc.QueryFor.CallBack || doc.QueryFor.Shipment) {
+                doc.save(() => { return res.sendStatus(200) })
+            } else {
+                doc.remove(() => {
+                    res.sendStatus(200)
+                })
+            }
         })
 })
 
 Router.delete('/delete/callback-request', (req, res, next) => {
     LeadsGeneratedModel.findById(req.body.value)
         .then(doc => {
-            doc.CallBack = !req.body.isActive
-            if (doc.TestDrive || doc.CallBack || doc.Shipment) return res.sendStatus(200)
-            else doc.remove(() => {
-                res.sendStatus(200)
-            })
+            doc.QueryFor.CallBack = !req.body.isActive
+            if (doc.QueryFor.TestDrive || doc.QueryFor.CallBack || doc.QueryFor.Shipment) {
+                doc.save(() => { return res.sendStatus(200) })
+            } else {
+                doc.remove(() => {
+                    res.sendStatus(200)
+                })
+            }
         })
 })
 
-Router.delete('/delete/shipment-status', (req, res, next) => {
+Router.delete('/delete/shipment', (req, res, next) => {
     LeadsGeneratedModel.findById(req.body.value)
         .then(doc => {
-            doc.Shipment = !req.body.isActive
-            if (doc.TestDrive || doc.CallBack || doc.Shipment) return res.sendStatus(200)
-            else doc.remove(() => {
-                res.sendStatus(200)
-            })
+            doc.QueryFor.Shipment = !req.body.isActive
+            if (doc.QueryFor.TestDrive || doc.QueryFor.CallBack || doc.QueryFor.Shipment) {
+                doc.save(() => { return res.sendStatus(200) })
+            } else {
+                doc.remove(() => {
+                    res.sendStatus(200)
+                })
+            }
         })
 })
 
