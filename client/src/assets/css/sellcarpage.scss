@@ -68,6 +68,13 @@
     align-items: center;
     justify-content: center;
     width: 40%;
+
+    @media (max-width:992px) {
+        width: 60%;
+    }
+    @media (max-width:720px) {
+        width: 90%;
+    }
     button{
         height: max-content;
         border: 1px solid #cccccc;
@@ -107,10 +114,16 @@
 .FetchData{
     border: 2px solid #707070;
     background-color: #ffffff;
-    width: 85%;
+    width: 90%;
     min-height: 13rem;
     border-radius: 5px;
     margin: 1rem 0;
+
+    @media (max-width:992px) {
+        background-color: transparent;
+    border: none;
+
+    }
     h3{
         margin-top: 1rem !important;
     }
@@ -119,15 +132,26 @@
 .DetailsContainer{
     display: flex;
     flex-wrap: wrap;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3,1fr);
     justify-content: center;
     margin-top: 1rem;
+    @media (max-width:992px) {
+     grid-template-columns: repeat(2,1fr);
+    }
     span{
-        min-width: 33%;
+        min-width: 100%;
         margin: 0.2rem 0;
         font-weight: bold;
         font-size: 1rem;
         box-sizing: border-box;
         padding-left: 2rem;
+        @media (max-width:992px) {
+            padding-left: 0rem;
+    
+        }
+    
         span{
             font-weight: normal;
             font-size: 0.8rem;
@@ -139,11 +163,14 @@
 
 .PriceSetter{
     background-color: #708DC7;
-    padding: 0 3rem;
+    padding: 1rem 3rem;
     width: 100%;
     box-sizing: border-box;
-    height: 8rem;
+    //height: 8rem;
     display: flex;
+    @media (max-width:992px) {
+        flex-direction: column;
+    }
     h1{
         color: #ffffff;
         width: max-content;
@@ -155,6 +182,9 @@
     .priceinputs{
         width: 20rem;
         margin: 0 0 0 10rem;
+        @media (max-width:992px) {
+            margin: 1rem 0 0 0;
+        }
         div{
             input{
                 padding: 1rem;
@@ -197,6 +227,9 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    @media (max-width:992px) {
+        flex-direction: column;
+    }
 }
 
 .BasicDetails,.ExtraDetails,.Description,.FileUpload{
@@ -207,13 +240,17 @@
     }
     display: flex;
     flex-wrap: wrap;
-    padding: 1.5rem 0;
+    padding: 1.5rem 2rem;
     box-shadow: 0 4px 16px rgba($color: #000000, $alpha: 0.25);
+    @media (max-width:992px) {
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
 .BasicDetails{
     max-width: 900px;
-    width: max-content;
+    //width: max-content;
     justify-content: center;
     h3{
         box-sizing: border-box;
@@ -222,8 +259,8 @@
         font-weight: bold;
     }
     .MuiFormControl-root{
-        width: 350px;
-        margin: 0.8rem 2.5rem;
+        // width: 350px;
+        margin: 0.8rem;
         .MuiFormLabel-asterisk{
             color: red;
         }
@@ -232,7 +269,7 @@
 
 .ExtraDetails{
     max-width: 550px;
-    width: max-content;
+    //width: max-content;
     justify-content: center;
     h3{
         box-sizing: border-box;
@@ -241,8 +278,8 @@
         font-weight: bold;
     }
     .MuiFormControl-root{
-        width: 400px;
-        margin: 0.8rem 2.5rem;
+//        width: 400px;
+        margin: 0.8rem 0;
     }
 }
 
@@ -372,5 +409,17 @@
                 }
             }
         }
+    }
+}
+
+.BasicDetails_form{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-gap: 1rem;
+    padding: 0 2rem;
+    width: 100%;
+
+    @media (max-width:992px) {
+        grid-template-columns: 1fr;
     }
 }

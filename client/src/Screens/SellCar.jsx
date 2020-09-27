@@ -80,7 +80,7 @@ const SellCar = (props) => {
         <Grid container justify="center" component="main" className={classes.pageDefault}>
             <Grid item container xs={12} className={classes.APIGrid}>
                 <img src={SellBackCar} className={classes.backgroundImg} alt=""/>
-                <Grid item container xs={9} justify="center" className={classes.ApiEncloser}>
+                <Grid item container xs={11} md={9} justify="center" className={classes.ApiEncloser}>
                     <Box className={classes.ContainerType_one}>
                         <div size="small" className="IconImage"><img src={HappyCarIcon}/><span>Car Details</span></div>
                         <hr className={classes.Horizontal} />
@@ -116,7 +116,7 @@ const SellCar = (props) => {
                     </Box>
                 </Grid>
             </Grid>
-            <Grid container item className={classes.FormGrid} xs={10} justify="center">
+            <Grid container item className={classes.FormGrid} xs={12} md={10} justify="center">
                 <Box className="PriceSetter" display="flex" alignItems="center">
                     <Typography component="h1" variant="h2">Selling price details</Typography>
                     <TextField className="priceinputs" type="number" label="Preffered selling price" variant="outlined" />
@@ -126,6 +126,8 @@ const SellCar = (props) => {
                     <Grid className="Fetched_Details">
                         <div className="BasicDetails">
                             <Typography component="h3" variant="h5">Please Enter the details of your car</Typography>
+                        <div className="BasicDetails_form">
+                            
                             <SelectBox data={dataobject.Make || ''} Label="Select Make" />
                             <SelectBox data={dataobject.Model || ''} Label="Model" />
                             <SelectBox data={dataobject.Year || ''} required={true} Label="Model Year" />
@@ -138,6 +140,7 @@ const SellCar = (props) => {
                             <SelectBox data={dataobject.Plate || ''} required={true} Label="Number Plate" />
                             <SelectBox data={dataobject.Seats || ''} required={true} Label="Number of seats" />
                             <SelectBox data={dataobject.Doors || ''} required={true} Label="Number of doors" />
+                            </div>
                         </div>
                         <div className="ExtraDetails">
                             <Typography component="h3" variant="h5">Help us know more about your car</Typography>
