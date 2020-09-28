@@ -3,11 +3,13 @@ const mongoose = require('mongoose')
 const CarSchema = mongoose.Schema({
     Make: {
         type: String,
-        required: true
+        required: true,
+        uppercase: true
     },
     Model: {
         type: String,
-        required: true
+        required: true,
+        uppercase: true
     },
     ModelYear: {
         type: Number,
@@ -16,6 +18,9 @@ const CarSchema = mongoose.Schema({
     Price: {
         type: Number,
         required: true
+    },
+    MinPrice: {
+        type: Number
     },
     Featured: {
         value: {
@@ -26,9 +31,6 @@ const CarSchema = mongoose.Schema({
             type: Date,
             default: null
         }
-    },
-    MinPrice: {
-        type: Number
     },
     BodyType: {
         type: String,
@@ -54,7 +56,9 @@ const CarSchema = mongoose.Schema({
     VINum: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        index: true,
+        uppercase: true
     },
     KMsDriven: {
         type: Number,
@@ -93,11 +97,12 @@ const CarSchema = mongoose.Schema({
         required: true
     },
     DriveWheel4: {
-        type: String,
-        required: true
+        type: Boolean,
+        default: false
     },
     ONRoadCost: {
-        type: Boolean
+        type: Boolean,
+        default: false
     },
     Description: {
         type: String
@@ -107,11 +112,29 @@ const CarSchema = mongoose.Schema({
         ref: 'user list',
         required: true
     },
-    ViewsCount: {
-        type: Number,
-        default: 0
+    Dealer: {
+        value: {
+            type: Boolean,
+            default: false
+        },
+        Name: {
+            type: String,
+            default: null
+        },
+        Phone: {
+            type: Number,
+            default: null
+        },
+        Email: {
+            type: String,
+            default: null
+        },
+        Location: {
+            type: String,
+            default: null
+        }
     },
-    DetailEnquiry: {
+    ViewsCount: {
         type: Number,
         default: 0
     },
@@ -131,8 +154,8 @@ const CarSchema = mongoose.Schema({
         default: false
     }
 },
-    {
-        timestamps: true
-    })
+{
+    timestamps: true
+})
 
 module.exports = mongoose.model('car list', CarSchema)

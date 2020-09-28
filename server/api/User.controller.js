@@ -1,3 +1,5 @@
+const { connected } = require("process");
+
 //Dependencies
 const express = require("express"),
     Router = express.Router(),
@@ -6,6 +8,9 @@ const express = require("express"),
     client = require('../config/redis'),
     axios = require('axios'),
     isMail = require('email-validator'),
+    fs = require('fs'),
+    ffmpeg = require("ffmpeg"),
+    sharp = require("sharp"),
 
     //MongoDB Models
     UserModel = require('../models/User.model'),
@@ -22,6 +27,9 @@ const express = require("express"),
 
     //Car media upload manager
     CarUpload = require('../helper/upload manager/carupload');
+
+//Clearing Sharp Cache
+sharp.cache(false);
 
 Router.post("/login", async (req, res, next) => {
     try {
@@ -256,18 +264,90 @@ Router.get('/car-exist-check', verifyAccessToken, (req, res, next) => {
     })
 })
 
-Router.get('/car-data-fetch/:CarPlate', async (req, res, next) => {
+Router.get('/car-data-fetch/:CarPlate', verifyAccessToken, async (req, res, next) => {
     try {
         const response = await axios.get(`https://carjam.co.nz/a/vehicle:abcd?key=${process.env.CARJAM_API_KEY}&plate=${req.params.CarPlate}`);
-        res.statusCode(200).send(response.data);
+        res.send(response.data);
     } catch (error) {
         console.error(error.message);
         next(createError.InternalServerError())
     }
 })
 
-Router.post('/sell-form/submit', CarUpload, (req, res, next) => {
+Router.post('/sell-form/submit', verifyAccessToken, CarUpload, (req, res, next) => {
+    try {
+        let { Make, Model, ModelYear, Price, MinPrice, Featured, BodyType, DoorCount, SeatCount, Import, VINum, KMsDriven, Color, EngineSize, FuelType, SafetyStar, WOFExpiry, REGExpiry, DriveWheel4, ONRoadCost, Description, isNewCar, Dealer, isExteriorVideo, isExteriorSlider, is360Images, Transmission } = req.body;
 
+        // Manipulating Data
+        VINum = VINum.toUpperCase()
+        Make = Make.toUpperCase()
+        Model = Model.toUpperCase()
+
+        //Setting up the author
+        let ExteriorVideoName = req.files.ExteriorVideo[0].filename,
+            Author = req.payload.aud,
+            TotalFrames = null;
+
+        const NewCar = new CarModel({
+            Author, Make, Model, ModelYear, Price, MinPrice, Featured, BodyType, DoorCount, SeatCount, Import, VINum, KMsDriven, Color, EngineSize, FuelType, SafetyStar, WOFExpiry, REGExpiry, DriveWheel4, ONRoadCost, Description, isNewCar, Dealer, TotalFrames, isExteriorVideo, Transmission, isExteriorSlider, is360Images
+        })
+
+        //Checking if Exterior Video is uploaded
+        if (isExteriorVideo) {
+            new ffmpeg(`./assets/uploads/cars/${VINum}/exterior360/${ExteriorVideoName}`)
+                .then((video) => {
+                    video.fnExtractFrameToJPG(`./assets/uploads/cars/${VINum}/exterior360/`, {
+                        frame_rate: 2,
+                        file_name: "Photo%i",
+                        keep_pixel_aspect_ratio: true,
+                        keep_aspect_ratio: false,
+                        size: "1920x1080",
+                    }, (err, files) => {
+                        if (!err) {
+                            fs.unlink(`./assets/uploads/cars/${VINum}/exterior360/${ExteriorVideoName}`, () => {
+                                //Checking if discrete images are not uploaded and if not then using video to make thumbnail
+                                if (!isExteriorSlider) {
+                                    [300, 30].map(async (size) => {
+                                        await sharp(`./assets/uploads/cars/${VINum}/exterior360/Photo_1.jpg`)
+                                            .resize(size, size)
+                                            .jpeg({ quality: 90 })
+                                            .toFile(`./assets/uploads/cars/${vinNum}/thumbnail/Photo${size}.jpg`);
+                                    })
+                                }
+                                //Minus 1 as it also counts the video in files.length
+                                NewCar.TotalFrames = files.length - 1
+                                NewCar.save()
+                            })
+                        }
+                    })
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+
+        if (is360Images) {
+            fs.readdir(`./assets/uploads/cars/${VINum}/interior360/`, (err, files) => {
+                files.forEach(async CurrentFile => {
+                    await sharp(`./assets/uploads/cars/${VINum}/interior360/${CurrentFile}`)
+                        .resize(3200, 1600)
+                        .jpeg({ quality: 100 })
+                        .toFile(`./assets/uploads/cars/${VINum}/interior360/${CurrentFile.toLowerCase()}`, () => {
+                            fs.unlinkSync(`./assets/uploads/cars/${VINum}/interior360/${CurrentFile}`)
+                        })
+                })
+            })
+        }
+
+        if (isExteriorSlider) {
+            //Compress Images Here
+        }
+
+        res.sendStatus(200)
+    } catch (error) {
+        console.log(error)
+        next(error)
+    }
 })
 
 module.exports = Router;

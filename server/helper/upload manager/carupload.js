@@ -1,54 +1,90 @@
 const multer = require("multer")
 const fs = require("fs")
+const { extname } = require('path')
 
 let ExteriorSliderCount = 0
+let ValidationDataSet = false
 const MaxSize = 15 * 1024 * 1024; //1024 * 1024 = 1MB
 
 const fileFilter = (req, file, cb) => {
-    if (file.fieldname === 'ExteriorSlider') {
-        if (file.mimetype !== 'image/png') {
-            return cb(null, false, new Error('I don\'t have a clue!'));
+    if (ValidationDataSet === false) {
+        const { Make, Model, ModelYear, Price, BodyType, DoorCount, SeatCount, VINum, KMsDriven, Color, EngineSize, FuelType, WOFExpiry, REGExpiry, Description, Transmission, Dealer, isExteriorVideo, isExteriorSlider } = req.body;
+        //All this info is required and one out of Exterior Video or Slider is Mandatory
+        if ((!Make || !Model || !ModelYear || !Price || !BodyType || !DoorCount || !SeatCount || !VINum || !KMsDriven || !Color || !EngineSize || !FuelType || !WOFExpiry || !REGExpiry || !Description || !Dealer || !Transmission) || (!isExteriorVideo && !isExteriorSlider)) {
+            return cb(new Error('Please fill in all the required fields'))
+        } else {
+            ValidationDataSet = true
         }
-        cb(null, true);
+    }
+
+    if (file.fieldname === 'ExteriorSlider') {
+        const FileTypes = /jpeg|jpg|png|webp/
+        const MIMEType = FileTypes.test(file.mimetype.toLowerCase())
+        const EXT = FileTypes.test(extname(file.originalname).toLowerCase())
+
+        if (MIMEType && EXT) {
+            cb(null, true)
+        } else {
+            return cb(null, false, new Error('Only Images Are Supported For Exterior Slider And Interior'))
+        }
     }
 
     else if (file.fieldname === 'ExteriorVideo') {
-        cb(null, `assets/Uploads/${VINum}/Exterior`)
+        const FileTypes = /avi|mp4|mov|quicktime/
+        const MIMEType = FileTypes.test(file.mimetype.toLowerCase())
+        const EXT = FileTypes.test(extname(file.originalname).toLowerCase())
+
+        if (MIMEType && EXT) {
+            cb(null, true)
+        } else {
+            return cb(null, false, new Error('Only Video is Supported For Exterior 360'))
+        }
     }
 
     else {
-        cb(null, `assets/Uploads/${VINum}/Interior`)
+        const FileTypes = /jpeg|jpg|png|webp/
+        const MIMEType = FileTypes.test(file.mimetype.toLowerCase())
+        const EXT = FileTypes.test(extname(file.originalname).toLowerCase())
+
+        if (MIMEType && EXT) {
+            cb(null, true)
+        } else {
+            return cb(null, false, new Error('Only Images Are Supported For Exterior Slider And Interior'))
+        }
     }
+
 }
 
 const storage = multer.diskStorage({
-
     destination: (req, file, cb) => {
-        const { VINum } = req.body;
+
+        let { VINum } = req.body;
+        VINum = VINum.toUpperCase()
 
         //Creates folder for exterior, interior, and thumbnail
-        if (!fs.existsSync(`assets/uploads/cars/${VINum}/`)) {
-            fs.mkdirSync(`assets/uploads/cars/${VINum}/`)
-            fs.mkdirSync(`assets/uploads/cars/${VINum}/ExteriorSlider`)
-            fs.mkdirSync(`assets/uploads/cars/${VINum}/Exterior `)
-            fs.mkdirSync(`assets/uploads/cars/${VINum}/Interior`)
-            fs.mkdirSync(`assets/uploads/cars/${VINum}/Thumbnail`)
+        if (!fs.existsSync(`assets/uploads/cars/${VINum}`)) {
+            fs.mkdirSync(`assets/uploads/cars/${VINum}`)
+            fs.mkdirSync(`assets/uploads/cars/${VINum}/exterior`)
+            fs.mkdirSync(`assets/uploads/cars/${VINum}/exterior360`)
+            fs.mkdirSync(`assets/uploads/cars/${VINum}/interior360`)
+            fs.mkdirSync(`assets/uploads/cars/${VINum}/thumbnail`)
         }
 
         if (file.fieldname === 'ExteriorSlider') {
-            cb(null, `assets/Uploads/${VINum}/ExteriorSlider`)
+            cb(null, `assets/uploads/cars/${VINum}/exterior/`)
         }
 
         else if (file.fieldname === 'ExteriorVideo') {
-            cb(null, `assets/Uploads/${VINum}/Exterior`)
+            cb(null, `assets/uploads/cars/${VINum}/exterior360/`)
         }
 
         else {
-            cb(null, `assets/Uploads/${VINum}/Interior`)
+            cb(null, `assets/uploads/cars/${VINum}/interior360/`)
         }
     },
 
     filename: (req, file, cb) => {
+
         let ext = file.originalname.split(".").pop()
         let filename = ''
 
@@ -65,10 +101,9 @@ const storage = multer.diskStorage({
 
         else {
             filename = file.fieldname + "." + ext;
-            cb(null, filename.toLowerCase())
+            cb(null, filename.toUpperCase())
         }
     }
-
 })
 
 module.exports = multer({
@@ -77,9 +112,9 @@ module.exports = multer({
     storage
 })
     .fields([
-        { name: "ExteriorSlider", maxCount: 14 },
+        { name: "ExteriorSlider", maxCount: 12 },
         { name: "ExteriorVideo", maxCount: 1 },
         { name: "InteriorFront", maxCount: 1 },
         { name: "InteriorMiddle", maxCount: 1 },
-        { name: "InteriorRear", maxCount: 1 },
+        { name: "InteriorRear", maxCount: 1 }
     ])
