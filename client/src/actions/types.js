@@ -8,3 +8,5 @@ export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const REGISTER_FAIL = 'REGISTER_FAIL';
+export const SHOW_SIDEBAR = "SHOW_SIDEBAR";
+export const HIDE_SIDEBAR = "HIDE_SIDEBAR"; 

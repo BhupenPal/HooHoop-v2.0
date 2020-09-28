@@ -1,11 +1,12 @@
 export default theme => ({
     SliderDiv: {
-        height: 500,
+        minHeight:"20vh",
         position: 'relative',
     
     },
     SliderImage: {
-        width: '100%',
+        width:"100%",
+        height: '100%',
         position: 'absolute',
         backgroundPostion: '50px 0',
         zIndex: -10
@@ -19,7 +20,11 @@ export default theme => ({
     },
     SliderText:{
         fontSize:"3rem",
-        fontWeight:"900"
+        fontWeight:"900",
+        [theme.breakpoints.down('md')]: {
+            fontSize:"2rem",
+
+          }
 
     },
     SliderInput : {
@@ -38,7 +43,10 @@ export default theme => ({
         background:"url(src/assets/img/Home/Advetisement.png)",
         backgroundSize: 'cover',
         
-        
+        [theme.breakpoints.down('md')]: {
+            height: "100%",
+
+          }
     },
     AdContent:{
         lineHeight:'1.4em',
