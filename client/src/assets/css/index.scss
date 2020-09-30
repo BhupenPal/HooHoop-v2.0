@@ -8,6 +8,10 @@ $primary-gradient: linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%);
     margin: 0;
     font-family: Poppins;
     text-decoration: none;
+    box-sizing: border-box;
+    @media (max-width:992px) {
+        font-size: 12px;
+    }
 }
 
 // html, body {
@@ -15,7 +19,12 @@ $primary-gradient: linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%);
 // }
 
 .header-options * {
+
     margin: 0 10px;
+    @media (max-width:992px) {
+        margin: 0;
+
+    }
 }
 
 .wt-600 {

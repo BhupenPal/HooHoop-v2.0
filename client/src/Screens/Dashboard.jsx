@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
   userContacts: {
     display: "flex",
     justifyContent: "space-between",
+    [theme.breakpoints.down('md')]: {
+      flexDirection:"column"
+    }
   },
   userContact: {
     flex: 1,
@@ -63,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
     margin: "2rem auto",
     display: "flex",
     justifyContent: "space-between",
+    [theme.breakpoints.down('md')]: {
+      flexDirection:"column"
+    }
   },
   walletCard: {
     boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.25)",
@@ -71,7 +77,11 @@ const useStyles = makeStyles((theme) => ({
     margin: "1rem",
     padding: "2rem",
     backgroundColor:"#fff",
+    [theme.breakpoints.down('md')]: {
+      width:"100%",
+    margin: "1rem 0",
 
+    }
   },
   walletCredits: {
     display: "flex",
