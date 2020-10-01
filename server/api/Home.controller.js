@@ -1,5 +1,3 @@
-const { verifyAccessToken } = require('../helper/auth/JWT_service');
-
 //Dependencies
 const express = require('express'),
     Router = express.Router(),
@@ -12,6 +10,7 @@ const express = require('express'),
 
     //Helper and Services
     { GenerateOTP, EscapeRegex } = require('../helper/service'),
+    { verifyAccessToken } = require('../helper/auth/JWT_service'),
     { SendMail } = require('../helper/mail/config'),
     { ContactMail } = require('../helper/mail/content');
 

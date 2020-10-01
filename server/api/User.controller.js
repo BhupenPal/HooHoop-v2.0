@@ -1,5 +1,3 @@
-const { connected } = require("process");
-
 //Dependencies
 const express = require("express"),
     Router = express.Router(),
