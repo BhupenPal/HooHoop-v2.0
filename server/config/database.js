@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose'),
+    mongoosePaginate = require('mongoose-paginate-v2');
 
 const connection = mongoose.connect(process.env.MONGODB_URI, {
     dbName: process.env.DB_NAME,
@@ -31,5 +32,7 @@ process.on('SIGINT', async () => {
     await mongoose.connection.close()
     process.exit(0)
 })
+
+mongoose.plugin(mongoosePaginate);
 
 module.exports = connection

@@ -80,8 +80,24 @@ Router.put('/update/password', (req, res, next) => {
 })
 
 /* Listing Handles */
-Router.get('/listings', (req, res, next) => {
-    CarModel.find({ Author: req.payload.aud }, 'Make Model Price isNewCar VINum ViewsCount createdAt')
+Router.get('/listings/', (req, res, next) => {
+    let options = {
+        page: req.body.PageNo || 1,
+        select: 'Make Model Price isNewCar VINum ViewsCount createdAt',
+        lean: true,
+        limit: req.body.SetLimit || 10
+    }
+
+    if (!req.body.Pagination) {
+        options.pagination = false
+        delete options.limit
+    }
+
+    if (req.body.SortData) {
+        options.sort = req.body.SortData
+    }
+
+    CarModel.paginate({ Author: req.payload.aud }, options)
         .then(cars => {
             if (!cars) return res.sendStatus(204)
             res.json(cars)
@@ -92,33 +108,61 @@ Router.get('/admin/listings', (req, res, next) => {
     UserModel.findById(req.payload.aud)
         .then(user => {
             if (user.Role !== 'admin') return next(createError.NotFound())
-            CarModel.find({}, 'Make Model Price isNewCar Featured VINum ViewsCount createdAt')
-                .populate('Author', 'FirstName LastName Email Phone DealershipEmail DealershipPhone Role _id')
+            let options = {
+                page: req.body.PageNo || 1,
+                select: 'Make Model Price isNewCar Featured VINum ViewsCount createdAt',
+                lean: true,
+                limit: req.body.SetLimit || 10,
+                populate: { path: 'Author', select: 'FirstName LastName Email Phone DealershipEmail DealershipPhone Role _id' }
+            }
+
+            if (!req.body.Pagination) {
+                options.pagination = false
+                delete options.limit
+            }
+
+            if (req.body.SortData) {
+                options.sort = req.body.SortData
+            }
+
+            CarModel.paginate({}, options)
                 .then(cars => {
                     if (!cars) return res.sendStatus(204)
-                    res.status(200).json(cars)
+                    res.json(cars)
                 })
         })
 })
 
 Router.delete('/delete/listing', (req, res, next) => {
-    UserModel.findById(req.payload.aud)
-        .then(async user => {
-            if (!user) return next(createError.Forbidden())
-            if (user._id == req.payload.aud || user.payload.admin === true) {
-                CarModel.deleteOne({ VINum: req.body.value }, () => {
-                    res.sendStatus(200)
-                })
+    CarModel.findOne({ VINum: req.body.value })
+        .then(car => {
+            if (car.Auhtor == req.payload.aud) {
+                car.remove(() => { res.sendStatus(200) })
             } else {
-                return next(createError.BadRequest())
+                UserModel.findById(req.payload.aud)
+                    .then(user => {
+                        if (user.Role !== 'admin') return next(createError.Forbidden())
+                        car.remove(() => { res.sendStatus(200) })
+                    })
             }
         })
 })
 
 Router.patch('/update/listing/status', (req, res, next) => {
-    CarModel.findOneAndUpdate({ VINum: req.body.value }, { $set: { isActive: !req.body.isActive } }, () => {
-        res.sendStatus(200)
-    })
+    CarModel.findOne({ VINum: req.body.value })
+        .then(car => {
+            if (car.Author == req.payload.aud) {
+                car.isActive = !req.body.isActive
+                car.save(() => { res.sendStatus(200) })
+            } else {
+                UserModel.findById(req.payload.aud)
+                    .then(user => {
+                        if (user.Role !== 'admin') return next(createError.Forbidden())
+                        car.isActive = !req.body.isActive
+                        car.save(() => { res.sendStatus(200) })
+                    })
+            }
+        })
 })
 
 Router.post('/edit/listing', (req, res, next) => {
@@ -136,9 +180,24 @@ Router.get('/all-users', (req, res, next) => {
     UserModel.findById(req.payload.aud)
         .then(user => {
             if (user.Role !== 'admin') return next(createError.NotFound())
-            UserModel.find({ _id: { $nin: user._id } }, 'FirstName LastName Email Phone EmailVerified PhoneVerified Role State isActive')
+            let options = {
+                page: req.body.PageNo || 1,
+                select: 'FirstName LastName Email Phone EmailVerified PhoneVerified Role State isActive',
+                lean: true,
+                limit: req.body.SetLimit || 10
+            }
+
+            if (!req.body.Pagination) {
+                options.pagination = false
+                delete options.limit
+            }
+
+            if (req.body.SortData) {
+                options.sort = req.body.SortData
+            }
+
+            UserModel.paginate({ _id: { $nin: user._id } }, options)
                 .then(users => {
-                    if (!users) return res.sendStatus(204)
                     res.json(users)
                 })
         })
@@ -146,11 +205,12 @@ Router.get('/all-users', (req, res, next) => {
 
 Router.delete('/delete/user', (req, res, next) => {
     UserModel.findById(req.payload.aud)
-        .then(async user => {
-            if (!user) return next(createError.Forbidden())
-            if (user.Role !== 'admin') return next(createError.Forbidden())
-            await UserModel.findByIdAndRemove(req.body.value, () => {
-                res.sendStatus(200)
+        .then(user => {
+            if (user.Role !== 'admin') return next(createError.NotFound())
+            UserModel.findByIdAndRemove(req.body.value, () => {
+                CarModel.deleteMany({ Author: req.body.value }, () => {
+                    res.sendStatus(200)
+                })
             })
         })
 })
@@ -158,57 +218,146 @@ Router.delete('/delete/user', (req, res, next) => {
 
 /* Client Management */
 Router.get('/test-drives', (req, res, next) => {
-    LeadsGeneratedModel.find({ $and: [{ Author: req.payload.aud }, { 'QueryFor.TestDrive': true }] }, 'createdAt FullName Email Phone VINum Status MakeModel')
+    let options = {
+        page: req.body.PageNo || 1,
+        select: 'createdAt FullName Email Phone VINum Status MakeModel',
+        lean: true,
+        limit: req.body.SetLimit || 10
+    }
+
+    if (!req.body.Pagination) {
+        options.pagination = false
+        delete options.limit
+    }
+
+    if (req.body.SortData) {
+        options.sort = req.body.SortData
+    }
+
+    LeadsGeneratedModel.paginate({ $and: [{ Author: req.payload.aud }, { 'QueryFor.TestDrive': true }] }, options)
         .then(docs => {
-            if (!docs) return res.sendStatus(204)
             res.json(docs)
         })
 })
 
 Router.get('/callback-requests', (req, res, next) => {
-    LeadsGeneratedModel.find({ $and: [{ Author: req.payload.aud }, { 'QueryFor.CallBack': true }] }, 'createdAt FullName Email Phone VINum Status MakeModel')
+    let options = {
+        page: req.body.PageNo || 1,
+        select: 'createdAt FullName Email Phone VINum Status MakeModel',
+        lean: true,
+        limit: req.body.SetLimit || 10
+    }
+
+    if (!req.body.Pagination) {
+        options.pagination = false
+        delete options.limit
+    }
+
+    if (req.body.SortData) {
+        options.sort = req.body.SortData
+    }
+
+    LeadsGeneratedModel.paginate({ $and: [{ Author: req.payload.aud }, { 'QueryFor.CallBack': true }] }, options)
         .then(docs => {
-            if (!docs) return res.sendStatus(204)
             res.json(docs)
         })
 })
 
 Router.get('/shipments', (req, res, next) => {
-    LeadsGeneratedModel.find({ $and: [{ Author: req.payload.aud }, { 'QueryFor.CallBack': true }] }, 'createdAt FullName Email Phone CarID Status MakeModel')
+    let options = {
+        page: req.body.PageNo || 1,
+        select: 'createdAt FullName Email Phone VINum Status MakeModel',
+        lean: true,
+        limit: req.body.SetLimit || 10
+    }
+
+    if (!req.body.Pagination) {
+        options.pagination = false
+        delete options.limit
+    }
+
+    if (req.body.SortData) {
+        options.sort = req.body.SortData
+    }
+
+    LeadsGeneratedModel.paginate({ $and: [{ Author: req.payload.aud }, { 'QueryFor.CallBack': true }] }, options)
         .then(docs => {
-            if (!docs) return res.sendStatus(204)
             res.json(docs)
         })
 })
 
 Router.patch('/update/test-drive/status', (req, res, next) => {
-    LeadsGeneratedModel.findOneAndUpdate(req.body.value, { $set: { 'QueryFor.TestDriveStatus': !req.body.isActive } }, () => {
-        res.sendStatus(200)
-    })
+    LeadsGeneratedModel.findById(req.body.value)
+        .then(doc => {
+            if (doc.Author == req.payload.aud) {
+                doc.QueryFor.TestDriveStatus = !req.body.isActive
+                doc.save(() => { res.sendStatus(200) })
+            } else {
+                UserModel.findById(req.payload.aud)
+                    .then(user => {
+                        if (user.Role !== 'admin') return next(createError.Forbidden())
+                        doc.QueryFor.TestDriveStatus = !req.body.isActive
+                        doc.save(() => { res.sendStatus(200) })
+                    })
+            }
+        })
 })
 
 Router.patch('/update/callback-request/status', (req, res, next) => {
-    LeadsGeneratedModel.findOneAndUpdate(req.body.value, { $set: { 'QueryFor.CallBackstatus': !req.body.isActive } }, () => {
-        res.sendStatus(200)
-    })
+    LeadsGeneratedModel.findById(req.body.value)
+        .then(doc => {
+            if (doc.Author == req.payload.aud) {
+                doc.QueryFor.CallBackstatus = !req.body.isActive
+                doc.save(() => { res.sendStatus(200) })
+            } else {
+                UserModel.findById(req.payload.aud)
+                    .then(user => {
+                        if (user.Role !== 'admin') return next(createError.Forbidden())
+                        doc.QueryFor.CallBackstatus = !req.body.isActive
+                        doc.save(() => { res.sendStatus(200) })
+                    })
+            }
+        })
 })
 
 Router.patch('/update/shipment/status', (req, res, next) => {
-    LeadsGeneratedModel.findOneAndUpdate(req.body.value, { $set: { 'QueryFor.ShipmentStatus': !req.body.isActive } }, () => {
-        res.sendStatus(200)
-    })
+    LeadsGeneratedModel.findById(req.body.value)
+        .then(doc => {
+            if (doc.Author == req.payload.aud) {
+                doc.QueryFor.ShipmentStatus = !req.body.isActive
+                doc.save(() => { res.sendStatus(200) })
+            } else {
+                UserModel.findById(req.payload.aud)
+                    .then(user => {
+                        if (user.Role !== 'admin') return next(createError.Forbidden())
+                        doc.QueryFor.ShipmentStatus = !req.body.isActive
+                        doc.save(() => { res.sendStatus(200) })
+                    })
+            }
+        })
 })
 
 Router.delete('/delete/test-drive', (req, res, next) => {
     LeadsGeneratedModel.findById(req.body.value)
         .then(doc => {
-            doc.QueryFor.TestDrive = !req.body.isActive
-            if (doc.QueryFor.TestDrive || doc.QueryFor.CallBack || doc.QueryFor.Shipment) {
-                doc.save(() => { return res.sendStatus(200) })
+            if (doc.Author != req.payload.aud) {
+                doc.QueryFor.TestDrive = !req.body.isActive
+                if (doc.QueryFor.TestDrive || doc.QueryFor.CallBack || doc.QueryFor.Shipment) {
+                    doc.save(() => { return res.sendStatus(200) })
+                } else {
+                    doc.remove(() => { res.sendStatus(200) })
+                }
             } else {
-                doc.remove(() => {
-                    res.sendStatus(200)
-                })
+                UserModel.findById(req.payload.aud)
+                    .then(user => {
+                        if (user.Role !== 'admin') return next(createError.Forbidden())
+                        doc.QueryFor.TestDrive = !req.body.isActive
+                        if (doc.QueryFor.TestDrive || doc.QueryFor.CallBack || doc.QueryFor.Shipment) {
+                            doc.save(() => { return res.sendStatus(200) })
+                        } else {
+                            doc.remove(() => { res.sendStatus(200) })
+                        }
+                    })
             }
         })
 })
@@ -216,13 +365,24 @@ Router.delete('/delete/test-drive', (req, res, next) => {
 Router.delete('/delete/callback-request', (req, res, next) => {
     LeadsGeneratedModel.findById(req.body.value)
         .then(doc => {
-            doc.QueryFor.CallBack = !req.body.isActive
-            if (doc.QueryFor.TestDrive || doc.QueryFor.CallBack || doc.QueryFor.Shipment) {
-                doc.save(() => { return res.sendStatus(200) })
+            if (doc.Author != req.payload.aud) {
+                doc.QueryFor.CallBack = !req.body.isActive
+                if (doc.QueryFor.TestDrive || doc.QueryFor.CallBack || doc.QueryFor.Shipment) {
+                    doc.save(() => { return res.sendStatus(200) })
+                } else {
+                    doc.remove(() => { res.sendStatus(200) })
+                }
             } else {
-                doc.remove(() => {
-                    res.sendStatus(200)
-                })
+                UserModel.findById(req.payload.aud)
+                    .then(user => {
+                        if (user.Role !== 'admin') return next(createError.Forbidden())
+                        doc.QueryFor.CallBack = !req.body.isActive
+                        if (doc.QueryFor.TestDrive || doc.QueryFor.CallBack || doc.QueryFor.Shipment) {
+                            doc.save(() => { return res.sendStatus(200) })
+                        } else {
+                            doc.remove(() => { res.sendStatus(200) })
+                        }
+                    })
             }
         })
 })
@@ -230,13 +390,24 @@ Router.delete('/delete/callback-request', (req, res, next) => {
 Router.delete('/delete/shipment', (req, res, next) => {
     LeadsGeneratedModel.findById(req.body.value)
         .then(doc => {
-            doc.QueryFor.Shipment = !req.body.isActive
-            if (doc.QueryFor.TestDrive || doc.QueryFor.CallBack || doc.QueryFor.Shipment) {
-                doc.save(() => { return res.sendStatus(200) })
+            if (doc.Author != req.payload.aud) {
+                doc.QueryFor.Shipment = !req.body.isActive
+                if (doc.QueryFor.TestDrive || doc.QueryFor.CallBack || doc.QueryFor.Shipment) {
+                    doc.save(() => { return res.sendStatus(200) })
+                } else {
+                    doc.remove(() => { res.sendStatus(200) })
+                }
             } else {
-                doc.remove(() => {
-                    res.sendStatus(200)
-                })
+                UserModel.findById(req.payload.aud)
+                    .then(user => {
+                        if (user.Role !== 'admin') return next(createError.Forbidden())
+                        doc.QueryFor.Shipment = !req.body.isActive
+                        if (doc.QueryFor.TestDrive || doc.QueryFor.CallBack || doc.QueryFor.Shipment) {
+                            doc.save(() => { return res.sendStatus(200) })
+                        } else {
+                            doc.remove(() => { res.sendStatus(200) })
+                        }
+                    })
             }
         })
 })
@@ -245,10 +416,25 @@ Router.get('/admin/test-drives', (req, res, next) => {
     UserModel.findById(req.payload.aud)
         .then(user => {
             if (!user || user.Role !== 'admin') return next(createError.Forbidden())
-            LeadsGeneratedModel.find({ 'QueryFor.TestDrive': true }, 'createdAt FullName Email Phone VINum Status MakeModel')
-                .populate('Author', 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id')
+            let options = {
+                page: req.body.PageNo || 1,
+                select: 'createdAt FullName Email Phone VINum Status MakeModel',
+                lean: true,
+                limit: req.body.SetLimit || 10,
+                populate: { path: 'Author', select: 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id' }
+            }
+
+            if (!req.body.Pagination) {
+                options.pagination = false
+                delete options.limit
+            }
+
+            if (req.body.SortData) {
+                options.sort = req.body.SortData
+            }
+
+            LeadsGeneratedModel.paginate({ 'QueryFor.TestDrive': true }, options)
                 .then(docs => {
-                    if (!docs) return res.sendStatus(204)
                     res.json(docs)
                 })
         })
@@ -258,10 +444,25 @@ Router.get('/admin/callback-requests', (req, res, next) => {
     UserModel.findById(req.payload.aud)
         .then(user => {
             if (!user || user.Role !== 'admin') return next(createError.Forbidden())
-            LeadsGeneratedModel.find({ 'QueryFor.CallBack': true }, 'createdAt FullName Email Phone VINum Status MakeModel')
-                .populate('Author', 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id')
+            let options = {
+                page: req.body.PageNo || 1,
+                select: 'createdAt FullName Email Phone VINum Status MakeModel',
+                lean: true,
+                limit: req.body.SetLimit || 10,
+                populate: { path: 'Author', select: 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id' }
+            }
+
+            if (!req.body.Pagination) {
+                options.pagination = false
+                delete options.limit
+            }
+
+            if (req.body.SortData) {
+                options.sort = req.body.SortData
+            }
+
+            LeadsGeneratedModel.paginate({ 'QueryFor.CallBack': true }, options)
                 .then(docs => {
-                    if (!docs) return res.sendStatus(204)
                     res.json(docs)
                 })
         })
@@ -271,10 +472,25 @@ Router.get('/admin/shipments', (req, res, next) => {
     UserModel.findById(req.payload.aud)
         .then(user => {
             if (!user || user.Role !== 'admin') return next(createError.Forbidden())
-            LeadsGeneratedModel.find({ 'QueryFor.Shipment': true }, 'createdAt FullName Email Phone CarID Status MakeModel')
-                .populate('Author', 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id')
+            let options = {
+                page: req.body.PageNo || 1,
+                select: 'createdAt FullName Email Phone VINum Status MakeModel',
+                lean: true,
+                limit: req.body.SetLimit || 10,
+                populate: { path: 'Author', select: 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id' }
+            }
+
+            if (!req.body.Pagination) {
+                options.pagination = false
+                delete options.limit
+            }
+
+            if (req.body.SortData) {
+                options.sort = req.body.SortData
+            }
+
+            LeadsGeneratedModel.paginate({ 'QueryFor.Shipment': true }, options)
                 .then(docs => {
-                    if (!docs) return res.sendStatus(204)
                     res.json(docs)
                 })
         })
