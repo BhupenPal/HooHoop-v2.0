@@ -11,28 +11,28 @@ import styles from '../assets/material/SellForm'
 
 const selectBox = (props) => {
     const {classes} = props;
-    const [age, setAge] = React.useState('');
-      
-    const handleChange = (event) => {
-      setAge(event.target.value);
-    };
+    const {data,required,Label,handleChange,name,value} = props;
 
     return(
-    <FormControl size="medium" variant="outlined" required={props.required} className={classes.formControl}>
-        <InputLabel id="demo-simple-select-outlined-label">{props.Label}</InputLabel>
+    <FormControl size="medium" variant="outlined" required={required} className={classes.formControl}>
+        <InputLabel id="demo-simple-select-outlined-label">{Label}</InputLabel>
         <Select
         labelId="demo-simple-select-outlined-label"
         id="demo-simple-select-outlined"
-        value={props.data}
+        value={value ? value : ''}
+        name={name}
         onChange={handleChange}
-        label={props.Label}
+        label={Label}
         >
-        <MenuItem value="">
+        {/* <MenuItem value="">
             <em>None</em>
-        </MenuItem>
-        <MenuItem value={props.data}>{props.data}</MenuItem>
+        </MenuItem> */}
+        {
+            data.map((val,index) => (<MenuItem key={index} value={val}>{val}</MenuItem>))
+        }
+        {/* <MenuItem value={props.data}>{props.data}</MenuItem>
         <MenuItem value={20}>Twenty</MenuItem>
-        <MenuItem value={30}>Thirty</MenuItem>
+        <MenuItem value={30}>Thirty</MenuItem> */}
         </Select>
     </FormControl>
     );
