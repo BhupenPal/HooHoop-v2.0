@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 class Footer extends Component {
   render() {
-    if (this.props.location.pathname === '/login' || this.props.location.pathname === '/register') {
+    if (this.props.location.pathname === '/login' || this.props.location.pathname === '/register' || this.props.location.pathname.includes("/user/")) {
       return null
     }
     return (

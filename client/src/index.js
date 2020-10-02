@@ -81,7 +81,7 @@ class App extends Component {
               <Route path="/sellcar" component={SellCar} />
               <Route path="/carpage" component={CarPage} />
             </Switch>
-            {/* <Footer /> */}
+            <Footer />
           </BrowserRouter>
         </ThemeProvider>
       </Provider>

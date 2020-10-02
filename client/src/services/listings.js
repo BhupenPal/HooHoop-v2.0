@@ -2,7 +2,7 @@ import Axios from "axios";
 
 export const getMyListing = async () => {
     let myListing = await Axios.get('/api/user/dashboard/listings');
-    return myListing.data.map((listing) => {
+    return myListing.data.docs.map((listing) => {
         return     {
             FuelStar: listing.FuelStar,
             SafetyStar: listing.SafetyStar,
@@ -49,7 +49,7 @@ export const getMyListing = async () => {
 
 export const getAllListings = async () => {
     let allListing = await Axios.get('/api/user/dashboard/admin/listings');
-    return allListing.data.map(listing => ({
+    return allListing.data.docs.map(listing => ({
         "Featured": {
             "value": listing.Featured?.value,
             "Time": listing.Featured?.Time

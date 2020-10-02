@@ -2,7 +2,7 @@ import axios from 'axios';
 export const getMyClientTestDrives = async () => {
 
     let users = await axios.get('/api/user/dashboard/test-drives');
-    users = users.data;
+    users = users.data.docs;
     return users.map(user => ({
         _id: user._id,
         Date:user.Date,
@@ -18,7 +18,7 @@ export const getMyClientTestDrives = async () => {
 export const getAllClientTestDrives = async () => {
 
     let users = await axios.get('/api/user/dashboard/admin/test-drives');
-    users = users.data;
+    users = users.data.docs;
     return users.map(user => ({
         _id: user._id,
         Date:user.Date,
@@ -45,7 +45,7 @@ export const getAllClientTestDrives = async () => {
 export const getMyClientCallBackRequests = async () => {
 
     let users = await axios.get('/api/user/dashboard/callback-requests');
-    users = users.data;
+    users = users.data.docs;
     return users.map(user => ({
         _id: user._id,
         Date:user.Date,
@@ -62,7 +62,7 @@ export const getMyClientCallBackRequests = async () => {
 export const getAllClientCallBackRequests = async () => {
 
     let users = await axios.get('/api/user/dashboard/admin/callback-requests');
-    users = users.data;
+    users = users.data.docs;
     return users.map(user => ({
         _id: user._id,
         Date:user.Date,
@@ -89,7 +89,7 @@ export const getAllClientCallBackRequests = async () => {
 export const getMyClientShipments = async () => {
 
     let users = await axios.get('/api/user/dashboard/shipments');
-    users = users.data;
+    users = users.data.docs;
     return users.map(user => ({
         _id: user._id,
         Date:user.Date,
@@ -106,7 +106,7 @@ export const getMyClientShipments = async () => {
 export const getAllClientShipments = async () => {
 
     let users = await axios.get('/api/user/dashboard/admin/shipments');
-    users = users.data;
+    users = users.data.docs;
     return users.map(user => ({
         _id: user._id,
         Date:user.Date,
