@@ -147,73 +147,39 @@ Router.post('/contact', (req, res, next) => {
 })
 
 Router.get('/buy-car', (req, res, next) => {
-    //No. of cars to show on every call
-    const size = 15
-
-    //Handling Filter
-    let { Filters, PageNo } = req.body
-
-    if (Filters.SearchedCar) {
-        const RegExCar = new RegExp(EscapeRegex(Filters.SearchedCar), 'gi')
-        Filters = {
-            $or: [{ Make: RegExCar }, { Model: RegExCar }, { VINum: RegExCar }]
-        }
+    let options = {
+        page: req.body.PageNo || 1,
+        select: 'Make, Model, ModelYear, Price, State, BodyType, FuelType, KMsDriven',
+        lean: true,
+        limit: req.body.SetLimit || 15
     }
 
-    CarModel.aggregate([{
-        $match: {
-            ...Filters,
-            isActive: true
-        }
-    },
-    {
-        $group: {
-            _id: null,
-            FeaturedCars: {
-                $push: {
-                    $cond: [{
-                        $eq: ['$Featured.value', false]
-                    }, {
-                        Make: '$Make',
-                        Model: '$Model',
-                        ModelYear: '$ModelYear',
-                        Price: '$Price',
-                        State: '$State',
-                        BodyType: '$BodyType',
-                        FuelType: '$FuelType',
-                        KMsDriven: '$KMsDriven'
-                    }, '$$REMOVE']
-                }
-            },
-            Cars: {
-                $push: {
-                    $cond: [{
-                        $eq: ['$Featured.value', false]
-                    }, {
-                        Make: '$Make',
-                        Model: '$Model',
-                        ModelYear: '$ModelYear',
-                        Price: '$Price',
-                        State: '$State',
-                        BodyType: '$BodyType',
-                        FuelType: '$FuelType',
-                        KMsDriven: '$KMsDriven'
-                    }, '$$REMOVE']
-                }
-            }
-        }
-    },
-    {
-        $project: {
-            _id: 0,
-            FeaturedCars: 1,
-            Cars: 1
-        }
+    let Filters = {
+        isActive: true
     }
-    ], (err, doc) => {
-        if (err) return next(createError.ServiceUnavailable())
-        res.json(...doc)
-    })
+
+    if (!req.body.Pagination) {
+        options.pagination = false
+        delete options.limit
+    }
+
+    if (req.body.SortData) {
+        options.sort = req.body.SortData
+    }
+
+    if (req.body.SearchedCar) {
+        const RegExCar = new RegExp(EscapeRegex(req.body.SearchedCar), 'gi')
+        Filters.$or = [{ Make: RegExCar }, { Model: RegExCar }, { VINum: RegExCar }]
+    }
+
+    CarModel.paginate({
+        ...Filters
+    }, options)
+        .then(cars => {
+            if (!cars) return res.sendStatus(204)
+            res.json(cars)
+        })
+        
 })
 
 Router.get('/car/:VINum', (req, res, next) => {
@@ -225,7 +191,7 @@ Router.get('/car/:VINum', (req, res, next) => {
         })
 })
 
-Router.post('/car/leads/submission',verifyAccessToken, (req, res, next) => {
+Router.post('/car/leads/submission', verifyAccessToken, (req, res, next) => {
     const { FullName, Phone, WantsToTrade, CallbackQuery, ShipmentQuery, TestDriveQuery, MakeModel, VINum, AuthorID } = req.body;
 
     const Data = {
