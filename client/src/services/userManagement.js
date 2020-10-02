@@ -2,7 +2,7 @@ import axios from 'axios';
 export const getUsers = async () => {
 
     let users = await axios.get('/api/user/dashboard/all-users');
-    users = users.data;
+    users = users.data.docs;
     return users.map(user => ({
         Role: user.Role,
         EmailVerified: user.EmailVerified,

@@ -1,10 +1,65 @@
-const { Description } = require("@material-ui/icons");
-const { default: Axios } = require("axios");
+import Axios from "axios";
+import objectToFormData from "../utils/objectToFormData.js";
 
 const required = name => {
     throw new Error(`Parameter ${name} is required`);
 };
-export const postCarDetails = async (
+export const postSellCar = async ({
+    Make,
+    Model,
+    ModelYear,
+    Price,
+    BodyType,
+    DoorCount,
+    SeatCount,
+    Transmission,
+    KMsDriven,
+    Color,
+    EngineSize,
+    FuelType,
+    WOFExpiry,
+    REGExpiry,
+    Description,
+    Dealer,
+    isExteriorVideo,
+    isExteriorSlider,
+    is360Images,
+    ExteriorVideo,
+    ExteriorSlider,
+    InteriorFront,
+    InteriorMiddle,
+    InteriorRear
+
+}) => {
+    return postCarDetails(
+        Make,
+        Model,
+        ModelYear,
+        Price,
+        BodyType,
+        DoorCount,
+        SeatCount,
+        Transmission,
+        KMsDriven,
+        Color,
+        EngineSize,
+        FuelType,
+        WOFExpiry,
+        REGExpiry,
+        Description,
+        Dealer,
+        !!ExteriorVideo,
+        !!ExteriorSlider,
+        is360Images,
+        ExteriorVideo,
+        ExteriorSlider,
+        InteriorFront,
+        InteriorMiddle,
+        InteriorRear
+    
+    )
+}
+ const postCarDetails = async (
     Make = required('Make'),
     Model = required('Model'),
     ModelYear = required('ModelYear'),
@@ -20,10 +75,10 @@ export const postCarDetails = async (
     WOFExpiry = required('WOFExpiry'),
     REGExpiry = required('REGExpiry'),
     Description = required('Description'),
-    Dealer = required('Dealer'),
+    Dealer,
     isExteriorVideo = required('isExteriorVideo'),
     isExteriorSlider = required('isExteriorSlider'),
-    is360Images = required('is360Images'),
+    is360Images,
     ExteriorVideo,
     ExteriorSlider,
     InteriorFront,
@@ -56,6 +111,6 @@ export const postCarDetails = async (
         InteriorMiddle,
         InteriorRear
     }
-    const res = await Axios.post('/api/user/sell-form/submit',body);
+    const res = await Axios.post('/api/user/sell-form/submit',objectToFormData(body));
     return res;
 }

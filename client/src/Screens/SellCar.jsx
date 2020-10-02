@@ -23,10 +23,11 @@ import FileTextIcon from "../assets/img/svgs/file-text.svg";
 import "../assets/css/sellcarpage.scss";
 import CarDetails from "../assets/data/CarDetails";
 import SelectBox from "../Components/SelectBox.jsx";
-import AddIcon from "@material-ui/icons/Add";
 import axios from "axios";
 import MakeModel from "../assets/data/MakeModel";
-import { Editor } from "@tinymce/tinymce-react";
+import RichTextEditor from "../Components/RichTextEditor.jsx";
+import FileInput from "../Components/FileInput.jsx";
+import { postSellCar } from "../services/sellCar";
 
 const SellCar = (props) => {
   const { classes } = props;
@@ -54,23 +55,32 @@ const SellCar = (props) => {
   const [dataobject, changedata] = React.useState({
     Make: "",
     Model: "",
-    Year: "",
+    Price:0,
+    MinPrice: 0,
     BodyType: "",
     Transmission: "",
     EngineSize: "",
     FuelType: "",
-    Kilometers: "",
     Color: "",
-    Plate: "",
-    Seats: "",
-    Doors: "",
+    Description:"",
     KMsDriven: 0,
     VINum: "",
     DoorCount: 0,
     SeatCount: 0,
+    ModelDetail: "",
     REGExpiry: new Date(),
+    WOFExpiry: new Date(),
+    InteriorFront: null,
+    InteriorRear: null,
+    InteriorMiddle: null,
+    ExteriorSlider: null,
+    ExteriorVideo: null,
   });
+  const handleFileUpload = (e) => {
+    console.log(e.target.files[0])
+    changedata({ ...dataobject, [e.target.name]: e.target.files[0] });
 
+  }
   const handleChange = (e) => {
     console.log(e.target);
     changedata({ ...dataobject, [e.target.name]: e.target.value });
@@ -89,6 +99,8 @@ const SellCar = (props) => {
   };
 
   const handleEditorChange = (content, editor) => {
+    changedata({ ...dataobject, Description:content });
+
     console.log("Content was updated:", content);
   };
   const FetchJam = () => {
@@ -98,7 +110,7 @@ const SellCar = (props) => {
       .then((res) => {
         console.log(res.data);
         document.querySelector("#Make").textContent = res.data.make;
-        document.querySelector("#Year").textContent =
+        document.querySelector("#ModelYear").textContent =
           res.data.year_of_manufacture;
         document.querySelector("#BodyStyle").textContent = res.data.body_style;
         document.querySelector("#Model").textContent = res.data.model;
@@ -117,7 +129,7 @@ const SellCar = (props) => {
           ...dataobject,
           Make: res.data.make,
           Model: res.data.model,
-          Year: res.data.year_of_manufacture,
+          ModelYear: res.data.year_of_manufacture,
           BodyType: res.data.body_style,
           Transmission: res.data.transmission,
           EngineSize: res.data.cc_rating,
@@ -126,7 +138,6 @@ const SellCar = (props) => {
           Color: res.data.main_colour,
           Plate: res.data.plate,
           Seats: res.data.no_of_seats,
-          Doors: 5,
         });
       })
       .catch((err) => {
@@ -134,6 +145,10 @@ const SellCar = (props) => {
       });
   };
 
+  const handleSubmit = () => {
+    console.log(dataobject);
+    postSellCar(dataobject);
+  };
   return (
     <Grid
       container
@@ -199,7 +214,7 @@ const SellCar = (props) => {
                   Make : <span id="Make"></span>
                 </span>
                 <span>
-                  Year : <span id="Year"></span>
+                  Year : <span id="ModelYear"></span>
                 </span>
                 <span>
                   Body Style : <span id="BodyStyle"></span>
@@ -251,12 +266,16 @@ const SellCar = (props) => {
           <TextField
             className="priceinputs"
             type="number"
+            name="Price"
+            onChange={handleChange}
             label="Preffered selling price"
             variant="outlined"
           />
           <TextField
             className="priceinputs"
             type="number"
+            name="MinPrice"
+            onChange={handleChange}
             label="Minimum selling price"
             variant="outlined"
           />
@@ -289,6 +308,7 @@ const SellCar = (props) => {
                   handleChange={handleChange}
                   name={"ModelYear"}
                   data={getLast20Years()}
+                  value={dataobject.ModelYear}
                   required={true}
                   Label="Model Year"
                 />
@@ -296,6 +316,7 @@ const SellCar = (props) => {
                   handleChange={handleChange}
                   name={"BodyType"}
                   data={bodyTypes}
+                  value={dataobject.BodyType}
                   required={true}
                   Label="Body Type"
                 />
@@ -303,6 +324,7 @@ const SellCar = (props) => {
                   handleChange={handleChange}
                   name={"Transmission"}
                   data={transmissionTypes}
+                  value={dataobject.Transmission}
                   required={true}
                   Label="Transmission"
                 />
@@ -430,16 +452,6 @@ const SellCar = (props) => {
                   }}
                 />
               </MuiPickersUtilsProvider>
-              {/* <SelectBox
-                handleChange={handleChange}
-                data={[]}
-                Label="Registration Expiry"
-              />
-              <TextField
-                handleChange={handleChange}
-                label="WOF"
-                variant="outlined"
-              /> */}
             </div>
           </Grid>
           <Grid>
@@ -448,34 +460,8 @@ const SellCar = (props) => {
                 Describe your car in 300-500 words
               </Typography>
               <div>
-                <Editor
-                  initialValue="<p>This is the initial content of the editor</p>"
-                  init={{
-                    height: 500,
-                    menubar: false,
-                    plugins: [
-                      "advlist autolink lists link image charmap print preview anchor",
-                      "searchreplace visualblocks code fullscreen",
-                      "insertdatetime media table paste code help wordcount",
-                    ],
-                    toolbar:
-                      "undo redo | formatselect | bold italic backcolor | \
-             alignleft aligncenter alignright alignjustify | \
-             bullist numlist outdent indent | removeformat | help",
-                  }}
-                  onEditorChange={handleEditorChange}
-                />
+                <RichTextEditor handleEditorChange={handleEditorChange} />
               </div>
-              {/* <Editor editorState={editorState} onChange={setEditorState} /> */}
-              {/* <TextField
-                id="outlined-textarea"
-                label="Description"
-                placeholder="Describe Here"
-                multiline
-                variant="outlined"
-                rows={10}
-                rowsMax={10}
-              /> */}
             </div>
             <div className="FileUpload">
               <Typography component="h3" variant="h5">
@@ -486,24 +472,24 @@ const SellCar = (props) => {
                   Upload Interior Images
                 </Typography>
                 <div>
-                  <input
+                  <FileInput
                     accept="image/*"
-                    className={classes.input}
-                    style={{ display: "none" }}
-                    id="raised-button-file"
-                    type="file"
+                    name="InteriorFront"
+                    id="InteriorFront"
+                    onChange={handleFileUpload}
                   />
-                  <label htmlFor="raised-button-file">
-                  <Button>
-                    <AddIcon />
-                  </Button>
-                  </label>
-                  <Button>
-                    <AddIcon />
-                  </Button>
-                  <Button>
-                    <AddIcon />
-                  </Button>
+                  <FileInput
+                    accept="image/*"
+                    name="InteriorMiddle"
+                    id="InteriorMiddle"
+                    onChange={handleFileUpload}
+                  />
+                  <FileInput
+                    accept="image/*"
+                    name="InteriorRear"
+                    id="InteriorRear"
+                    onChange={handleFileUpload}
+                  />
                 </div>
               </div>
               <Divider orientation="vertical" flexItem />
@@ -512,17 +498,25 @@ const SellCar = (props) => {
                   Upload Exterior Images
                 </Typography>
                 <div>
-                  <Button>
-                    <AddIcon />
-                  </Button>
-                  <Button>
-                    <AddIcon />
-                  </Button>
+                  <FileInput
+                    accept="image/*"
+                    name="ExteriorSlider"
+                    id="ExteriorSlider"
+                    onChange={handleFileUpload}
+                  />
+                  <FileInput
+                    accept="image/*"
+                    name="ExteriorVideo"
+                    id="ExteriorVideo"
+                    onChange={handleFileUpload}
+                  />
                 </div>
               </div>
             </div>
             <Box display="flex" justifyContent="flex-end">
-              <Button className={classes.LoginButton}>SUBMIT</Button>
+              <Button className={classes.LoginButton} onClick={handleSubmit}>
+                SUBMIT
+              </Button>
             </Box>
           </Grid>
         </Grid>
