@@ -256,9 +256,8 @@ Router.patch('/forgot-password/confirm', (req, res, next) => {
 //Sell Form Routes
 Router.get('/car-exist-check', verifyAccessToken, (req, res, next) => {
     CarModel.findOne({ VINum: req.body.VINum }, (err, doc) => {
-        if (err) return next(createError.ExpectationFailed())
+        if (err || doc) return next(createError.ExpectationFailed())
         if (!doc) return res.sendStatus(200)
-        if (doc) return next(createError.ExpectationFailed())
     })
 })
 
@@ -282,8 +281,7 @@ Router.post('/sell-form/submit', verifyAccessToken, CarUpload, (req, res, next) 
         Model = Model.toUpperCase()
 
         //Setting up the author
-        let ExteriorVideoName = req.files.ExteriorVideo[0]?.filename || null,
-            Author = req.payload.aud,
+        let Author = req.payload.aud,
             TotalFrames = null;
 
         const NewCar = new CarModel({
@@ -292,6 +290,7 @@ Router.post('/sell-form/submit', verifyAccessToken, CarUpload, (req, res, next) 
 
         //Checking if Exterior Video is uploaded
         if (isExteriorVideo) {
+            const ExteriorVideoName = req.files.ExteriorVideo[0].filename
             new ffmpeg(`./assets/uploads/cars/${VINum}/exterior360/${ExteriorVideoName}`)
                 .then((video) => {
                     video.fnExtractFrameToJPG(`./assets/uploads/cars/${VINum}/exterior360/`, {
