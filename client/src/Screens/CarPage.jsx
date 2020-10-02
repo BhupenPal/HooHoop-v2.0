@@ -5,7 +5,7 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import styles from '../assets/material/CarPage';
-
+import FilterComponent from "../Components/filterComponent.jsx"
 
 class CarPage extends Component {
     constructor(props){
