@@ -11,7 +11,7 @@ import styles from '../assets/material/SellForm'
 
 const selectBox = (props) => {
     const {classes} = props;
-    const {data,required,Label,handleChange,name,value} = props;
+    const {data,required,Label,handleChange,name,value,error} = props;
 
     return(
     <FormControl size="medium" variant="outlined" required={required} className={classes.formControl}>
@@ -21,6 +21,7 @@ const selectBox = (props) => {
         id="demo-simple-select-outlined"
         value={value ? value : ''}
         name={name}
+        error={error}
         onChange={handleChange}
         label={Label}
         >

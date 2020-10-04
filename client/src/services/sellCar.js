@@ -53,11 +53,11 @@ export const postSellCar = async ({
         !!ExteriorVideo,
         !!ExteriorSlider,
         is360Images,
-        ExteriorVideo,
-        ExteriorSlider,
-        InteriorFront,
-        InteriorMiddle,
-        InteriorRear
+        ExteriorVideo && ExteriorVideo[0],
+        ExteriorSlider && ExteriorSlider[0],
+        InteriorFront && InteriorFront[0],
+        InteriorMiddle && InteriorMiddle[0],
+        InteriorRear && InteriorRear[0]
     
     )
 }
@@ -72,7 +72,7 @@ export const postSellCar = async ({
     Transmission = required('Transmission'),
     KMsDriven = required('KMsDriven'),
     Color = required('Color'),
-    VINum = required('Color'),
+    VINum = required('VINum'),
 
     EngineSize = required('EngineSize'),
     FuelType = required('FuelType'),
