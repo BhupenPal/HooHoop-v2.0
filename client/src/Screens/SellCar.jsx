@@ -27,7 +27,8 @@ import axios from "axios";
 import MakeModel from "../assets/data/MakeModel";
 import RichTextEditor from "../Components/RichTextEditor.jsx";
 import FileInput from "../Components/FileInput.jsx";
-import { postSellCar } from "../services/sellCar";
+import { postSellCar } from "../services/sellCar.js";
+import ErrorSnackBar from "../Components/OpenSnackBar.jsx";
 
 const SellCar = (props) => {
   const { classes } = props;
@@ -51,18 +52,23 @@ const SellCar = (props) => {
   const fuelTypes = ["Don't Know", "Petrol", "Diesel", "Electric", "Hybrid"];
 
   const doorCounts = [1, 2, 3, 4, 5, 6];
+  const [showErrors, setShowError] = React.useState(false);
+  const [error, setError] = React.useState("");
+  const [showSuccess, setSuccess] = React.useState(false);
+  const [showSnackBar, setSnackBar] = React.useState(false);
 
   const [dataobject, changedata] = React.useState({
     Make: "",
     Model: "",
-    Price:0,
+    ModelYear: new Date().getFullYear(),
+    Price: 0,
     MinPrice: 0,
     BodyType: "",
     Transmission: "",
-    EngineSize: "",
+    EngineSize: 0,
     FuelType: "",
     Color: "",
-    Description:"",
+    Description: "",
     KMsDriven: 0,
     VINum: "",
     DoorCount: 0,
@@ -77,10 +83,9 @@ const SellCar = (props) => {
     ExteriorVideo: null,
   });
   const handleFileUpload = (e) => {
-    console.log(e.target.files[0])
-    changedata({ ...dataobject, [e.target.name]: e.target.files[0] });
-
-  }
+    console.log(e.target.files);
+    changedata({ ...dataobject, [e.target.name]: e.target.files });
+  };
   const handleChange = (e) => {
     console.log(e.target);
     changedata({ ...dataobject, [e.target.name]: e.target.value });
@@ -99,9 +104,7 @@ const SellCar = (props) => {
   };
 
   const handleEditorChange = (content, editor) => {
-    changedata({ ...dataobject, Description:content });
-
-    console.log("Content was updated:", content);
+    changedata({ ...dataobject, Description: content });
   };
   const FetchJam = () => {
     var platenum = document.getElementsByName("platenum")[0].value;
@@ -144,10 +147,94 @@ const SellCar = (props) => {
         console.log(err);
       });
   };
+  const validateForm = () => {
+    if (dataobject.Price < 1) {
+      setError("Price is Required");
+      setSnackBar(true);
+      setShowError(true);
 
+      return false;
+    } else if (dataobject.MinPrice < 1) {
+      setError("Minimum Price is Required");
+      setSnackBar(true);
+      setShowError(true);
+
+      return false;
+    } else if (dataobject.Make.length < 1) {
+      setError("Make is Required");
+      setSnackBar(true);
+      setShowError(true);
+
+      return false;
+    } else if (dataobject.Model.length < 1) {
+      setError("Model is Required");
+      setSnackBar(true);
+      setShowError(true);
+      return false;
+    } else if (dataobject.BodyType.length < 1) {
+      setError("Body Type is Required");
+      setSnackBar(true);
+      setShowError(true);
+      return false;
+    } else if (dataobject.Transmission.length < 1) {
+      setError("Transmission is Required");
+      setSnackBar(true);
+      setShowError(true);
+      return false;
+    } else if (dataobject.EngineSize <= 0) {
+      setError("Engine Size is Required");
+      setSnackBar(true);
+      setShowError(true);
+      return false;
+    } else if (dataobject.FuelType.length <= 0) {
+      setError("Fuel Type is Required");
+      setSnackBar(true);
+      setShowError(true);
+      return false;
+    } else if (dataobject.KMsDriven <= 0) {
+      setError("Kilometers Driven is Required");
+      setSnackBar(true);
+      setShowError(true);
+      return false;
+    } else if (dataobject.Color.length <= 0) {
+      setError("Color Type is Required");
+      setSnackBar(true);
+      setShowError(true);
+      return false;
+    } else if (dataobject.VINum.length <= 0) {
+      setError("Number Plate is Required");
+      setSnackBar(true);
+      setShowError(true);
+      return false;
+    } else if (dataobject.SeatCount <= 0) {
+      setError("No. of seats is Required");
+      setSnackBar(true);
+      setShowError(true);
+      return false;
+    } else if (dataobject.DoorCount <= 0) {
+      setError("No. of doors is Required");
+      setSnackBar(true);
+      setShowError(true);
+      return false;
+    } else if (!dataobject.ExteriorSlider && !dataobject.ExteriorVideo) {
+      setError("Please Add Exterior Slider or Exterior Video");
+      setSnackBar(true);
+      setShowError(true);
+      return false;
+    }
+    return true;
+  };
   const handleSubmit = () => {
     console.log(dataobject);
-    postSellCar(dataobject);
+    if (validateForm()) {
+      postSellCar(dataobject)
+      .then(() => {
+        setSuccess(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
   };
   return (
     <Grid
@@ -156,6 +243,18 @@ const SellCar = (props) => {
       component="main"
       className={classes.pageDefault}
     >
+      <ErrorSnackBar
+        visible={showSnackBar}
+        setVisible={setSnackBar}
+        message={error}
+        severity="error"
+      />
+        <ErrorSnackBar
+        visible={showSuccess}
+        setVisible={setSuccess}
+        message={"Car Listed Successfully"}
+        severity="success"
+      />
       <Grid item container xs={12} className={classes.APIGrid}>
         <img src={SellBackCar} className={classes.backgroundImg} alt="" />
         <Grid
@@ -270,6 +369,7 @@ const SellCar = (props) => {
             onChange={handleChange}
             label="Preffered selling price"
             variant="outlined"
+            error={showErrors && dataobject.Price <= 0}
           />
           <TextField
             className="priceinputs"
@@ -278,6 +378,8 @@ const SellCar = (props) => {
             onChange={handleChange}
             label="Minimum selling price"
             variant="outlined"
+            error={showErrors && dataobject.MinPrice <= 0}
+
           />
         </Box>
         <Grid item className={classes.FromFetch} xs={12}>
@@ -293,6 +395,8 @@ const SellCar = (props) => {
                   data={MakeModel.map(({ Make }) => Make) || []}
                   value={dataobject.Make}
                   Label="Select Make"
+                  error={showErrors && dataobject.Make.length <= 0}
+
                 />
                 <SelectBox
                   handleChange={handleChange}
@@ -302,6 +406,7 @@ const SellCar = (props) => {
                       ?.Models || []
                   }
                   value={dataobject.Model}
+                  error={showErrors && dataobject.Model.length <= 0}
                   Label="Model"
                 />
                 <SelectBox
@@ -310,6 +415,7 @@ const SellCar = (props) => {
                   data={getLast20Years()}
                   value={dataobject.ModelYear}
                   required={true}
+                  error={showErrors && dataobject.ModelYear.length <= 0}
                   Label="Model Year"
                 />
                 <SelectBox
@@ -318,6 +424,7 @@ const SellCar = (props) => {
                   data={bodyTypes}
                   value={dataobject.BodyType}
                   required={true}
+                  error={showErrors && dataobject.BodyType.length <= 0}
                   Label="Body Type"
                 />
                 <SelectBox
@@ -326,13 +433,16 @@ const SellCar = (props) => {
                   data={transmissionTypes}
                   value={dataobject.Transmission}
                   required={true}
+                  error={showErrors && dataobject.Transmission.length <= 0}
                   Label="Transmission"
                 />
                 <TextField
+                  type="number"
                   onChange={handleChange}
                   name={"EngineSize"}
                   value={dataobject.EngineSize}
                   required={true}
+                  error={showErrors && dataobject.EngineSize <= 0}
                   label="Engine Size"
                 />
                 <SelectBox
@@ -341,13 +451,16 @@ const SellCar = (props) => {
                   data={fuelTypes}
                   value={dataobject.FuelType}
                   required={true}
+                  error={showErrors && dataobject.FuelType.length <= 0}
                   Label="Fuel Type"
                 />
                 <TextField
                   onChange={handleChange}
+                  type="number"
                   name={"KMsDriven"}
                   value={dataobject.KMsDriven}
                   required={true}
+                  error={showErrors && dataobject.KMsDriven <= 0}
                   label="Kilometers Ran"
                 />
                 <TextField
@@ -355,6 +468,7 @@ const SellCar = (props) => {
                   name={"Color"}
                   value={dataobject.Color}
                   required={true}
+                  error={showErrors && dataobject.Color.length <= 0}
                   label="Color Type"
                 />
                 <TextField
@@ -363,13 +477,18 @@ const SellCar = (props) => {
                   value={dataobject.VINum}
                   required={true}
                   label="Number Plate"
+                  error={showErrors && dataobject.VINum.length <= 0}
+
                 />
                 <TextField
                   onChange={handleChange}
+                  type="number"
                   name={"SeatCount"}
                   value={dataobject.SeatCount}
                   required={true}
                   label="Number of seats"
+                  error={showErrors && dataobject.SeatCount <= 0}
+
                 />
 
                 <SelectBox
@@ -379,6 +498,7 @@ const SellCar = (props) => {
                   value={dataobject.DoorCount}
                   required={true}
                   Label="Number of doors"
+                  error={showErrors && dataobject.DoorCount <= 0}
                 />
               </div>
             </div>
@@ -391,6 +511,7 @@ const SellCar = (props) => {
                 name={"ModelDetail"}
                 value={dataobject.ModelDetail}
                 label="Model Details"
+                
               />
 
               <SelectBox
@@ -502,6 +623,7 @@ const SellCar = (props) => {
                     accept="image/*"
                     name="ExteriorSlider"
                     id="ExteriorSlider"
+                    multiple={true}
                     onChange={handleFileUpload}
                   />
                   <FileInput

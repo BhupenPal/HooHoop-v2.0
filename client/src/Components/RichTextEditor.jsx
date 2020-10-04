@@ -4,7 +4,7 @@ import { Editor } from "@tinymce/tinymce-react";
 function RichTextEditor({handleEditorChange}) {
   return (
     <Editor
-      initialValue="<p>This is the initial content of the editor</p>"
+      initialValue="Something about car..."
       init={{
         height: 500,
         menubar: false,

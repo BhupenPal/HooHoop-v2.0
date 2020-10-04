@@ -282,7 +282,7 @@ Router.post('/sell-form/submit', verifyAccessToken, CarUpload, (req, res, next) 
         Model = Model.toUpperCase()
 
         //Setting up the author
-        let ExteriorVideoName = req.files.ExteriorVideo[0]?.filename || null,
+        let ExteriorVideoName = req.files.ExteriorVideo[0].filename || null,
             Author = req.payload.aud,
             TotalFrames = null;
 
