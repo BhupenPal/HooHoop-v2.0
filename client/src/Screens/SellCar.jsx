@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   Grid,
   Button,
@@ -11,8 +11,7 @@ import { withStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
+  KeyboardDatePicker
 } from "@material-ui/pickers";
 import styles from "../assets/material/SellForm";
 import SellBackCar from "../assets/img/SellCar/sellbackground.png";
@@ -21,7 +20,6 @@ import EditIcon from "../assets/img/svgs/edit-3.svg";
 import HappyCarIcon from "../assets/img/svgs/Car.svg";
 import FileTextIcon from "../assets/img/svgs/file-text.svg";
 import "../assets/css/sellcarpage.scss";
-import CarDetails from "../assets/data/CarDetails";
 import SelectBox from "../Components/SelectBox.jsx";
 import axios from "axios";
 import MakeModel from "../assets/data/MakeModel";
