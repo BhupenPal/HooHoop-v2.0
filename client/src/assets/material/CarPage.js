@@ -8,9 +8,10 @@ export default CarPage => ({
     },
     boxContainer:{
         backgroundColor:"#fff",
-        width:"100%",
+        width:"-webkit-fill-available",
         padding:"1rem",
-        margin:"1rem"
+        margin:"1rem",
+        height:"fit-content"
     },
     iconsContainer:{
         display:"flex",
@@ -53,5 +54,35 @@ export default CarPage => ({
     },
     border:{
         borderBottom:"1px solid #DDDDDD",
+    },
+    details:{
+        display:"grid",
+        gridTemplateColumns:"1fr 1fr",
+        gridGap:"0 1rem",
+        padding:"1rem 0",
+        overflow:"hidden"
+    },
+    detailsHeader:{
+        padding:"0 1rem",
+        cursor:"pointer"
+    },
+    detail:{
+        borderBottom:"1px solid #DDDDDD",
+        display:"flex",
+        justifyContent:"space-between",
+        padding:"1rem"
+    },
+    detailHead:{
+        color:"#666666"
+    },
+    feedback:{
+        width:"100%",
+    },
+    options:{
+        border: "1px solid #708DC7",
+        color:"#708DC7",
+        padding:"0.5rem 1rem",
+        borderRadius:"5px",
+        marginTop:"1rem"
     }
 })
