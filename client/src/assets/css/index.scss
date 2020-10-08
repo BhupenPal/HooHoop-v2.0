@@ -34,3 +34,12 @@ $primary-gradient: linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%);
 .primary-bg {
     background-color: $primary-gradient ;
 }
+
+.asNavFor{
+    width: 100%;
+    padding: 1rem 0;
+}
+
+.cloudimage-360 canvas{
+    height: 20rem !important;
+}
