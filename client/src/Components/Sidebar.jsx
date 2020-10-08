@@ -11,7 +11,6 @@ import {
   useRouteMatch,
   useHistory,
 } from "react-router-dom";
-import PrivateRoute from "./private-route/PrivateRoute.js";
 import Profile from "../assets/img/sidebarIcons/profile.svg";
 import MyFavourites from "../assets/img/sidebarIcons/favourites.svg";
 import MyListing from "../assets/img/sidebarIcons/listing.svg";
@@ -29,12 +28,13 @@ import AllListingScreen from "../Screens/AllListings.jsx";
 import UserManagementScreen from "../Screens/UserManagements.jsx";
 import MyClientManagementScreen from "../Screens/MyClientManagement.jsx";
 import AllClientManagementScreen from "../Screens/AllClientsManagement.jsx";
-
 import "../assets/css/dashboard.scss";
 import { useEffect } from "react";
 import { Box } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import OutsideAlerter from "./OutsideAlerter.jsx";
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
