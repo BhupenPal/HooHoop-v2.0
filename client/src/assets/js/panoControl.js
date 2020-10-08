@@ -9,7 +9,7 @@ var PanoControls = (function() {
 		if (!PieView) {
 			console.warn("PieView is not initialized.");
 			return;
-		};
+		};	
 
 		if (options && (options.enableTouchOption || options.enableGyroOption)) {
 			GyroTouchOptions(target, panoViewer, options);

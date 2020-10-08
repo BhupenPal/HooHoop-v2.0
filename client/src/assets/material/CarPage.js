@@ -1,17 +1,25 @@
 import { BorderBottom } from "@material-ui/icons";
 
-export default CarPage => ({
+export default theme =>({
     pageDefault: {
       //  minHeight: "100vh",
         backgroundColor:"#F4F6F8",
-        padding:"2rem 10%"
+        padding:"2rem 10%",
+        [theme.breakpoints.down('md')]: {
+            padding:"0rem",
+        //    margin:"1rem 0",
+          }
     },
     boxContainer:{
         backgroundColor:"#fff",
         width:"-webkit-fill-available",
         padding:"1rem",
         margin:"1rem",
-        height:"fit-content"
+        height:"fit-content",
+        [theme.breakpoints.down('md')]: {
+            padding:"1rem",
+            margin:"1rem 0",
+          }
     },
     iconsContainer:{
         display:"flex",

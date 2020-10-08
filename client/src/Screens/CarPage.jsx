@@ -23,6 +23,7 @@ import SeatIcon from "../assets/img/svgs/chair.svg";
 import { spacing } from "@material-ui/system";
 import { fetchCar } from "../services/fetchCar";
 import { PanoViewer } from "@egjs/view360";
+
 const CarPage = (props) => {
   const [user, setUser] = useState({
     Name: "",
@@ -43,37 +44,45 @@ const CarPage = (props) => {
   const fetchAndSetCar = () => {
     fetchCar("JTHFF2C20F2914360")
       .then((res) => {
-        setCar(res);
-        window.CI360.init();
-        console.log(res,interiorView);
-
-        const panoViewer = new PanoViewer(interiorView.current, {
-          // image: "src/assets/img/sample-car/interior/middle.jpg",
-          image:
-            "https://naver.github.io/egjs-view360/examples/panoviewer/controls/equi-car-inside.jpg",
-          projectionType: "equirectangular",
+        setCar(() => {
+          console.log(res, interiorView);
+          var srcImage = new Image();
+          srcImage.crossOrigin = "anonymous";
+          srcImage.src =
+            "https://naver.github.io/egjs-view360/examples/panoviewer/controls/equi-car-inside.jpg";
+          const interiorViewContainer = document.getElementById("interior");
+          const panoViewer = new PanoViewer(interiorViewContainer, {
+            //image: "src/assets/img/sample-car/interior/middle.jpg",
+            //image: srcImage,
+            image: "https://naver.github.io/egjs-view360/examples/panoviewer/controls/equi-car-inside.jpg",
+            projectionType: "equirectangular",
+            gyroMode:"yawPitch"
+          });
+          console.log(panoViewer);
+          const panoSetContainer = document.getElementById("panoSet");
+          PanoControls.init(panoSetContainer, panoViewer, {
+            enableGyroOption: true,
+            enableTouchOption: true,
+          });
+          PanoControls.showLoading();
+          return res;
         });
-
-        var panoviewerSet = document.getElementById("panoSet");
-        PanoControls.init(panoviewerSet, panoViewer, {
-          enableGyroOption: true,
-          enableTouchOption: true,
-        });
-        PanoControls.showLoading();
       })
-      .catch(() => {});
+      .catch((err) => {
+        console.log("hi");
+        console.log(err);
+      });
   };
 
   useEffect(() => {
+    window.CI360.init();
+
     fetchAndSetCar();
+    return () => {
+      window.CI360.destroy();
+    };
   }, []);
 
-  // useEffect((cur) => {
-  //   console.log(interiorView.current,"hi",cur);
-  // }, [interiorView]);
-  // if(!car){
-  //   return null;
-  // }
   return (
     <Grid
       container
@@ -81,7 +90,7 @@ const CarPage = (props) => {
       component="main"
       className={classes.pageDefault}
     >
-      <Grid item container xs={8}>
+      <Grid item container style={{ padding: "1rem" }} xs={12} md={8}>
         {/* <div
           className="cloudimage-360"
           data-folder="src/assets/img/sample-car/exterior/"
@@ -91,14 +100,30 @@ const CarPage = (props) => {
         ></div>
 
          */}
-        <div className="panoviewer-container viewer">
-          <div id="panoSet" ref={panoSet}>
-            <div ref={interiorView}></div>
+
+        <div
+          style={{ width: "100%", height: "100%" }}
+          className="panoviewer-container viewer"
+        >
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              minHeight: "20rem",
+              position: "relative",
+            }}
+            id="panoSet"
+            ref={panoSet}
+          >
+            <div
+              id="interior"
+              style={{ width: "100%", height: "100%" }}
+              ref={interiorView}
+            ></div>
           </div>
-        </div> 
-      
+        </div>
       </Grid>
-      <Grid item container xs={4}>
+      <Grid item container xs={12} md={4}>
         <div className={classes.boxContainer}>
           <div className={classes.boxHeader}>
             {car?.Make} {car?.Model}
@@ -231,7 +256,7 @@ const CarPage = (props) => {
             </div>
           </div> */}
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={12} md={4}>
         <div className={classes.boxContainer}>Share This Deal</div>
         <div className={classes.boxContainer}>
           <div>Interested in this Car?</div>
