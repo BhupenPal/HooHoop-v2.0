@@ -1,12 +1,16 @@
 {
   "name": "hoohoop",
   "version": "2.0.0",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "install": "concurrently -n 'client,server' \"cd client && npm i\" \"cd server && npm i\"",
-    "server": "cd server && nodemon index.js",
-    "dev": "concurrently \"redis-server --daemonize yes\" && cd server && npm run dev",
-    "pro": "concurrently \"redis-server --daemonize yes\" && cd server && npm run pro"
+    "idep": "concurrently -n 'client,server' -c 'yellow,green' 'cd client && npm i' 'cd server && npm i'",
+    "start_redis": "redis-server --daemonize yes",
+    "start_dev_server": "cd server && npm run start",
+    "start_pro_server": "cd server && npm run build",
+    "start_dev_client": "cd client && npm run start",
+    "start_pro_client": "cd client && npm run build",
+    "dev": "concurrently -n 'redis,server,client' 'npm run start_redis' 'npm run start_dev_server' 'npm run start_dev_client'",
+    "pro": "concurrently -n 'server,client' -c 'yellow,green' 'npm run start_pro_server' 'npm run start_pro_client'"
   },
   "repository": {
     "type": "git",
@@ -17,8 +21,5 @@
   "bugs": {
     "url": "https://github.com/BhupenPal/MERN-Webpack-Boilerplate/issues"
   },
-  "homepage": "https://github.com/BhupenPal/MERN-Webpack-Boilerplate#readme",
-  "dependencies": {
-    "concurrently": "^5.3.0"
-  }
+  "homepage": "https://github.com/BhupenPal/MERN-Webpack-Boilerplate#readme"
 }

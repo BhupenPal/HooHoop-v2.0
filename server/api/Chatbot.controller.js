@@ -15,7 +15,7 @@ const express = require('express'),
 
 Router.post('/chatbot/genphoneotp', (req, res, next) => {
     try {
-        const { MakeModel, VINum, SecretToken, Phone } = req.body
+        const { MakeModel, VINum, Phone } = req.body
         const SecretToken = GenerateOTP()
         if (SendSMS(Phone, ChatBotOffer(MakeModel, VINum, SecretToken))) {
             //Using Discount to store OTP until the deal is done 

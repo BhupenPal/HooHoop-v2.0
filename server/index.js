@@ -2,11 +2,9 @@ const express = require('express'),
     app = express(),
     createError = require('http-errors'),
     compression = require('compression'),
-    morgan = require('morgan'),
-    helmet = require('helmet'),
-    cors = require('cors')
+    helmet = require('helmet')
 
-app.use(helmet(), express.json(), compression(), morgan('dev'))
+app.use(helmet(), express.json(), compression())
 
 require('dotenv').config({
     path: './config/.env'
@@ -17,10 +15,15 @@ require('./config/database')
 app.use('/api/', require('./api/Home.controller'))
 app.use('/api/user/', require('./api/User.controller'))
 app.use('/api/user/dashboard/', require('./api/Dashboard.controller'))
+app.use('/api/chatbot', require('./api/Chatbot.controller'))
 
 if (process.env.NODE_ENV === 'DEV') {
-    app.use(cors({ origin: `${process.env.HOST_IP}:8080` }))
-} else {
+    const morgan = require('morgan'),
+        cors = require('cors')
+    app.use(morgan('dev'), cors({ origin: `${process.env.HOST_IP}:8080` }))
+} 
+
+if (process.env.NODE_ENV === 'PROD') {
     const { resolve } = require('path')
     app.use(express.static(resolve(__dirname, '..', 'dist')))
     app.use('*', (req, res) => {
@@ -42,5 +45,5 @@ app.use((err, req, res, next) => {
     })
 })
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT
 app.listen(PORT, console.log(`Server is running on PORT: ${PORT}`))

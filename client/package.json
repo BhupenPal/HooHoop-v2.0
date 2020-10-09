@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --config=webpack.config.dev.js",
-    "build": "webpack --config=webpack.config.prod.js",
-    "start": "webpack-dev-server --config=webpack.config.dev.js --open"
+    "start": "webpack-dev-server --config=webpack.config.dev.js --open",
+    "build": "webpack --config=webpack.config.prod.js"
   },
   "author": "Bhupen Pal",
   "license": "ISC",
@@ -46,6 +45,8 @@
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "date-fns": "^2.16.1",
+    "dotenv": "^8.2.0",
+    "dotenv-webpack": "^3.0.0",
     "egjs": "^2.2.0",
     "jwt-decode": "^2.2.0",
     "panolens": "^0.11.0",
