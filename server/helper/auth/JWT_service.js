@@ -58,6 +58,7 @@ module.exports = {
                 if (err) {
                     console.log(err.message)
                     reject(createError.InternalServerError())
+                    return
                 }
                 client.SET(USER.aud, token, 'EX', 31536000, (err, reply) => {
                     if (err) {
@@ -80,7 +81,7 @@ module.exports = {
                 client.GET(userId, (err, result) => {
                     if (err) {
                         console.log(err.message)
-                        reject('Internal Server Error')
+                        reject(createError.InternalServerError())
                         return
                     }
                     if (refreshToken === result) return resolve(payload)

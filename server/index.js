@@ -47,3 +47,5 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT
 app.listen(PORT, console.log(`Server is running on PORT: ${PORT}`))
+
+module.exports = app
