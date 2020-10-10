@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import Slider from "react-slick";
 
 export default ({elements,setSlide}) => {
+
     const settings = {
       dots: true,
       infinite: true,
       speed: 500,
-      slidesToShow: 3,
+      slidesToShow: 4,
       slidesToScroll: 3
     };
 
@@ -15,7 +16,7 @@ export default ({elements,setSlide}) => {
         <Slider {...settings}>
             {
                 elements.map((elem,index) => (
-                    <div onClick={() => setSlide(index)}>
+                    <div style={{textAlign:"center",cursor:"pointer"}} onClick={() => setSlide(index)}>
                         {elem}
                     </div>
                 ))
