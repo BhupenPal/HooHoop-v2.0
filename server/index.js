@@ -20,8 +20,8 @@ app.use('/api/chatbot', require('./api/Chatbot.controller'))
 if (process.env.NODE_ENV === 'DEV') {
     const morgan = require('morgan'),
         cors = require('cors')
-    app.use(morgan('dev'), cors({ origin: `${process.env.HOST_IP}:8080` }))
-} 
+    app.use(morgan('dev'), cors({ origin: `${process.env.HOST_IP}:${process.env.CLIENT_PORT}` }))
+}
 
 if (process.env.NODE_ENV === 'PROD') {
     const { resolve } = require('path')
