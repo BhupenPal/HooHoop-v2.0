@@ -5,8 +5,9 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "start": "nodemon index.js",
-    "build": "node index.js"
+    "start_redis": "redis-server --daemonize yes",
+    "start": "concurrently -n 'redis,dev' 'npm run start_redis' 'nodemon index.js'",
+    "build": "concurrently -n 'redis,production' 'npm run start_redis' 'node index.js'"
   },
   "author": "Bhupen Pal",
   "license": "UNLICENSED",
