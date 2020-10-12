@@ -3,9 +3,9 @@ import compose from "recompose/compose";
 import { Box, Button, Grid, TextField } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { spacing } from "@material-ui/system";
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ExpandLessSharpIcon from '@material-ui/icons/ExpandLessSharp';
-import { fetchCar } from "../services/fetchCar";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import ExpandLessSharpIcon from "@material-ui/icons/ExpandLessSharp";
+import { fetchCar, fetchRecommendedCar } from "../services/fetchCar";
 import Slider from "react-slick";
 import AsNavFor from "../Components/AsNavFor.jsx";
 import View360 from "../Components/View360.jsx";
@@ -29,7 +29,6 @@ import CarSlider from "../Components/CarSlider.jsx";
 import Axios from "axios";
 import Ad from "../Components/Ad.jsx";
 
-
 const CarPage = (props) => {
   const [user, setUser] = useState({
     Name: "",
@@ -47,20 +46,19 @@ const CarPage = (props) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   const fetchAndSetCar = () => {
-
     // @TODO change the api for fetching featured
-    Axios
-    .get("/api/")
-    .then((res) => {
-      setRecommendedCars(res.data.above10K);
-    })
-    .catch((err) => {
-      alert("Error fetching data");
-      console.log(err);
-    });
+
     fetchCar("JTHFF2C20F2914360")
       .then((res) => {
         setCar(res);
+        fetchRecommendedCar(res.Price)
+          .then((cars) => {
+            setRecommendedCars(cars);
+          })
+          .catch((err) => {
+            alert("Error fetching data");
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
@@ -200,25 +198,54 @@ const CarPage = (props) => {
           <div className={`${classes.boxContainer}`}>
             <h2>Top Specs</h2>
             <div className={`${classes.iconsContainer} ${classes.topSpecs}`}>
-             
-              <RoundedIcon icon={MilageIcon} title="Milage" content={`${car?.ONRoadCost} kmpl`} />
-              <RoundedIcon icon={EngineIcon} title="Engine" content={`${car?.EngineSize} cc`} />
-              <RoundedIcon icon={TransmissionIcon} title="Transmission" content={`${car?.Transmission}`} />
-              <RoundedIcon icon={PowerIcon} title="Max. Power" content={`${car?.EngineSize} bhp`} />
-              <RoundedIcon icon={ColorIcon} title="Color" content={`${car?.Color}`} />
-              <RoundedIcon icon={SeatIcon} title="Seats" content={`${car?.SeatCount}`} />
-              
+              <RoundedIcon
+                icon={MilageIcon}
+                title="Milage"
+                content={`${car?.ONRoadCost} kmpl`}
+              />
+              <RoundedIcon
+                icon={EngineIcon}
+                title="Engine"
+                content={`${car?.EngineSize} cc`}
+              />
+              <RoundedIcon
+                icon={TransmissionIcon}
+                title="Transmission"
+                content={`${car?.Transmission}`}
+              />
+              <RoundedIcon
+                icon={PowerIcon}
+                title="Max. Power"
+                content={`${car?.EngineSize} bhp`}
+              />
+              <RoundedIcon
+                icon={ColorIcon}
+                title="Color"
+                content={`${car?.Color}`}
+              />
+              <RoundedIcon
+                icon={SeatIcon}
+                title="Seats"
+                content={`${car?.SeatCount}`}
+              />
             </div>
           </div>
-          <div className={`${classes.boxContainer} ${classes.detailsContainer}`}>
+          <div
+            className={`${classes.boxContainer} ${classes.detailsContainer}`}
+          >
             <div
               className={classes.detailsHeader}
               onClick={() => setShowDetails((val) => !val)}
             >
               {showDetails ? (
-                <>Hide All Details <ExpandLessSharpIcon style={{color:"#E85513"}}/></>
+                <>
+                  Hide All Details{" "}
+                  <ExpandLessSharpIcon style={{ color: "#E85513" }} />
+                </>
               ) : (
-                <>Show Details <ChevronRightIcon style={{color:"#E85513"}}/></>
+                <>
+                  Show Details <ChevronRightIcon style={{ color: "#E85513" }} />
+                </>
               )}
             </div>
             {!showDetails ? null : (
@@ -229,7 +256,17 @@ const CarPage = (props) => {
                 </div>
                 <div className={classes.detail}>
                   <p className={classes.detailHead}>Fuel Economy</p>
-                  <p> <Rating name="half-rating-read" precision={0.1} readOnly={true} className={"MuiRating-decimal"} value={car?.FuelStar || 0} size="small" /></p>
+                  <p>
+                    {" "}
+                    <Rating
+                      name="half-rating-read"
+                      precision={0.1}
+                      readOnly={true}
+                      className={"MuiRating-decimal"}
+                      value={car?.FuelStar || 0}
+                      size="small"
+                    />
+                  </p>
                 </div>
                 <div className={classes.detail}>
                   <p className={classes.detailHead}>On Road Cost</p>
@@ -237,7 +274,14 @@ const CarPage = (props) => {
                 </div>
                 <div className={classes.detail}>
                   <p className={classes.detailHead}>Safety Stars</p>
-                  <p> <Rating name="half-rating-read" value={car?.SafetyStar || 0} size="small" /></p>
+                  <p>
+                    {" "}
+                    <Rating
+                      name="half-rating-read"
+                      value={car?.SafetyStar || 0}
+                      size="small"
+                    />
+                  </p>
                 </div>
                 <div className={classes.detail}>
                   <p className={classes.detailHead}>Drive Type</p>
@@ -313,7 +357,6 @@ const CarPage = (props) => {
           <h2>Recommended Cars For You</h2>
         </div>
         <CarSlider data={recommendedCars} />
-
       </Grid>
       <Ad></Ad>
     </Grid>

@@ -49,3 +49,9 @@ export const fetchCar = async (id) => {
     createdAt: car.createdAt,
   };
 };
+
+
+export const fetchRecommendedCar = async (price) => {
+  const res = await axios.get(`/api/recommended-cars/${price}`);
+  return res.data;
+}
