@@ -1,8 +1,17 @@
 import React, { Component, useEffect, useState } from "react";
 import compose from "recompose/compose";
 import { Box, Button, Grid, TextField } from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
-import styles from "../assets/material/CarPage";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { spacing } from "@material-ui/system";
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ExpandLessSharpIcon from '@material-ui/icons/ExpandLessSharp';
+import { fetchCar } from "../services/fetchCar";
+import Slider from "react-slick";
+import AsNavFor from "../Components/AsNavFor.jsx";
+import View360 from "../Components/View360.jsx";
+import CarImage from "../assets/img/sample-car/interior/middle.jpg";
+import View360Slides from "../Components/View360Slides.jsx";
+import RoundedIcon from "../Components/icons/RoundedIcons.jsx";
 import FilterComponent from "../Components/filterComponent.jsx";
 import PetrolIcon from "../assets/img/svgs/pertol.svg";
 import KMsIcon from "../assets/img/svgs/KMsDriven.svg";
@@ -14,13 +23,12 @@ import TransmissionIcon from "../assets/img/svgs/automation.svg";
 import PowerIcon from "../assets/img/svgs/power.svg";
 import ColorIcon from "../assets/img/svgs/color.svg";
 import SeatIcon from "../assets/img/svgs/chair.svg";
-import { spacing } from "@material-ui/system";
-import { fetchCar } from "../services/fetchCar";
-import Slider from "react-slick";
-import AsNavFor from "../Components/AsNavFor.jsx";
-import View360 from "../Components/View360.jsx";
-import CarImage from "../assets/img/sample-car/interior/middle.jpg" 
-import View360Slides from "../Components/View360Slides.jsx";
+import styles from "../assets/material/CarPage";
+import { Rating } from "@material-ui/lab";
+import CarSlider from "../Components/CarSlider.jsx";
+import Axios from "axios";
+import Ad from "../Components/Ad.jsx";
+
 
 const CarPage = (props) => {
   const [user, setUser] = useState({
@@ -30,7 +38,8 @@ const CarPage = (props) => {
   });
   const [car, setCar] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
-  const [slide,setSlide] = useState(1)
+  const [recommendedCars, setRecommendedCars] = useState([]);
+  const [slide, setSlide] = useState(1);
   const { classes } = props;
 
   const handleChange = (e) => {
@@ -38,6 +47,17 @@ const CarPage = (props) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   const fetchAndSetCar = () => {
+
+    // @TODO change this 7998 to the current car price
+    Axios
+    .get("/api/recommended-cars/7998")
+    .then((res) => {
+      setRecommendedCars(res.data);
+    })
+    .catch((err) => {
+      alert("Error fetching data");
+      console.log(err);
+    });
     fetchCar("JTHFF2C20F2914360")
       .then((res) => {
         setCar(res);
@@ -49,67 +69,44 @@ const CarPage = (props) => {
 
   useEffect(() => {
     fetchAndSetCar();
-    
   }, []);
-  const sliderElements = () => [
-    <View360 />,
-    <View360Slides />,
-    <div style={{textAlign:"center"}}>
-      <img style={{height:"20rem",width:"100%"}} src="https://naver.github.io/egjs-view360/examples/panoviewer/controls/equi-car-inside.jpg" />
+  const sliderElements = () =>
+    [
+      <View360 />,
+      <View360Slides />,
+      <div style={{ textAlign: "center" }}>
+        <img
+          style={{ height: "100%", width: "100%" }}
+          src="https://naver.github.io/egjs-view360/examples/panoviewer/controls/equi-car-inside.jpg"
+        />
       </div>,
-    <div style={{textAlign:"center"}}>
-      <img style={{height:"20rem",width:"100%"}} src="https://naver.github.io/egjs-view360/examples/panoviewer/controls/equi-car-inside.jpg" />
+      <div style={{ textAlign: "center" }}>
+        <img
+          style={{ height: "100%", width: "100%" }}
+          src="https://naver.github.io/egjs-view360/examples/panoviewer/controls/equi-car-inside.jpg"
+        />
       </div>,
-    <div style={{textAlign:"center"}}>
-      <img style={{height:"20rem",width:"100%"}} src="https://naver.github.io/egjs-view360/examples/panoviewer/controls/equi-car-inside.jpg" />
+      <div style={{ textAlign: "center" }}>
+        <img
+          style={{ height: "100%", width: "100%" }}
+          src="https://naver.github.io/egjs-view360/examples/panoviewer/controls/equi-car-inside.jpg"
+        />
       </div>,
-  ][slide];
+    ][slide];
   const navs = [
-    <div style={{width:"100%",textAlign:"center"}}>
-      <img
-        style={{height:"10rem",width:"90%",margin:"0 auto"}}
-        src={
-          CarImage
-        }
-        alt="car"
-      />
-    </div>,
-    <div style={{width:"100%",textAlign:"center"}}>
-      <img
-        style={{height:"10rem",width:"90%",margin:"0 auto"}}
-        src={
-          CarImage
-        }
-        alt="car"
-      />
-    </div>,
-    <div style={{width:"100%",textAlign:"center"}}>
-      <img
-        style={{height:"10rem",width:"90%",margin:"0 auto"}}
-        src={
-          CarImage
-        }
-        alt="car"
-      />
-    </div>,
-    <div style={{width:"100%",textAlign:"center"}}>
-      <img
-        style={{height:"10rem",width:"90%",margin:"0 auto"}}
-        src={
-          CarImage
-        }
-        alt="car"
-      />
-    </div>,
-    <div style={{width:"100%",textAlign:"center"}}>
-      <img
-        style={{height:"10rem",width:"90%",margin:"0 auto"}}
-        src={
-          CarImage
-        }
-        alt="car"
-      />
-    </div>,
+    <img className={classes.sliderImages} src={CarImage} alt="car" />,
+
+    <img className={classes.sliderImages} src={CarImage} alt="car" />,
+
+    <img className={classes.sliderImages} src={CarImage} alt="car" />,
+
+    <img className={classes.sliderImages} src={CarImage} alt="car" />,
+
+    <img
+      style={{ height: "100px", width: "10rem", margin: "0 auto" }}
+      src={CarImage}
+      alt="car"
+    />,
   ];
   return (
     <Grid
@@ -118,26 +115,27 @@ const CarPage = (props) => {
       component="main"
       className={classes.pageDefault}
     >
-      <Grid item container xs={12}>
-      </Grid>
-      <Grid item container style={{ padding: "1rem",position:"relative" }} xs={12} md={8}>
-        {/* <View360 /> */}
-        <div style={{height:"20rem",width:"100%"}}>
-        {sliderElements()}
+      <Grid
+        item
+        container
+        style={{ padding: "1rem", position: "relative" }}
+        xs={12}
+        md={8}
+      >
+        <div
+          style={{
+            height: "25rem",
+            width: "100%",
+            borderRadius: 5,
+            overflow: "hidden",
+          }}
+        >
+          {sliderElements()}
         </div>
 
-        <div style={{width:"100%"}}>
-        <AsNavFor elements={navs} setSlide={setSlide}/>
+        <div style={{ width: "100%" }}>
+          <AsNavFor elements={navs} setSlide={setSlide} />
         </div>
-        {/* <div
-          className="cloudimage-360"
-          data-folder="src/assets/img/sample-car/exterior/"
-          data-filename="Photo_{index}.jpg"
-          data-amount="33"
-          data-spin-reverse
-        ></div>
-
-         */}
       </Grid>
       <Grid item xs={12} md={4}>
         <div className={classes.boxContainer}>
@@ -202,35 +200,25 @@ const CarPage = (props) => {
           <div className={`${classes.boxContainer}`}>
             <h2>Top Specs</h2>
             <div className={`${classes.iconsContainer} ${classes.topSpecs}`}>
-              <div className={classes.icon}>
-                <img src={MilageIcon} alt="icon" />
-              </div>
-              <div className={classes.icon}>
-                <img src={EngineIcon} alt="icon" />
-              </div>
-              <div className={classes.icon}>
-                <img src={TransmissionIcon} alt="icon" />
-              </div>
-              <div className={classes.icon}>
-                <img src={PowerIcon} alt="icon" />
-              </div>
-              <div className={classes.icon}>
-                <img src={ColorIcon} alt="icon" />
-              </div>
-              <div className={classes.icon}>
-                <img src={SeatIcon} alt="icon" />
-              </div>
+             
+              <RoundedIcon icon={MilageIcon} title="Milage" content={`${car?.ONRoadCost} kmpl`} />
+              <RoundedIcon icon={EngineIcon} title="Engine" content={`${car?.EngineSize} cc`} />
+              <RoundedIcon icon={TransmissionIcon} title="Transmission" content={`${car?.Transmission}`} />
+              <RoundedIcon icon={PowerIcon} title="Max. Power" content={`${car?.EngineSize} bhp`} />
+              <RoundedIcon icon={ColorIcon} title="Color" content={`${car?.Color}`} />
+              <RoundedIcon icon={SeatIcon} title="Seats" content={`${car?.SeatCount}`} />
+              
             </div>
           </div>
-          <div className={classes.boxContainer}>
+          <div className={`${classes.boxContainer} ${classes.detailsContainer}`}>
             <div
               className={classes.detailsHeader}
               onClick={() => setShowDetails((val) => !val)}
             >
               {showDetails ? (
-                <div>Hide All Details</div>
+                <>Hide All Details <ExpandLessSharpIcon style={{color:"#E85513"}}/></>
               ) : (
-                <div>Show Details</div>
+                <>Show Details <ChevronRightIcon style={{color:"#E85513"}}/></>
               )}
             </div>
             {!showDetails ? null : (
@@ -241,7 +229,7 @@ const CarPage = (props) => {
                 </div>
                 <div className={classes.detail}>
                   <p className={classes.detailHead}>Fuel Economy</p>
-                  <p>{car?.FuelStar}</p>
+                  <p> <Rating name="half-rating-read" precision={0.1} readOnly={true} className={"MuiRating-decimal"} value={car?.FuelStar || 0} size="small" /></p>
                 </div>
                 <div className={classes.detail}>
                   <p className={classes.detailHead}>On Road Cost</p>
@@ -249,7 +237,7 @@ const CarPage = (props) => {
                 </div>
                 <div className={classes.detail}>
                   <p className={classes.detailHead}>Safety Stars</p>
-                  <p>{car?.SafetyStar}</p>
+                  <p> <Rating name="half-rating-read" value={car?.SafetyStar || 0} size="small" /></p>
                 </div>
                 <div className={classes.detail}>
                   <p className={classes.detailHead}>Drive Type</p>
@@ -263,14 +251,6 @@ const CarPage = (props) => {
             <p>{car?.Description}</p>
           </div>
         </div>
-        {/* <div>
-            <div>
-              Description
-            </div>
-            <div>
-              Content
-            </div>
-          </div> */}
       </Grid>
       <Grid item xs={12} md={4}>
         <div className={classes.boxContainer}>Share This Deal</div>
@@ -328,6 +308,14 @@ const CarPage = (props) => {
           </form>
         </div>
       </Grid>
+      <Grid item container xs={12}>
+        <div>
+          <h2>Recommended Cars For You</h2>
+        </div>
+        <CarSlider data={recommendedCars} />
+
+      </Grid>
+      <Ad></Ad>
     </Grid>
   );
 };

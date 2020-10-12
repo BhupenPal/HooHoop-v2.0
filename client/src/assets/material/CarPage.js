@@ -10,6 +10,19 @@ export default theme =>({
         //    margin:"1rem 0",
           }
     },
+    sliderImages: { 
+        height: "100px", 
+        width: "10rem", 
+        margin: "0 auto",
+        borderRadius:5 ,
+        boxShadow:"none",
+        transition:"box-shadow 0.2s",
+        cursor:"pointer",
+            "&:hover":{
+              boxShadow:"2px 5px 2rem rgba(0,0,0,0.4)"
+            }
+          
+      },
     boxContainer:{
         backgroundColor:"#fff",
         width:"-webkit-fill-available",
@@ -35,7 +48,8 @@ export default theme =>({
         width:"4rem",
         display:"flex",
         justifyContent:"center",
-        alignItems:"center"
+        alignItems:"center",
+        margin:"0 auto"
     },
     iconText: {
         padding:"1rem 0",
@@ -72,7 +86,10 @@ export default theme =>({
     },
     detailsHeader:{
         padding:"0 1rem",
-        cursor:"pointer"
+        cursor:"pointer",
+        display: "flex",
+        alignItems: "center",
+        
     },
     detail:{
         borderBottom:"1px solid #DDDDDD",
@@ -92,5 +109,9 @@ export default theme =>({
         padding:"0.5rem 1rem",
         borderRadius:"5px",
         marginTop:"1rem"
+    },
+    detailsContainer:{
+        marginTop:"-1rem",
+        borderTop:"1px solid #DDDDDD"
     }
 })
