@@ -146,40 +146,42 @@ Router.post('/contact', (req, res, next) => {
         })
 })
 
-Router.get('/buy-car', (req, res, next) => {
+Router.get('/buy-car/:PageNo?', async (req, res, next) => {
     let options = {
-        page: req.body.PageNo || 1,
-        select: 'Make, Model, ModelYear, Price, State, BodyType, FuelType, KMsDriven',
+        page: req.params.PageNo || 1,
+        select: 'Make Model ModelYear Price State BodyType FuelType KMsDriven',
         lean: true,
-        limit: req.body.SetLimit || 15
+        limit: req.query.SetLimit || 15
     }
 
+    // Basic Filter For All Queries
     let Filters = {
         isActive: true
     }
 
-    if (!req.body.Pagination) {
-        options.pagination = false
-        delete options.limit
-    }
+    // Show all results - REMOVE PAGINATION
+    // if (!req.query.Pagination) {
+    //     options.pagination = false
+    //     delete options.limit
+    // }
 
-    if (req.body.SortData) {
-        options.sort = req.body.SortData
-    }
+    // Sorting Data
+    // if (req.query.SortData) {
+    //     options.sort = req.query.SortData
+    // }
 
-    if (req.body.SearchedCar) {
+    // For Search Field Make Model VINum
+    if (req.query.SearchedCar) {
         const RegExCar = new RegExp(EscapeRegex(req.body.SearchedCar), 'gi')
         Filters.$or = [{ Make: RegExCar }, { Model: RegExCar }, { VINum: RegExCar }]
     }
 
-    CarModel.paginate({
+    let a = await CarModel.paginate({
         ...Filters
     }, options)
-        .then(cars => {
-            if (!cars) return res.sendStatus(204)
-            res.json(cars)
-        })
 
+    console.log(a)
+    res.send(a)
 })
 
 Router.get('/car/:VINum', (req, res, next) => {
