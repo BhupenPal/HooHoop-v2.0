@@ -146,10 +146,10 @@ Router.post('/contact', (req, res, next) => {
         })
 })
 
-Router.get('/buy-car/:PageNo?', (req, res, next) => {
+Router.get('/buy-car/:PageNo?', async (req, res, next) => {
     let options = {
         page: req.params.PageNo || 1,
-        select: 'Make, Model, ModelYear, Price, State, BodyType, FuelType, KMsDriven',
+        select: 'Make Model ModelYear Price State BodyType FuelType KMsDriven',
         lean: true,
         limit: req.query.SetLimit || 15
     }
@@ -166,9 +166,9 @@ Router.get('/buy-car/:PageNo?', (req, res, next) => {
     // }
 
     // Sorting Data
-    if (req.query.SortData) {
-        options.sort = req.query.SortData
-    }
+    // if (req.query.SortData) {
+    //     options.sort = req.query.SortData
+    // }
 
     // For Search Field Make Model VINum
     if (req.query.SearchedCar) {
@@ -176,13 +176,12 @@ Router.get('/buy-car/:PageNo?', (req, res, next) => {
         Filters.$or = [{ Make: RegExCar }, { Model: RegExCar }, { VINum: RegExCar }]
     }
 
-    CarModel.paginate({
+    let a = await CarModel.paginate({
         ...Filters
     }, options)
-        .then(cars => {
-            if (!cars) return res.sendStatus(204)
-            res.json(cars)
-        })
+
+    console.log(a)
+    res.send(a)
 })
 
 Router.get('/car/:VINum', (req, res, next) => {
