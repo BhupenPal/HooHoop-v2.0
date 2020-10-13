@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
         color:"#fff",
         padding: "5%",
         postion: 'absolute',
-        background:"url(src/assets/img/Home/Advetisement.png)",
+        background:"url(/src/assets/img/Home/Advetisement.png)",
         backgroundSize: 'cover',
         display:"flex",
         flexDirection:"column",

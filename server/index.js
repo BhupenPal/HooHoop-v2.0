@@ -12,11 +12,7 @@ require('dotenv').config({
 
 require('./config/database')
 
-app.use('/api/', require('./api/Home.controller'))
-app.use('/api/user/', require('./api/User.controller'))
-app.use('/api/user/dashboard/', require('./api/Dashboard.controller'))
-app.use('/api/chatbot', require('./api/Chatbot.controller'))
-
+// DEV and PRODCTION HANDLER
 if (process.env.NODE_ENV === 'DEV') {
     const morgan = require('morgan'),
         cors = require('cors')
@@ -30,6 +26,12 @@ if (process.env.NODE_ENV === 'PROD') {
         res.sendFile(resolve(__dirname, '..', 'dist', 'index.html'))
     })
 }
+
+// WEB APP ROUTES
+app.use('/api/', require('./api/Home.controller'))
+app.use('/api/user/', require('./api/User.controller'))
+app.use('/api/user/dashboard/', require('./api/Dashboard.controller'))
+app.use('/api/chatbot', require('./api/Chatbot.controller'))
 
 app.use(async (req, res, next) => {
     next(createError.NotFound())
@@ -47,3 +49,5 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT
 app.listen(PORT, console.log(`Server is running on PORT: ${PORT}`))
+
+module.exports = app

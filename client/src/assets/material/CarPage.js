@@ -103,13 +103,6 @@ export default theme =>({
     feedback:{
         width:"100%",
     },
-    options:{
-        border: "1px solid #708DC7",
-        color:"#708DC7",
-        padding:"0.5rem 1rem",
-        borderRadius:"5px",
-        marginTop:"1rem"
-    },
     detailsContainer:{
         marginTop:"-1rem",
         borderTop:"1px solid #DDDDDD"

@@ -55,3 +55,10 @@ export const fetchRecommendedCar = async (price) => {
   const res = await axios.get(`/api/recommended-cars/${price}`);
   return res.data;
 }
+
+
+
+export const fetchBuyCar = async (PageNo = 2) => {
+  const res = await axios.get(`/api/buy-car`,{PageNo});
+  return res.data;
+}

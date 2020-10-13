@@ -179,7 +179,7 @@ Router.get('/buy-car', (req, res, next) => {
             if (!cars) return res.sendStatus(204)
             res.json(cars)
         })
-        
+
 })
 
 Router.get('/car/:VINum', (req, res, next) => {
@@ -189,6 +189,26 @@ Router.get('/car/:VINum', (req, res, next) => {
             if (!doc) return next(createError.BadRequest())
             res.json(doc)
         })
+})
+
+Router.get('/recommended-cars/:CurrentPrice', (req, res, next) => {
+    const { CurrentPrice } = req.params
+    const Suggested = { Price: null }
+
+    if (CurrentPrice <= 5000) {
+        Suggested.Price = { $lte: 5000 }
+    } else if (CurrentPrice <= 10000) {
+        Suggested.Price = { $gt: 5000, $lte: 10000 }
+    } else {
+        Suggested.Price = { $gt: 10000 }
+    }
+
+    CarModel.find({
+        isActive: true,
+        ...Suggested
+    })
+        .limit(10)
+        .then(doc => { res.json(doc) })
 })
 
 Router.post('/car/leads/submission', verifyAccessToken, (req, res, next) => {
