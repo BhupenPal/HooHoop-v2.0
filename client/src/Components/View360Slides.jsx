@@ -11,7 +11,7 @@ function View360Slides(props) {
   return (
     <div
       className="cloudimage-360"
-      data-folder="src/assets/img/sample-car/exterior/"
+      data-folder="/src/assets/img/sample-car/exterior/"
       data-filename="Photo_{index}.jpg"
       data-amount="33"
       data-spin-reverse

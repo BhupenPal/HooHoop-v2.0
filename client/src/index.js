@@ -79,7 +79,7 @@ class App extends Component {
               <Route path="/buy-car" component={BuyCar} />
               <PrivateRoute path="/sell-car" component={SellCar} />
               <Route path="/sellcar" component={SellCar} />
-              <Route path="/carpage" component={CarPage} />
+              <Route path="/car/:VINum" component={CarPage} />
             </Switch>
             <Footer />
           </BrowserRouter>

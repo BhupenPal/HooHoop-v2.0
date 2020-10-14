@@ -89,6 +89,7 @@ const CarSlider = ({ data }) => {
                 {
                     data.map((item, index) => {
                         return (
+                            <Link to={`/car/${item.VINum}`}>
                             <div key={index}>
                                 <div className={classes.SliderCar}>
                                     <img src={Car} alt="" className={classes.SlideCarImage} />
@@ -102,6 +103,7 @@ const CarSlider = ({ data }) => {
                                     </div>
                                 </div>
                             </div>
+                            </Link>
                         )
                     })
                 }

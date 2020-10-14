@@ -49,3 +49,23 @@ export const fetchCar = async (id) => {
     createdAt: car.createdAt,
   };
 };
+
+export const fetchRecommendedCar = async (price) => {
+  const res = await axios.get(`/api/recommended-cars/${price}`);
+  return res.data;
+};
+
+export const fetchBuyCar = async (PageNo = 1) => {
+  const res = await axios.get(`/api/buy-car/${PageNo}`);
+  return res.data.docs.map((car) => ({
+    BodyType: car.BodyType,
+    FuelType: car.FuelType,
+    KMsDriven: car.KMsDriven,
+    Make: car.Make,
+    Model: car.Model,
+    ModelYear: car.ModelYear,
+    Price: car.Price,
+    State: car.State,
+    _id: car._id,
+  }));
+};
