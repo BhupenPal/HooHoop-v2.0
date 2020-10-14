@@ -22,107 +22,108 @@ Router.get('/', (req, res, next) => {
         ViewsCount: '$ViewsCount',
         VINum: '$VINum'
     }
-    CarModel.aggregate([{
-        $match: {
-            isActive: true
-        }
-    },
-    {
-        $group: {
-            _id: null,
-            usedCars: {
-                $push: {
-                    $cond: [{
-                        $lte: ['$ModelYear', 2019]
-                    },
-                        DataToFetch, '$$REMOVE'
-                    ]
+    CarModel.aggregate([
+        {
+            $match: {
+                isActive: true
+            }
+        },
+        {
+            $group: {
+                _id: null,
+                usedCars: {
+                    $push: {
+                        $cond: [{
+                            $lte: ['$ModelYear', 2019]
+                        },
+                            DataToFetch, '$$REMOVE'
+                        ]
+                    }
+                },
+                recentCars: {
+                    $push: {
+                        $cond: [{
+                            $eq: ['$ModelYear', 2020]
+                        }, DataToFetch, '$$REMOVE']
+                    }
+                },
+                suvType: {
+                    $push: {
+                        $cond: [{
+                            $eq: ['$BodyType', 'SUV']
+                        }, DataToFetch, '$$REMOVE']
+                    }
+                },
+                hatchbackType: {
+                    $push: {
+                        $cond: [{
+                            $eq: ['$BodyType', 'Hatchback']
+                        }, DataToFetch, '$$REMOVE']
+                    }
+                },
+                sedanType: {
+                    $push: {
+                        $cond: [{
+                            $eq: ['$BodyType', 'Sedan']
+                        }, DataToFetch, '$$REMOVE']
+                    }
+                },
+                under5K: {
+                    $push: {
+                        $cond: [{
+                            $lt: ['$Price', 5000]
+                        }, DataToFetch, '$$REMOVE']
+                    }
+                },
+                under10K: {
+                    $push: {
+                        $cond: [{
+                            $and: [{
+                                $gt: ['$Price', 5000]
+                            }, {
+                                $lte: ['$Price', 10000]
+                            }]
+                        }, DataToFetch, '$$REMOVE']
+                    }
+                },
+                above10K: {
+                    $push: {
+                        $cond: [{
+                            $gt: ['$Price', 10000]
+                        }, DataToFetch, '$$REMOVE']
+                    }
+                },
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                usedCars: {
+                    "$slice": ["$usedCars", 10]
+                },
+                recentCars: {
+                    "$slice": ["$recentCars", 10]
+                },
+                suvType: {
+                    "$slice": ["$suvType", 10]
+                },
+                hatchbackType: {
+                    "$slice": ["$hatchbackType", 10]
+                },
+                sedanType: {
+                    "$slice": ["$sedanType", 10]
+                },
+                under5K: {
+                    "$slice": ["$under5K", 10]
+                },
+                under10K: {
+                    "$slice": ["$under10K", 10]
+                },
+                above10K: {
+                    "$slice": ["$above10K", 10]
                 }
-            },
-            recentCars: {
-                $push: {
-                    $cond: [{
-                        $eq: ['$ModelYear', 2020]
-                    }, DataToFetch, '$$REMOVE']
-                }
-            },
-            suvType: {
-                $push: {
-                    $cond: [{
-                        $eq: ['$BodyType', 'SUV']
-                    }, DataToFetch, '$$REMOVE']
-                }
-            },
-            hatchbackType: {
-                $push: {
-                    $cond: [{
-                        $eq: ['$BodyType', 'Hatchback']
-                    }, DataToFetch, '$$REMOVE']
-                }
-            },
-            sedanType: {
-                $push: {
-                    $cond: [{
-                        $eq: ['$BodyType', 'Sedan']
-                    }, DataToFetch, '$$REMOVE']
-                }
-            },
-            under5K: {
-                $push: {
-                    $cond: [{
-                        $lt: ['$Price', 5000]
-                    }, DataToFetch, '$$REMOVE']
-                }
-            },
-            under10K: {
-                $push: {
-                    $cond: [{
-                        $and: [{
-                            $gt: ['$Price', 5000]
-                        }, {
-                            $lte: ['$Price', 10000]
-                        }]
-                    }, DataToFetch, '$$REMOVE']
-                }
-            },
-            above10K: {
-                $push: {
-                    $cond: [{
-                        $gt: ['$Price', 10000]
-                    }, DataToFetch, '$$REMOVE']
-                }
-            },
-        }
-    },
-    {
-        $project: {
-            _id: 0,
-            usedCars: {
-                "$slice": ["$usedCars", 10]
-            },
-            recentCars: {
-                "$slice": ["$recentCars", 10]
-            },
-            suvType: {
-                "$slice": ["$suvType", 10]
-            },
-            hatchbackType: {
-                "$slice": ["$hatchbackType", 10]
-            },
-            sedanType: {
-                "$slice": ["$sedanType", 10]
-            },
-            under5K: {
-                "$slice": ["$under5K", 10]
-            },
-            under10K: {
-                "$slice": ["$under10K", 10]
-            },
-            above10K: {
-                "$slice": ["$above10K", 10]
             }
         }
-    }
     ], (err, doc) => {
         if (err) return next(createError.ServiceUnavailable())
         res.json(...doc)
@@ -148,13 +149,15 @@ Router.post('/contact', (req, res, next) => {
 
 Router.get('/buy-car/:PageNo?', async (req, res, next) => {
     const { Price, BodyType, FuelType, SearchedCar, KMsDriven, ModelYear, SortData, Make, Model, Transmission, Color } = req.query
-    const { PageNo } = req.params
+    let { PageNo } = req.params
+
+    // Making Sure Page Number IS NOT LESS THAN OR EQUAL TO 0
+    PageNo = (PageNo <= 0) ? 1 : PageNo
 
     let options = {
         page: PageNo || 1,
-        select: 'Make Model ModelYear Price State BodyType FuelType KMsDriven',
-        lean: true,
-        limit: 15
+        select: 'Make Model ModelYear Price State BodyType FuelType KMsDriven VINum createdAt',
+        lean: true
     }
 
     // Basic Filter For All Queries
@@ -174,9 +177,9 @@ Router.get('/buy-car/:PageNo?', async (req, res, next) => {
     if (ModelYear) Filters.ModelYear = RangeBasedFilter(ModelYear)
 
     // Sorting Data
-    // if (SortData) {
-    //     options.sort = req.query.SortData
-    // }
+    if (SortData === 'CheapestFirst') options.sort = { Price: 1 }
+    else if (SortData === 'ExpensiveFirst') options.sort = { Price: -1 }
+    else if (SortData === 'OldestFirst') options.sort = { createdAt: 1 }
 
     // For Search Field Make Model VINum
     if (SearchedCar) {
@@ -184,12 +187,50 @@ Router.get('/buy-car/:PageNo?', async (req, res, next) => {
         Filters.$or = [{ Make: RegExCar }, { Model: RegExCar }, { VINum: RegExCar }]
     }
 
-    let a = await CarModel.paginate({
-        ...Filters
+    const FeaturedCars = (PageNo % 50 === 1)
+        ?
+        await CarModel.paginate(
+            {
+                ...Filters,
+                'Featured.value': !0
+            },
+            {
+                ...options,
+                page: Math.ceil(PageNo / 50),
+                limit: 150
+            })
+        :
+        null
+
+    // If no featured cars then 15 normal cars, otherwise 12 normal cars
+    options.limit = (FeaturedCars !== null) ? 12 : 15
+
+    const cars = await CarModel.paginate({
+        ...Filters,
+        'Featured.value': !1
     }, options)
 
-    console.log(a)
-    res.send(a)
+    res.json({ cars, FeaturedCars })
+})
+
+Router.patch('/wish-handle', verifyAccessToken, (req, res, next) => {
+    try {
+        const { VINum } = req.body
+
+        CarModel.findOne({ VINum })
+            .then((doc) => {
+                if (!doc) throw createError.NotFound()
+                doc.LikedBy.includes(req.payload.aud)
+                    ?
+                    doc.LikedBy.pull(req.payload.aud)
+                    :
+                    doc.LikedBy.push(req.payload.aud)
+
+                doc.save(res.sendStatus(200))
+            })
+    } catch (error) {
+        next(error)
+    }
 })
 
 Router.get('/car/:VINum', (req, res, next) => {
