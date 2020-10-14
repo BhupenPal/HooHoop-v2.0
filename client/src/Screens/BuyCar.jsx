@@ -14,23 +14,22 @@ const BuyCar = () => {
       const classes  = useStyles();
       const [cars,setCars] = useState([]);
       useEffect(() => {
-        fetchBuyCar()
+        fetchBuyCar(1)
         .then(res => {
-         // console.log(res.docs)
-          setCars([...res.docs.slice(0,10)])
+          setCars(res);
         })
       },[])
 
       const renderCars = () => {
         console.log(cars)
-        return cars.map((car) => <CardComponent />);
+        return cars.map((car) => <CardComponent car={car}/>);
       }
       return ( 
         <Grid container justify="center" component="main" className={classes.pageDefault}>
           <Grid item container xs={12} sm={2}>
             <FilterComponent />
             </Grid>
-          <Grid item container xs={12} sm={8} justify="center">
+          <Grid item container xs={12} sm={9} justify="center">
             {renderCars()}
           </Grid>
         </Grid>
