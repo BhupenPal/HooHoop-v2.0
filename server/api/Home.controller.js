@@ -9,7 +9,7 @@ const express = require('express'),
     LeadsGeneratedModel = require('../models/GeneratedLead.model'),
 
     //Helper and Services
-    { GenerateOTP, EscapeRegex } = require('../helper/service'),
+    { GenerateOTP, SearchEscapeRegex, RangeBasedFilter } = require('../helper/service'),
     { verifyAccessToken } = require('../helper/auth/JWT_service'),
     { SendMail } = require('../helper/mail/config'),
     { ContactMail } = require('../helper/mail/content');
@@ -147,11 +147,14 @@ Router.post('/contact', (req, res, next) => {
 })
 
 Router.get('/buy-car/:PageNo?', async (req, res, next) => {
+    const { Price, BodyType, FuelType, SearchedCar, KMsDriven, ModelYear, SortData, Make, Model, Transmission, Color } = req.query
+    const { PageNo } = req.params
+
     let options = {
-        page: req.params.PageNo || 1,
+        page: PageNo || 1,
         select: 'Make Model ModelYear Price State BodyType FuelType KMsDriven',
         lean: true,
-        limit: req.query.SetLimit || 15
+        limit: 15
     }
 
     // Basic Filter For All Queries
@@ -159,20 +162,25 @@ Router.get('/buy-car/:PageNo?', async (req, res, next) => {
         isActive: true
     }
 
-    // Show all results - REMOVE PAGINATION
-    // if (!req.query.Pagination) {
-    //     options.pagination = false
-    //     delete options.limit
-    // }
+    // Selected Filters
+    if (Make) Filters.Make = Make
+    if (Color) Filters.Color = Color
+    if (Model) Filters.Model = Model
+    if (FuelType) Filters.FuelType = FuelType
+    if (BodyType) Filters.BodyType = BodyType
+    if (Transmission) Filters.Transmission = Transmission
+    if (Price) Filters.Price = RangeBasedFilter(Price)
+    if (KMsDriven) Filters.KMsDriven = RangeBasedFilter(KMsDriven)
+    if (ModelYear) Filters.ModelYear = RangeBasedFilter(ModelYear)
 
     // Sorting Data
-    // if (req.query.SortData) {
+    // if (SortData) {
     //     options.sort = req.query.SortData
     // }
 
     // For Search Field Make Model VINum
-    if (req.query.SearchedCar) {
-        const RegExCar = new RegExp(EscapeRegex(req.body.SearchedCar), 'gi')
+    if (SearchedCar) {
+        const RegExCar = new RegExp(SearchEscapeRegex(SearchedCar), 'gi')
         Filters.$or = [{ Make: RegExCar }, { Model: RegExCar }, { VINum: RegExCar }]
     }
 

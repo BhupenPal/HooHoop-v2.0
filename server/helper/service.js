@@ -28,7 +28,13 @@ module.exports = {
     })
   },
 
-  EscapeRegex: text => {
+  SearchEscapeRegex: text => {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
+  },
+
+  RangeBasedFilter: ToCheck => {
+    lower = parseInt(ToCheck.split("-")[0]);
+    upper = parseInt(ToCheck.split("-")[1]);
+    return { $gt: lower, $lt: upper };
   }
 }
