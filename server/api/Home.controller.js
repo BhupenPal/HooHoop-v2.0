@@ -213,12 +213,30 @@ Router.get('/recommended-cars/:CurrentPrice', (req, res, next) => {
         Suggested.Price = { $gt: 10000 }
     }
 
-    CarModel.find({
-        isActive: true,
-        ...Suggested
+    CarModel.aggregate([
+        {
+            $match: {
+                isActive: true,
+                ...Suggested
+            }
+        },
+        {
+            $sample: { size: 10 }
+        },
+        {
+            $project: {
+                _id: 0,
+                Make: 1,
+                Model: 1,
+                Price: 1,
+                ViewsCount: 1,
+                VINum: 1
+            }
+        }
+    ], (err, doc) => {
+        if (err) return next(createError.ServiceUnavailable())
+        res.json(doc)
     })
-        .limit(10)
-        .then(doc => { res.json(doc) })
 })
 
 Router.post('/car/leads/submission', verifyAccessToken, (req, res, next) => {
