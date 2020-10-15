@@ -147,12 +147,13 @@ Router.post('/contact', (req, res, next) => {
         })
 })
 
-Router.get('/buy-car/:PageNo?', async (req, res, next) => {
+Router.get('/buy-car/:PageNo', async (req, res, next) => {
     const { Price, BodyType, FuelType, SearchedCar, KMsDriven, ModelYear, SortData, Make, Model, Transmission, Color } = req.query
     let { PageNo } = req.params
 
     // Decoding authorization to check user and getting ObjectID
-    const UserID = decodeToken(req.headers['authorization']).aud
+    let UserID = decodeToken(req.headers['authorization'])
+    UserID = UserID ? UserID.aud : null
 
     // Making Sure Page Number IS NOT LESS THAN OR EQUAL TO 0
     PageNo = Math.max(1, PageNo)

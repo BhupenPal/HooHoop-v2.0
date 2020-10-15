@@ -57,3 +57,14 @@ $primary-gradient: linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%);
     //outline:none !important;
     margin: 1rem 0 !important;
 }
+.fadeIn{
+    animation: fadeIn 0.2s;
+}
+@keyframes fadeIn{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
