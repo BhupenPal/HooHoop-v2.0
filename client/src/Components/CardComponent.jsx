@@ -21,36 +21,38 @@ import LocalGasStationIcon from "@material-ui/icons/LocalGasStation";
 import { withStyles } from "@material-ui/core/styles";
 import styles from "../assets/material/Buycar";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import { Link } from "react-router-dom";
 
 class CardComponent extends Component {
   render() {
     const { classes, car } = this.props;
     return (
-      <Grid item container xs={12} sm={4} justify="center">
+      <Grid item xs={12} sm={4} className={classes.cardContainer} justify="center">
 
-      <Card className={classes.rootCard}>
+      <Card className={`${classes.rootCard} fadeIn`}>
         <CardHeader
-          title={`${car.Make} ${car.Model}`}
-          subheader={`${car.ModelYear} Model`}
+          
+          title={<p className={classes.cardTitle}>{car.Make} {car.Model}</p>}
+          subheader={<p className={classes.cardSubTitle}>{car.ModelYear} Model</p>}
         />
         <CardMedia className={classes.media} image={Sports} />
         <CardContent className={classes.cardContent}>
           <Box
             display="flex"
             justifyContent="space-between"
-            alignItems="center"
+            alignItems="flex-start"
           >
             <Typography
               variant="h5"
               component="h2"
-              className={classes.typoBold}
+              className={`${classes.typoBold} ${classes.cardAmount}`}
             >
               ₹ {car.Price}
             </Typography>
             <Typography
               variant="h5"
               component="h2"
-              className={classes.typoBold}
+              className={`${classes.typoBold} ${classes.cardLocation}`}
             >
               <IconButton className={classes.LocationIcon}>
                 <RoomOutlinedIcon />
@@ -58,13 +60,13 @@ class CardComponent extends Component {
               {car.State}
             </Typography>
           </Box>
-          <Box display="flex" justifyContent="center" margin="1rem 0">
+          <Box flex={1} display="flex" justifyContent="center" margin="1rem 0">
             <Box
               display="flex"
               flexDirection="column"
               justifyContent="center"
               alignItems="center"
-              maxWidth="33%"
+              width="33%"
             >
               <Avatar className={classes.iconCirclePrimary}>
                 <LocalTaxiIcon className={classes.iconSpacing} />
@@ -103,9 +105,11 @@ class CardComponent extends Component {
             </Box>
           </Box>
           <Box display="flex">
+            <Link style={{display: "contents"}} to={`/car/${car.VINum}`}>
             <Button variant="outlined" className={classes.viewDetails}>
               View Details
             </Button>
+            </Link>
             <Avatar className={classes.favoriteIcon}>
               <IconButton>
                 <FavoriteBorderIcon className={classes.heartIcon} />

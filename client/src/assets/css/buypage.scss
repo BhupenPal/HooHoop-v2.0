@@ -29,10 +29,10 @@
 }
 
 .filterContainer{
-    width: 100%;
+    width: 80%;
     height: max-content;
     border-radius: 0.5rem;
-    margin: 2rem auto;
+    margin: 1rem 0;
     background-color: #ffffff;
     box-sizing: border-box;
     display: flex;
@@ -202,7 +202,11 @@
         }
     }
 }
-
+.carsContainer{
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3,1fr);
+}
 .carMakes{
     display: flex;
     padding: 0 1rem;

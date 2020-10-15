@@ -147,10 +147,10 @@ Router.post('/contact', (req, res, next) => {
         })
 })
 
-Router.get('/buy-car/:PageNo?', async (req, res, next) => {
+Router.get('/buy-car/:PageNo', async (req, res, next) => {
     const { Price, BodyType, FuelType, SearchedCar, KMsDriven, ModelYear, SortData, Make, Model, Transmission, Color } = req.query
     let { PageNo } = req.params
-
+    console.log(req.query)
     // Making Sure Page Number IS NOT LESS THAN OR EQUAL TO 0
     PageNo = (PageNo <= 0) ? 1 : PageNo
 

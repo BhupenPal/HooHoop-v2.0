@@ -1,26 +1,55 @@
 export default BuyCar => ({
     pageDefault: {
         minHeight: "100vh",
+        padding:"0 5%",
+        backgroundColor:"#F4F6F8"
+    },
+    cardContainer:{
+        display:"flex",
     },
     rootCard: {
-        minWidth: "345px",
-        borderRadius: 8,
-        margin: BuyCar.spacing(4,4,4,4),
-        height: "max-content"
+        width: "320px",
+        height:"auto",
+        borderRadius: 5,
+        margin: BuyCar.spacing(2,2,2,2),
+        backgroundColor:"#fff",
+        display:"flex",
+        flexDirection:"column"
     },
     media: {
         height: 0,
         paddingTop: '50%', // 16:9
     },
+    cardTitle:{
+        fontWeight: 600,
+        fontSize: 18,
+        letterSpacing:"1px"
+        //lineHeight: 24
+    },
+    cardSubTitle:{
+        fontWeight: 500,
+        fontSize: 14,
+    },
     cardContent:{
-        padding: "0.5rem 1rem 1rem 1rem"
+        flex:1,
+        padding: "1rem",
+        display:"flex",
+        flexDirection:"column"
     },
     LocationIcon:{
         padding: "0rem"
     },
+    cardAmount:{
+        flex:1
+    },
+    cardLocation:{
+        textAlign:"right",
+        fontWeight:"500 !important",
+        fontSize:16
+    },
     iconCirclePrimary: {
-        backgroundColor: "#EEF4FF",
-        color: "#708DC7",
+        backgroundColor: "#F5F5F5",
+        color: "#333333",
         width: BuyCar.spacing(6),
         height: BuyCar.spacing(6),
         margin: BuyCar.spacing(0,2,0.5,2),
@@ -31,7 +60,8 @@ export default BuyCar => ({
         width: BuyCar.spacing(3.5)
     },
     typoBold: {
-        fontWeight: 900
+        fontWeight: 900,
+        flex:1,
     },
     typoSmall: {
         fontSize: "0.8rem"
@@ -48,7 +78,8 @@ export default BuyCar => ({
         color: "#E85513",
     },
     viewDetails:{
-        borderRadius: 8
+        borderRadius: 8,
+        display:"block"
     },
     gButton:{
         background: 'linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%)',
