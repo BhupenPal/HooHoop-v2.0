@@ -31,10 +31,10 @@ module.exports = {
 
     verifyAccessToken: (req, res, next) => {
         if (!req.headers['authorization']) return next(createError.Unauthorized())
-        
+
         const authHeader = req.headers['authorization']
         const Token = authHeader.split(' ')[1]
-        
+
         JWT.verify(Token, process.env.JWT_ACCESS_TOKEN, (err, payload) => {
             if (err) {
                 const message = 'JsonWebTokenError' ? 'Unauthorized' : err.message
@@ -69,7 +69,7 @@ module.exports = {
                     resolve(token)
                 })
             })
-        }) 
+        })
     },
 
     verifyRefreshToken: (refreshToken) => {
@@ -89,6 +89,10 @@ module.exports = {
                 })
             })
         })
+    },
+
+    decodeToken: (authHeader) => {
+        return authHeader ? JWT.verify(authHeader.split(' ')[1], process.env.JWT_ACCESS_TOKEN) : null
     }
 
 }
