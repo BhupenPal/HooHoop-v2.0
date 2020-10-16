@@ -1,6 +1,5 @@
 const mongoose = require('mongoose'),
-    mongoosePaginate = require('mongoose-paginate-v2'),
-    aggregatePaginate = require('mongoose-aggregate-paginate-v2');
+    mongoosePaginate = require('mongoose-paginate-v2')
 
 const connection = mongoose.connect(process.env.MONGODB_URI, {
     dbName: process.env.DB_NAME,
@@ -35,6 +34,5 @@ process.on('SIGINT', async () => {
 })
 
 mongoose.plugin(mongoosePaginate)
-mongoose.plugin(aggregatePaginate)
 
 module.exports = connection

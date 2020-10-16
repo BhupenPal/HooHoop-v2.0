@@ -2,6 +2,7 @@
 const express = require('express'),
     Router = express.Router(),
     createError = require('http-errors'),
+    mongoose = require('mongoose'),
 
     //MongoDB Models
     ContactModel = require('../models/Contact.model'),
@@ -152,28 +153,17 @@ Router.get('/buy-car/:PageNo', async (req, res, next) => {
     let { PageNo } = req.params
 
     // Decoding authorization to check user and getting ObjectID
-    let UserID = decodeToken(req.headers['authorization'])
-    UserID = UserID ? UserID.aud : null
+    let UserID = await decodeToken(req.headers['authorization'])
+    UserID = UserID ? mongoose.Types.ObjectId(UserID.aud) : null
 
     // Making Sure Page Number IS NOT LESS THAN OR EQUAL TO 0
     PageNo = Math.max(1, PageNo)
 
     let options = {
         page: PageNo || 1,
-        lean: true
-    }
-
-    const DataToFetch = {
-        Make: '$Make',
-        Model: '$Model',
-        ModelYear: '$ModelYear',
-        Price: '$Price',
-        State: '$State',
-        BodyType: '$BodyType',
-        FuelType: '$FuelType',
-        KMsDriven: '$KMsDriven',
-        ViewsCount: '$ViewsCount',
-        VINum: '$VINum'
+        select: 'Make Model ModelYear Price State BodyType FuelType KMsDriven ViewsCount VINum LikedBy',
+        lean: true,
+        limit: 15
     }
 
     // Basic Filter For All Queries
@@ -203,52 +193,15 @@ Router.get('/buy-car/:PageNo', async (req, res, next) => {
         Filters.$or = [{ Make: RegExCar }, { Model: RegExCar }, { VINum: RegExCar }]
     }
 
-    // Number of Featured Cars to be shown in 1 render = 6
-    // Limit of Featured Cars for query = 150
-    // Featured Cars Fetched for how many pages => 150/6 = 25 
-    const FeaturedCars = (PageNo % 25 === 1)
-        ?
-        await CarModel.aggregatePaginate(CarModel.aggregate([
-            {
-                $match: {
-                    ...Filters,
-                    'Featured.value': !0
-                }
-            },
-            {
-                $project: {
-                    ...DataToFetch,
-                    "LikedBy": {
-                        $in: [UserID, "$LikedBy"]
-                    }
-                }
-            }
-        ]), { ...options, page: Math.ceil(PageNo / 25), limit: 150 })
-        :
-        null
-
-    // If no featured cars then 15 normal cars, otherwise 9 normal cars
-    options.limit = (FeaturedCars !== null) ? 9 : 15
-
-    const cars =
-        await CarModel.aggregatePaginate(CarModel.aggregate([
-            {
-                $match: {
-                    ...Filters,
-                    'Featured.value': !1
-                }
-            },
-            {
-                $project: {
-                    ...DataToFetch,
-                    "LikedBy": {
-                        $in: [UserID, "$LikedBy"]
-                    }
-                }
-            }
-        ]), options)
-
-    res.json({ cars, FeaturedCars })
+    CarModel.paginate(Filters, options)
+        .then(cars => {
+            cars.docs.map(vehicle => {
+                vehicle.LikedBy.some((CurrentObjID) => {
+                    vehicle.LikedBy = CurrentObjID == UserID ? true : false
+                })
+            })
+            res.json(cars)
+        })
 })
 
 Router.patch('/wish-handle', verifyAccessToken, (req, res, next) => {
