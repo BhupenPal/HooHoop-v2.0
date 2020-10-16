@@ -21,3 +21,14 @@ export const fuelTypes = [
   "Electric",
   "Hybrid",
 ];
+
+export const colors = [
+  "White",
+  "Black",
+  "Red",
+  "Blue",
+  "Gray",
+  "Orange",
+  "Green",
+  "Yellow",
+]

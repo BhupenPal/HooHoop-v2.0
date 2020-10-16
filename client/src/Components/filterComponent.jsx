@@ -45,21 +45,24 @@ const filterComponent = (props) => {
     State4: false,
     State5: true,
   });
-  const {brands,bodies,yearRange,priceRange,kmsDriven,bodyTypes,transmissions,fuelTypes} = useSelector((store) => store.filter);
+  const {brands,bodies,yearRange,priceRange,kmsDriven,bodyTypes,transmissions,fuelTypes,colors} = useSelector((store) => store.filter);
   const dispatch = useDispatch();
   
 
   useEffect(() => {
     const newbodies = {};
 
-    Makebodies.forEach((item) => {
-      if (brands[item.Make]) {
-        item.Models.map((cur) => {
-          newbodies[cur] = false;
-        });
-      }
-    });
-    dispatch(setFilterBody({ ...newbodies }));
+   // new Promise((resolve,reject) => {
+      Makebodies.forEach((item) => {
+        if (brands[item.Make]) {
+          item.Models.map((cur) => {
+            newbodies[cur] = false;
+          });
+        }
+      });
+    
+
+    dispatch(setFilterBody(newbodies));
   }, [brands]);
 
   useEffect(() => {
@@ -89,12 +92,18 @@ const filterComponent = (props) => {
           query += `FuelType=${fuelType}&`;
         }
     });
+    Object.keys(colors).forEach((color) => {
+      if (colors[color]) {
+        query += `Color=${color}&`;
+      }
+  });
     query += `ModelYear=${yearRange[0]}-${yearRange[1]}&`;
     query += `Price=${priceRange[0]}-${priceRange[1]}&`;
     query += `KMsDriven=${kmsDriven[0]}-${kmsDriven[1]}&`;
+
     console.log(bodies)
     setQuery(query);
-  }, [brands, bodies, yearRange, priceRange, kmsDriven,fuelTypes,transmissions,bodyTypes]);
+  }, [brands, bodies, yearRange, priceRange, kmsDriven,fuelTypes,transmissions,bodyTypes,colors]);
   function toggleFilter(getState) {
     switch (getState) {
       case "State0":
@@ -205,7 +214,12 @@ const filterComponent = (props) => {
   function handleBodyList(e) {
     dispatch(setFilterBodyType({ ...bodyTypes, [e.target.name]: !bodyTypes[e.target.name] }));
   }
-
+  
+  function handleColorList(e) {
+    console.log(e.target.name)
+    dispatch(setFilterColor({ ...colors, [e.target.name]: !colors[e.target.name] }));
+  }
+  
   return (
     <Box className="filterContainer fadeIn">
       <Typography variant="h4" component="h3">
@@ -484,15 +498,32 @@ const filterComponent = (props) => {
           </IconButton>
         </div>
         <Collapse in={filterstate.State5}>
-          <div className={classes.expandedFilter} id="colorContainer">
+          <div className={classes.expandedFilter}  id="colorContainer">
+          {
+            Object.keys(colors).map((item, index) => {
+                return (
+                  
+                  <label htmlFor={item} className={`colorCircle ${colors[item] && "colorSelected"}`}>
+                    <Checkbox
+                    color="primary"
+                    inputProps={{ "aria-label": "secondary checkbox" }}
+                    checked={colors[item]}
+                    onClick={handleColorList}
+                    name={item}
+                    id={item}
+                    style={{display:"none"}}
+                  />
+                  </label>
+                )
+            })
+          }
+            {/* <div className="colorCircle"></div>
             <div className="colorCircle"></div>
             <div className="colorCircle"></div>
             <div className="colorCircle"></div>
             <div className="colorCircle"></div>
             <div className="colorCircle"></div>
-            <div className="colorCircle"></div>
-            <div className="colorCircle"></div>
-            <div className="colorCircle"></div>
+            <div className="colorCircle"></div> */}
           </div>
         </Collapse>
       </div>
