@@ -15,7 +15,7 @@ const BuyCar = () => {
   const classes = useStyles();
   const [cars, setCars] = useState([]);
   const [query, setQuery] = useState("");
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState(true);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
@@ -28,9 +28,13 @@ const BuyCar = () => {
         setLoader(false);
         setHasMore(results.cars.hasNextPage);
         setCars((curCars) => [...curCars, ...results.cars.docs]);
-      });
+      })
+      .catch(err => {
+        setLoader(false);
+
+      })
+      ;
     } else {
-      setLoader(false);
       setCars([]);
     }
   };

@@ -22,6 +22,7 @@ import { withStyles } from "@material-ui/core/styles";
 import styles from "../assets/material/Buycar";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { Link } from "react-router-dom";
+import { addToWishList } from "../services/wishlist";
 
 class CardComponent extends Component {
   render() {
@@ -110,7 +111,7 @@ class CardComponent extends Component {
               View Details
             </Button>
             </Link>
-            <Avatar className={classes.favoriteIcon}>
+            <Avatar onClick={() => addToWishList(car.VINum)} className={classes.favoriteIcon}>
               <IconButton>
                 <FavoriteBorderIcon className={classes.heartIcon} />
               </IconButton>
