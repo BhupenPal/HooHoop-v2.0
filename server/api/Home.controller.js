@@ -152,7 +152,8 @@ Router.get('/buy-car/:PageNo', async (req, res, next) => {
     let { PageNo } = req.params
 
     // Decoding authorization to check user and getting ObjectID
-    const UserID = decodeToken(req.headers['authorization']).aud
+    let UserID = decodeToken(req.headers['authorization'])
+    UserID = UserID ? UserID.aud : null
 
     // Making Sure Page Number IS NOT LESS THAN OR EQUAL TO 0
     PageNo = Math.max(1, PageNo)
