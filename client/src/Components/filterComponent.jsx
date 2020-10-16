@@ -189,7 +189,8 @@ const filterComponent = (props) => {
     }
   }
   function handleMakerList(e) {
-    dispatch(setFilterBrands({ ...brands, [e.target.name]: !brands[e.target.name] }));
+    brands[e.target.name] = !brands[e.target.name]
+    dispatch(setFilterBrands({...brands}));
   }
 
   function handleModelList(e) {

@@ -52,6 +52,7 @@
     "jwt-decode": "^2.2.0",
     "panolens": "^0.11.0",
     "react-google-login": "^5.1.21",
+    "react-infinite-scroll-component": "^5.1.0",
     "react-redux": "^7.2.0",
     "react-slick": "^0.27.11",
     "recompose": "^0.30.0",

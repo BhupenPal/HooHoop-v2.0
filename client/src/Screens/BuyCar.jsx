@@ -1,54 +1,109 @@
 import React, { Component, useEffect, useState } from "react";
 import compose from "recompose/compose";
-import {
-  Grid, makeStyles,
-} from "@material-ui/core";
-import styles from '../assets/material/Buycar';
-import CardComponent from '../Components/CardComponent.jsx';
-import SliderComponent from '../Components/sliderComponent.jsx';
-import FilterComponent from '../Components/filterComponent.jsx';
+import { Grid, makeStyles } from "@material-ui/core";
+import styles from "../assets/material/Buycar";
+import CardComponent from "../Components/CardComponent.jsx";
+import SliderComponent from "../Components/sliderComponent.jsx";
+import FilterComponent from "../Components/filterComponent.jsx";
 import { fetchBuyCar } from "../services/fetchCar";
 import useDebounce from "../Hooks/useDebounce.js";
+import { Skeleton } from "@material-ui/lab";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const useStyles = makeStyles(styles);
 const BuyCar = () => {
-      const classes  = useStyles();
-      const [cars,setCars] = useState([]);
-      const [query,setQuery] = useState("");
+  const classes = useStyles();
+  const [cars, setCars] = useState([]);
+  const [query, setQuery] = useState("");
+  const [loader, setLoader] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
-      const debouncedQuery = useDebounce(query,1000)
-      useEffect(() => {
-        if (debouncedQuery) {
-          // Set isSearching state
-         // setIsSearching(true);
-          // Fire off our API call
-          fetchBuyCar(1,debouncedQuery).then(results => {
-            // Set back to false since request finished
-           // setIsSearching(false);
-            // Set results state
-            console.log("hi")
-            setCars(results);
-          });
-        } else {
-          setCars([]);
-        }
-      },[debouncedQuery])
+  const debouncedQuery = useDebounce(query, 1000);
 
-      const renderCars = () => {
-
-        return (cars.map((car,index) => <CardComponent key={index} car={car}/>));
-      }
-      return ( 
-        <Grid container justify="center" component="main" className={classes.pageDefault}>
-          <Grid item container xs={12} sm={3}>
-            <FilterComponent setQuery={setQuery}/>
-            </Grid>
-           <Grid item container xs={12} sm={9} justify="center">
-              {renderCars()}
-      
-         </Grid>
-        </Grid>
-      )
+  const fetchMoreCars = () => {
+    if (debouncedQuery) {
+      setLoader(true);
+      fetchBuyCar(page, debouncedQuery).then((results) => {
+        setLoader(false);
+        setHasMore(results.cars.hasNextPage);
+        setCars((curCars) => [...curCars, ...results.cars.docs]);
+      });
+    } else {
+      setLoader(false);
+      setCars([]);
     }
-  
-export default (BuyCar);
+  };
+  useEffect(() => {
+    setCars([]);
+    setPage(1);
+    fetchMoreCars();
+  }, [debouncedQuery]);
+  useEffect(() => {
+    fetchMoreCars();
+  }, [page]);
+
+  const renderSkeleton = () => {
+    if (!loader) return null;
+    return (
+      <Grid item container xs={12} sm={12} style={{ height: "fit-content" }}>
+        {[1, 2, 3].map(() => (
+          <Grid
+            item
+            xs={12}
+            sm={4}
+            className={classes.cardContainer}
+            justify="center"
+          >
+            <Skeleton
+              variant="rect"
+              width={320}
+              height={450}
+              style={{ margin: "1rem" }}
+            />
+          </Grid>
+        ))}
+      </Grid>
+    );
+  };
+  const renderCars = () => {
+    return cars.map((car, index) => <CardComponent key={index} car={car} />);
+  };
+  return (
+    <Grid
+      container
+      justify="center"
+      component="main"
+      className={classes.pageDefault}
+    >
+      <Grid item container xs={12} sm={3}>
+        <FilterComponent setQuery={setQuery} />
+      </Grid>
+      <Grid item container xs={12} sm={9} style={{ height: "fit-content" }}>
+        <InfiniteScroll
+          dataLength={cars.length}
+          next={() => setPage(page + 1)}
+          hasMore={hasMore}
+          loader={renderSkeleton()}
+        >
+          {/* {this.state.items.map((i, index) => (
+              <div style={style} key={index}>
+                div - #{index}
+              </div>
+            ))} */}
+          <Grid
+            item
+            container
+            xs={12}
+            style={{ height: "fit-content" }}
+          >
+            {renderCars()}
+          </Grid>
+        </InfiniteScroll>
+        {renderSkeleton()}
+      </Grid>
+    </Grid>
+  );
+};
+
+export default BuyCar;

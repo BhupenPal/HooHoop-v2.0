@@ -55,9 +55,9 @@ export const fetchRecommendedCar = async (price) => {
   return res.data;
 };
 
-export const fetchBuyCar = async (PageNo = 1,query = "") => {
+export const fetchBuyCar = async (PageNo = 1, query = "") => {
   const res = await axios.get(`/api/buy-car/${PageNo}?${query}`);
-  return res.data.cars.docs.map((car) => ({
+  const cars = res.data.cars.docs.map((car) => ({
     BodyType: car.BodyType,
     FuelType: car.FuelType,
     KMsDriven: car.KMsDriven,
@@ -66,7 +66,22 @@ export const fetchBuyCar = async (PageNo = 1,query = "") => {
     ModelYear: car.ModelYear,
     Price: car.Price,
     State: car.State,
-    VINum:car.VINum,
+    VINum: car.VINum,
     _id: car._id,
   }));
+  return {
+    featured: {},
+    cars: {
+      docs: cars,
+      hasNextPage: res.data.cars.hasNextPage,
+      hasPrevPage: res.data.hasPrevPage,
+      limit: res.data.cars.limit,
+      nextPage: res.data.cars.nextPage,
+      page: res.data.cars.page,
+      pagingCounter: res.data.cars.pagingCounter,
+      prevPage: res.data.cars.prevPage,
+      totalDocs: res.data.cars.totalDocs,
+      totalPages: res.data.cars.totalPages,
+    },
+  };
 };
