@@ -8,6 +8,7 @@ const express = require('express'),
     ContactModel = require('../models/Contact.model'),
     CarModel = require('../models/Car.model'),
     LeadsGeneratedModel = require('../models/GeneratedLead.model'),
+    UserModel = require('../models/User.model'),
 
     //Helper and Services
     { GenerateOTP, SearchEscapeRegex, RangeBasedFilter } = require('../helper/service'),
@@ -207,21 +208,27 @@ Router.get('/buy-car/:PageNo', async (req, res, next) => {
         })
 })
 
-Router.patch('/wish-handle', verifyAccessToken, (req, res, next) => {
+Router.patch('/wish-handle', verifyAccessToken, async (req, res, next) => {
     try {
         const { VINum } = req.body
 
-        CarModel.findOne({ VINum })
-            .then((doc) => {
-                if (!doc) throw createError.NotFound()
-                doc.LikedBy.includes(req.payload.aud)
-                    ?
-                    doc.LikedBy.pull(req.payload.aud)
-                    :
-                    doc.LikedBy.push(req.payload.aud)
+        const LikedCar = await CarModel.findOne({ VINum })
+        const User = await UserModel.findById(req.payload.aud)
 
-                doc.save(res.sendStatus(200))
-            })
+        if (!LikedCar || !User) throw createError.NotFound()
+
+        if (LikedCar.LikedBy.includes(req.payload.aud)) {
+            LikedCar.LikedBy.pull(req.payload.aud)
+            User.WishList.pull(VINum)
+        } else {
+            LikedCar.LikedBy.push(req.payload.aud)
+            User.WishList.push(VINum)
+        }
+
+        LikedCar.save()
+        User.save()
+
+        res.sendStatus(200)
     } catch (error) {
         next(error)
     }
