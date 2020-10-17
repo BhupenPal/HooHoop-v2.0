@@ -112,7 +112,7 @@ const CarSchema = mongoose.Schema({
         ref: 'user list',
         required: true
     },
-    LikedBy: [mongoose.Schema.Types.ObjectId],
+    LikedBy: [String],
     Dealer: {
         value: {
             type: Boolean,
