@@ -150,11 +150,14 @@ Router.post('/contact', (req, res, next) => {
 
 Router.get('/buy-car/:PageNo', async (req, res, next) => {
     const { Price, BodyType, FuelType, SearchedCar, KMsDriven, ModelYear, SortData, Make, Model, Transmission, Color } = req.query
-    let { PageNo } = req.params
+    let { PageNo } = req.params,
+        UserID = null
 
     // Decoding authorization to check user and getting ObjectID
-    let UserID = await decodeToken(req.headers['authorization'])
-    UserID = UserID ? mongoose.Types.ObjectId(UserID.aud) : null
+    if (req.headers['authorization']) {
+        UserID = await decodeToken(req.headers['authorization'])
+        UserID = mongoose.Types.ObjectId(UserID.aud)
+    }
 
     // Making Sure Page Number IS NOT LESS THAN OR EQUAL TO 0
     PageNo = Math.max(1, PageNo)
@@ -196,8 +199,8 @@ Router.get('/buy-car/:PageNo', async (req, res, next) => {
     CarModel.paginate(Filters, options)
         .then(cars => {
             cars.docs.map(vehicle => {
-                vehicle.LikedBy.some((CurrentObjID) => {
-                    vehicle.LikedBy = CurrentObjID == UserID ? true : false
+                vehicle.LikedBy = vehicle.LikedBy.some((CurrentObjID) => {
+                    return CurrentObjID == UserID ? true : false
                 })
             })
             res.json(cars)
