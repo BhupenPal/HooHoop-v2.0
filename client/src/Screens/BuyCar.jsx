@@ -31,7 +31,6 @@ const BuyCar = () => {
       })
       .catch(err => {
         setLoader(false);
-
       })
       ;
     } else {
