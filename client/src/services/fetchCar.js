@@ -65,6 +65,7 @@ export const fetchBuyCar = async (PageNo = 1, query = "") => {
     Model: car.Model,
     ModelYear: car.ModelYear,
     Price: car.Price,
+    LikedBy:Array.isArray(car.LikedBy) ? false : car.LikedBy,
     State: car.State,
     VINum: car.VINum,
     _id: car._id,

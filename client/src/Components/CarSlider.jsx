@@ -6,6 +6,7 @@ import Slider from "react-slick";
 import Car from '../assets/img/Rectangle 4.png'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import { Skeleton } from "@material-ui/lab";
 
 const CarSliderStyles = makeStyles(() => ({
     SliderCar: {
@@ -22,7 +23,10 @@ const CarSliderStyles = makeStyles(() => ({
         width: '100%'
     },
     CarDetails: {
-        padding: '8px 15px'
+        padding: '8px 15px',
+    },
+    cardText:{
+        color:"#000"
     }
 }));
 
@@ -80,12 +84,30 @@ const settings = {
     ]
 };
 
-const CarSlider = ({ data }) => {
-    const classes = CarSliderStyles();
 
+const CarSlider = ({ data,loading }) => {
+    const classes = CarSliderStyles();
+    const renderSkeletons = () => {
+   if (!loading) return null;
+    return (
+      [1, 2, 3,4].map(() => (
+          <div style={{padding:"1rem 0"}}>
+            <Skeleton
+              variant="rect"
+              width={280}
+              height={250}
+              style={{ margin: "1rem" }}
+            />
+            </div>
+        ))
+    );
+  };
+    
     return (
         <div style={{ width: '100%', margin: '30px 0' }}>
             <Slider {...settings}>
+            {renderSkeletons()}
+
                 {
                     data.map((item, index) => {
                         return (
@@ -94,10 +116,10 @@ const CarSlider = ({ data }) => {
                                 <div className={classes.SliderCar}>
                                     <img src={Car} alt="" className={classes.SlideCarImage} />
                                     <div className={classes.CarDetails}>
-                                        <div>
+                                        <div className={classes.cardText}>
                                             {item.Make}
                                         </div>
-                                        <div>
+                                        <div className={classes.cardText}>
                                         &#36; {item.Price}
                                         </div>
                                     </div>

@@ -21,15 +21,19 @@ function Home(props) {
   const [carsData, setCarsData] = useState([]);
   const [rangeTab, setRangeTab] = useState(0);
   const [carTypeTab, setCarTypeTab] = useState(0);
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
+    setLoader(true)
     axios
       .get("/api/")
       .then((res) => {
         setCarsData(res.data);
+        setLoader(false)
       })
       .catch((err) => {
         alert("Error fetching data");
+        setLoader(false)
         console.log(err);
       });
   }, []);
@@ -60,11 +64,11 @@ function Home(props) {
 
   const renderRangeCars = () => {
     const tabs = [under5K,under10K,above10K];
-    return <CarSlider data={tabs[rangeTab]} />
+    return <CarSlider data={tabs[rangeTab]} loading={loader}/>
   }
   const renderUsedTypeCars = () => {
     const tabs = [sedanType,hatchbackType,suvType];
-    return <CarSlider data={tabs[carTypeTab]} />
+    return <CarSlider data={tabs[carTypeTab]} loading={loader}/>
   }
   return (
     <Fragment>
@@ -93,13 +97,13 @@ function Home(props) {
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Popular</span> Used Cars
           </Typography>
-          <CarSlider data={usedCars} />
+          <CarSlider loading={loader} data={usedCars} loading={loader}/>
         </Grid>
         <Grid item xs={10} style={{ marginTop: 70 }}>
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Recently</span> Added Cars
           </Typography>
-          <CarSlider data={above10K} />
+          <CarSlider loading={loader} data={above10K} />
         </Grid>
         <Grid item xs={10} style={{ marginTop: 70 }}>
           <Typography variant="h2" className="home-subhead">

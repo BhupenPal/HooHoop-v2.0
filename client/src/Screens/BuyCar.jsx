@@ -9,6 +9,8 @@ import { fetchBuyCar } from "../services/fetchCar";
 import useDebounce from "../Hooks/useDebounce.js";
 import { Skeleton } from "@material-ui/lab";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { ca } from "date-fns/esm/locale";
+import { addToWishList } from "../services/wishlist";
 
 const useStyles = makeStyles(styles);
 const BuyCar = () => {
@@ -20,7 +22,19 @@ const BuyCar = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const debouncedQuery = useDebounce(query, 1000);
-
+  const setWishlist = (VINum,index) => {
+    addToWishList(VINum)
+    .then(() => {
+      console.log(cars[index].LikedBy)
+      setCars(cars => {
+        cars[index].LikedBy = !cars[index].LikedBy;
+        return [...cars];
+      })
+    });
+  }
+  useEffect(() => {
+    console.log(cars)
+  })
   const fetchMoreCars = () => {
     if (debouncedQuery) {
       setLoader(true);
@@ -70,7 +84,7 @@ const BuyCar = () => {
     );
   };
   const renderCars = () => {
-    return cars.map((car, index) => <CardComponent key={index} car={car} />);
+    return cars.map((car, index) => <CardComponent key={index} index={index} setWishlist={setWishlist} car={car} />);
   };
   return (
     <Grid

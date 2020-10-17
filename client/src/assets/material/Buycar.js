@@ -6,6 +6,7 @@ export default BuyCar => ({
     },
     cardContainer:{
         display:"flex",
+        minWidth:320,
     },
     rootCard: {
         width: "320px",

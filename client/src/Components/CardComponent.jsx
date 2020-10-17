@@ -21,12 +21,14 @@ import LocalGasStationIcon from "@material-ui/icons/LocalGasStation";
 import { withStyles } from "@material-ui/core/styles";
 import styles from "../assets/material/Buycar";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import { Link } from "react-router-dom";
-import { addToWishList } from "../services/wishlist";
+import FavoriteIcon  from "@material-ui/icons/Favorite";
 
-class CardComponent extends Component {
-  render() {
-    const { classes, car } = this.props;
+import { Link } from "react-router-dom";
+
+const CardComponent = (props) => {
+
+    const { classes, car, index,setWishlist } = props;
+    console.log(car.LikedBy)
     return (
       <Grid item xs={12} sm={4} className={classes.cardContainer} justify="center">
 
@@ -111,9 +113,9 @@ class CardComponent extends Component {
               View Details
             </Button>
             </Link>
-            <Avatar onClick={() => addToWishList(car.VINum)} className={classes.favoriteIcon}>
+            <Avatar onClick={() => setWishlist(car.VINum,index)} className={classes.favoriteIcon}>
               <IconButton>
-                <FavoriteBorderIcon className={classes.heartIcon} />
+                {(car.LikedBy === true) ? <FavoriteIcon className={classes.heartIcon} /> : <FavoriteBorderIcon className={classes.heartIcon} />}
               </IconButton>
             </Avatar>
           </Box>
@@ -122,7 +124,6 @@ class CardComponent extends Component {
       </Grid>
     );
   }
-}
 
 export default compose(withStyles(styles, { withTheme: true }))(
   withRouter(CardComponent)
