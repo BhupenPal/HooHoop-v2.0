@@ -4,7 +4,7 @@ const CarSchema = mongoose.Schema({
     Make: {
         type: String,
         required: true,
-        uppercase: true
+       // uppercase: true
     },
     Model: {
         type: String,

@@ -77,7 +77,9 @@ const CarPage = (props) => {
         console.log(err);
       });
   };
-
+  useEffect(() => {
+    document.documentElement.scrollTop = 0;
+  },[VINum])
   useEffect(() => {
     fetchAndSetCar();
   }, [VINum]);
@@ -228,3 +230,4 @@ const CarPage = (props) => {
   );
 };
 export default compose(withStyles(styles, { withTheme: true }))(CarPage);
+

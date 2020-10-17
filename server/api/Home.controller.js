@@ -172,7 +172,7 @@ Router.get('/buy-car/:PageNo', async (req, res, next) => {
     }
 
     // Selected Filters
-    if (Make) Filters.Make = Make
+    if (Make) Filters.Make = {$in:Array.isArray(Make) ? Make : [Make] }
     if (Color) Filters.Color = Color
     if (Model) Filters.Model = Model
     if (FuelType) Filters.FuelType = FuelType
@@ -192,7 +192,7 @@ Router.get('/buy-car/:PageNo', async (req, res, next) => {
         const RegExCar = new RegExp(SearchEscapeRegex(SearchedCar), 'gi')
         Filters.$or = [{ Make: RegExCar }, { Model: RegExCar }, { VINum: RegExCar }]
     }
-
+    
     CarModel.paginate(Filters, options)
         .then(cars => {
             cars.docs.map(vehicle => {
