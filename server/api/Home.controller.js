@@ -176,7 +176,7 @@ Router.get('/buy-car/:PageNo', async (req, res, next) => {
     }
 
     // Selected Filters
-    if (Make) Filters.Make = {$in:Array.isArray(Make) ? Make : [Make] }
+    if (Make) Filters.Make = Make
     if (Color) Filters.Color = Color
     if (Model) Filters.Model = Model
     if (FuelType) Filters.FuelType = FuelType
@@ -210,6 +210,7 @@ Router.get('/buy-car/:PageNo', async (req, res, next) => {
 
 Router.patch('/wish-handle', verifyAccessToken, async (req, res, next) => {
     try {
+        console.log(req.payload)
         const { VINum } = req.body
 
         const LikedCar = await CarModel.findOne({ VINum })
