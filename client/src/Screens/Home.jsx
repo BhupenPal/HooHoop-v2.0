@@ -81,7 +81,6 @@ function Home(props) {
                 <Typography variant="h2" className={classes.SliderText}>Buy and Sell <span className={classes.SliderHighlight}>Premium</span></Typography>
                 <Typography variant="h2" className={classes.SliderText}>Cars on our Marketplace</Typography>
                 <Input
-                margin="normal"
                 required
                 placeholder="Search Car"
                 className={classes.SliderInput}

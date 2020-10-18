@@ -15,8 +15,8 @@ const CarSliderStyles = makeStyles(() => ({
         borderRadius: 5,
         margin: '2rem auto',
         transition: "box-shadow 0.2s",
-        "&:hover" :{
-            boxShadow:"0 0.1rem 1rem rgba(0,0,0,0.2)"
+        "&:hover": {
+            boxShadow: "0 0.1rem 1rem rgba(0,0,0,0.2)"
         }
     },
     SlideCarImage: {
@@ -25,8 +25,8 @@ const CarSliderStyles = makeStyles(() => ({
     CarDetails: {
         padding: '8px 15px',
     },
-    cardText:{
-        color:"#000"
+    cardText: {
+        color: "#000"
     }
 }));
 
@@ -85,46 +85,46 @@ const settings = {
 };
 
 
-const CarSlider = ({ data,loading }) => {
+const CarSlider = ({ data, loading }) => {
     const classes = CarSliderStyles();
     const renderSkeletons = () => {
-   if (!loading) return null;
-    return (
-      [1, 2, 3,4].map(() => (
-          <div style={{padding:"1rem 0"}}>
-            <Skeleton
-              variant="rect"
-              width={280}
-              height={250}
-              style={{ margin: "1rem" }}
-            />
-            </div>
-        ))
-    );
-  };
-    
+        if (!loading) return null;
+        return (
+            [1, 2, 3, 4].map(item => (
+                <div style={{ padding: "1rem 0" }} key={item}>
+                    <Skeleton
+                        variant="rect"
+                        width={280}
+                        height={250}
+                        style={{ margin: "1rem" }}
+                    />
+                </div>
+            ))
+        );
+    };
+
     return (
         <div style={{ width: '100%', margin: '30px 0' }}>
             <Slider {...settings}>
-            {renderSkeletons()}
+                {renderSkeletons()}
 
                 {
-                    data.map((item, index) => {
+                    data.map(item => {
                         return (
-                            <Link to={`/car/${item.VINum}`}>
-                            <div key={index} className="fadeIn">
-                                <div className={classes.SliderCar}>
-                                    <img src={Car} alt="" className={classes.SlideCarImage} />
-                                    <div className={classes.CarDetails}>
-                                        <div className={classes.cardText}>
-                                            {item.Make}
-                                        </div>
-                                        <div className={classes.cardText}>
-                                        &#36; {item.Price}
+                            <Link to={`/car/${item.VINum}`} key={item.VINum}>
+                                <div className="fadeIn">
+                                    <div className={classes.SliderCar}>
+                                        <img src={Car} alt="" className={classes.SlideCarImage} />
+                                        <div className={classes.CarDetails}>
+                                            <div className={classes.cardText}>
+                                                {item.Make}
+                                            </div>
+                                            <div className={classes.cardText}>
+                                                &#36; {item.Price}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             </Link>
                         )
                     })

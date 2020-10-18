@@ -5,11 +5,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "../assets/img/logo/Logo.png";
-import { Box, Grid } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import ToggleIcon from "../assets/img/svgs/toggleIcon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { hideSideBar, showSideBar } from "../actions/sideBarActions";
-const HeaderStyles = makeStyles((theme) => ({
+
+const HeaderStyles = makeStyles(theme => ({
   HeaderStyle: {
     margin: "10px 6%",
     justifyContent: "space-between",
@@ -18,8 +19,7 @@ const HeaderStyles = makeStyles((theme) => ({
     textAlign: "center",
     [theme.breakpoints.down("md")]: {
       margin: "0",
-
-    },
+    }
   },
   HeaderLogo: {
     width: 300,
@@ -49,9 +49,9 @@ const HeaderStyles = makeStyles((theme) => ({
     borderRadius: 5,
     [theme.breakpoints.down("md")]: {
       background: "none",
-      color:"#666666",
-      width:"unset",
-      padding:0
+      color: "#666666",
+      width: "unset",
+      padding: 0
     },
   },
 }));
@@ -60,11 +60,10 @@ const Header = () => {
   const classes = HeaderStyles();
   const dispatch = useDispatch();
   const sideBar = useSelector(store => store.sideBar)
-  console.log(sideBar)
   const handleSideBarToggle = () => {
-    if(sideBar.active){
+    if (sideBar.active) {
       dispatch(hideSideBar());
-    }else{
+    } else {
       dispatch(showSideBar());
     }
   }
