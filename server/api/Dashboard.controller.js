@@ -11,8 +11,7 @@ const express = require('express'),
 
     //Helper and Services
     { verifyAccessToken } = require('../helper/auth/JWT_service'),
-    { PassCheck } = require('../helper/validation'),
-    { HashSalt } = require('../helper/service');
+    { HashSalt, PassCheck } = require('../helper/service');
 
 Router.use(verifyAccessToken)
 

@@ -11,7 +11,7 @@ const express = require('express'),
     UserModel = require('../models/User.model'),
 
     //Helper and Services
-    { GenerateOTP, SearchEscapeRegex, RangeBasedFilter } = require('../helper/service'),
+    { GenerateOTP, SearchRegex, RangeBasedFilter } = require('../helper/service'),
     { verifyAccessToken, decodeToken } = require('../helper/auth/JWT_service'),
     { SendMail } = require('../helper/mail/config'),
     { ContactMail } = require('../helper/mail/content');
@@ -193,7 +193,7 @@ Router.get('/buy-car/:PageNo', async (req, res, next) => {
 
     // For Search Field Make Model VINum
     if (SearchedCar) {
-        const RegExCar = new RegExp(SearchEscapeRegex(SearchedCar), 'gi')
+        const RegExCar = new RegExp(SearchRegex(SearchedCar), 'gi')
         Filters.$or = [{ Make: RegExCar }, { Model: RegExCar }, { VINum: RegExCar }]
     }
     

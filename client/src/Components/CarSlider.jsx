@@ -8,15 +8,18 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { Skeleton } from "@material-ui/lab";
 
-const CarSliderStyles = makeStyles(() => ({
+const CarSliderStyles = makeStyles((theme) => ({
     SliderCar: {
         width: 280,
         backgroundColor: '#fff',
         borderRadius: 5,
         margin: '2rem auto',
         transition: "box-shadow 0.2s",
-        "&:hover": {
-            boxShadow: "0 0.1rem 1rem rgba(0,0,0,0.2)"
+        "&:hover" :{
+            boxShadow:"0 0.1rem 1rem rgba(0,0,0,0.2)"
+        },
+        [theme.breakpoints.down('md')]: {
+            boxShadow:"0 0.1rem 1rem rgba(0,0,0,0.2)"  
         }
     },
     SlideCarImage: {
@@ -77,8 +80,10 @@ const settings = {
         {
             breakpoint: 480,
             settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1
+                slidesToShow: 1.4,
+                slidesToScroll: 1,
+                nextArrow: null,
+                prevArrow:null,
             }
         }
     ]

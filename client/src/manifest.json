@@ -1,0 +1,46 @@
+{
+    "name":"HoopHoop",
+    "short_name":"HoopHoop",
+    "icons":[
+        {
+            "src":"./assets/img/logo/Icon-36.png",
+            "type":"image/png",
+            "sizes":"36x36"
+        },
+        {
+            "src":"./assets/img/logo/Icon-48.png",
+            "type":"image/png",
+            "sizes":"48x48"
+        },
+        {
+            "src":"./assets/img/logo/Icon-72.png",
+            "type":"image/png",
+            "sizes":"72x72"
+        },
+        {
+            "src":"./assets/img/logo/Icon-96.png",
+            "type":"image/png",
+            
+            "sizes":"96x96"
+        },
+        {
+            "src":"./assets/img/logo/Icon-192.png",
+            "type":"image/png",
+            "sizes":"192x192"
+        },
+        {
+            "src":"./assets/img/logo/Icon-512.png",
+            "type":"image/png",
+            "sizes":"512x512"
+        }
+    ],
+    "start_url":"/",
+    "scope":".",
+    "display":"standalone",
+    "orientation":"portrait-primary",
+    "background_color":"#fff",
+    "theme_color":"#E85513",
+    "description":"Find And Sell Your Car With HoopHoop",
+    "dir":"ltr",
+    "lang":"en-US"
+}

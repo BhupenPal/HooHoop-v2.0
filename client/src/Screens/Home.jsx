@@ -92,19 +92,19 @@ function Home(props) {
         })}
       </Slider>
       <Grid container justify="center" style={{ margin: "35px 0 85px 0" }}>
-        <Grid item xs={10}>
+        <Grid item xs={12} md={10}>
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Popular</span> Used Cars
           </Typography>
           <CarSlider loading={loader} data={usedCars} loading={loader}/>
         </Grid>
-        <Grid item xs={10} style={{ marginTop: 70 }}>
+        <Grid item xs={12} md={10} style={{ marginTop: 70 }}>
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Recently</span> Added Cars
           </Typography>
           <CarSlider loading={loader} data={above10K} />
         </Grid>
-        <Grid item xs={10} style={{ marginTop: 70 }}>
+        <Grid item xs={12} md={10} style={{ marginTop: 70 }}>
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Feautured</span> Used Cars
           </Typography>
@@ -115,7 +115,7 @@ function Home(props) {
           </Tabs>
           {renderUsedTypeCars()}
         </Grid>
-        <Grid item xs={12} className={classes.AdImage}>
+        <Grid item xs={12} md={10} className={classes.AdImage}>
           {/* <img src={Advertise} alt=""  /> */}
           <Typography variant='h2' className={classes.AdContent}>Worried about condition of the car?</Typography>
           <Typography variant='h5' className={classes.AdContent}>Get a free test drive on your first selection.</Typography>
@@ -127,7 +127,7 @@ function Home(props) {
                 Book Now
               </Button>
         </Grid>
-        <Grid item xs={10} style={{ marginTop: 70 }}>
+        <Grid item xs={12} md={10} style={{ marginTop: 70 }}>
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Shop</span> by Range
           </Typography>

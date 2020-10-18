@@ -15,8 +15,7 @@ const express = require("express"),
     CarModel = require('../models/Car.model'),
 
     //Helper and Services
-    { PassCheck } = require('../helper/validation'),
-    { GenerateOTP, HashSalt, GenerateRandom } = require('../helper/service'),
+    { GenerateOTP, HashSalt, GenerateRandom, PassCheck } = require('../helper/service'),
     { signAccessToken, verifyAccessToken, signRefreshToken, verifyRefreshToken } = require('../helper/auth/JWT_service'),
     { SendMail } = require('../helper/mail/config'),
     { AccActivationMail } = require("../helper/mail/content"),
