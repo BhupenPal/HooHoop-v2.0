@@ -18,7 +18,9 @@ $primary-gradient: linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%);
 // html, body {
 //     background-color: #F4F6F8;
 // }
-
+.home-subhead{
+    margin-left: 2rem !important;
+}
 .header-options * {
 
     margin: 0 10px;
@@ -32,6 +34,7 @@ $primary-gradient: linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%);
     font-weight: 600;
 }
 
+
 .primary-bg {
     background-color: $primary-gradient ;
 }
@@ -43,7 +46,8 @@ $primary-gradient: linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%);
 
 .cloudimage-360 canvas{
     min-height: 25rem;
-    height: 25rem !important;
+    height: 100%;
+  //  height: 25rem !important;
 }
 
 .asNavFor  .slick-list{

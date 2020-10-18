@@ -71,7 +71,7 @@ const Header = () => {
   return (
     <AppBar
       position="static"
-      style={{ backgroundColor: "#fff", position: "relative", zIndex: 200 }}
+      style={{ backgroundColor: "#fff" }}
     >
       <Toolbar className={classes.HeaderStyle}>
         <Box display={{ xs: "inline", md: "none" }} onClick={handleSideBarToggle}>

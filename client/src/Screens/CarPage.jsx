@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import compose from "recompose/compose";
-import { Box, Grid } from "@material-ui/core";
+import { Box, Grid, Typography } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 //import { spacing } from "@material-ui/system";
 import { fetchCar, fetchRecommendedCar } from "../services/fetchCar";
@@ -38,7 +38,7 @@ const CarPage = (props) => {
   const [car, setCar] = useState(null);
   const [recommendedCars, setRecommendedCars] = useState([]);
   const [slide, setSlide] = useState(1);
-  const {VINum} = useParams();
+  const { VINum } = useParams();
   const { classes } = props;
 
   const handleChange = (e) => {
@@ -79,7 +79,7 @@ const CarPage = (props) => {
   };
   useEffect(() => {
     document.documentElement.scrollTop = 0;
-  },[VINum])
+  }, [VINum]);
   useEffect(() => {
     fetchAndSetCar();
   }, [VINum]);
@@ -135,9 +135,15 @@ const CarPage = (props) => {
         xs={12}
         md={8}
       >
+      <Grid
+        item
+        container
+        style={{ position: "relative" }}
+        xs={12}
+      >
         <div
           style={{
-            height: "25rem",
+            height: "100% ",
             width: "100%",
             borderRadius: 5,
             overflow: "hidden",
@@ -145,10 +151,17 @@ const CarPage = (props) => {
         >
           {sliderElements()}
         </div>
-
+      </Grid>
+      <Grid
+        item
+        container
+        style={{ padding: "1rem", position: "relative" }}
+        xs={12}
+      >
         <div style={{ width: "100%" }}>
           <AsNavFor elements={navs} setSlide={setSlide} />
         </div>
+      </Grid>
       </Grid>
       <Grid item xs={12} md={4}>
         <div className={classes.boxContainer}>
@@ -209,8 +222,8 @@ const CarPage = (props) => {
         </div>
       </Grid>
       <Grid item container xs={12} sm={8}>
-          <CarDetails car={car} classes={classes} />
-       </Grid>
+        <CarDetails car={car} classes={classes} />
+      </Grid>
       <Grid item xs={12} md={4}>
         <LeadForm
           handleChange={handleChange}
@@ -219,15 +232,21 @@ const CarPage = (props) => {
           user={user}
         />
       </Grid>
-      <Grid item container xs={12}>
+      {/* <Grid item xs={12}>
+          <Typography variant="h2" className="home-subhead">
+            <span className="wt-600">Popular</span> Used Cars
+          </Typography>
+          <CarSlider loading={false} data={recommendedCars} />
+        </Grid> */}
+      <Grid item xs={12}>
         <div>
           <h2>Recommended Cars For You</h2>
         </div>
-        <CarSlider data={recommendedCars} />
+        <CarSlider loading={false} data={recommendedCars} />
       </Grid>
-      <Ad></Ad>
+      <Ad/>
+    
     </Grid>
   );
 };
 export default compose(withStyles(styles, { withTheme: true }))(CarPage);
-
