@@ -87,13 +87,22 @@ const SellCar = (props) => {
     ExteriorVideo: null,
   });
   const handleVideoUpload = (e) => {
+
     const files = e.target.files;
-    changedata({ ...dataobject, [e.target.name]: e.target.files });
+    console.log(e,files)
+    changedata({ ...dataobject, ExteriorVideo: files });
     var video = document.createElement("video");
     video.preload = "metadata";
     video.onloadedmetadata = function () {
       window.URL.revokeObjectURL(video.src);
       var duration = video.duration;
+      if(duration > 40){
+        console.log("hi")
+        changedata({ ...dataobject, ExteriorVideo: null});
+        setError("Video must be less than 40 sec");
+        setSnackBar(true);
+        setShowError(true);
+      }
       console.log(duration)
     };
 
@@ -132,8 +141,8 @@ const SellCar = (props) => {
     changedata({ ...dataobject, Description: content });
   };
   useEffect(() => {
-    console.log(preview);
-  }, [preview]);
+    console.log(dataobject);
+  }, [dataobject]);
 
   const FetchJam = () => {
     var platenum = document.getElementsByName("platenum")[0].value;
