@@ -88,12 +88,20 @@ const SellCar = (props) => {
   });
   const handleVideoUpload = (e) => {
     const files = e.target.files;
-    changedata({ ...dataobject, [e.target.name]: e.target.files });
+    changedata({ ...dataobject, ExteriorVideo: e.target.files[0] });
     var video = document.createElement("video");
     video.preload = "metadata";
     video.onloadedmetadata = function () {
       window.URL.revokeObjectURL(video.src);
       var duration = video.duration;
+      if(duration > 40){
+        console.log("hi")
+        changedata({ ...dataobject, ExteriorVideo: null});
+        setError("Video must be less than 40 sec");
+        setSnackBar(true);
+
+        setShowError(true);
+      }
       console.log(duration)
     };
 
