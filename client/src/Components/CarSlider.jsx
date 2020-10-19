@@ -96,21 +96,38 @@ const settings = {
 const CarSlider = ({ data, loading }) => {
     const classes = CarSliderStyles()
 
-    const viewsHandle = () => {
-
-    }
-
     const renderSkeletons = () => {
         if (!loading) return null
         return (
             [1, 2, 3, 4].map(item => (
-                <div style={{ padding: '1rem 0' }} key={item}>
+                <div key={item}>
                     <Skeleton
                         variant='rect'
-                        width={280}
+                        width={300}
                         height={250}
-                        style={{ margin: '1rem' }}
                     />
+                    <div className={classes.CarDetails} style={{ width: 300, padding: '10px 0' }}>
+                        <div>
+                            <Skeleton
+                                variant='rect'
+                                width={150}
+                                height={18}
+                                style={{ marginBottom: 5 }}
+                            />
+                            <Skeleton
+                                variant='rect'
+                                width={80}
+                                height={18}
+                            />
+                        </div>
+                        <div className='flex-jc-center'>
+                            <Skeleton
+                                variant='rect'
+                                width={80}
+                                height={18}
+                            />
+                        </div>
+                    </div>
                 </div>
             ))
         )
