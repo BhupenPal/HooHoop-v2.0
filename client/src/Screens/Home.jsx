@@ -64,11 +64,11 @@ function Home(props) {
 
   const renderRangeCars = () => {
     const tabs = [under5K,under10K,above10K];
-    return <CarSlider data={tabs[rangeTab]} loading={loader}/>
+    return (<div><CarSlider data={tabs[rangeTab]} loading={loader}/></div>);
   }
   const renderUsedTypeCars = () => {
     const tabs = [sedanType,hatchbackType,suvType];
-    return <CarSlider data={tabs[carTypeTab]} loading={loader}/>
+    return (<div><CarSlider data={tabs[carTypeTab]} loading={loader}/></div>);
   }
   return (
     <Fragment>
@@ -81,7 +81,6 @@ function Home(props) {
                 <Typography variant="h2" className={classes.SliderText}>Buy and Sell <span className={classes.SliderHighlight}>Premium</span></Typography>
                 <Typography variant="h2" className={classes.SliderText}>Cars on our Marketplace</Typography>
                 <Input
-                margin="normal"
                 required
                 placeholder="Search Car"
                 className={classes.SliderInput}
@@ -97,13 +96,17 @@ function Home(props) {
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Popular</span> Used Cars
           </Typography>
+          <div>
           <CarSlider loading={loader} data={usedCars} loading={loader}/>
+          </div>
         </Grid>
         <Grid item xs={12} md={10} style={{ marginTop: 70 }}>
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Recently</span> Added Cars
           </Typography>
+          <div>
           <CarSlider loading={loader} data={above10K} />
+          </div>
         </Grid>
         <Grid item xs={12} md={10} style={{ marginTop: 70 }}>
           <Typography variant="h2" className="home-subhead">

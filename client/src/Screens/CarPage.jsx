@@ -37,6 +37,7 @@ const CarPage = (props) => {
   });
   const [car, setCar] = useState(null);
   const [recommendedCars, setRecommendedCars] = useState([]);
+  const [loadingMore,setLoadingMore] = useState(true);
   const [slide, setSlide] = useState(1);
   const { VINum } = useParams();
   const { classes } = props;
@@ -64,12 +65,15 @@ const CarPage = (props) => {
           VINum: res.VINum,
           MakeModel: res.Make + " " + res.Model,
         }));
+
         fetchRecommendedCar(res.Price)
           .then((cars) => {
+            setLoadingMore(false)
             setRecommendedCars(cars);
           })
           .catch((err) => {
             alert("Error fetching data");
+            setLoadingMore(false)
             console.log(err);
           });
       })
@@ -81,6 +85,7 @@ const CarPage = (props) => {
     document.documentElement.scrollTop = 0;
   }, [VINum]);
   useEffect(() => {
+    setLoadingMore(true)
     fetchAndSetCar();
   }, [VINum]);
   const sliderElements = () =>
@@ -116,7 +121,7 @@ const CarPage = (props) => {
     <img className={classes.sliderImages} src={CarImage} alt="car" />,
 
     <img
-      style={{ height: "100px", width: "10rem", margin: "0 auto" }}
+    className={classes.sliderImages}
       src={CarImage}
       alt="car"
     />,
@@ -155,7 +160,7 @@ const CarPage = (props) => {
       <Grid
         item
         container
-        style={{ padding: "1rem", position: "relative" }}
+
         xs={12}
       >
         <div style={{ width: "100%" }}>
@@ -171,7 +176,7 @@ const CarPage = (props) => {
           <div className={classes.boxText}>$ {car?.Price}</div>
           <div>
             <p className={classes.boxText}>About Car</p>
-            <Box className={classes.iconsContainer}>
+            <Box className={classes.aboutIconsContainer}>
               <div>
                 <div className={classes.icon}>
                   <img src={PetrolIcon} alt="icon" />
@@ -232,17 +237,14 @@ const CarPage = (props) => {
           user={user}
         />
       </Grid>
-      {/* <Grid item xs={12}>
-          <Typography variant="h2" className="home-subhead">
-            <span className="wt-600">Popular</span> Used Cars
-          </Typography>
-          <CarSlider loading={false} data={recommendedCars} />
-        </Grid> */}
+      
       <Grid item xs={12}>
         <div>
           <h2>Recommended Cars For You</h2>
         </div>
-        <CarSlider loading={false} data={recommendedCars} />
+        <div>
+          <CarSlider loading={false} data={recommendedCars} />
+        </div>
       </Grid>
       <Ad/>
     

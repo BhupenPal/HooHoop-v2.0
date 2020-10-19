@@ -8,6 +8,7 @@ const express = require('express'),
     ContactModel = require('../models/Contact.model'),
     CarModel = require('../models/Car.model'),
     LeadsGeneratedModel = require('../models/GeneratedLead.model'),
+    UserModel = require('../models/User.model'),
 
     //Helper and Services
     { GenerateOTP, SearchEscapeRegex, RangeBasedFilter } = require('../helper/service'),
@@ -150,11 +151,14 @@ Router.post('/contact', (req, res, next) => {
 
 Router.get('/buy-car/:PageNo', async (req, res, next) => {
     const { Price, BodyType, FuelType, SearchedCar, KMsDriven, ModelYear, SortData, Make, Model, Transmission, Color } = req.query
-    let { PageNo } = req.params
+    let { PageNo } = req.params,
+        UserID = null
 
     // Decoding authorization to check user and getting ObjectID
-    let UserID = await decodeToken(req.headers['authorization'])
-    UserID = UserID ? mongoose.Types.ObjectId(UserID.aud) : null
+    if (req.headers['authorization']) {
+        UserID = await decodeToken(req.headers['authorization'])
+        UserID = mongoose.Types.ObjectId(UserID.aud)
+    }
 
     // Making Sure Page Number IS NOT LESS THAN OR EQUAL TO 0
     PageNo = Math.max(1, PageNo)
@@ -172,7 +176,7 @@ Router.get('/buy-car/:PageNo', async (req, res, next) => {
     }
 
     // Selected Filters
-    if (Make) Filters.Make = {$in:Array.isArray(Make) ? Make : [Make] }
+    if (Make) Filters.Make = Make
     if (Color) Filters.Color = Color
     if (Model) Filters.Model = Model
     if (FuelType) Filters.FuelType = FuelType
@@ -196,29 +200,36 @@ Router.get('/buy-car/:PageNo', async (req, res, next) => {
     CarModel.paginate(Filters, options)
         .then(cars => {
             cars.docs.map(vehicle => {
-                vehicle.LikedBy.some((CurrentObjID) => {
-                    vehicle.LikedBy = CurrentObjID == UserID ? true : false
+                vehicle.LikedBy = vehicle.LikedBy.some((CurrentObjID) => {
+                    return CurrentObjID == UserID ? true : false
                 })
             })
             res.json(cars)
         })
 })
 
-Router.patch('/wish-handle', verifyAccessToken, (req, res, next) => {
+Router.patch('/wish-handle', verifyAccessToken, async (req, res, next) => {
     try {
+        console.log(req.payload)
         const { VINum } = req.body
 
-        CarModel.findOne({ VINum })
-            .then((doc) => {
-                if (!doc) throw createError.NotFound()
-                doc.LikedBy.includes(req.payload.aud)
-                    ?
-                    doc.LikedBy.pull(req.payload.aud)
-                    :
-                    doc.LikedBy.push(req.payload.aud)
+        const LikedCar = await CarModel.findOne({ VINum })
+        const User = await UserModel.findById(req.payload.aud)
 
-                doc.save(res.sendStatus(200))
-            })
+        if (!LikedCar || !User) throw createError.NotFound()
+
+        if (LikedCar.LikedBy.includes(req.payload.aud)) {
+            LikedCar.LikedBy.pull(req.payload.aud)
+            User.WishList.pull(VINum)
+        } else {
+            LikedCar.LikedBy.push(req.payload.aud)
+            User.WishList.push(VINum)
+        }
+
+        LikedCar.save()
+        User.save()
+
+        res.sendStatus(200)
     } catch (error) {
         next(error)
     }

@@ -52,6 +52,9 @@ $primary-gradient: linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%);
 
 .asNavFor  .slick-list{
     margin: -20px;
+    @media (max-width:720px) {
+        margin:0;
+    }
 }
 .asNavFor .slick-slide *{
     outline:none !important;
@@ -60,6 +63,9 @@ $primary-gradient: linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%);
 .asNavFor .slick-track{
     //outline:none !important;
     margin: 1rem 0 !important;
+}
+.infinite-scroll-component__outerdiv{
+    width: 100% ;
 }
 .fadeIn{
     animation: fadeIn 0.2s;

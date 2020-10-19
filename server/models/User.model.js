@@ -79,6 +79,7 @@ const UserSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    WishList: [String],
     isDeleted: {
         type: Boolean,
         default: false
@@ -111,21 +112,5 @@ const UserSchema = mongoose.Schema({
 {
     timestamps: true
 })
-
-UserSchema.virtual('Wishlist', {
-    ref: 'car list',
-    localField: '_id',
-    foreignField: 'Author.ID',
-    justOne: false,
-    match: { isActive: true }
-},
-{
-  toObject: {
-    virtuals: true
-  },
-  toJSON: {
-    virtuals: true
-  }
-});
 
 module.exports = mongoose.model('user list', UserSchema)

@@ -46,7 +46,6 @@ if (localStorage.accessToken) {
 
 class App extends Component {
   render() {
-    console.log("hello");
     return (
       <Provider store={store}>
         <ThemeProvider theme={theme}>
