@@ -4,9 +4,11 @@ import { Grid, Typography, Tabs, Tab, Button, TextField, IconButton } from "@mat
 import { withStyles } from "@material-ui/core/styles"
 import compose from "recompose/compose"
 import Slider from "react-slick"
-import styles from "../assets/material/Home"
 import axios from "axios"
 import { Link } from "react-router-dom"
+
+// Styles
+import styles from "../assets/material/Home"
 
 // Icons
 import SearchIcon from '@material-ui/icons/Search'
@@ -128,7 +130,7 @@ function Home(props) {
           </Tabs>
           {renderUsedTypeCars()}
         </Grid>
-        <Grid item xs={12} md={10} className={classes.AdImage}>
+        <Grid item xs={12} md={12} className={classes.AdImage}>
           <Typography variant='h2' className={classes.AdContent}>Worried about condition of the car?</Typography>
           <Typography variant='h5' className={classes.AdContent}>Get a free test drive on your first selection.</Typography>
           <Button

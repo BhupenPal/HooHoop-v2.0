@@ -28,6 +28,17 @@ $primary-gradient: linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%);
     font-weight: 600;
 }
 
+.flex-jc-center {
+    display: flex;
+    justify-content: center;
+}
+
+.flex-jc-al-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .home-subhead {
     margin-left: 2rem !important;
 }
