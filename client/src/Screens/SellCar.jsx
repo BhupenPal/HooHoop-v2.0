@@ -87,8 +87,10 @@ const SellCar = (props) => {
     ExteriorVideo: null,
   });
   const handleVideoUpload = (e) => {
+
     const files = e.target.files;
-    changedata({ ...dataobject, ExteriorVideo: e.target.files[0] });
+    console.log(e,files)
+    changedata({ ...dataobject, ExteriorVideo: files });
     var video = document.createElement("video");
     video.preload = "metadata";
     video.onloadedmetadata = function () {
@@ -99,7 +101,6 @@ const SellCar = (props) => {
         changedata({ ...dataobject, ExteriorVideo: null});
         setError("Video must be less than 40 sec");
         setSnackBar(true);
-
         setShowError(true);
       }
       console.log(duration)
@@ -140,8 +141,8 @@ const SellCar = (props) => {
     changedata({ ...dataobject, Description: content });
   };
   useEffect(() => {
-    console.log(preview);
-  }, [preview]);
+    console.log(dataobject);
+  }, [dataobject]);
 
   const FetchJam = () => {
     var platenum = document.getElementsByName("platenum")[0].value;
