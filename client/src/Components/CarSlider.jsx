@@ -21,7 +21,7 @@ const CarSliderStyles = makeStyles((theme) => ({
         margin: '2rem auto',
         transition: 'box-shadow 0.2s',
         // '&:hover': {
-            boxShadow: '0 0.1rem 1rem rgba(0,0,0,0.2)',
+        boxShadow: '0 0.1rem 1rem rgba(0,0,0,0.2)',
         // },
         [theme.breakpoints.down('md')]: {
             boxShadow: '0 0.1rem 1rem rgba(0,0,0,0.2)',
@@ -123,9 +123,9 @@ const CarSlider = ({ data, loading }) => {
                 {
                     data.map(item => {
                         return (
-                            <Link to={`/car/${item.VINum}`} key={item.VINum}>
-                                <div className='fadeIn'>
-                                    <div className={classes.SliderCar}>
+                            <div className='fadeIn' key={item.VINum}>
+                                <div className={classes.SliderCar}>
+                                    <Link to={`/car/${item.VINum}`}>
                                         <img src={Car} alt='' className={classes.SlideCarImage} />
                                         <div className={classNames(classes.CarDetails, classes.cardText)}>
                                             <div>
@@ -135,13 +135,13 @@ const CarSlider = ({ data, loading }) => {
                                             </div>
                                             <div className='flex-jc-center'>
                                                 <VisibilityOutlinedIcon style={{ marginRight: 5 }} />
-                                                { (item.ViewsCount < 1000) ? item.ViewsCount + ' ' : (item.ViewsCount/1000).toFixed(1) + 'K ' }
+                                                {(item.ViewsCount < 1000) ? item.ViewsCount + ' ' : (item.ViewsCount / 1000).toFixed(1) + 'K '}
                                                 Views
                                             </div>
                                         </div>
-                                    </div>
+                                    </Link>
                                 </div>
-                            </Link>
+                            </div>
                         )
                     })
                 }
