@@ -431,12 +431,14 @@ const SellCar = (props) => {
                   name={"Make"}
                   data={MakeModel.map(({ Make }) => Make) || []}
                   value={dataobject.Make}
+                  required
                   Label="Select Make"
                   error={showErrors && dataobject.Make.length <= 0}
                 />
                 <SelectBox
                   handleChange={handleChange}
                   name={"Model"}
+                  required
                   data={
                     MakeModel.find(({ Make }) => Make === dataobject.Make)
                       ?.Models || []

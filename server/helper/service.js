@@ -28,7 +28,15 @@ module.exports = {
     })
   },
 
-  SearchEscapeRegex: text => {
+  PassCheck: (passcode, cpasscode) => {
+    const PassRegEx = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?([^\w\s]|[_])).{8,16}$/
+    if (passcode !== cpasscode || !PassRegEx.test(passcode)) {
+      return false
+    }
+    return true;
+  },
+
+  SearchRegex: text => {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
   },
 

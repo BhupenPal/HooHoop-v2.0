@@ -331,7 +331,7 @@ const filterComponent = (props) => {
         <Slider
           value={yearRange}
           onChange={handleYearChange}
-          valueLabelDisplay="auto"
+          valueLabelDisplay="true"
           aria-labelledby="range-slider"
           getAriaValueText={valuetext}
           className="rangeSlider"

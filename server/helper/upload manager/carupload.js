@@ -1,10 +1,10 @@
-const multer = require("multer")
-const fs = require("fs")
-const { extname } = require('path')
+const multer = require("multer"),
+    fs = require("fs"),
+    { extname } = require('path'),
+    MaxSize = 15 * 1024 * 1024; //1024 * 1024 = 1MB
 
-let ExteriorSliderCount = 0
-let ValidationDataSet = false
-const MaxSize = 15 * 1024 * 1024; //1024 * 1024 = 1MB
+let ExteriorSliderCount = 0,
+    ValidationDataSet = false
 
 const fileFilter = (req, file, cb) => {
     if (ValidationDataSet === false) {
