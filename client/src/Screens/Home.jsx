@@ -117,7 +117,9 @@ function Home(props) {
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Recently</span> Added Cars
           </Typography>
+          <div>
           <CarSlider loading={loader} data={above10K} />
+          </div>
         </Grid>
         <Grid item xs={12} md={10} style={{ marginTop: 70 }}>
           <Typography variant="h2" className="home-subhead">

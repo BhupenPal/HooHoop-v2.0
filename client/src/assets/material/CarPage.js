@@ -11,8 +11,9 @@ export default theme =>({
           }
     },
     sliderImages: { 
-        height: "100px", 
+      //  height: "90px", 
         width: "10rem", 
+        height: "calc(10rem / 16 * 9)", 
         margin: "0 auto",
         borderRadius:5 ,
         boxShadow:"none",
@@ -20,8 +21,12 @@ export default theme =>({
         cursor:"pointer",
             "&:hover":{
               boxShadow:"2px 5px 2rem rgba(0,0,0,0.4)"
+            },
+            [theme.breakpoints.down('md')]: {
+            width:"8rem"  ,
+            height: "calc(8rem / 16 * 9)", 
+
             }
-          
       },
     boxContainer:{
         backgroundColor:"#fff",
@@ -34,11 +39,25 @@ export default theme =>({
             margin:"1rem 0",
           }
     },
-    iconsContainer:{
-        display:"flex",
-        justifyContent:"space-between",
+    aboutIconsContainer:{
+        display:"grid",
+        gridTemplateColumns:"repeat(4,1fr)",
+        justifyContent:"center",
         textAlign:"center",
-        margin:"1rem 0"
+        margin:"1rem 0",
+        
+    },
+    iconsContainer:{
+        display:"grid",
+        gridTemplateColumns:"repeat(6,1fr)",
+        
+        justifyContent:"center",
+        textAlign:"center",
+        margin:"1rem 0",
+        [theme.breakpoints.down('md')]: {
+            gridTemplateColumns:"repeat(3,1fr)",
+            gridGap:"2rem 0.5rem"
+          }
     },
     icon: {
         backgroundColor:"#EEF4FF",
@@ -73,6 +92,10 @@ export default theme =>({
     },
     topSpecs:{
         padding:"3rem",
+        [theme.breakpoints.down('md')]: {
+            padding:"1rem",
+        
+          }
     },
     border:{
         borderBottom:"1px solid #DDDDDD",

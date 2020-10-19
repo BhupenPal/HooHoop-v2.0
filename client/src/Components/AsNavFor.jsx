@@ -13,9 +13,11 @@ export default ({elements,setSlide}) => {
         {
             breakpoint: 720,
             settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3,
-                infinite: true,
+                slidesToShow: 3.2,
+                slidesToScroll: 1,
+                initialSlide: 0,
+                arrows:false,
+
             }
         }
       ]

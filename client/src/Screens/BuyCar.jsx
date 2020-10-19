@@ -22,31 +22,31 @@ const BuyCar = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const debouncedQuery = useDebounce(query, 1000);
-  const setWishlist = (VINum,index) => {
-    addToWishList(VINum)
-    .then(() => {
-      console.log(cars[index].LikedBy)
-      setCars(cars => {
+  const setWishlist = (VINum, index) => {
+    addToWishList(VINum).then(() => {
+      console.log(cars[index].LikedBy);
+      setCars((cars) => {
         cars[index].LikedBy = !cars[index].LikedBy;
         return [...cars];
-      })
+      });
     });
-  }
+  };
   useEffect(() => {
-    console.log(cars)
-  })
+    console.log(cars);
+  });
+
   const fetchMoreCars = () => {
     if (debouncedQuery) {
       setLoader(true);
-      fetchBuyCar(page, debouncedQuery).then((results) => {
-        setLoader(false);
-        setHasMore(results.cars.hasNextPage);
-        setCars((curCars) => [...curCars, ...results.cars.docs]);
-      })
-      .catch(err => {
-        setLoader(false);
-      })
-      ;
+      fetchBuyCar(page, debouncedQuery)
+        .then((results) => {
+          setLoader(false);
+          setHasMore(results.cars.hasNextPage);
+          setCars((curCars) => [...curCars, ...results.cars.docs]);
+        })
+        .catch((err) => {
+          setLoader(false);
+        });
     } else {
       setCars([]);
     }
@@ -61,14 +61,13 @@ const BuyCar = () => {
   }, [page]);
 
   const renderSkeleton = () => {
-    if (!loader) return null;
+    //if (!loader) return null;
     return (
-      <Grid item container xs={12} sm={12} style={{ height: "fit-content" }}>
-        {[1, 2, 3].map(() => (
+      <Grid item container xs={12} style={{ height: "fit-content" }}>
+        {[1, 2, 3,4,5,6].map(() => (
           <Grid
             item
-            xs={12}
-            sm={4}
+            xs={12} sm={4}  lg={3} xl={2}
             className={classes.cardContainer}
             justify="center"
           >
@@ -84,7 +83,14 @@ const BuyCar = () => {
     );
   };
   const renderCars = () => {
-    return cars.map((car, index) => <CardComponent key={index} index={index} setWishlist={setWishlist} car={car} />);
+    return cars.map((car, index) => (
+      <CardComponent
+        key={index}
+        index={index}
+        setWishlist={setWishlist}
+        car={car}
+      />
+    ));
   };
   return (
     <Grid
@@ -101,6 +107,7 @@ const BuyCar = () => {
           dataLength={cars.length}
           next={() => setPage(page + 1)}
           hasMore={hasMore}
+          style={{width:"100%"}}
           loader={renderSkeleton()}
         >
           {/* {this.state.items.map((i, index) => (
@@ -108,16 +115,10 @@ const BuyCar = () => {
                 div - #{index}
               </div>
             ))} */}
-          <Grid
-            item
-            container
-            xs={12}
-            style={{ height: "fit-content" }}
-          >
+          <Grid item container xs={12} style={{ height: "fit-content" }}>
             {renderCars()}
           </Grid>
         </InfiniteScroll>
-        {renderSkeleton()}
       </Grid>
     </Grid>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   Button,
@@ -11,7 +11,7 @@ import { withStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker
+  KeyboardDatePicker,
 } from "@material-ui/pickers";
 import styles from "../assets/material/SellForm";
 import SellBackCar from "../assets/img/SellCar/sellbackground.png";
@@ -27,6 +27,8 @@ import RichTextEditor from "../Components/RichTextEditor.jsx";
 import FileInput from "../Components/FileInput.jsx";
 import { postSellCar } from "../services/sellCar.js";
 import ErrorSnackBar from "../Components/OpenSnackBar.jsx";
+import { DropzoneDialog } from "material-ui-dropzone";
+import MultiFileInput from "../Components/MultiFileInput.jsx";
 
 const SellCar = (props) => {
   const { classes } = props;
@@ -50,12 +52,16 @@ const SellCar = (props) => {
   const fuelTypes = ["Don't Know", "Petrol", "Diesel", "Electric", "Hybrid"];
 
   const doorCounts = [1, 2, 3, 4, 5, 6];
-  const [showErrors, setShowError] = React.useState(false);
-  const [error, setError] = React.useState("");
-  const [showSuccess, setSuccess] = React.useState(false);
-  const [showSnackBar, setSnackBar] = React.useState(false);
-
-  const [dataobject, changedata] = React.useState({
+  const [showErrors, setShowError] = useState(false);
+  const [error, setError] = useState("");
+  const [showSuccess, setSuccess] = useState(false);
+  const [showSnackBar, setSnackBar] = useState(false);
+  const [preview, setPreview] = useState({
+    InteriorFront: null,
+    InteriorRear: null,
+    InteriorMiddle: null,
+  });
+  const [dataobject, changedata] = useState({
     Make: "",
     Model: "",
     ModelYear: new Date().getFullYear(),
@@ -80,12 +86,33 @@ const SellCar = (props) => {
     ExteriorSlider: null,
     ExteriorVideo: null,
   });
+  const handleVideoUpload = (e) => {
+    const files = e.target.files;
+    changedata({ ...dataobject, [e.target.name]: e.target.files });
+    var video = document.createElement("video");
+    video.preload = "metadata";
+    video.onloadedmetadata = function () {
+      window.URL.revokeObjectURL(video.src);
+      var duration = video.duration;
+      console.log(duration)
+    };
+
+    video.src = URL.createObjectURL(files[0]);
+  };
   const handleFileUpload = (e) => {
-    console.log(e.target.files);
+    console.log(e.target.files[0]);
+    setPreview({
+      ...preview,
+      [e.target.name]: URL.createObjectURL(e.target.files[0]),
+    });
     changedata({ ...dataobject, [e.target.name]: e.target.files });
   };
+  const handleMultiFileUpload = (files) => {
+    console.log(files);
+    changedata({ ...dataobject, ExteriorSlider: files });
+  };
   const handleChange = (e) => {
-    console.log(e.target);
+    //   console.log(e.target);
     changedata({ ...dataobject, [e.target.name]: e.target.value });
   };
 
@@ -104,6 +131,10 @@ const SellCar = (props) => {
   const handleEditorChange = (content, editor) => {
     changedata({ ...dataobject, Description: content });
   };
+  useEffect(() => {
+    console.log(preview);
+  }, [preview]);
+
   const FetchJam = () => {
     var platenum = document.getElementsByName("platenum")[0].value;
     axios
@@ -226,12 +257,12 @@ const SellCar = (props) => {
     console.log(dataobject);
     if (validateForm()) {
       postSellCar(dataobject)
-      .then(() => {
-        setSuccess(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then(() => {
+          setSuccess(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
   return (
@@ -247,7 +278,7 @@ const SellCar = (props) => {
         message={error}
         severity="error"
       />
-        <ErrorSnackBar
+      <ErrorSnackBar
         visible={showSuccess}
         setVisible={setSuccess}
         message={"Car Listed Successfully"}
@@ -377,7 +408,6 @@ const SellCar = (props) => {
             label="Minimum selling price"
             variant="outlined"
             error={showErrors && dataobject.MinPrice <= 0}
-
           />
         </Box>
         <Grid item className={classes.FromFetch} xs={12}>
@@ -394,7 +424,6 @@ const SellCar = (props) => {
                   value={dataobject.Make}
                   Label="Select Make"
                   error={showErrors && dataobject.Make.length <= 0}
-
                 />
                 <SelectBox
                   handleChange={handleChange}
@@ -476,7 +505,6 @@ const SellCar = (props) => {
                   required={true}
                   label="Number Plate"
                   error={showErrors && dataobject.VINum.length <= 0}
-
                 />
                 <TextField
                   onChange={handleChange}
@@ -486,7 +514,6 @@ const SellCar = (props) => {
                   required={true}
                   label="Number of seats"
                   error={showErrors && dataobject.SeatCount <= 0}
-
                 />
 
                 <SelectBox
@@ -509,7 +536,6 @@ const SellCar = (props) => {
                 name={"ModelDetail"}
                 value={dataobject.ModelDetail}
                 label="Model Details"
-                
               />
 
               <SelectBox
@@ -596,18 +622,21 @@ const SellCar = (props) => {
                     name="InteriorFront"
                     id="InteriorFront"
                     onChange={handleFileUpload}
+                    previewUrl={preview.InteriorFront}
                   />
                   <FileInput
                     accept="image/*"
                     name="InteriorMiddle"
                     id="InteriorMiddle"
                     onChange={handleFileUpload}
+                    previewUrl={preview.InteriorMiddle}
                   />
                   <FileInput
                     accept="image/*"
                     name="InteriorRear"
                     id="InteriorRear"
                     onChange={handleFileUpload}
+                    previewUrl={preview.InteriorRear}
                   />
                 </div>
               </div>
@@ -617,18 +646,13 @@ const SellCar = (props) => {
                   Upload Exterior Images
                 </Typography>
                 <div>
+                  <MultiFileInput onChange={handleMultiFileUpload} filesUploaded={dataobject.ExteriorSlider}/>
                   <FileInput
-                    accept="image/*"
-                    name="ExteriorSlider"
-                    id="ExteriorSlider"
-                    multiple={true}
-                    onChange={handleFileUpload}
-                  />
-                  <FileInput
-                    accept="image/*"
+                    accept="video/*"
                     name="ExteriorVideo"
                     id="ExteriorVideo"
-                    onChange={handleFileUpload}
+                    type="video"
+                    onChange={handleVideoUpload}
                   />
                 </div>
               </div>

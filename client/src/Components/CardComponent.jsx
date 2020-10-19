@@ -30,7 +30,7 @@ const CardComponent = (props) => {
     const { classes, car, index,setWishlist } = props;
     console.log(car.LikedBy)
     return (
-      <Grid item xs={12} sm={4} className={classes.cardContainer} justify="center">
+      <Grid item xs={12} sm={4}  lg={3} xl={2} className={classes.cardContainer} justify="center">
 
       <Card className={`${classes.rootCard} fadeIn`}>
         <CardHeader
