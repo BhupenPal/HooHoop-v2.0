@@ -39,7 +39,7 @@ function Home(props) {
         setCarsData(res.data)
         setLoader(false)
       })
-      .catch(err => {
+      .catch(() => {
         alert("Error fetching data")
         setLoader(false)
       })

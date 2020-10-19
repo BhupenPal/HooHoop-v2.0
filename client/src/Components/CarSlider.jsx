@@ -13,20 +13,20 @@ import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
 
-const CarSliderStyles = makeStyles((theme) => ({
+const CarSliderStyles = makeStyles(theme => ({
     SliderCar: {
         width: 300,
         backgroundColor: '#fff',
         borderRadius: 5,
         margin: '2rem auto',
         transition: 'box-shadow 0.2s',
-        // '&:hover': {
         boxShadow: '0 0.1rem 1rem rgba(0,0,0,0.2)',
-        // },
         [theme.breakpoints.down('md')]: {
-            boxShadow: '0 0.1rem 1rem rgba(0,0,0,0.2)',
             width: 250
         }
+    },
+    HideBoxShadow: {
+        boxShadow: 'none !important'
     },
     SlideCarImage: {
         width: '100%'
@@ -38,6 +38,11 @@ const CarSliderStyles = makeStyles((theme) => ({
     },
     cardText: {
         color: '#000'
+    },
+    hideBelowMD: {
+        [theme.breakpoints.down('md')]: {
+            display: 'none'
+        }
     }
 }))
 
@@ -92,40 +97,42 @@ const settings = {
     ]
 }
 
-
 const CarSlider = ({ data, loading }) => {
     const classes = CarSliderStyles()
 
     const renderSkeletons = () => {
         if (!loading) return null
         return (
-            [1, 2, 3, 4].map(item => (
+            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => (
                 <div key={item}>
-                    <Skeleton
-                        variant='rect'
-                        width={300}
-                        height={250}
-                    />
-                    <div className={classes.CarDetails} style={{ width: 300, padding: '10px 0' }}>
-                        <div>
-                            <Skeleton
-                                variant='rect'
-                                width={150}
-                                height={18}
-                                style={{ marginBottom: 5 }}
-                            />
-                            <Skeleton
-                                variant='rect'
-                                width={80}
-                                height={18}
-                            />
-                        </div>
-                        <div className='flex-jc-center'>
-                            <Skeleton
-                                variant='rect'
-                                width={80}
-                                height={18}
-                            />
+                    <div className={classNames(classes.SliderCar, classes.HideBoxShadow)}>
+                        <Skeleton
+                            variant='rect'
+                            // width={300}
+                            height={250}
+                            className={classes.SlideCarImage}
+                        />
+                        <div className={classes.CarDetails} style={{ width: 300, padding: '10px 0' }}>
+                            <div>
+                                <Skeleton
+                                    variant='rect'
+                                    width={150}
+                                    height={18}
+                                    style={{ marginBottom: 5 }}
+                                />
+                                <Skeleton
+                                    variant='rect'
+                                    width={80}
+                                    height={18}
+                                />
+                            </div>
+                            <div className={classNames('flex-jc-center', classes.hideBelowMD)}>
+                                <Skeleton
+                                    variant='rect'
+                                    width={80}
+                                    height={18}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
