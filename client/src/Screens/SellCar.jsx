@@ -86,7 +86,7 @@ const SellCar = (props) => {
     ExteriorSlider: null,
     ExteriorVideo: null,
   });
-  const handleVidioUpload = (e) => {
+  const handleVideoUpload = (e) => {
     const files = e.target.files;
     changedata({ ...dataobject, [e.target.name]: e.target.files });
     var video = document.createElement("video");
@@ -652,7 +652,7 @@ const SellCar = (props) => {
                     name="ExteriorVideo"
                     id="ExteriorVideo"
                     type="video"
-                    onChange={handleVidioUpload}
+                    onChange={handleVideoUpload}
                   />
                 </div>
               </div>
