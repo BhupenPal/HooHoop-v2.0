@@ -44,5 +44,9 @@ module.exports = {
     lower = parseInt(ToCheck.split("-")[0]);
     upper = parseInt(ToCheck.split("-")[1]);
     return { $gt: lower, $lt: upper };
+  },
+
+  FormDataBoolCheck: ToCheck => {
+    return ToCheck === 'true' ? true : false
   }
 }
