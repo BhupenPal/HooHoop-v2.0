@@ -1,10 +1,15 @@
-const { resolve } = require('path'),
+const webpack = require('webpack'),
+  { resolve } = require('path'),
   HTMLWebpackPlugin = require('html-webpack-plugin'),
-  { CleanWebpackPlugin } = require('clean-webpack-plugin');
+  { CleanWebpackPlugin } = require('clean-webpack-plugin'),
+  ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 require('dotenv').config({
   path: '../server/config/.env'
 })
+
+// For React Fast Refresh
+process.env.NODE_ENV = 'development'
 
 module.exports = {
   mode: 'development',
@@ -55,6 +60,8 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new ReactRefreshWebpackPlugin(),
     new CleanWebpackPlugin(),
     new HTMLWebpackPlugin({
       filename: 'index.html',
