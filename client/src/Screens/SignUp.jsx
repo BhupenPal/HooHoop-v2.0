@@ -27,7 +27,8 @@ import { withStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
 import styles from "../assets/material/LoginResgister";
 import { Alert } from "@material-ui/lab";
-
+import { GoogleLogin } from "react-google-login";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 const states = [
   "Auckland",
   "Bay of Plenty",
@@ -346,10 +347,39 @@ class SignUp extends Component {
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <Button className={classes.social}>Google</Button>
+                  <GoogleLogin
+                    clientId={
+                      "1025244757242-ctf4ilp63c51eh65d1gpeg6maa7at8f0.apps.googleusercontent.com"
+                    }
+                    render={(renderProps) => (
+                      <Button
+                        onClick={renderProps.onClick}
+                        disabled={renderProps.disabled}
+                        className={classes.social}
+                      >
+                        Google
+                      </Button>
+                    )}
+                    buttonText="Login"
+                    onSuccess={console.log}
+                    onFailure={console.log}
+                    cookiePolicy={"single_host_origin"}
+                  />
                 </Grid>
                 <Grid item xs={6}>
-                  <Button className={classes.social}>Facebook</Button>
+                  <FacebookLogin
+                    appId={"1152959061732446"}
+                    autoLoad
+                    callback={console.log}
+                    render={(renderProps) => (
+                      <Button
+                        onClick={renderProps.onClick}
+                        className={classes.social}
+                      >
+                        Facebook
+                      </Button>
+                    )}
+                  />
                 </Grid>
               </Grid>
               <Box mt={2} mb={8}>
@@ -361,8 +391,14 @@ class SignUp extends Component {
                   >
                     Sign Up
                   </NavLink>
-                  <Snackbar open={error} autoHideDuration={6000} onClose={this.hideError}>
-                    <Alert onClose={this.hideError} severity="error">{errorMessage}</Alert>
+                  <Snackbar
+                    open={error}
+                    autoHideDuration={6000}
+                    onClose={this.hideError}
+                  >
+                    <Alert onClose={this.hideError} severity="error">
+                      {errorMessage}
+                    </Alert>
                   </Snackbar>
                 </Typography>
               </Box>

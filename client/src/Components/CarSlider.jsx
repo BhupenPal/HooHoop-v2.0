@@ -4,9 +4,10 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
 import Slider from 'react-slick'
 import classNames from 'classnames'
-
-import Car from '../assets/img/Rectangle 4.png'
 import { Skeleton } from '@material-ui/lab'
+
+// Images
+import Car from '../assets/img/Rectangle 4.png'
 
 // Icons
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined'
@@ -108,7 +109,6 @@ const CarSlider = ({ data, loading }) => {
                     <div className={classNames(classes.SliderCar, classes.HideBoxShadow)}>
                         <Skeleton
                             variant='rect'
-                            // width={300}
                             height={250}
                             className={classes.SlideCarImage}
                         />

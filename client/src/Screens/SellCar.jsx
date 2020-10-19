@@ -632,6 +632,7 @@ const SellCar = (props) => {
                     accept="image/*"
                     name="InteriorFront"
                     id="InteriorFront"
+                    label="Front"
                     onChange={handleFileUpload}
                     previewUrl={preview.InteriorFront}
                   />
@@ -639,6 +640,8 @@ const SellCar = (props) => {
                     accept="image/*"
                     name="InteriorMiddle"
                     id="InteriorMiddle"
+                    label="Middle"
+
                     onChange={handleFileUpload}
                     previewUrl={preview.InteriorMiddle}
                   />
@@ -646,6 +649,8 @@ const SellCar = (props) => {
                     accept="image/*"
                     name="InteriorRear"
                     id="InteriorRear"
+                    label="Rear"
+
                     onChange={handleFileUpload}
                     previewUrl={preview.InteriorRear}
                   />
@@ -657,12 +662,17 @@ const SellCar = (props) => {
                   Upload Exterior Images
                 </Typography>
                 <div>
-                  <MultiFileInput onChange={handleMultiFileUpload} filesUploaded={dataobject.ExteriorSlider}/>
+                  <MultiFileInput 
+                    label="Slider"
+                  
+                  onChange={handleMultiFileUpload} filesUploaded={dataobject.ExteriorSlider}/>
                   <FileInput
                     accept="video/*"
                     name="ExteriorVideo"
                     id="ExteriorVideo"
                     type="video"
+                    label="Video"
+
                     onChange={handleVideoUpload}
                   />
                 </div>

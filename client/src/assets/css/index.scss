@@ -74,36 +74,17 @@ html, body {
         margin: 1rem 0 !important;
     }
     
-    .fadeIn{
-        animation: fadeIn 0.2s;
-    }
 }
 
+.fadeIn{
+    animation: fadeIn 0.2s;
+}
 .cloudimage-360 canvas {
     min-height: 25rem;
     height: 100%;
 }
 
-.asNavFor  .slick-list{
-    margin: -20px;
-    @media (max-width:720px) {
-        margin:0;
-    }
-}
-.asNavFor .slick-slide *{
-    outline:none !important;
-    //margin: 1rem 0 !important;
-}
-.asNavFor .slick-track{
-    //outline:none !important;
-    margin: 1rem 0 !important;
-}
-.infinite-scroll-component__outerdiv{
-    width: 100% ;
-}
-.fadeIn{
-    animation: fadeIn 0.2s;
-}
+
 @keyframes fadeIn{
     from {
         opacity: 0;

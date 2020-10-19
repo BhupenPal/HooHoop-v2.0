@@ -15,7 +15,7 @@ const express = require("express"),
     CarModel = require('../models/Car.model'),
 
     //Helper and Services
-    { GenerateOTP, HashSalt, GenerateRandom, PassCheck } = require('../helper/service'),
+    { GenerateOTP, HashSalt, GenerateRandom, PassCheck, FormDataBoolCheck } = require('../helper/service'),
     { signAccessToken, verifyAccessToken, signRefreshToken, verifyRefreshToken } = require('../helper/auth/JWT_service'),
     { SendMail } = require('../helper/mail/config'),
     { AccActivationMail } = require("../helper/mail/content"),
@@ -274,8 +274,9 @@ Router.get('/car-data-fetch/:CarPlate', verifyAccessToken, async (req, res, next
 
 Router.post('/sell-form/submit', verifyAccessToken, CarUpload, (req, res, next) => {
     try {
+        // FormData can only store USVString or Blobs, .'. no Booleans
         let { Make, Model, ModelYear, Price, MinPrice, Featured, BodyType, DoorCount, SeatCount, Import, VINum, KMsDriven, Color, EngineSize, FuelType, SafetyStar, WOFExpiry, REGExpiry, DriveWheel4, ONRoadCost, Description, isNewCar, Dealer, isExteriorVideo, isExteriorSlider, is360Images, Transmission } = req.body;
-
+        
         // Manipulating Data
         VINum = VINum.toUpperCase()
         Make = Make.toUpperCase()
@@ -290,7 +291,7 @@ Router.post('/sell-form/submit', verifyAccessToken, CarUpload, (req, res, next) 
         })
 
         //Checking if Exterior Video is uploaded
-        if (isExteriorVideo) {
+        if (FormDataBoolCheck(isExteriorVideo)) {
             const ExteriorVideoName = req.files.ExteriorVideo[0].filename
             new ffmpeg(`./assets/uploads/cars/${VINum}/exterior360/${ExteriorVideoName}`)
                 .then((video) => {
@@ -324,7 +325,7 @@ Router.post('/sell-form/submit', verifyAccessToken, CarUpload, (req, res, next) 
                 })
         }
 
-        if (is360Images) {
+        if (FormDataBoolCheck(is360Images)) {
             fs.readdir(`./assets/uploads/cars/${VINum}/interior360/`, (err, files) => {
                 files.forEach(async CurrentFile => {
                     await sharp(`./assets/uploads/cars/${VINum}/interior360/${CurrentFile}`)
@@ -337,7 +338,7 @@ Router.post('/sell-form/submit', verifyAccessToken, CarUpload, (req, res, next) 
             })
         }
 
-        if (isExteriorSlider) {
+        if (FormDataBoolCheck(isExteriorSlider)) {
             //Compress Images Here
         }
 

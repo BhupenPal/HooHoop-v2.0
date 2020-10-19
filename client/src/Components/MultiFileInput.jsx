@@ -3,13 +3,10 @@ import AddIcon from "@material-ui/icons/Add";
 import { DropzoneDialog } from "material-ui-dropzone";
 
 function MultiFileInput({
-  id,
-  name,
-  accept,
+  
   onChange,
   filesUploaded,
-  multiple,
-  previewUrl,
+  label,
 }) {
   const [visible, setVisible] = useState(false);
   const showDialog = () => {
@@ -19,7 +16,7 @@ function MultiFileInput({
     setVisible(false);
   };
   return (
-    <div>
+    <div style={{flexDirection:"column"}}>
       <DropzoneDialog
         open={visible}
         // onChange={}
@@ -42,6 +39,8 @@ function MultiFileInput({
           <AddIcon />
         )}
       </div>
+      <div>{label}</div>
+
     </div>
   );
 }

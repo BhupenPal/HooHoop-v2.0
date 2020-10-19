@@ -327,6 +327,7 @@ const filterComponent = (props) => {
           <Typography variant="h6" component="h6">
             Model Year
           </Typography>
+          
         </div>
         <Slider
           value={yearRange}
