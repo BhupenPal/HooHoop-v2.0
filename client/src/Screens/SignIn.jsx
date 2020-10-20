@@ -14,13 +14,15 @@ import {
   Checkbox,
   Button,
   Divider,
-  Box, Snackbar
+  Box,
+  Snackbar,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
-import styles from "../assets/material/LoginResgister"
+import styles from "../assets/material/LoginResgister";
 import { Alert } from "@material-ui/lab";
-import GoogleLogin from "react-google-login";
+import {GoogleLogin} from "react-google-login";
+import FacebookLogin  from "react-facebook-login/dist/facebook-login-render-props";
 
 class SignIn extends Component {
   constructor(props) {
@@ -31,8 +33,8 @@ class SignIn extends Component {
       Password: "",
       Remember: false,
       Errors: null,
-      loginError:false,
-      errorMessage:""
+      loginError: false,
+      errorMessage: "",
     };
   }
 
@@ -58,7 +60,7 @@ class SignIn extends Component {
   };
   hideError = () => {
     this.setState({ loginError: false, errorMessage: "" });
-  }
+  };
   handleChange = (e) => {
     const isCheckbox = e.target.type === "checkbox";
     this.setState({
@@ -72,10 +74,10 @@ class SignIn extends Component {
     const userData = {
       Email: this.state.Email,
       Password: this.state.Password,
-      LogWithPhone: isNaN(parseInt(this.state.Email)) ? false : true
+      LogWithPhone: isNaN(parseInt(this.state.Email)) ? false : true,
     };
 
-    this.props.loginUser(userData,this.showError);
+    this.props.loginUser(userData, this.showError);
   };
 
   handleRedirect = (e, value) => {
@@ -85,22 +87,36 @@ class SignIn extends Component {
   };
 
   render() {
-    const { classes } = this.props
-    const { errorMessage,loginError } = this.state;
+    const { classes } = this.props;
+    const { errorMessage, loginError } = this.state;
     return (
-      <Grid container component="main" style={{ minHeight: 'calc(100vh - 101px)' }}>
-        <Grid item container justify="center" md={12} lg={5} component={Paper} elevation={6} square>
+      <Grid
+        container
+        component="main"
+        style={{ minHeight: "calc(100vh - 101px)" }}
+      >
+        <Grid
+          item
+          container
+          justify="center"
+          md={12}
+          lg={5}
+          component={Paper}
+          elevation={6}
+          square
+        >
           <Grid item sm={10} md={8}>
             <Typography component="h1" className={classes.heading}>
               Welcome Back
             </Typography>
             <Typography>
-              Continue to login at HooHoop. Once Logged In you’ll be able to manage all your listings and purchases. 
+              Continue to login at HooHoop. Once Logged In you’ll be able to
+              manage all your listings and purchases.
             </Typography>
             <Paper square className={classes.tabs}>
               <Tabs
                 value={1}
-                TabIndicatorProps={{style: {background:'#000'}}}
+                TabIndicatorProps={{ style: { background: "#000" } }}
                 onChange={this.handleRedirect}
               >
                 <Tab label="Register" />
@@ -130,34 +146,38 @@ class SignIn extends Component {
               />
               <Grid className={classes.split}>
                 <FormControlLabel
-                  control={<Checkbox name='Remember' value={this.state.Remember} color="primary" onChange={this.handleChange} />}
+                  control={
+                    <Checkbox
+                      name="Remember"
+                      value={this.state.Remember}
+                      color="primary"
+                      onChange={this.handleChange}
+                    />
+                  }
                   label="Remember me"
                 />
                 <NavLink to="/forogot-password">
-                  <Typography>
-                    Forgot Password?
-                  </Typography>
+                  <Typography>Forgot Password?</Typography>
                 </NavLink>
               </Grid>
-              <Button
-                type="submit"
-                className={classes.submit}
-              >
+              <Button type="submit" className={classes.submit}>
                 Login
               </Button>
               <Grid container className={classes.close}>
-                <Grid item xs={2}><Divider /></Grid>
+                <Grid item xs={2}>
+                  <Divider />
+                </Grid>
                 <Box ml={2} mr={2}>
-                  <Typography align='center'>or log in with</Typography>
+                  <Typography align="center">or log in with</Typography>
                 </Box>
-                <Grid item xs={2}><Divider /></Grid>
+                <Grid item xs={2}>
+                  <Divider />
+                </Grid>
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                <GoogleLogin
-                    clientId={
-                      "1033966112041-t5l01fqi4hs140d7j50cuu6k9pphomrp.apps.googleusercontent.com"
-                    }
+                  <GoogleLogin
+                    clientId={process.env.GOOGLE_CLIENT_ID}
                     responseType={"id_token"}
                     render={(renderProps) => (
                       <Button
@@ -175,19 +195,34 @@ class SignIn extends Component {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <Button className={classes.social}>Facebook</Button>
+                  <FacebookLogin
+                    appId={process.env.FB_CLIENT_ID}
+                    callback={console.log}
+                    render={(renderProps) => (
+                      <Button
+                        onClick={renderProps.onClick}
+                        className={classes.social}
+                      >
+                        Facebook
+                      </Button>
+                    )}
+                  />
                 </Grid>
               </Grid>
               <Grid>
-                <Typography align='center'>
+                <Typography align="center">
                   Are you a dealer? &nbsp;
-                  <NavLink to="/register/dealer">
-                    Sign Up
-                  </NavLink>
+                  <NavLink to="/register/dealer">Sign Up</NavLink>
                 </Typography>
-                <Snackbar open={loginError} autoHideDuration={6000} onClose={this.hideError}>
-                    <Alert onClose={this.hideError} severity="error">{errorMessage}</Alert>
-                  </Snackbar>
+                <Snackbar
+                  open={loginError}
+                  autoHideDuration={6000}
+                  onClose={this.hideError}
+                >
+                  <Alert onClose={this.hideError} severity="error">
+                    {errorMessage}
+                  </Alert>
+                </Snackbar>
               </Grid>
             </form>
           </Grid>

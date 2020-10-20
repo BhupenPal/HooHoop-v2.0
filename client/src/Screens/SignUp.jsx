@@ -29,7 +29,6 @@ import styles from "../assets/material/LoginResgister";
 import { Alert } from "@material-ui/lab";
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-const dotenv = require('dotenv');
 const states = [
   "Auckland",
   "Bay of Plenty",
@@ -65,7 +64,6 @@ const validPassword = (password) => {
 class SignUp extends Component {
   constructor(props) {
     super(props);
-    this.env = dotenv.config().parsed;
     this.state = {
       FirstName: "",
       LastName: "",
@@ -349,7 +347,7 @@ class SignUp extends Component {
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <GoogleLogin
-                    clientId={env.GOOGLE_CLIENT_ID}
+                    clientId={process.env.GOOGLE_CLIENT_ID}
                     responseType={"id_token"}
                     render={(renderProps) => (
                       <Button
@@ -369,7 +367,7 @@ class SignUp extends Component {
                 </Grid>
                 <Grid item xs={6}>
                   <FacebookLogin
-                    appId={env.FB_CLIENT_ID}
+                    appId={process.env.FB_CLIENT_ID}
                     callback={console.log}
                     render={(renderProps) => (
                       <Button

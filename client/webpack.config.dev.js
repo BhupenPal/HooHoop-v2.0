@@ -4,12 +4,21 @@ const webpack = require('webpack'),
   { CleanWebpackPlugin } = require('clean-webpack-plugin'),
   ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
-require('dotenv').config({
-  path: '../server/config/.env'
-})
+const dotenv = require('dotenv')
 
 // For React Fast Refresh
 process.env.NODE_ENV = 'development'
+
+// Set the path parameter in the dotenv config
+const fileEnv = dotenv.config({
+  path: '../server/config/.env'
+}).parsed;
+  
+// reduce it to a nice object, the same as before (but with the variables from the file)
+const envKeys = Object.keys(fileEnv).reduce((prev, next) => {
+  prev[`process.env.${next}`] = JSON.stringify(fileEnv[next]);
+  return prev;
+}, {});
 
 module.exports = {
   mode: 'development',
@@ -59,10 +68,12 @@ module.exports = {
       }
     ]
   },
+  
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new ReactRefreshWebpackPlugin(),
     new CleanWebpackPlugin(),
+    new webpack.DefinePlugin(envKeys),
     new HTMLWebpackPlugin({
       filename: 'index.html',
       favicon: "./src/assets/img/favicon.ico",
