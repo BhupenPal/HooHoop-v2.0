@@ -149,9 +149,9 @@ Router.post('/contact', (req, res, next) => {
         })
 })
 
-Router.get('/buy-car/:PageNo', async (req, res, next) => {
+Router.get('/buy-car/:PageNo/:size', async (req, res, next) => {
     const { Price, BodyType, FuelType, SearchedCar, KMsDriven, ModelYear, SortData, Make, Model, Transmission, Color, State } = req.query
-    let { PageNo } = req.params,
+    let { PageNo, size } = req.params,
         UserID = null
 
     // Decoding authorization to check user and getting ObjectID
@@ -167,7 +167,7 @@ Router.get('/buy-car/:PageNo', async (req, res, next) => {
         page: PageNo || 1,
         select: 'Make Model ModelYear Price State BodyType FuelType KMsDriven ViewsCount VINum LikedBy',
         lean: true,
-        limit: 15
+        limit: size || 15
     }
 
     // Basic Filter For All Queries
@@ -211,7 +211,6 @@ Router.get('/buy-car/:PageNo', async (req, res, next) => {
 
 Router.patch('/wish-handle', verifyAccessToken, async (req, res, next) => {
     try {
-        console.log(req.payload)
         const { VINum } = req.body
 
         const LikedCar = await CarModel.findOne({ VINum })
