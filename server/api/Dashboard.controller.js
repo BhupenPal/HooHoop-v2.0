@@ -16,7 +16,7 @@ const express = require('express'),
 Router.use(verifyAccessToken)
 
 Router.get('/profile', (req, res, next) => {
-    UserModel.findById(req.payload.aud, 'FirstName LastName Email Phone DOB Address EmailVerified PhoneVerified Credits Role -_id')
+    UserModel.findById(req.payload.aud, 'FirstName LastName Email Phone DOB Address EmailVerified PhoneVerified DisplayPic Credits Role -_id')
         .then(user => {
             if (!user) return next(createError.Forbidden())
             res.status(201).json(user)
@@ -76,6 +76,17 @@ Router.put('/update/password', (req, res, next) => {
         console.log(error.message)
         next(error)
     }
+})
+
+Router.get('/my-favourites', (req, res, next) => {
+    UserModel.findById(req.payload.aud, 'WishList -_id')
+        .then(doc => {
+            if (!doc) return next(createError.Forbidden())
+            CarModel.find({ VINum: { $in: doc.WishList }, isActive: true }, 'Make Model ModelYear Price State BodyType FuelType KMsDriven ViewsCount VINum')
+                .then(data => {
+                    res.status(201).json(data)
+                })
+        })
 })
 
 /* Listing Handles */

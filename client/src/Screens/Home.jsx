@@ -103,7 +103,6 @@ function Home(props) {
 
   return (
     <Fragment>
-
       <Slider {...settings}>
         {SliderImages.map((item) => {
           return (

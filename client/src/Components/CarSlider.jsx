@@ -102,42 +102,45 @@ const CarSlider = ({ data, loading }) => {
     const classes = CarSliderStyles()
 
     const renderSkeletons = () => {
-        if (!loading) return null
-        return (
-            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => (
-                <div key={item}>
-                    <div className={classNames(classes.SliderCar, classes.HideBoxShadow)}>
-                        <Skeleton
-                            variant='rect'
-                            height={250}
-                            className={classes.SlideCarImage}
-                        />
-                        <div className={classes.CarDetails} style={{ width: 300, padding: '10px 0' }}>
-                            <div>
-                                <Skeleton
-                                    variant='rect'
-                                    width={150}
-                                    height={18}
-                                    style={{ marginBottom: 5 }}
-                                />
-                                <Skeleton
-                                    variant='rect'
-                                    width={80}
-                                    height={18}
-                                />
-                            </div>
-                            <div className={classNames('flex-jc-center', classes.hideBelowMD)}>
-                                <Skeleton
-                                    variant='rect'
-                                    width={80}
-                                    height={18}
-                                />
+        return (!loading)
+            ?
+            null
+            :
+            (
+                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => (
+                    <div key={item}>
+                        <div className={classNames(classes.SliderCar, classes.HideBoxShadow)}>
+                            <Skeleton
+                                variant='rect'
+                                height={250}
+                                className={classes.SlideCarImage}
+                            />
+                            <div className={classes.CarDetails} style={{ width: 300, padding: '10px 0' }}>
+                                <div>
+                                    <Skeleton
+                                        variant='rect'
+                                        width={150}
+                                        height={18}
+                                        style={{ marginBottom: 5 }}
+                                    />
+                                    <Skeleton
+                                        variant='rect'
+                                        width={80}
+                                        height={18}
+                                    />
+                                </div>
+                                <div className={classNames('flex-jc-center', classes.hideBelowMD)}>
+                                    <Skeleton
+                                        variant='rect'
+                                        width={80}
+                                        height={18}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            ))
-        )
+                ))
+            )
     }
 
     return (
