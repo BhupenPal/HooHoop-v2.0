@@ -149,7 +149,7 @@ Router.post('/contact', (req, res, next) => {
         })
 })
 
-Router.get('/buy-car/:PageNo/:size', async (req, res, next) => {
+Router.get('/buy-car/:PageNo/:size?', async (req, res, next) => {
     const { Price, BodyType, FuelType, SearchedCar, KMsDriven, ModelYear, SortData, Make, Model, Transmission, Color, State } = req.query
     let { PageNo, size } = req.params,
         UserID = null

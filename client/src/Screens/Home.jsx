@@ -22,13 +22,12 @@ import styles from "../assets/material/Home";
 import SearchIcon from "@material-ui/icons/Search";
 
 // Images
-import IndexBackground from "../assets/img/Home/IndexBackground.png";
-import WoxWagon from "../assets/img/Home/woxwagon.png";
-import Sports from "../assets/img/Home/sports.png";
+import Toyota from "../assets/img/Home/Banner/toyota.jpg";
+import Volkswagen from "../assets/img/Home/Banner/volkswagen.jpg";
+import Saleen from "../assets/img/Home/Banner/saleen.jpg";
 
 // Components
 import CarSlider from "../Components/CarSlider.jsx";
-import GoogleLogin from "react-google-login";
 
 function Home(props) {
   const { classes } = props;
@@ -56,9 +55,9 @@ function Home(props) {
 
   // Banner Images Slider
   const SliderImages = [
-    { id: 1, url: IndexBackground },
-    { id: 2, url: WoxWagon },
-    { id: 3, url: Sports },
+    { id: 1, url: Saleen },
+    { id: 2, url: Volkswagen },
+    { id: 3, url: Toyota },
   ];
 
   // Banner Images Slider Settings
