@@ -1,6 +1,7 @@
 // Dependency
 import React, { Fragment } from "react"
-import { withRouter, Link } from "react-router"
+import { withRouter } from "react-router"
+import { Link } from "react-router-dom"
 
 // Styling
 import "../assets/css/footer.scss"
