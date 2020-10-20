@@ -17,7 +17,7 @@ const express = require("express"),
     //Helper and Services
     { GenerateOTP, HashSalt, GenerateRandom, PassCheck, FormDataBoolCheck } = require('../helper/service'),
     { signAccessToken, verifyAccessToken, signRefreshToken, verifyRefreshToken } = require('../helper/auth/JWT_service'),
-    { ValidateGoogle } = require('../helper/auth/OAuth_service'),
+    { ValidateGoogle, ValidateFacebook } = require('../helper/auth/OAuth_service'),
     { SendMail } = require('../helper/mail/config'),
     { AccActivationMail } = require("../helper/mail/content"),
     { SendSMS } = require('../helper/sms/config'),
@@ -81,6 +81,31 @@ Router.post("/googlelogin", ValidateGoogle, (req, res, next) => {
                     res.status(200).json({ accessToken, refreshToken })
                 } else {
                     res.status(201).json({ FirstGoogleLogin: true, Email, FirstName, LastName, GoogleID })
+                }
+            })
+    } catch (error) {
+        console.log('User Controller Google Login Catch: ' + error.message)
+        next(error)
+    }
+})
+
+Router.post('/facebooklogin', ValidateFacebook, (req, res, next) => {
+    try {
+        const { Email, FirstName, LastName, FacebookID } = req.payload
+        UserModel.findOne({ Email })
+            .then(async User => {
+                if (User) {
+                    if (User.FacebookID === null) {
+                        User.FacebookID = FacebookID
+                        User.save()
+                    }
+                    //For making it compatible with JWT_SERVICES
+                    User.aud = User.id
+                    const accessToken = await signAccessToken(User)
+                    const refreshToken = await signRefreshToken(User)
+                    res.status(200).json({ accessToken, refreshToken })
+                } else {
+                    res.status(201).json({ FirstFacebookLogin: true, Email, FirstName, LastName, GoogleID })
                 }
             })
     } catch (error) {

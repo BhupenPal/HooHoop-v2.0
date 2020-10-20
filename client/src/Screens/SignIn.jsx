@@ -23,7 +23,7 @@ import styles from "../assets/material/LoginResgister";
 import { Alert } from "@material-ui/lab";
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import { GoogleLoginService } from "../services/OAuthLogin";
+import { GoogleLoginService, FacebookLoginService } from "../services/OAuthLogin";
 
 class SignIn extends Component {
   constructor(props) {
@@ -65,6 +65,18 @@ class SignIn extends Component {
       }
     } catch (error) {
       console.log(error);
+    }
+  }
+  FacebookLogin = async (authResult) => {
+    try {
+      if (authResult['accessToken'] && authResult['userID']) {
+        const result = await FacebookLoginService(authResult['accessToken'], authResult['userID']);
+        props.login(result)
+      } else {
+        throw new Error(authResult)
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
   showError = (message) => {
@@ -204,16 +216,14 @@ class SignIn extends Component {
                         Google
                       </Button>
                     )}
-                    buttonText="Login"
                     onSuccess={this.googleLogin}
-                    onFailure={console.log}
+                    onFailure={this.googleLogin}
                     cookiePolicy={"single_host_origin"}
                   />
                 </Grid>
                 <Grid item xs={6}>
                   <FacebookLogin
                     appId={process.env.FB_CLIENT_ID}
-                    callback={console.log}
                     render={(renderProps) => (
                       <Button
                         onClick={renderProps.onClick}
@@ -222,6 +232,7 @@ class SignIn extends Component {
                         Facebook
                       </Button>
                     )}
+                    callback={this.FacebookLogin}
                   />
                 </Grid>
               </Grid>

@@ -7,8 +7,8 @@ const GoogleLoginService = async tokenId => {
         .catch(() => null)
 }
 
-const FacebookLoginService = async code => {
-    return axios.post('/api/user/googlelogin', code)
+const FacebookLoginService = async (accessToken, userID) => {
+    return axios.post('/api/user/facebooklogin', { accessToken, userID })
         .then(res => res.data)
         .catch(() => null)
 }
