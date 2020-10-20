@@ -177,7 +177,7 @@ class SignUp extends Component {
           elevation={6}
           square
         >
-          <Grid item xs={8}>
+          <Grid item xs={10} md={8}>
             <Typography component="h1" className={classes.heading}>
               Register at Hoohoop
             </Typography>

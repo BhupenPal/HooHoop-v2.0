@@ -23,6 +23,7 @@ import styles from "../assets/material/LoginResgister";
 import { Alert } from "@material-ui/lab";
 import {GoogleLogin} from "react-google-login";
 import FacebookLogin  from "react-facebook-login/dist/facebook-login-render-props";
+import { googleLoginSuccess } from "../services/login";
 
 class SignIn extends Component {
   constructor(props) {
@@ -54,7 +55,10 @@ class SignIn extends Component {
       });
     }
   }
-
+  googleLogin = async (data) => {
+   const res = await googleLoginSuccess(data.tokenId);
+   console.log(res)
+  }
   showError = (message) => {
     this.setState({ loginError: true, errorMessage: message });
   };
@@ -91,14 +95,18 @@ class SignIn extends Component {
     const { errorMessage, loginError } = this.state;
     return (
       <Grid
+      item
         container
         component="main"
+        justify="center"
         style={{ minHeight: "calc(100vh - 101px)" }}
       >
         <Grid
           item
           container
           justify="center"
+        xs={10}
+
           md={12}
           lg={5}
           component={Paper}
@@ -189,7 +197,7 @@ class SignIn extends Component {
                       </Button>
                     )}
                     buttonText="Login"
-                    onSuccess={console.log}
+                    onSuccess={this.googleLogin}
                     onFailure={console.log}
                     cookiePolicy={"single_host_origin"}
                   />
