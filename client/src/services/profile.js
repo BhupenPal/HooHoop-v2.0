@@ -1,19 +1,8 @@
-import axios from 'axios';
-export const getProfile = async () => {
+import axios from 'axios'
 
-    let profile = await axios.get('/api/user/dashboard/profile');
-    profile = profile.data;
-    return {
-        Role: profile.Role,
-        EmailVerified: profile.EmailVerified,
-        PhoneVerified: profile.PhoneVerified,
-        Credits: profile.Credits,
-        FirstName: profile.FirstName,
-        LastName: profile.LastName,
-        Phone: profile.Phone,
-        Email: profile.Email,
-        DisplayPic: profile.DisplayPic,
-        Address: profile.Address,
-        DOB:profile.DOB
-    }
+const FetchProfile = async () => {
+	const Profile = await axios.get('/api/user/dashboard/profile')
+	return Profile.data
 }
+
+export default FetchProfile

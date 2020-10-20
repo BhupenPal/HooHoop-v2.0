@@ -16,7 +16,7 @@ const express = require('express'),
 Router.use(verifyAccessToken)
 
 Router.get('/profile', (req, res, next) => {
-    UserModel.findById(req.payload.aud, 'FirstName LastName Email Phone DOB Address EmailVerified PhoneVerified Credits Role -_id')
+    UserModel.findById(req.payload.aud, 'FirstName LastName Email Phone DOB Address EmailVerified PhoneVerified DisplayPic Credits Role _id')
         .then(user => {
             if (!user) return next(createError.Forbidden())
             res.status(201).json(user)
