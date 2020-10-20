@@ -13,7 +13,7 @@ import {
   Button,
   Grid,
 } from "@material-ui/core";
-import Sports from "../assets/img/Home/sports.png";
+import Sports from "../assets/img/Home/Banner/saleen.jpg";
 import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
 import LocalTaxiIcon from "@material-ui/icons/LocalTaxi";
 import SpeedIcon from "@material-ui/icons/Speed";
@@ -25,10 +25,8 @@ import FavoriteIcon  from "@material-ui/icons/Favorite";
 
 import { Link } from "react-router-dom";
 
-const CardComponent = (props) => {
+const CardComponent = ({ classes, car, index,setWishlist }) => {
 
-    const { classes, car, index,setWishlist } = props;
-    console.log(car.LikedBy)
     return (
       <Grid item xs={12} sm={4}  lg={3} xl={2} className={classes.cardContainer} justify="center">
 
@@ -50,7 +48,7 @@ const CardComponent = (props) => {
               component="h2"
               className={`${classes.typoBold} ${classes.cardAmount}`}
             >
-              ₹ {car.Price}
+              $ {car.Price}
             </Typography>
             <Typography
               variant="h5"

@@ -79,7 +79,7 @@ Router.put('/update/password', (req, res, next) => {
 })
 
 Router.get('/my-favourites', (req, res, next) => {
-    UserModel.findById(req.payload.aud, 'WishList -_id')
+    UserModel.findById(req.payload.aud)
         .then(doc => {
             if (!doc) return next(createError.Forbidden())
             CarModel.find({ VINum: { $in: doc.WishList }, isActive: true }, 'Make Model ModelYear Price State BodyType FuelType KMsDriven ViewsCount VINum')
