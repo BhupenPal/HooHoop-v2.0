@@ -32,9 +32,13 @@ const CarSliderStyles = makeStyles(theme => ({
     SlideCarImage: {
         width: '100%'
     },
+    SlideCarViews:{
+        fontSize:"0.7rem"
+    },
     CarDetails: {
         display: 'flex',
         justifyContent: 'space-between',
+        alignItems:"flex-start",
         padding: '8px 15px',
     },
     cardText: {
@@ -160,8 +164,8 @@ const CarSlider = ({ data, loading }) => {
                                                 <br />
                                                 &#36; {item.Price}
                                             </div>
-                                            <div className='flex-jc-center'>
-                                                <VisibilityOutlinedIcon style={{ marginRight: 5 }} />
+                                            <div className={`${classes.SlideCarViews} flex-jc-center`}>
+                                                <VisibilityOutlinedIcon style={{ marginRight: 5,fontSize:"1rem" }} />
                                                 {(item.ViewsCount < 1000) ? item.ViewsCount + ' ' : (item.ViewsCount / 1000).toFixed(1) + 'K '}
                                                 Views
                                             </div>
