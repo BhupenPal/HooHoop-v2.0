@@ -64,7 +64,6 @@ const validPassword = (password) => {
 class SignUp extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       FirstName: "",
       LastName: "",
@@ -348,9 +347,8 @@ class SignUp extends Component {
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <GoogleLogin
-                    clientId={
-                      "1025244757242-ctf4ilp63c51eh65d1gpeg6maa7at8f0.apps.googleusercontent.com"
-                    }
+                    clientId={process.env.GOOGLE_CLIENT_ID}
+                    responseType={"id_token"}
                     render={(renderProps) => (
                       <Button
                         onClick={renderProps.onClick}
@@ -360,6 +358,7 @@ class SignUp extends Component {
                         Google
                       </Button>
                     )}
+                    
                     buttonText="Login"
                     onSuccess={console.log}
                     onFailure={console.log}
@@ -368,8 +367,7 @@ class SignUp extends Component {
                 </Grid>
                 <Grid item xs={6}>
                   <FacebookLogin
-                    appId={"1152959061732446"}
-                    autoLoad
+                    appId={process.env.FB_CLIENT_ID}
                     callback={console.log}
                     render={(renderProps) => (
                       <Button

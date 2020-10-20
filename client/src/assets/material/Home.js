@@ -29,7 +29,10 @@ export default theme => ({
         color: '#000',
         borderRadius: 5,
         width: '30%',
-        margin: '1rem 0 0.2rem 0'
+        margin: '1rem 0 0.2rem 0',
+        [theme.breakpoints.down('md')]: {
+            width: '80%',
+        }
     },
     AdvanceSearchLink: {
         color: '#fff',
