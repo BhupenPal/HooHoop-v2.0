@@ -20,6 +20,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
 import styles from "../assets/material/LoginResgister"
 import { Alert } from "@material-ui/lab";
+import GoogleLogin from "react-google-login";
 
 class SignIn extends Component {
   constructor(props) {
@@ -153,7 +154,25 @@ class SignIn extends Component {
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <Button className={classes.social}>Google</Button>
+                <GoogleLogin
+                    clientId={
+                      "1033966112041-t5l01fqi4hs140d7j50cuu6k9pphomrp.apps.googleusercontent.com"
+                    }
+                    responseType={"id_token"}
+                    render={(renderProps) => (
+                      <Button
+                        onClick={renderProps.onClick}
+                        disabled={renderProps.disabled}
+                        className={classes.social}
+                      >
+                        Google
+                      </Button>
+                    )}
+                    buttonText="Login"
+                    onSuccess={console.log}
+                    onFailure={console.log}
+                    cookiePolicy={"single_host_origin"}
+                  />
                 </Grid>
                 <Grid item xs={6}>
                   <Button className={classes.social}>Facebook</Button>

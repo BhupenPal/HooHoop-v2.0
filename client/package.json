@@ -48,7 +48,6 @@
     "@tinymce/tinymce-react": "^3.7.0",
     "axios": "^0.19.2",
     "date-fns": "^2.16.1",
-    "dotenv": "^8.2.0",
     "dotenv-webpack": "^3.0.0",
     "egjs": "^2.2.0",
     "jwt-decode": "^2.2.0",
