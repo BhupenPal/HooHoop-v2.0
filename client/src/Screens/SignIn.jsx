@@ -21,9 +21,9 @@ import { withStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
 import styles from "../assets/material/LoginResgister";
 import { Alert } from "@material-ui/lab";
-import {GoogleLogin} from "react-google-login";
-import FacebookLogin  from "react-facebook-login/dist/facebook-login-render-props";
-import { googleLoginSuccess } from "../services/login";
+import { GoogleLogin } from "react-google-login";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import { GoogleLoginService } from "../services/OAuthLogin";
 
 class SignIn extends Component {
   constructor(props) {
@@ -55,9 +55,17 @@ class SignIn extends Component {
       });
     }
   }
-  googleLogin = async (data) => {
-   const res = await googleLoginSuccess(data.tokenId);
-   console.log(res)
+  googleLogin = async (authResult) => {
+    try {
+      if (authResult['tokenId']) {
+        const result = await GoogleLoginService(authResult['tokenId']);
+        props.login(result);
+      } else {
+        throw new Error(authResult);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
   showError = (message) => {
     this.setState({ loginError: true, errorMessage: message });
@@ -95,7 +103,7 @@ class SignIn extends Component {
     const { errorMessage, loginError } = this.state;
     return (
       <Grid
-      item
+        item
         container
         component="main"
         justify="center"
@@ -105,7 +113,7 @@ class SignIn extends Component {
           item
           container
           justify="center"
-        xs={10}
+          xs={10}
 
           md={12}
           lg={5}

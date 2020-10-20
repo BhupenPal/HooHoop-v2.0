@@ -17,6 +17,7 @@ const express = require("express"),
     //Helper and Services
     { GenerateOTP, HashSalt, GenerateRandom, PassCheck, FormDataBoolCheck } = require('../helper/service'),
     { signAccessToken, verifyAccessToken, signRefreshToken, verifyRefreshToken } = require('../helper/auth/JWT_service'),
+    { ValidateGoogle } = require('../helper/auth/OAuth_service'),
     { SendMail } = require('../helper/mail/config'),
     { AccActivationMail } = require("../helper/mail/content"),
     { SendSMS } = require('../helper/sms/config'),
@@ -59,6 +60,31 @@ Router.post("/login", async (req, res, next) => {
         })
     } catch (error) {
         console.log('User Controller Login Catch: ' + error.message)
+        next(error)
+    }
+})
+
+Router.post("/googlelogin", ValidateGoogle, (req, res, next) => {
+    try {
+        const { Email, FirstName, LastName, GoogleID } = req.payload
+        UserModel.findOne({ Email })
+            .then(async User => {
+                if (User) {
+                    if (User.GoogleID === null) {
+                        User.GoogleID = GoogleID
+                        User.save()
+                    }
+                    //For making it compatible with JWT_SERVICES
+                    User.aud = User.id
+                    const accessToken = await signAccessToken(User)
+                    const refreshToken = await signRefreshToken(User)
+                    res.status(200).json({ accessToken, refreshToken })
+                } else {
+                    res.status(201).json({ FirstGoogleLogin: true, Email, FirstName, LastName, GoogleID })
+                }
+            })
+    } catch (error) {
+        console.log('User Controller Google Login Catch: ' + error.message)
         next(error)
     }
 })
@@ -276,7 +302,7 @@ Router.post('/sell-form/submit', verifyAccessToken, CarUpload, (req, res, next) 
     try {
         // FormData can only store USVString or Blobs, .'. no Booleans
         let { Make, Model, ModelYear, Price, MinPrice, Featured, BodyType, DoorCount, SeatCount, Import, VINum, KMsDriven, Color, EngineSize, FuelType, SafetyStar, WOFExpiry, REGExpiry, DriveWheel4, ONRoadCost, Description, isNewCar, Dealer, isExteriorVideo, isExteriorSlider, is360Images, Transmission } = req.body;
-        
+
         // Manipulating Data
         VINum = VINum.toUpperCase()
         Make = Make.toUpperCase()
