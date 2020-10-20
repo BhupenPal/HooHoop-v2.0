@@ -150,7 +150,7 @@ Router.post('/contact', (req, res, next) => {
 })
 
 Router.get('/buy-car/:PageNo', async (req, res, next) => {
-    const { Price, BodyType, FuelType, SearchedCar, KMsDriven, ModelYear, SortData, Make, Model, Transmission, Color } = req.query
+    const { Price, BodyType, FuelType, SearchedCar, KMsDriven, ModelYear, SortData, Make, Model, Transmission, Color, State } = req.query
     let { PageNo } = req.params,
         UserID = null
 
@@ -179,6 +179,7 @@ Router.get('/buy-car/:PageNo', async (req, res, next) => {
     if (Make) Filters.Make = Make
     if (Color) Filters.Color = Color
     if (Model) Filters.Model = Model
+    if (State) Filters.State = State
     if (FuelType) Filters.FuelType = FuelType
     if (BodyType) Filters.BodyType = BodyType
     if (Transmission) Filters.Transmission = Transmission

@@ -81,7 +81,7 @@ const theme = createMuiTheme({
             fullWidth: true
         },
         MuiCheckbox: {
-            disableRipple: true,
+            disableRipple: true
         },
         MuiTextField: {
             variant: 'outlined',
@@ -95,7 +95,7 @@ const theme = createMuiTheme({
             variant: 'outlined',
             fullWidth: true
         },
-    },
-});
+    }
+})
 
 export default theme;

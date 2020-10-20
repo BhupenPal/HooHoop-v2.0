@@ -1,15 +1,14 @@
 import React, { Component } from "react"
-import Logo from '../assets/img/logo/Logo.png'
-import { withRouter } from "react-router";
-import "../assets/css/footer.scss";
-import Facebook from "../assets/img/svgs/facebook.svg";
-import Twitter from "../assets/img/svgs/twitter.svg";
-import Instagram from "../assets/img/svgs/instagram.svg";
-import { Link } from "react-router-dom";
+import { withRouter } from "react-router"
+import "../assets/css/footer.scss"
+import Facebook from "../assets/img/svgs/facebook.svg"
+import Twitter from "../assets/img/svgs/twitter.svg"
+import Instagram from "../assets/img/svgs/instagram.svg"
+import { Link } from "react-router-dom"
 
 class Footer extends Component {
   render() {
-    if (this.props.location.pathname === '/login' || this.props.location.pathname === '/register' || this.props.location.pathname.includes("/user/")) {
+    if (this.props.location.pathname === '/login' || this.props.location.pathname.includes("/register") || this.props.location.pathname.includes("/user/")) {
       return null
     }
     return (
