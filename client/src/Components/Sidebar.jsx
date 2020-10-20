@@ -23,6 +23,7 @@ import NoDealCustomers from "../assets/img/sidebarIcons/no_ideal_customers.svg";
 import YourPayments from "../assets/img/sidebarIcons/your_payments.svg";
 import Logout from "../assets/img/sidebarIcons/logout.svg";
 import Dashboard from "../Screens/Dashboard.jsx";
+import Favourites from '../Screens/Dashboard/Favourites.jsx'
 import MyListingScreen from "../Screens/MyListing.jsx";
 import AllListingScreen from "../Screens/AllListings.jsx";
 import UserManagementScreen from "../Screens/UserManagements.jsx";
@@ -138,10 +139,6 @@ function SideBar(props) {
   const history = useHistory();
   const sideBar = useSelector((store) => store.sideBar);
 
-  // useEffect(() => {
-
-  // })
-  console.log(history);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isActive = (route) => {
     return history.location.pathname === route;
@@ -155,7 +152,7 @@ function SideBar(props) {
         <div className={classes.gap} />
 
         {Object.keys(Navs).map((text, index) => (
-          <Link to={Navs[text].route}>
+          <Link to={Navs[text].route} key={index}>
             <ListItem
               button
               key={index}
@@ -224,6 +221,7 @@ function SideBar(props) {
         {/* {props.children} */}
         <Switch>
           <Route path="/user/dashboard" component={Dashboard} />
+          <Route path='/user/my-favourites' component={Favourites} />
           <Route path="/user/my-listing" component={MyListingScreen} />
           <Route path="/user/all-listing" component={AllListingScreen} />
           <Route
