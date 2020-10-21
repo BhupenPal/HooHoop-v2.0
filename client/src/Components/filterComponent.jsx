@@ -3,7 +3,6 @@ import {
   Box,
   Typography,
   Button,
-  withStyles,
   IconButton,
   InputLabel,
   FormControl,
@@ -12,6 +11,7 @@ import {
   Collapse,
   Slider,
   Checkbox,
+  makeStyles,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
@@ -23,20 +23,24 @@ import edit3 from "../assets/img/svgs/edit-3.svg";
 
 import Makebodies from "../assets/data/MakeModel";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    setFilterBrands,
-    setFilterBody,
-    setFilterYearRange,
-    setFilterPriceRange,
-    setFilterKMRange,
-    setFilterFuelType,
-    setFilterBodyType,
-    setFilterTransmission,
-    setFilterColor,
-} from "../actions/filterActions.js"
 
+import {
+  setFilterBrands,
+  setFilterBody,
+  setFilterYearRange,
+  setFilterPriceRange,
+  setFilterKMRange,
+  setFilterFuelType,
+  setFilterBodyType,
+  setFilterTransmission,
+  setFilterColor,
+} from "../actions/filterActions.js";
+import { FilterList } from "@material-ui/icons";
+const useStyles = makeStyles(styles);
 const filterComponent = (props) => {
-  const { classes,setQuery } = props;
+  const { setQuery } = props;
+  const [showFilters, setShowFilters] = useState(false);
+  const classes = useStyles();
   const [filterstate, toggle] = React.useState({
     State0: true,
     State1: false,
@@ -45,22 +49,30 @@ const filterComponent = (props) => {
     State4: false,
     State5: true,
   });
-  const {brands,bodies,yearRange,priceRange,kmsDriven,bodyTypes,transmissions,fuelTypes,colors} = useSelector((store) => store.filter);
+  const {
+    brands,
+    bodies,
+    yearRange,
+    priceRange,
+    kmsDriven,
+    bodyTypes,
+    transmissions,
+    fuelTypes,
+    colors,
+  } = useSelector((store) => store.filter);
   const dispatch = useDispatch();
-  
 
   useEffect(() => {
     const newbodies = {};
 
-   // new Promise((resolve,reject) => {
-      Makebodies.forEach((item) => {
-        if (brands[item.Make]) {
-          item.Models.map((cur) => {
-            newbodies[cur] = false;
-          });
-        }
-      });
-    
+    // new Promise((resolve,reject) => {
+    Makebodies.forEach((item) => {
+      if (brands[item.Make]) {
+        item.Models.map((cur) => {
+          newbodies[cur] = false;
+        });
+      }
+    });
 
     dispatch(setFilterBody(newbodies));
   }, [brands]);
@@ -78,32 +90,46 @@ const filterComponent = (props) => {
       }
     });
     Object.keys(bodyTypes).forEach((bodyType) => {
-        if (bodyTypes[bodyType]) {
-          query += `BodyType=${bodyType}&`;
-        }
+      if (bodyTypes[bodyType]) {
+        query += `BodyType=${bodyType}&`;
+      }
     });
     Object.keys(transmissions).forEach((transmissionType) => {
-        if (transmissions[transmissionType]) {
-          query += `Transmission=${transmissionType}&`;
-        }
+      if (transmissions[transmissionType]) {
+        query += `Transmission=${transmissionType}&`;
+      }
     });
     Object.keys(fuelTypes).forEach((fuelType) => {
-        if (fuelTypes[fuelType]) {
-          query += `FuelType=${fuelType}&`;
-        }
+      if (fuelTypes[fuelType]) {
+        query += `FuelType=${fuelType}&`;
+      }
     });
     Object.keys(colors).forEach((color) => {
       if (colors[color]) {
         query += `Color=${color}&`;
       }
-  });
+    });
     query += `ModelYear=${yearRange[0]}-${yearRange[1]}&`;
     query += `Price=${priceRange[0]}-${priceRange[1]}&`;
     query += `KMsDriven=${kmsDriven[0]}-${kmsDriven[1]}&`;
 
-    console.log(bodies)
+    console.log(bodies);
     setQuery(query);
-  }, [brands, bodies, yearRange, priceRange, kmsDriven,fuelTypes,transmissions,bodyTypes,colors]);
+  }, [
+    brands,
+    bodies,
+    yearRange,
+    priceRange,
+    kmsDriven,
+    fuelTypes,
+    transmissions,
+    bodyTypes,
+    colors,
+  ]);
+  const toggleFilterVisiblity = () => {
+    //console.log(showFilters)
+    setShowFilters((show) => !show);
+  };
   function toggleFilter(getState) {
     switch (getState) {
       case "State0":
@@ -198,338 +224,370 @@ const filterComponent = (props) => {
     }
   }
   function handleMakerList(e) {
-    brands[e.target.name] = !brands[e.target.name]
-    dispatch(setFilterBrands({...brands}));
+    brands[e.target.name] = !brands[e.target.name];
+    dispatch(setFilterBrands({ ...brands }));
   }
 
   function handleModelList(e) {
-    dispatch(setFilterBody({ ...bodies, [e.target.name]: !bodies[e.target.name] }));
+    dispatch(
+      setFilterBody({ ...bodies, [e.target.name]: !bodies[e.target.name] })
+    );
   }
   function handleFuelList(e) {
-    dispatch(setFilterFuelType({ ...fuelTypes, [e.target.name]: !fuelTypes[e.target.name] }));
+    dispatch(
+      setFilterFuelType({
+        ...fuelTypes,
+        [e.target.name]: !fuelTypes[e.target.name],
+      })
+    );
   }
   function handleTransmissionList(e) {
-    dispatch(setFilterTransmission({ ...transmissions, [e.target.name]: !transmissions[e.target.name] }));
+    dispatch(
+      setFilterTransmission({
+        ...transmissions,
+        [e.target.name]: !transmissions[e.target.name],
+      })
+    );
   }
   function handleBodyList(e) {
-    dispatch(setFilterBodyType({ ...bodyTypes, [e.target.name]: !bodyTypes[e.target.name] }));
+    dispatch(
+      setFilterBodyType({
+        ...bodyTypes,
+        [e.target.name]: !bodyTypes[e.target.name],
+      })
+    );
   }
-  
+
   function handleColorList(e) {
-    console.log(e.target.name)
-    dispatch(setFilterColor({ ...colors, [e.target.name]: !colors[e.target.name] }));
+    console.log(e.target.name);
+    dispatch(
+      setFilterColor({ ...colors, [e.target.name]: !colors[e.target.name] })
+    );
   }
-  
+
   return (
     <Box className="filterContainer fadeIn">
-      <Typography variant="h4" component="h3">
-        Search by Filters
-      </Typography>
-      <FormControl
-        className={classNames(
-          classes.marginInput,
-          classes.textField,
-          "controlInput"
-        )}
-        variant="outlined"
+      <div>
+        <Button startIcon={<FilterList/>} onClick={toggleFilterVisiblity}>
+      
+          Add Filters</Button>
+      </div>
+      <Box
+        className="fadeIn"
+        style={{
+          display: (showFilters ? "block" : "none"),
+     
+        }}
+        display={{md:'block'}}
       >
-        <InputLabel
-          htmlFor="outlined-adornment-password"
-          className={classes.inputLabel}
+        <Typography variant="h4" component="h3">
+          Search by Filters
+        </Typography>
+        <FormControl
+          className={classNames(
+            classes.marginInput,
+            classes.textField,
+            "controlInput"
+          )}
+          variant="outlined"
         >
-          Search City
-        </InputLabel>
-        <OutlinedInput
-          id="outlined-adornment-password"
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton size="small" edge="end">
-                <img src={edit3} />
-              </IconButton>
-            </InputAdornment>
-          }
-          labelWidth={90}
-        />
-      </FormControl>
-
-      <div className="filterClass">
-        <div className="filterHead">
-          <Typography variant="h6" component="h6">
-            Search By Brand
-          </Typography>
-          <IconButton
-            size="small"
-            className="collapsed"
-            onClick={() => toggleFilter("State0")}
+          <InputLabel
+            htmlFor="outlined-adornment-password"
+            className={classes.inputLabel}
           >
-            {filterstate.State0 ? <RemoveIcon /> : <AddIcon />}
-          </IconButton>
-        </div>
-        <Collapse in={filterstate.State0}>
-          <div className={classes.expandedFilter} id="BrandNames">
-            {Object.keys(brands).map((item, index) => {
-              return (
-                <label htmlFor={item} key={index} className="carMakes">
-                  <span>{item}</span>
-                  <Checkbox
-                    color="primary"
-                    inputProps={{ "aria-label": "secondary checkbox" }}
-                    name={item}
-                    id={item}
-                    checked={brands[item]}
-                    onClick={handleMakerList}
-                    className="MakeCheck"
-                  />
-                </label>
-              );
-            })}
+            Search City
+          </InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-password"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton size="small" edge="end">
+                  <img src={edit3} />
+                </IconButton>
+              </InputAdornment>
+            }
+            labelWidth={90}
+          />
+        </FormControl>
+
+        <div className="filterClass">
+          <div className="filterHead">
+            <Typography variant="h6" component="h6">
+              Search By Brand
+            </Typography>
+            <IconButton
+              size="small"
+              className="collapsed"
+              onClick={() => toggleFilter("State0")}
+            >
+              {filterstate.State0 ? <RemoveIcon /> : <AddIcon />}
+            </IconButton>
           </div>
-        </Collapse>
-      </div>
-
-      <div className="filterClass">
-        <div className="filterHead">
-          <Typography variant="h6" component="h6">
-            Search by Model
-          </Typography>
-          <IconButton
-            size="small"
-            className="collapsed"
-            onClick={() => toggleFilter("State1")}
-          >
-            {filterstate.State1 ? <RemoveIcon /> : <AddIcon />}
-          </IconButton>
-        </div>
-        <Collapse in={filterstate.State1}>
-          <div className={classes.expandedFilter}>
-            {Object.keys(bodies).map((item, index) => {
-              return (
-                <label htmlFor={item} key={index} className="carMakes">
-                  <span>{item}</span>
-                  <Checkbox
-                    color="primary"
-                    inputProps={{ "aria-label": "secondary checkbox" }}
-                    checked={bodies[item]}
-                    onClick={handleModelList}
-                    name={item}
-                    id={item}
-                    className="MakeCheck"
-                  />
-                </label>
-              );
-            })}
-          </div>
-        </Collapse>
-      </div>
-
-      <div className="filterClass">
-        <div className="filterHead">
-          <Typography variant="h6" component="h6">
-            Model Year
-          </Typography>
-          
-        </div>
-        <Slider
-          value={yearRange}
-          onChange={handleYearChange}
-          valueLabelDisplay="true"
-          aria-labelledby="range-slider"
-          getAriaValueText={valuetext}
-          className="rangeSlider"
-          min={1960}
-          max={currentYear}
-        />
-      </div>
-
-      <div className="filterClass">
-        <div className="filterHead">
-          <Typography variant="h6" component="h6">
-            Price Range
-          </Typography>
-        </div>
-        <Slider
-          value={priceRange}
-          onChange={handleRangeChange}
-          valueLabelDisplay="auto"
-          aria-labelledby="range-slider"
-          valueLabelFormat={(value) => <div>{numFormatter(value)}</div>}
-          getAriaValueText={rangetextSet}
-          step={1000}
-          className="rangeSlider"
-          min={5000}
-          max={100000}
-        />
-      </div>
-
-      <div className="filterClass">
-        <div className="filterHead">
-          <Typography variant="h6" component="h6">
-            Kilometers Driven
-          </Typography>
-        </div>
-        <Slider
-          value={kmsDriven}
-          onChange={handlekmsDrivenChange}
-          valueLabelDisplay="auto"
-          aria-labelledby="range-slider"
-          getAriaValueText={kilometerstextSet}
-          valueLabelFormat={(value) => <div>{numFormatter(value)}</div>}
-          className="rangeSlider"
-          min={0}
-          max={100000}
-        />
-      </div>
-
-      <div className="filterClass">
-        <div className="filterHead">
-          <Typography variant="h6" component="h6">
-            Fuel Type
-          </Typography>
-          <IconButton
-            size="small"
-            className="collapsed"
-            onClick={() => toggleFilter("State2")}
-          >
-            {filterstate.State2 ? <RemoveIcon /> : <AddIcon />}
-          </IconButton>
-        </div>
-        <Collapse in={filterstate.State2}>
-          <div className={classes.expandedFilter}>
-          {Object.keys(fuelTypes).map((item, index) => {
-              return (
-                <label htmlFor={item} key={index} className="carMakes">
-                  <span>{item}</span>
-                  <Checkbox
-                    color="primary"
-                    inputProps={{ "aria-label": "secondary checkbox" }}
-                    checked={fuelTypes[item]}
-                    onClick={handleFuelList}
-                    name={item}
-                    id={item}
-                    className="MakeCheck"
-                  />
-                </label>
-              );
-            })}
-          </div>
-        </Collapse>
-      </div>
-
-      <div className="filterClass">
-        <div className="filterHead">
-          <Typography variant="h6" component="h6">
-            Type
-          </Typography>
-          <IconButton
-            size="small"
-            className="collapsed"
-            onClick={() => toggleFilter("State3")}
-          >
-            {filterstate.State3 ? <RemoveIcon /> : <AddIcon />}
-          </IconButton>
-        </div>
-        <Collapse in={filterstate.State3}>
-          <div className={classes.expandedFilter}>
-          {Object.keys(bodyTypes).map((item, index) => {
-              return (
-                <label htmlFor={item} key={index} className="carMakes">
-                  <span>{item}</span>
-                  <Checkbox
-                    color="primary"
-                    inputProps={{ "aria-label": "secondary checkbox" }}
-                    checked={bodyTypes[item]}
-                    onClick={handleBodyList}
-                    name={item}
-                    id={item}
-                    className="MakeCheck"
-                  />
-                </label>
-              );
-            })}
-          </div>
-        </Collapse>
-      </div>
-
-      <div className="filterClass">
-        <div className="filterHead">
-          <Typography variant="h6" component="h6">
-            Transmission
-          </Typography>
-          <IconButton
-            size="small"
-            className="collapsed"
-            onClick={() => toggleFilter("State4")}
-          >
-            {filterstate.State4 ? <RemoveIcon /> : <AddIcon />}
-          </IconButton>
-        </div>
-        <Collapse in={filterstate.State4}>
-          <div className={classes.expandedFilter}>
-          {Object.keys(transmissions).map((item, index) => {
-              return (
-                <label htmlFor={item} key={index} className="carMakes">
-                  <span>{item}</span>
-                  <Checkbox
-                    color="primary"
-                    inputProps={{ "aria-label": "secondary checkbox" }}
-                    checked={transmissions[item]}
-                    onClick={handleTransmissionList}
-                    name={item}
-                    id={item}
-                    className="MakeCheck"
-                  />
-                </label>
-              );
-            })}
-          </div>
-        </Collapse>
-      </div>
-
-      <div className="filterClass">
-        <div className="filterHead">
-          <Typography variant="h6" component="h6">
-            Color
-          </Typography>
-          <IconButton
-            size="small"
-            className="collapsed"
-            onClick={() => toggleFilter("State5")}
-          >
-            {filterstate.State5 ? <RemoveIcon /> : <AddIcon />}
-          </IconButton>
-        </div>
-        <Collapse in={filterstate.State5}>
-          <div className={classes.expandedFilter}  id="colorContainer">
-          {
-            Object.keys(colors).map((item, index) => {
+          <Collapse in={filterstate.State0}>
+            <div className={classes.expandedFilter} id="BrandNames">
+              {Object.keys(brands).map((item, index) => {
                 return (
-                  
-                  <label htmlFor={item} className={`colorCircle ${colors[item] && "colorSelected"}`}>
+                  <label htmlFor={item} key={index} className="carMakes">
+                    <span>{item}</span>
                     <Checkbox
-                    color="primary"
-                    inputProps={{ "aria-label": "secondary checkbox" }}
-                    checked={colors[item]}
-                    onClick={handleColorList}
-                    name={item}
-                    id={item}
-                    style={{display:"none"}}
-                  />
+                      color="primary"
+                      inputProps={{ "aria-label": "secondary checkbox" }}
+                      name={item}
+                      id={item}
+                      checked={brands[item]}
+                      onClick={handleMakerList}
+                      className="MakeCheck"
+                    />
                   </label>
-                )
-            })
-          }
-            {/* <div className="colorCircle"></div>
+                );
+              })}
+            </div>
+          </Collapse>
+        </div>
+
+        <div className="filterClass">
+          <div className="filterHead">
+            <Typography variant="h6" component="h6">
+              Search by Model
+            </Typography>
+            <IconButton
+              size="small"
+              className="collapsed"
+              onClick={() => toggleFilter("State1")}
+            >
+              {filterstate.State1 ? <RemoveIcon /> : <AddIcon />}
+            </IconButton>
+          </div>
+          <Collapse in={filterstate.State1}>
+            <div className={classes.expandedFilter}>
+              {Object.keys(bodies).map((item, index) => {
+                return (
+                  <label htmlFor={item} key={index} className="carMakes">
+                    <span>{item}</span>
+                    <Checkbox
+                      color="primary"
+                      inputProps={{ "aria-label": "secondary checkbox" }}
+                      checked={bodies[item]}
+                      onClick={handleModelList}
+                      name={item}
+                      id={item}
+                      className="MakeCheck"
+                    />
+                  </label>
+                );
+              })}
+            </div>
+          </Collapse>
+        </div>
+
+        <div className="filterClass">
+          <div className="filterHead">
+            <Typography variant="h6" component="h6">
+              Model Year
+            </Typography>
+          </div>
+          <Slider
+            value={yearRange}
+            onChange={handleYearChange}
+            valueLabelDisplay="true"
+            aria-labelledby="range-slider"
+            getAriaValueText={valuetext}
+            className="rangeSlider"
+            min={1960}
+            max={currentYear}
+          />
+        </div>
+
+        <div className="filterClass">
+          <div className="filterHead">
+            <Typography variant="h6" component="h6">
+              Price Range
+            </Typography>
+          </div>
+          <Slider
+            value={priceRange}
+            onChange={handleRangeChange}
+            valueLabelDisplay="auto"
+            aria-labelledby="range-slider"
+            valueLabelFormat={(value) => <div>{numFormatter(value)}</div>}
+            getAriaValueText={rangetextSet}
+            step={1000}
+            className="rangeSlider"
+            min={5000}
+            max={100000}
+          />
+        </div>
+
+        <div className="filterClass">
+          <div className="filterHead">
+            <Typography variant="h6" component="h6">
+              Kilometers Driven
+            </Typography>
+          </div>
+          <Slider
+            value={kmsDriven}
+            onChange={handlekmsDrivenChange}
+            valueLabelDisplay="auto"
+            aria-labelledby="range-slider"
+            getAriaValueText={kilometerstextSet}
+            valueLabelFormat={(value) => <div>{numFormatter(value)}</div>}
+            className="rangeSlider"
+            min={0}
+            max={100000}
+          />
+        </div>
+
+        <div className="filterClass">
+          <div className="filterHead">
+            <Typography variant="h6" component="h6">
+              Fuel Type
+            </Typography>
+            <IconButton
+              size="small"
+              className="collapsed"
+              onClick={() => toggleFilter("State2")}
+            >
+              {filterstate.State2 ? <RemoveIcon /> : <AddIcon />}
+            </IconButton>
+          </div>
+          <Collapse in={filterstate.State2}>
+            <div className={classes.expandedFilter}>
+              {Object.keys(fuelTypes).map((item, index) => {
+                return (
+                  <label htmlFor={item} key={index} className="carMakes">
+                    <span>{item}</span>
+                    <Checkbox
+                      color="primary"
+                      inputProps={{ "aria-label": "secondary checkbox" }}
+                      checked={fuelTypes[item]}
+                      onClick={handleFuelList}
+                      name={item}
+                      id={item}
+                      className="MakeCheck"
+                    />
+                  </label>
+                );
+              })}
+            </div>
+          </Collapse>
+        </div>
+
+        <div className="filterClass">
+          <div className="filterHead">
+            <Typography variant="h6" component="h6">
+              Type
+            </Typography>
+            <IconButton
+              size="small"
+              className="collapsed"
+              onClick={() => toggleFilter("State3")}
+            >
+              {filterstate.State3 ? <RemoveIcon /> : <AddIcon />}
+            </IconButton>
+          </div>
+          <Collapse in={filterstate.State3}>
+            <div className={classes.expandedFilter}>
+              {Object.keys(bodyTypes).map((item, index) => {
+                return (
+                  <label htmlFor={item} key={index} className="carMakes">
+                    <span>{item}</span>
+                    <Checkbox
+                      color="primary"
+                      inputProps={{ "aria-label": "secondary checkbox" }}
+                      checked={bodyTypes[item]}
+                      onClick={handleBodyList}
+                      name={item}
+                      id={item}
+                      className="MakeCheck"
+                    />
+                  </label>
+                );
+              })}
+            </div>
+          </Collapse>
+        </div>
+
+        <div className="filterClass">
+          <div className="filterHead">
+            <Typography variant="h6" component="h6">
+              Transmission
+            </Typography>
+            <IconButton
+              size="small"
+              className="collapsed"
+              onClick={() => toggleFilter("State4")}
+            >
+              {filterstate.State4 ? <RemoveIcon /> : <AddIcon />}
+            </IconButton>
+          </div>
+          <Collapse in={filterstate.State4}>
+            <div className={classes.expandedFilter}>
+              {Object.keys(transmissions).map((item, index) => {
+                return (
+                  <label htmlFor={item} key={index} className="carMakes">
+                    <span>{item}</span>
+                    <Checkbox
+                      color="primary"
+                      inputProps={{ "aria-label": "secondary checkbox" }}
+                      checked={transmissions[item]}
+                      onClick={handleTransmissionList}
+                      name={item}
+                      id={item}
+                      className="MakeCheck"
+                    />
+                  </label>
+                );
+              })}
+            </div>
+          </Collapse>
+        </div>
+
+        <div className="filterClass">
+          <div className="filterHead">
+            <Typography variant="h6" component="h6">
+              Color
+            </Typography>
+            <IconButton
+              size="small"
+              className="collapsed"
+              onClick={() => toggleFilter("State5")}
+            >
+              {filterstate.State5 ? <RemoveIcon /> : <AddIcon />}
+            </IconButton>
+          </div>
+          <Collapse in={filterstate.State5}>
+            <div className={classes.expandedFilter} id="colorContainer">
+              {Object.keys(colors).map((item, index) => {
+                return (
+                  <label
+                    htmlFor={item}
+                    className={`colorCircle ${colors[item] && "colorSelected"}`}
+                  >
+                    <Checkbox
+                      color="primary"
+                      inputProps={{ "aria-label": "secondary checkbox" }}
+                      checked={colors[item]}
+                      onClick={handleColorList}
+                      name={item}
+                      id={item}
+                      style={{ display: "none" }}
+                    />
+                  </label>
+                );
+              })}
+              {/* <div className="colorCircle"></div>
             <div className="colorCircle"></div>
             <div className="colorCircle"></div>
             <div className="colorCircle"></div>
             <div className="colorCircle"></div>
             <div className="colorCircle"></div>
             <div className="colorCircle"></div> */}
-          </div>
-        </Collapse>
-      </div>
+            </div>
+          </Collapse>
+        </div>
+      </Box>
     </Box>
   );
 };
 
-export default withStyles(styles, { withTheme: true })(filterComponent);
+export default filterComponent;

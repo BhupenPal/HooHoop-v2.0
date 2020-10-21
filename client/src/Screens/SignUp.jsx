@@ -31,6 +31,8 @@ import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import {states} from "../assets/data/states";
 import {validateEmail,validPassword} from "../utils/validations"
+import GoogleLoginButton from "../Components/GoogleLoginButton.jsx";
+import FacebookLoginButton from "../Components/FacebookLoginButton.jsx";
 
 class SignUp extends Component {
   constructor(props) {
@@ -317,38 +319,10 @@ class SignUp extends Component {
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <GoogleLogin
-                    clientId={process.env.GOOGLE_CLIENT_ID}
-                    responseType={"id_token"}
-                    render={(renderProps) => (
-                      <Button
-                        onClick={renderProps.onClick}
-                        disabled={renderProps.disabled}
-                        className={classes.social}
-                      >
-                        Google
-                      </Button>
-                    )}
-                    
-                    buttonText="Login"
-                    onSuccess={console.log}
-                    onFailure={console.log}
-                    cookiePolicy={"single_host_origin"}
-                  />
+                  <GoogleLoginButton/>
                 </Grid>
                 <Grid item xs={6}>
-                  <FacebookLogin
-                    appId={process.env.FB_CLIENT_ID}
-                    callback={console.log}
-                    render={(renderProps) => (
-                      <Button
-                        onClick={renderProps.onClick}
-                        className={classes.social}
-                      >
-                        Facebook
-                      </Button>
-                    )}
-                  />
+                  <FacebookLoginButton/>
                 </Grid>
               </Grid>
               <Box mt={2} mb={8}>

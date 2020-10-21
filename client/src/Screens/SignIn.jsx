@@ -21,10 +21,8 @@ import { withStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
 import styles from "../assets/material/LoginResgister";
 import { Alert } from "@material-ui/lab";
-import { GoogleLogin } from "react-google-login";
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import { GoogleLoginService, FacebookLoginService } from "../services/OAuthLogin";
-import MoreDetailsDialog from "../Components/MoreDetailsDialog.jsx";
+import GoogleLoginButton from "../Components/GoogleLoginButton.jsx";
+import FacebookLoginButton from "../Components/FacebookLoginButton.jsx";
 
 class SignIn extends Component {
   constructor(props) {
@@ -39,6 +37,7 @@ class SignIn extends Component {
       errorMessage: "",
       showGoogleDialog: false,
       showFacebookDialog: false,
+      socialLoginResult: null,
     };
   }
 
@@ -58,34 +57,7 @@ class SignIn extends Component {
       });
     }
   }
-  googleLogin = async (authResult) => {
-    try {
-      console.log(authResult)
-      if (authResult['tokenId']) {
-        const result = await GoogleLoginService(authResult['tokenId']);
-        //props.login(result);
-        this.setState({showGoogleDialog:true})
-      } else {
-        throw new Error(authResult);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  facebookLogin = async (authResult) => {
-    try {
-      if (authResult['accessToken'] && authResult['userID']) {
-        const result = await FacebookLoginService(authResult['accessToken'], authResult['userID']);
-        //props.login(result)
-        this.setState({showFacebookDialog:true})
-
-      } else {
-        throw new Error(authResult)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
+ 
   showError = (message) => {
     this.setState({ loginError: true, errorMessage: message });
   };
@@ -119,7 +91,7 @@ class SignIn extends Component {
 
   render() {
     const { classes } = this.props;
-    const { errorMessage, loginError } = this.state;
+    const { errorMessage, loginError,socialLoginResult,showGoogleDialog,showFacebookDialog } = this.state;
     return (
       <Grid
         item
@@ -210,68 +182,14 @@ class SignIn extends Component {
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <GoogleLogin
-                    clientId={process.env.GOOGLE_CLIENT_ID}
-                    responseType={"id_token"}
-                    render={(renderProps) => (
-                      <Button
-                        onClick={renderProps.onClick}
-                        disabled={renderProps.disabled}
-                        className={classes.social}
-                      >
-                        Google
-                      </Button>
-                      
-                    )}
-                    scope={[
-                      'email',
-                      'profile',
-                      'openid',
-                      'https://www.googleapis.com/auth/user.gender.read',
-                      'https://www.googleapis.com/auth/user.birthday.read',
-                      'https://www.googleapis.com/auth/user.phonenumbers.read'
-                    ].join(" ")}
-                    // uxMode="redirect"
-                    onSuccess={this.googleLogin}
-                    onFailure={this.googleLogin}
-                    cookiePolicy={"single_host_origin"}
-                  />
+                  <GoogleLoginButton/>
                 </Grid>
                 <Grid item xs={6}>
-                  <FacebookLogin
-                    appId={process.env.FB_CLIENT_ID}
-                    render={(renderProps) => (
-                      <Button
-                        onClick={renderProps.onClick}
-                        className={classes.social}
-                      >
-                        Facebook
-                      </Button>
-                    )}
-                    scope={[
-                      'public_profile', 
-                      'email',
-                      'user_birthday',
-                      'user_gender',
-                      'user_location',
-                    ].join(' ')}
-                    callback={this.FacebookLogin}
-                  />
+                  <FacebookLoginButton/>
                 </Grid>
               </Grid>
               <Grid>
-                <MoreDetailsDialog
-                  visible={this.state.showGoogleDialog}
-                  type="google_login"
-                  handleClose={() => this.setState({ showGoogleDialog: false })}
-                />
-                <MoreDetailsDialog
-                  visible={this.state.showFacebookDialog}
-                  type="facebook_login"
-                  handleClose={() =>
-                    this.setState({ showFacebookDialog: false })
-                  }
-                />
+                
 
                 <Typography align="center">
                   Are you a dealer? &nbsp;

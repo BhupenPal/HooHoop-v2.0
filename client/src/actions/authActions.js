@@ -58,6 +58,16 @@ export const loginUser = (userData,setError) => dispatch => {
       })
     });
 }
+export const socialLogin = (tokens) => dispatch => {
+  
+        const { accessToken, refreshToken } = tokens;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        setAuthToken(accessToken);
+        const decoded = jwt_decode(accessToken);
+        dispatch(setCurrentUser(decoded));
+  
+}
 
 // Set logged in user
 export const setCurrentUser = decoded => {

@@ -2,7 +2,11 @@ export default BuyCar => ({
     pageDefault: {
         minHeight: "100vh",
         padding:"0 5%",
-        backgroundColor:"#F4F6F8"
+        backgroundColor:"#F4F6F8",
+        [BuyCar.breakpoints.down('md')]: {
+            padding:"0",
+
+        }
     },
     cardContainer:{
         display:"flex",
@@ -15,7 +19,11 @@ export default BuyCar => ({
         margin: BuyCar.spacing(2,2,2,2),
         backgroundColor:"#fff",
         display:"flex",
-        flexDirection:"column"
+        flexDirection:"column",
+        [BuyCar.breakpoints.down('md')]: {
+            width: "100%",
+        }
+
     },
     media: {
         height: 0,
