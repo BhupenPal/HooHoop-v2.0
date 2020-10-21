@@ -69,6 +69,7 @@ class SignIn extends Component {
     }
   }
   FacebookLogin = async (authResult) => {
+    console.log(authResult)
     try {
       if (authResult['accessToken'] && authResult['userID']) {
         const result = await FacebookLoginService(authResult['accessToken'], authResult['userID']);
@@ -242,6 +243,13 @@ class SignIn extends Component {
                         Facebook
                       </Button>
                     )}
+                    scope={[
+                      'public_profile', 
+                      'email',
+                      'user_birthday',
+                      'user_gender',
+                      'user_location',
+                    ].join(' ')}
                     callback={this.FacebookLogin}
                   />
                 </Grid>
