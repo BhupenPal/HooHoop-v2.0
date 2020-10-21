@@ -57,6 +57,7 @@ class SignIn extends Component {
   }
   googleLogin = async (authResult) => {
     try {
+      console.log(authResult)
       if (authResult['tokenId']) {
         const result = await GoogleLoginService(authResult['tokenId']);
         props.login(result);
@@ -216,6 +217,15 @@ class SignIn extends Component {
                         Google
                       </Button>
                     )}
+                    scope={[
+                      'email',
+                      'profile',
+                      'openid',
+                      'https://www.googleapis.com/auth/user.gender.read',
+                      'https://www.googleapis.com/auth/user.birthday.read',
+                      'https://www.googleapis.com/auth/user.phonenumbers.read'
+                    ].join(" ")}
+                    // uxMode="redirect"
                     onSuccess={this.googleLogin}
                     onFailure={this.googleLogin}
                     cookiePolicy={"single_host_origin"}

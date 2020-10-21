@@ -31,6 +31,9 @@ import store from "./store";
 import MyListing from "./Screens/MyListing.jsx";
 import userLayout from "./Components/userLayout.jsx";
 import SideBar from "./Components/Sidebar.jsx";
+import Error404 from "./Screens/Error Pages/Error404.jsx";
+import Error500 from "./Screens/Error Pages/Error500.jsx";
+import ErrorBrokenLink from "./Screens/Error Pages/ErrorBrokenLink.jsx"
 
 if (localStorage.accessToken) {
   const token = localStorage.accessToken;
@@ -79,6 +82,9 @@ class App extends Component {
               <PrivateRoute path="/sell-car" component={SellCar} />
               <Route path="/sellcar" component={SellCar} />
               <Route path="/car/:VINum" component={CarPage} />
+              <Route path='/400' component={ErrorBrokenLink} />
+              <Route path='/500' component={Error500} />
+              <Route component={Error404} />
             </Switch>
             <Footer />
           </BrowserRouter>
