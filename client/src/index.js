@@ -35,6 +35,10 @@ import Error404 from "./Screens/Error Pages/Error404.jsx";
 import Error500 from "./Screens/Error Pages/Error500.jsx";
 import ErrorBrokenLink from "./Screens/Error Pages/ErrorBrokenLink.jsx"
 
+// Slick Carousel CSS
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 if (localStorage.accessToken) {
   const token = localStorage.accessToken;
   setAuthToken(token);

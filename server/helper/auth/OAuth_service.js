@@ -16,7 +16,6 @@ module.exports = {
 
         Google_Client.verifyIdToken({ idToken: tokenId, audience: process.env.GOOGLE_CLIENT_ID })
             .then(response => {
-                console.log(response)
                 if (!response.payload.email_verified) throw new Error('Google OAuth Invalidated')
                 if (response.payload.aud !== process.env.GOOGLE_CLIENT_ID) throw new Error('Google OAuth Invalidated')
                 const payload = {
