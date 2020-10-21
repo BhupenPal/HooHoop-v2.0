@@ -19,6 +19,7 @@
     "email-validator": "^2.0.4",
     "express": "^4.17.1",
     "ffmpeg": "0.0.4",
+    "google-auth-library": "^6.1.2",
     "helmet": "^3.23.3",
     "http-errors": "^1.8.0",
     "jsonwebtoken": "^8.5.1",

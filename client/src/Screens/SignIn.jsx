@@ -23,7 +23,8 @@ import styles from "../assets/material/LoginResgister";
 import { Alert } from "@material-ui/lab";
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import { googleLoginSuccess } from "../services/login";
+import { GoogleLoginService, FacebookLoginService } from "../services/OAuthLogin";
+import MoreDetailsDialog from "../Components/MoreDetailsDialog.jsx";
 
 class SignIn extends Component {
   constructor(props) {
@@ -57,11 +58,33 @@ class SignIn extends Component {
       });
     }
   }
-  googleLogin = async (data) => {
-    const res = await googleLoginSuccess(data.tokenId);
-    this.setState({showGoogleDialog:true})
-    console.log(res);
-  };
+  googleLogin = async (authResult) => {
+    try {
+      if (authResult['tokenId']) {
+        const result = await GoogleLoginService(authResult['tokenId']);
+        //props.login(result);
+        this.setState({showGoogleDialog:true})
+      } else {
+        throw new Error(authResult);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  facebookLogin = async (authResult) => {
+    try {
+      if (authResult['accessToken'] && authResult['userID']) {
+        const result = await FacebookLoginService(authResult['accessToken'], authResult['userID']);
+        //props.login(result)
+        this.setState({showFacebookDialog:true})
+
+      } else {
+        throw new Error(authResult)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   showError = (message) => {
     this.setState({ loginError: true, errorMessage: message });
   };
@@ -198,16 +221,14 @@ class SignIn extends Component {
                         Google
                       </Button>
                     )}
-                    buttonText="Login"
                     onSuccess={this.googleLogin}
-                    onFailure={console.log}
+                    onFailure={this.googleLogin}
                     cookiePolicy={"single_host_origin"}
                   />
                 </Grid>
                 <Grid item xs={6}>
                   <FacebookLogin
                     appId={process.env.FB_CLIENT_ID}
-                    callback={console.log}
                     render={(renderProps) => (
                       <Button
                         onClick={renderProps.onClick}
@@ -216,17 +237,18 @@ class SignIn extends Component {
                         Facebook
                       </Button>
                     )}
+                    callback={this.facebookLogin}
                   />
                 </Grid>
               </Grid>
               <Grid>
                 <MoreDetailsDialog
-                  visible={showGoogleDialog}
+                  visible={this.state.showGoogleDialog}
                   type="google_login"
                   handleClose={() => this.setState({ showGoogleDialog: false })}
                 />
                 <MoreDetailsDialog
-                  visible={showFacebookDialog}
+                  visible={this.state.showFacebookDialog}
                   type="facebook_login"
                   handleClose={() =>
                     this.setState({ showFacebookDialog: false })

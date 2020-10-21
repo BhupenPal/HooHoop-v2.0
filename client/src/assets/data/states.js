@@ -1,0 +1,21 @@
+export const states = [
+    "Auckland",
+    "Bay of Plenty",
+    "Northland",
+    "Waikato",
+    "Gisborne",
+    "Hawke's Bay",
+    "Taranaki",
+    "Whanganui",
+    "Manawatu",
+    "Wairarapa",
+    "Wellington",
+    "Nelson Bays",
+    "Marlborough",
+    "West Coast",
+    "Canterbury",
+    "Timaru",
+    "Otago",
+    "Southland",
+  ];
+  

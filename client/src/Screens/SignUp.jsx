@@ -29,37 +29,8 @@ import styles from "../assets/material/LoginResgister";
 import { Alert } from "@material-ui/lab";
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-const states = [
-  "Auckland",
-  "Bay of Plenty",
-  "Northland",
-  "Waikato",
-  "Gisborne",
-  "Hawke's Bay",
-  "Taranaki",
-  "Whanganui",
-  "Manawatu",
-  "Wairarapa",
-  "Wellington",
-  "Nelson Bays",
-  "Marlborough",
-  "West Coast",
-  "Canterbury",
-  "Timaru",
-  "Otago",
-  "Southland",
-];
-
-const validateEmail = (email) => {
-  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(String(email).toLowerCase());
-};
-
-const validPassword = (password) => {
-  // Minimum eight characters, at least one letter, one number and one special character
-  const re = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-  return re.test(password);
-};
+import {states} from "../assets/data/states";
+import {validateEmail,validPassword} from "../utils/validations"
 
 class SignUp extends Component {
   constructor(props) {
