@@ -48,7 +48,7 @@ module.exports = {
                     LastName: response.data.last_name,
                     FacebookID: response.payload.id,
                     DOB: response.payload.birthday,
-
+                    Gender: response.payload.gender
                 }
                 req.payload = payload
                 next()
