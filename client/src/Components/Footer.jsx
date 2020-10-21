@@ -14,7 +14,13 @@ import Instagram from "../assets/img/svgs/instagram.svg"
 const Footer = () => {
 
   const DoNotRenderFooter = () => {
-    return window.location.pathname === '/login' || window.location.pathname.includes("/register") || window.location.pathname.includes("/user/")
+    return (
+      window.location.pathname === '/login' || 
+      window.location.pathname.includes("/register") || 
+      window.location.pathname.includes("/user/") ||
+      window.location.pathname.includes(500) ||
+      window.location.pathname.includes(400)
+    )
   }
 
   return (

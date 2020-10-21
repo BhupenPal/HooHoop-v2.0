@@ -43,6 +43,13 @@ html, body {
     align-items: center;
 }
 
+.flex-col-jc-al-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .home-subhead {
     margin-left: 2rem !important;
 }

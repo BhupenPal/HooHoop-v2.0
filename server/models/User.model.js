@@ -43,11 +43,13 @@ const UserSchema = mongoose.Schema({
         default: null
     },
     DOB: {
-        type: Date
+        type: Date,
+        default: null
     },
     Gender: {
         type: String,
-        enum: ['male', 'female', 'other']
+        enum: ['male', 'female', 'other', null],
+        default: null
     },
     Role: {
         type: String,

@@ -16,6 +16,7 @@ module.exports = {
 
         Google_Client.verifyIdToken({ idToken: tokenId, audience: process.env.GOOGLE_CLIENT_ID })
             .then(response => {
+                console.log(response)
                 if (!response.payload.email_verified) throw new Error('Google OAuth Invalidated')
                 if (response.payload.aud !== process.env.GOOGLE_CLIENT_ID) throw new Error('Google OAuth Invalidated')
                 const payload = {
@@ -36,7 +37,7 @@ module.exports = {
 
     ValidateFacebook: (req, res, next) => {
         const { accessToken, userID } = req.body,
-            FBGraphURI = `https://graph.facebook.com/v2.11/${userID}/?fields=id,first_name,last_name,email&access_token=${accessToken}`;
+            FBGraphURI = `https://graph.facebook.com/v2.11/${userID}/?fields=id,first_name,last_name,email,gender,birthday,location&access_token=${accessToken}`;
 
         axios.get(FBGraphURI)
             .then(response => {
@@ -45,7 +46,9 @@ module.exports = {
                     Email: response.data.email,
                     FirstName: response.data.first_name,
                     LastName: response.data.last_name,
-                    FacebookID: response.payload.id
+                    FacebookID: response.payload.id,
+                    DOB: response.payload.birthday,
+                    Gender: response.payload.gender
                 }
                 req.payload = payload
                 next()

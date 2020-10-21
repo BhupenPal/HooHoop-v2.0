@@ -116,7 +116,7 @@ Router.post('/facebooklogin', ValidateFacebook, (req, res, next) => {
 
 Router.post("/register", (req, res, next) => {
     try {
-        let { FirstName, LastName, Email, Password, cPassword, Phone, Address, State, Role, DealershipName, DealershipEmail, DealershipPhone, DealershipNZBN } = req.body;
+        let { FirstName, LastName, Email, Password, cPassword, Phone, Address, State, Role, DealershipName, DealershipEmail, DealershipPhone, DealershipNZBN, DOB, Gender, GoogleID, FacebookID } = req.body;
 
         if (!FirstName || !LastName || !Email || !Password || !cPassword || !Phone || !State) throw createError.BadRequest('Please fill in all the required fields')
 
@@ -134,6 +134,12 @@ Router.post("/register", (req, res, next) => {
             DealershipPhone = null
         }
 
+        // Social Media Authentication
+        if (!GoogleID) GoogleID = null
+        if (FacebookID) FacebookID = null
+        if (!Gender) Gender = null
+        if (!DOB) DOB = null
+
         UserModel.findOne({ Email }, (err, doc) => {
             if (doc) return next(createError.Conflict('Email already exists'))
             UserModel.findOne({ Phone }, async (err, doc) => {
@@ -142,7 +148,8 @@ Router.post("/register", (req, res, next) => {
                 const EncryptedCore = await HashSalt(process.env.DEFAULT_CREDIT)
                 Password = await HashSalt(Password)
                 new UserModel({
-                    FirstName, LastName, Email, Password, Phone, Address, State, Role, DealershipName, DealershipEmail, DealershipPhone, DealershipNZBN, SecretToken, EncryptedCore
+                    FirstName, LastName, Email, Password, Phone, Address, State, Role, DealershipName, DealershipEmail, DealershipPhone, DealershipNZBN, 
+                    SecretToken, EncryptedCore, GoogleID, FacebookID, Gender, DOB
                 })
                     .save()
                     .then(() => {

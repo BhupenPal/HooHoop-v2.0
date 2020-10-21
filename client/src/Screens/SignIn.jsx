@@ -60,6 +60,7 @@ class SignIn extends Component {
   }
   googleLogin = async (authResult) => {
     try {
+      console.log(authResult)
       if (authResult['tokenId']) {
         const result = await GoogleLoginService(authResult['tokenId']);
         //props.login(result);
@@ -220,7 +221,17 @@ class SignIn extends Component {
                       >
                         Google
                       </Button>
+                      
                     )}
+                    scope={[
+                      'email',
+                      'profile',
+                      'openid',
+                      'https://www.googleapis.com/auth/user.gender.read',
+                      'https://www.googleapis.com/auth/user.birthday.read',
+                      'https://www.googleapis.com/auth/user.phonenumbers.read'
+                    ].join(" ")}
+                    // uxMode="redirect"
                     onSuccess={this.googleLogin}
                     onFailure={this.googleLogin}
                     cookiePolicy={"single_host_origin"}
@@ -237,7 +248,14 @@ class SignIn extends Component {
                         Facebook
                       </Button>
                     )}
-                    callback={this.facebookLogin}
+                    scope={[
+                      'public_profile', 
+                      'email',
+                      'user_birthday',
+                      'user_gender',
+                      'user_location',
+                    ].join(' ')}
+                    callback={this.FacebookLogin}
                   />
                 </Grid>
               </Grid>
