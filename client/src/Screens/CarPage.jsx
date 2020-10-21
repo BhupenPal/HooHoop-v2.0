@@ -16,6 +16,7 @@ import OwnerIcon from "../assets/img/svgs/owner-no.svg";
 import CalanderIcon from "../assets/img/svgs/calander.svg";
 
 import styles from "../assets/material/CarPage";
+import '../assets/js/PanoControls.css'
 import CarSlider from "../Components/CarSlider.jsx";
 import Ad from "../Components/Ad.jsx";
 import LeadForm from "../Components/LeadForm.jsx";
