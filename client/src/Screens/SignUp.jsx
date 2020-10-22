@@ -139,13 +139,16 @@ class SignUp extends Component {
       errorMessage,
     } = this.state;
     return (
-      <Grid container component="main">
+      <Grid container component="main" 
+      className="fadeIn"
+      >
         <Grid
           item
           container
           justify="center"
           md={12}
           lg={5}
+
           component={Paper}
           elevation={6}
           square

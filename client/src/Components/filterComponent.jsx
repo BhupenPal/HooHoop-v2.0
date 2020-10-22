@@ -36,6 +36,7 @@ import {
   setFilterColor,
 } from "../actions/filterActions.js";
 import { FilterList } from "@material-ui/icons";
+import SearchBox from "./SearchBox.jsx";
 const useStyles = makeStyles(styles);
 const filterComponent = (props) => {
   const { setQuery } = props;
@@ -283,33 +284,8 @@ const filterComponent = (props) => {
         <Typography variant="h4" component="h3">
           Search by Filters
         </Typography>
-        <FormControl
-          className={classNames(
-            classes.marginInput,
-            classes.textField,
-            "controlInput"
-          )}
-          variant="outlined"
-        >
-          <InputLabel
-            htmlFor="outlined-adornment-password"
-            className={classes.inputLabel}
-          >
-            Search City
-          </InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-password"
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton size="small" edge="end">
-                  <img src={edit3} />
-                </IconButton>
-              </InputAdornment>
-            }
-            labelWidth={90}
-          />
-        </FormControl>
-
+       
+        <SearchBox/>
         <div className="filterClass">
           <div className="filterHead">
             <Typography variant="h6" component="h6">

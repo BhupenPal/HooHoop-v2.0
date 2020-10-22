@@ -25,9 +25,6 @@ export default theme => ({
         }
     },
     SliderInput: {
-        background: 'rgba(255,255,255,1)',
-        color: '#000',
-        borderRadius: 5,
         width: '30%',
         margin: '1rem 0 0.2rem 0',
         [theme.breakpoints.down('md')]: {

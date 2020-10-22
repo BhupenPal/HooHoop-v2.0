@@ -28,6 +28,7 @@ import Saleen from "../assets/img/Home/Banner/saleen.jpg";
 
 // Components
 import CarSlider from "../Components/CarSlider.jsx";
+import SearchBox from "../Components/SearchBox.jsx";
 
 function Home(props) {
   const { classes } = props;
@@ -102,7 +103,7 @@ function Home(props) {
 
   return (
     <Fragment>
-      <Slider {...settings}>
+      <Slider {...settings} className="fadeIn">
         {SliderImages.map((item) => {
           return (
             <div className={classes.SliderDiv} key={item.id}>
@@ -115,18 +116,13 @@ function Home(props) {
                 <Typography variant="h2" className={classes.SliderText}>
                   Cars on our Marketplace
                 </Typography>
-                <TextField
-                  required
-                  placeholder="Search Car"
+                <div
                   className={classes.SliderInput}
-                  InputProps={{
-                    endAdornment: (
-                      <IconButton>
-                        <SearchIcon />
-                      </IconButton>
-                    ),
-                  }}
-                />
+                
+                >
+                <SearchBox/>
+
+                </div>
                 <p className="wt-500">
                   or try our{" "}
                   <Link to="/buy-car" className={classes.AdvanceSearchLink}>

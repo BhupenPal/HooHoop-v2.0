@@ -98,6 +98,7 @@ class SignIn extends Component {
         container
         component="main"
         justify="center"
+        className="fadeIn"
         style={{ minHeight: "calc(100vh - 101px)" }}
       >
         <Grid

@@ -97,7 +97,7 @@ const BuyCar = () => {
       container
       justify="center"
       component="main"
-      className={classes.pageDefault}
+      className={`${classes.pageDefault} fadeIn`}
     >
       <Grid item container xs={12} sm={3}>
         <FilterComponent setQuery={setQuery} />
