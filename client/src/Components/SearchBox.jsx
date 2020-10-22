@@ -96,7 +96,7 @@ function SearchBox(props) {
          //  onChange={handleChange}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="start">
+              <InputAdornment position="start" onClick={handleSubmit} style={{cursor:"pointer"}}>
                 <SearchIcon />
               </InputAdornment>
             ),
