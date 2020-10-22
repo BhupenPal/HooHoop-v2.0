@@ -279,7 +279,7 @@ const SellCar = (props) => {
       container
       justify="center"
       component="main"
-      className={classes.pageDefault}
+      className={`${classes.pageDefault} fadeIn`}
     >
       <ErrorSnackBar
         visible={showSnackBar}

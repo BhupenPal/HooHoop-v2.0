@@ -1,9 +1,9 @@
 import { InputAdornment, makeStyles, TextField } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import MakeModel from "../assets/data/MakeModel.js";
 import { Autocomplete, useAutocomplete } from "@material-ui/lab";
-
+import { useHistory, useLocation } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   label: {
     display: "block",
@@ -50,9 +50,20 @@ const useStyles = makeStyles((theme) => ({
 const getAllMakers = () => {
   return MakeModel.map((item) => item.Make);
 };
+
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 function SearchBox(props) {
+  const query = useQuery()
+  console.log(query.get('search'))
+  //const [search,setSearch] = useState();
   const classes = useStyles();
+  const history = useHistory();
   console.log(getAllMakers());
+  // const handleChange = (e) => {
+  //   setSearch(.value);
+  // }
   const {
     getRootProps,
     getInputLabelProps,
@@ -63,15 +74,26 @@ function SearchBox(props) {
   } = useAutocomplete({
     id: "use-autocomplete-demo",
     options: getAllMakers(),
+    value:query.get("search") || "",
     getOptionLabel: (option) => option,
   });
+  
+  const handleSubmit= (e) => {
+    e.preventDefault();
+    console.log(getInputProps())
+    history.push(`/buy-car?search=${getInputProps().value}`)
+  }
+  console.log(getInputProps())
   return (
-    <div style={{ position: "relative" }}>
+    <form onSubmit={handleSubmit}  style={{ position: "relative" }}>
       <div {...getRootProps()}>
         {/* <label className={classes.label} {...getInputLabelProps()}>
           useAutocomplete
         </label> */}
         <TextField
+           {...getInputProps()}
+         // defaultValue={search}
+         //  onChange={handleChange}
           InputProps={{
             endAdornment: (
               <InputAdornment position="start">
@@ -81,7 +103,6 @@ function SearchBox(props) {
           }}
           label="Search Cars"
           className={classes.input}
-          {...getInputProps()}
         />
       </div>
       {groupedOptions.length > 0 ? (
@@ -96,7 +117,7 @@ function SearchBox(props) {
           ))}
         </ul>
       ) : null}
-    </div>
+    </form>
     // <Autocomplete
     //   id="search-box"
     //   options={getAllMakers()}

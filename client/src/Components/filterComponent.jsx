@@ -37,8 +37,13 @@ import {
 } from "../actions/filterActions.js";
 import { FilterList } from "@material-ui/icons";
 import SearchBox from "./SearchBox.jsx";
+import { useLocation } from "react-router-dom";
 const useStyles = makeStyles(styles);
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 const filterComponent = (props) => {
+  const searchQuery = useQuery()
   const { setQuery } = props;
   const [showFilters, setShowFilters] = useState(false);
   const classes = useStyles();
@@ -113,7 +118,7 @@ const filterComponent = (props) => {
     query += `ModelYear=${yearRange[0]}-${yearRange[1]}&`;
     query += `Price=${priceRange[0]}-${priceRange[1]}&`;
     query += `KMsDriven=${kmsDriven[0]}-${kmsDriven[1]}&`;
-
+    query += `SearchedCar=${searchQuery.get("search")}`
     console.log(bodies);
     setQuery(query);
   }, [
@@ -126,6 +131,7 @@ const filterComponent = (props) => {
     transmissions,
     bodyTypes,
     colors,
+    searchQuery
   ]);
   const toggleFilterVisiblity = () => {
     //console.log(showFilters)
