@@ -129,5 +129,12 @@ export default theme =>({
     detailsContainer:{
         marginTop:"-1rem",
         borderTop:"1px solid #DDDDDD"
+    },
+    imagesContainer:{
+        padding:"1rem",
+        [theme.breakpoints.down('md')]: {
+            padding:"0rem",
+        
+          }
     }
 })

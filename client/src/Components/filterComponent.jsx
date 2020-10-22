@@ -118,7 +118,7 @@ const filterComponent = (props) => {
     query += `ModelYear=${yearRange[0]}-${yearRange[1]}&`;
     query += `Price=${priceRange[0]}-${priceRange[1]}&`;
     query += `KMsDriven=${kmsDriven[0]}-${kmsDriven[1]}&`;
-    query += `SearchedCar=${searchQuery.get("search")}`
+    query += `SearchedCar=${searchQuery.get("search") || ""}`
     console.log(bodies);
     setQuery(query);
   }, [

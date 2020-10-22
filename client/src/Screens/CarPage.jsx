@@ -127,6 +127,7 @@ const CarPage = (props) => {
       alt="car"
     />,
   ];
+
   return (
     <Grid
       container
@@ -137,7 +138,9 @@ const CarPage = (props) => {
       <Grid
         item
         container
-        style={{ padding: "1rem", position: "relative" }}
+        className={classes.imagesContainer}
+
+        style={{  position: "relative" }}
         xs={12}
         md={8}
       >

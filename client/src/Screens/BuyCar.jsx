@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import compose from "recompose/compose";
-import { Grid, makeStyles } from "@material-ui/core";
+import { Grid, makeStyles, Typography } from "@material-ui/core";
 import styles from "../assets/material/Buycar";
 import CardComponent from "../Components/CardComponent.jsx";
 import SliderComponent from "../Components/sliderComponent.jsx";
@@ -9,7 +9,7 @@ import { fetchBuyCar } from "../services/fetchCar";
 import useDebounce from "../Hooks/useDebounce.js";
 import { Skeleton } from "@material-ui/lab";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { ca } from "date-fns/esm/locale";
+import Empty from "../assets/img/Error Pages/empty.svg";
 import { addToWishList } from "../services/wishlist";
 
 const useStyles = makeStyles(styles);
@@ -64,10 +64,13 @@ const BuyCar = () => {
     //if (!loader) return null;
     return (
       <Grid item container xs={12} style={{ height: "fit-content" }}>
-        {[1, 2, 3,4,5,6].map(() => (
+        {[1, 2, 3, 4, 5, 6].map(() => (
           <Grid
             item
-            xs={12} sm={4}  lg={3} xl={2}
+            xs={12}
+            sm={4}
+            lg={3}
+            xl={2}
             className={classes.cardContainer}
             justify="center"
           >
@@ -83,6 +86,16 @@ const BuyCar = () => {
     );
   };
   const renderCars = () => {
+    if (cars.length === 0 && !hasMore) {
+      return (
+        <Grid item xs={8}>
+          <div style={{ padding: "2rem",textAlign:"center" }}>
+            <img width="100%" src={Empty} alt="Empty" />
+            <Typography variant={"h3"}>0 Results Found</Typography>
+          </div>
+        </Grid>
+      );
+    }
     return cars.map((car, index) => (
       <CardComponent
         key={index}
@@ -92,6 +105,7 @@ const BuyCar = () => {
       />
     ));
   };
+
   return (
     <Grid
       container
@@ -107,7 +121,7 @@ const BuyCar = () => {
           dataLength={cars.length}
           next={() => setPage(page + 1)}
           hasMore={hasMore}
-          style={{width:"100%"}}
+          style={{ width: "100%" }}
           loader={renderSkeleton()}
         >
           {/* {this.state.items.map((i, index) => (
@@ -115,7 +129,13 @@ const BuyCar = () => {
                 div - #{index}
               </div>
             ))} */}
-          <Grid item container xs={12} style={{ height: "fit-content" }}>
+          <Grid
+            item
+            container
+            xs={12}
+            style={{ height: "fit-content" }}
+            justify="center"
+          >
             {renderCars()}
           </Grid>
         </InfiniteScroll>
