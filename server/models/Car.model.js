@@ -159,4 +159,8 @@ const CarSchema = mongoose.Schema({
     timestamps: true
 })
 
+CarSchema.virtual('MakeModel').get(function(){
+    return `${this.Make} ${this.Model}`
+})
+
 module.exports = mongoose.model('car list', CarSchema)

@@ -32,6 +32,7 @@ app.use('/api/', require('./api/Home.controller'))
 app.use('/api/user/', require('./api/User.controller'))
 app.use('/api/user/dashboard/', require('./api/Dashboard.controller'))
 app.use('/api/chatbot', require('./api/Chatbot.controller'))
+app.use('/api/transactions', require('./api/Transactions.controller'))
 
 app.use(async (req, res, next) => {
     next(createError.NotFound())

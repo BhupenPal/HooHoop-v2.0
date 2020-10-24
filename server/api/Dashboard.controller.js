@@ -178,6 +178,10 @@ Router.patch('/update/listing/status', (req, res, next) => {
 Router.post('/edit/listing', (req, res, next) => {
     try {
         // Edit API to be set here
+        CarModel.findOneAndUpdate({ VINum: req.body.VINum }, req.body)
+            .then(() => {
+                res.sendStatus(200)
+            })
     } catch (error) {
         console.log(error.message)
         next(error)
@@ -209,6 +213,17 @@ Router.get('/all-users', (req, res, next) => {
             UserModel.paginate({ _id: { $nin: user._id } }, options)
                 .then(users => {
                     res.json(users)
+                })
+        })
+})
+
+Router.patch('/update/userstatus', (req, res, next) => {
+    UserModel.findById(req.payload.aud)
+        .then(user => {
+            if (user.Role !== 'admin') return next(createError.NotFound())
+            UserModel.findByIdAndUpdate(req.body.value, { $set: { isActive: req.body.SetStatus } })
+                .then(() => {
+                    res.sendStatus(200)
                 })
         })
 })
