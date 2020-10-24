@@ -3,26 +3,28 @@ import compose from "recompose/compose";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 //import { spacing } from "@material-ui/system";
-import { fetchCar, fetchRecommendedCar } from "../services/fetchCar";
 //import Slider from "react-slick";
-import AsNavFor from "../Components/AsNavFor.jsx";
+import AsNavFor from "../Components/Sliders/AsNavFor.jsx";
 import View360 from "../Components/View360.jsx";
+import CarSlider from "../Components/Sliders/CarSlider.jsx";
+import Ad from "../Components/Ad.jsx";
+import LeadForm from "../Components/LeadForm.jsx";
+import CarDetails from "../Components/CarDetails.jsx";
+
 import CarImage from "../assets/img/sample-car/interior/middle.jpg";
 import View360Slides from "../Components/View360Slides.jsx";
-//import FilterComponent from "../Components/filterComponent.jsx";
 import PetrolIcon from "../assets/img/svgs/pertol.svg";
 import KMsIcon from "../assets/img/svgs/KMsDriven.svg";
 import OwnerIcon from "../assets/img/svgs/owner-no.svg";
 import CalanderIcon from "../assets/img/svgs/calander.svg";
 
 import styles from "../assets/material/CarPage";
-import '../assets/js/PanoControls.css'
-import CarSlider from "../Components/CarSlider.jsx";
-import Ad from "../Components/Ad.jsx";
-import LeadForm from "../Components/LeadForm.jsx";
+
+import { fetchCar, fetchRecommendedCar } from "../services/fetchCar";
 import { submitCarLead } from "../services/submitCarLead";
 import { useParams } from "react-router-dom";
-import CarDetails from "../Components/CarDetails.jsx";
+
+import '../assets/js/PanoControls.css'
 
 const CarPage = (props) => {
   const [user, setUser] = useState({

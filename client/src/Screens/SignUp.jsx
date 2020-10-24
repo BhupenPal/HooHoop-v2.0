@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { registerUser } from "../actions/authActions";
 import {
   Grid,
   Typography,
@@ -27,12 +26,14 @@ import { withStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
 import styles from "../assets/material/LoginResgister";
 import { Alert } from "@material-ui/lab";
-import { GoogleLogin } from "react-google-login";
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import {states} from "../assets/data/states";
+
+import GoogleLoginButton from "../Components/Buttons/GoogleLoginButton.jsx";
+import FacebookLoginButton from "../Components/Buttons/FacebookLoginButton.jsx";
+
 import {validateEmail,validPassword} from "../utils/validations"
-import GoogleLoginButton from "../Components/GoogleLoginButton.jsx";
-import FacebookLoginButton from "../Components/FacebookLoginButton.jsx";
+import { registerUser } from "../actions/authActions";
+import {states} from "../assets/data/states";
+
 
 class SignUp extends Component {
   constructor(props) {

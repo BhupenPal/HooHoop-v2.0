@@ -8,6 +8,7 @@ import { Skeleton } from '@material-ui/lab'
 // Services and Actions
 import { logoutUser } from '../actions/authActions'
 import FetchProfile from '../services/profile'
+import ProfileEditModal from '../Components/Modals/ProfileEditModal.jsx'
 
 const DashboardStyles = makeStyles(theme => ({
   userDetails: {
@@ -15,7 +16,8 @@ const DashboardStyles = makeStyles(theme => ({
     padding: '2rem',
     borderRadius: 5,
     boxSizing: 'border-box',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    marginTop:"2rem",
   },
   userImage: {
     height: '7.5rem',
@@ -110,7 +112,8 @@ const DashboardStyles = makeStyles(theme => ({
     border: 'none',
     padding: '0.2rem 2rem',
     borderRadius: '0.5rem'
-  }
+  },
+  
 }))
 
 const Dashboard = () => {
@@ -215,7 +218,7 @@ const Dashboard = () => {
               }
             </div>
             <div className={classes.userInfo}>
-              <h2>{`${profile.FirstName} ${profile.LastName}`}</h2>
+              <h2>{`${profile.FirstName} ${profile.LastName}`}<ProfileEditModal user={profile}/></h2>
               <p className={classes.dob}>
                 <span style={{ color: 'rgba(0,0,0,0.6)' }}>
                   Born on : &nbsp;

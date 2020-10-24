@@ -2,7 +2,7 @@ import React, { Component, useEffect, useState } from "react";
 import compose from "recompose/compose";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
 import styles from "../assets/material/Buycar";
-import CardComponent from "../Components/CardComponent.jsx";
+import CardComponent from "../Components/Cards/CardComponent.jsx";
 import SliderComponent from "../Components/sliderComponent.jsx";
 import FilterComponent from "../Components/filterComponent.jsx";
 import { fetchBuyCar } from "../services/fetchCar";

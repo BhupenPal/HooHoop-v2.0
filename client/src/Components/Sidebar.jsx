@@ -33,7 +33,7 @@ import "../assets/css/dashboard.scss";
 import { useEffect } from "react";
 import { Box } from "@material-ui/core";
 import { useSelector } from "react-redux";
-import OutsideAlerter from "./OutsideAlerter.jsx";
+import OutsideAlerter from "../Hooks/OutsideAlerter.js";
 
 
 const useStyles = makeStyles((theme) => ({

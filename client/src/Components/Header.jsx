@@ -9,7 +9,7 @@ import { Box } from "@material-ui/core";
 import ToggleIcon from "../assets/img/svgs/toggleIcon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { hideSideBar, showSideBar } from "../actions/sideBarActions";
-import SearchBox from "./SearchBox.jsx";
+import SearchBox from "./Inputs/SearchBox.jsx";
 
 const HeaderStyles = makeStyles((theme) => ({
   HeaderStyle: {
