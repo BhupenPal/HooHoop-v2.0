@@ -1,4 +1,4 @@
-import { Dialog, makeStyles } from '@material-ui/core';
+import { Dialog, makeStyles, TextField } from '@material-ui/core';
 import React from 'react';
 import { useState } from 'react';
 import EditIcon from '@material-ui/icons/Edit';
@@ -8,6 +8,9 @@ const useStyles = makeStyles(theme => (
         editIcon:{
             padding:"1rem",
             cursor:"pointer"
+          },
+          form:{
+              padding:"2rem"
           }
     }
 ))
@@ -30,7 +33,18 @@ function ProfileEditModal({user}) {
         aria-labelledby="simple-dialog-title"
         open={visible}
         >
-            Hello
+            <div className={classes.form}>
+                
+            <TextField placeholder="First Name"/>
+            <TextField placeholder="Last Name"/>
+            <TextField placeholder="Email"/>
+            <TextField placeholder="Phone"/>            
+            <TextField placeholder="Address"/>
+            
+            </div>
+
+
+
         </Dialog>
         </>
     );
