@@ -1,9 +1,9 @@
 import { Button, makeStyles } from "@material-ui/core";
 import React, { useState } from "react";
 import  FacebookLogin  from "react-facebook-login/dist/facebook-login-render-props";
-import { FacebookLoginService } from "../services/OAuthLogin.js";
-import MoreDetailsDialog from "./MoreDetailsDialog.jsx";
-import styles from "../assets/material/LoginResgister";
+import { FacebookLoginService } from "../../services/OAuthLogin.js";
+import MoreDetailsDialog from "../Modals/MoreDetailsDialog.jsx";
+import styles from "../../assets/material/LoginResgister";
 
 const useStyles = makeStyles(styles);
 

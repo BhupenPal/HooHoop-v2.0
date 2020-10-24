@@ -13,13 +13,13 @@ import {
   Button,
   Grid,
 } from "@material-ui/core";
-import Sports from "../assets/img/Home/Banner/saleen.jpg";
+import Sports from "../../assets/img/Home/Banner/saleen.jpg";
 import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
 import LocalTaxiIcon from "@material-ui/icons/LocalTaxi";
 import SpeedIcon from "@material-ui/icons/Speed";
 import LocalGasStationIcon from "@material-ui/icons/LocalGasStation";
 import { withStyles } from "@material-ui/core/styles";
-import styles from "../assets/material/Buycar";
+import styles from "../../assets/material/Buycar";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon  from "@material-ui/icons/Favorite";
 

@@ -6,7 +6,7 @@ import {
     Select
 } from '@material-ui/core'
 import { withStyles } from "@material-ui/core/styles";
-import styles from '../assets/material/SellForm'
+import styles from '../../assets/material/SellForm'
 
 
 const selectBox = (props) => {

@@ -21,8 +21,8 @@ import { withStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
 import styles from "../assets/material/LoginResgister";
 import { Alert } from "@material-ui/lab";
-import GoogleLoginButton from "../Components/GoogleLoginButton.jsx";
-import FacebookLoginButton from "../Components/FacebookLoginButton.jsx";
+import GoogleLoginButton from "../Components/Buttons/GoogleLoginButton.jsx";
+import FacebookLoginButton from "../Components/Buttons/FacebookLoginButton.jsx";
 
 class SignIn extends Component {
   constructor(props) {

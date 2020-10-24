@@ -27,8 +27,8 @@ import Volkswagen from "../assets/img/Home/Banner/volkswagen.jpg";
 import Saleen from "../assets/img/Home/Banner/saleen.jpg";
 
 // Components
-import CarSlider from "../Components/CarSlider.jsx";
-import SearchBox from "../Components/SearchBox.jsx";
+import CarSlider from "../Components/Sliders/CarSlider.jsx";
+import SearchBox from "../Components/Inputs/SearchBox.jsx";
 
 function Home(props) {
   const { classes } = props;

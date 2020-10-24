@@ -7,7 +7,7 @@ import classNames from 'classnames'
 import { Skeleton } from '@material-ui/lab'
 
 // Images
-import Car from '../assets/img/Rectangle 4.png'
+import Car from '../../assets/img/Rectangle 4.png'
 
 // Icons
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined'

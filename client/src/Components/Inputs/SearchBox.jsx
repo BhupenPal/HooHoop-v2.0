@@ -1,7 +1,7 @@
 import { InputAdornment, makeStyles, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import SearchIcon from "@material-ui/icons/Search";
-import MakeModel from "../assets/data/MakeModel.js";
+import MakeModel from "../../assets/data/MakeModel.js";
 import { Autocomplete, useAutocomplete } from "@material-ui/lab";
 import { useHistory, useLocation } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({

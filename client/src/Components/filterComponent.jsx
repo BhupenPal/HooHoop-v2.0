@@ -36,7 +36,7 @@ import {
   setFilterColor,
 } from "../actions/filterActions.js";
 import { FilterList } from "@material-ui/icons";
-import SearchBox from "./SearchBox.jsx";
+import SearchBox from "./Inputs/SearchBox.jsx";
 import { useLocation } from "react-router-dom";
 const useStyles = makeStyles(styles);
 function useQuery() {
