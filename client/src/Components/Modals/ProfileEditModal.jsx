@@ -1,4 +1,4 @@
-import { Dialog, makeStyles, TextField } from '@material-ui/core';
+import { Button, Dialog, makeStyles, TextField } from '@material-ui/core';
 import React from 'react';
 import { useState } from 'react';
 import EditIcon from '@material-ui/icons/Edit';
@@ -35,12 +35,12 @@ function ProfileEditModal({user}) {
         >
             <div className={classes.form}>
                 
-            <TextField placeholder="First Name"/>
-            <TextField placeholder="Last Name"/>
-            <TextField placeholder="Email"/>
-            <TextField placeholder="Phone"/>            
-            <TextField placeholder="Address"/>
-            
+            <TextField defaultValue={user.FirstName} placeholder="First Name"/>
+            <TextField defaultValue={user.LastName}  placeholder="Last Name"/>
+            <TextField defaultValue={user.Email} placeholder="Email"/>
+            <TextField defaultValue={user.Phone ? user.Phone : ""} placeholder="Phone"/>            
+            <TextField defaultValue={user.Address ? user.Address : ""} placeholder="Address"/>
+            <Button>Edit</Button>
             </div>
 
 
