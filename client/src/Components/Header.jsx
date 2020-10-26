@@ -35,6 +35,7 @@ const HeaderStyles = makeStyles((theme) => ({
     height: 30,
     backgroundColor: "#fff",
     color: "#333",
+    margin:"0 10px"
   },
   RegisterButton: {
     width: 175,
@@ -116,7 +117,7 @@ const Header = () => {
         </Link>
         </Box>
         <Box display={{xs:"flex"}} style={{alignItems:"center",flex:1,padding:"0 100px"}} className="header-options">
-        <Box display={{ xs: "none", md: "block" }}  style={{flex:1}}>
+        <Box display={{ xs: "none", md: "block" }}  style={{flex:1,margin:"0 5rem"}}>
           {renderSearchBox()}
         </Box>
           <Box display={{ xs: "none", md: "block" }}>

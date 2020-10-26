@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../axios";
 
 export const fetchCar = async (id) => {
   const res = await axios.get(`/api/car/${id}`);
