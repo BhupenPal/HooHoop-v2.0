@@ -371,7 +371,7 @@ const filterComponent = (props) => {
           <Slider
             value={yearRange}
             onChange={handleYearChange}
-            valueLabelDisplay="true"
+            valueLabelDisplay="auto"
             aria-labelledby="range-slider"
             getAriaValueText={valuetext}
             className="rangeSlider"
@@ -542,6 +542,7 @@ const filterComponent = (props) => {
               {Object.keys(colors).map((item, index) => {
                 return (
                   <label
+                    key={index}
                     htmlFor={item}
                     className={`colorCircle ${colors[item] && "colorSelected"}`}
                   >

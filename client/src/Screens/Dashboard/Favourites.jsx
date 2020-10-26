@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core'
 import FetchFavs from '../../services/FetchFavs'
-import CardComponent from '../../Components/CardComponent.jsx'
+import CardComponent from '../../Components/Cards/CardComponent.jsx'
 import { Grid } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
