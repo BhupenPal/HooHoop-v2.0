@@ -119,7 +119,6 @@ const filterComponent = (props) => {
     query += `Price=${priceRange[0]}-${priceRange[1]}&`;
     query += `KMsDriven=${kmsDriven[0]}-${kmsDriven[1]}&`;
     query += `SearchedCar=${searchQuery.get("search") || ""}`
-    console.log(bodies);
     setQuery(query);
   }, [
     brands,
@@ -134,7 +133,6 @@ const filterComponent = (props) => {
     searchQuery
   ]);
   const toggleFilterVisiblity = () => {
-    //console.log(showFilters)
     setShowFilters((show) => !show);
   };
   function toggleFilter(getState) {
@@ -202,7 +200,6 @@ const filterComponent = (props) => {
   let currentYear = currentDate.getFullYear();
   let p20Year = currentYear - 20;
   const handleYearChange = (event, newValue) => {
-    console.log(newValue);
     dispatch(setFilterYearRange(newValue));
   };
 
@@ -210,7 +207,6 @@ const filterComponent = (props) => {
     return `${priceRange}`;
   }
   const handleRangeChange = (event, newValue) => {
-    console.log(newValue);
     dispatch(setFilterPriceRange(newValue));
   };
 
@@ -266,7 +262,6 @@ const filterComponent = (props) => {
   }
 
   function handleColorList(e) {
-    console.log(e.target.name);
     dispatch(
       setFilterColor({ ...colors, [e.target.name]: !colors[e.target.name] })
     );

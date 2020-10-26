@@ -28,7 +28,7 @@ import { Link } from "react-router-dom";
 const CardComponent = ({ classes, car, index,setWishlist }) => {
 
     return (
-      <Grid item xs={12} sm={4}  lg={3} xl={2} className={classes.cardContainer} justify="center">
+      <Grid item xs={12} sm={4}  lg={3} xl={2} className={classes.cardContainer}>
 
       <Card className={`${classes.rootCard} fadeIn`}>
         <CardHeader
