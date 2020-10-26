@@ -1,5 +1,6 @@
 import axios from "axios";
-import getNewToken from "./services/getNewToken";
+import store from "./store";
+import { refreshUserToken } from "./actions/authActions";
 
 axios.interceptors.response.use(
   function (response) {
@@ -12,7 +13,7 @@ axios.interceptors.response.use(
     // Do something with response error
     console.log(error.message,error.response.status);
     if(error.response.status === 401){
-      getNewToken()
+     store.dispatch(refreshUserToken());
     }
     return Promise.reject(error);
   }
