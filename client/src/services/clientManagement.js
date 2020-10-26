@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../axios';
 export const getMyClientTestDrives = async () => {
 
     let users = await axios.get('/api/user/dashboard/test-drives');

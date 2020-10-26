@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../axios'
 
 const FetchFavs = async () => {
     return (await axios.get('/api/user/dashboard/my-favourites')).data

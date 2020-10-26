@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from "../axios";
 import objectToFormData from "../utils/objectToFormData.js";
 
 const required = name => {

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 import {
@@ -55,6 +55,32 @@ export const loginUser = (userData,setError) => dispatch => {
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
+      })
+    });
+}
+
+
+export const refreshUserToken = () => dispatch => {
+  const oldRefreshToken = localStorage.getItem("refreshToken");
+
+  axios
+    .post("/api/user/refresh-token",{refreshToken: "Bearer " + oldRefreshToken})
+    .then(res => {
+      if (res.status === 200) {
+
+        const { accessToken, refreshToken } = res.data;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        setAuthToken(accessToken);
+        const decoded = jwt_decode(accessToken);
+        dispatch(setCurrentUser(decoded));
+      }
+    })
+    .catch(err => {
+      const message = err.response?.data?.error?.message || err.message;
+     // setError(message)
+      dispatch({
+        type: LOGIN_FAIL,
       })
     });
 }

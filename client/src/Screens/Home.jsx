@@ -12,7 +12,7 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
 import Slider from "react-slick";
-import axios from "axios";
+import axios from "../axios";
 import { Link } from "react-router-dom";
 
 // Styles
