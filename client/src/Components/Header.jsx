@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -80,8 +80,8 @@ const Header = () => {
   const renderAuthButtons = () => {
     if (!auth.isAuthenticated) {
       return (
-        <>
-          <Box display={{ xs: "none", md: "inline" }}>
+        <Fragment>
+          <Box display={{ xs: "none", md: "inline" }} style={{ marginRight: 20 }}>
             <NavLink to="/register">
               <Button color="inherit" className={classes.RegisterButton}>
                 Create Account
@@ -95,7 +95,7 @@ const Header = () => {
               </Button>
             </NavLink>
           </Box>
-        </>
+        </Fragment>
       );
     }
   };

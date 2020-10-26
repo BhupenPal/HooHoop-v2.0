@@ -370,7 +370,7 @@ const filterComponent = (props) => {
             aria-labelledby="range-slider"
             getAriaValueText={valuetext}
             className="rangeSlider"
-            min={1960}
+            min={currentYear - 20}
             max={currentYear}
           />
         </div>
@@ -390,7 +390,7 @@ const filterComponent = (props) => {
             getAriaValueText={rangetextSet}
             step={1000}
             className="rangeSlider"
-            min={5000}
+            min={0}
             max={100000}
           />
         </div>
