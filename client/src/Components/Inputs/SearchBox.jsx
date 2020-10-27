@@ -2,6 +2,7 @@ import { InputAdornment, makeStyles, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import MakeModel from "../../assets/data/MakeModel.js";
+import {Provinces} from "../../assets/data/Provinces.js";
 import { Autocomplete, useAutocomplete } from "@material-ui/lab";
 import { useHistory, useLocation } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
@@ -50,17 +51,16 @@ const useStyles = makeStyles((theme) => ({
 const getAllMakers = () => {
   return MakeModel.map((item) => item.Make);
 };
-
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
-function SearchBox(props) {
+function SearchBox({type}) {
   const query = useQuery()
   console.log(query.get('search'))
   //const [search,setSearch] = useState();
   const classes = useStyles();
   const history = useHistory();
-  console.log(getAllMakers());
+  //console.log(getAllMakers());
   // const handleChange = (e) => {
   //   setSearch(.value);
   // }
@@ -73,7 +73,7 @@ function SearchBox(props) {
     groupedOptions,
   } = useAutocomplete({
     id: "use-autocomplete-demo",
-    options: getAllMakers(),
+    options: (type === "states" ? Provinces : getAllMakers()),
     value:query.get("search") || "",
     getOptionLabel: (option) => option,
   });

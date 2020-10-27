@@ -78,7 +78,6 @@ export const refreshUserToken = () => dispatch => {
     })
     .catch(err => {
       const message = err.response?.data?.error?.message || err.message;
-     // setError(message)
       dispatch({
         type: LOGIN_FAIL,
       })

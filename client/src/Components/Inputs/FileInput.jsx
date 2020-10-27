@@ -1,6 +1,6 @@
 import React from "react";
 import AddIcon from "@material-ui/icons/Add";
-
+import CheckIcon from '@material-ui/icons/Check';
 function FileInput({
   id,
   name,
@@ -9,8 +9,13 @@ function FileInput({
   multiple,
   previewUrl,
   label,
+  type,
+  currentValue
 }) {
   const renderPreview = () => {
+    if(type === "video" && currentValue && currentValue.length > 0){
+      return <CheckIcon/>
+    }
     if (previewUrl) {
       return (
         <img

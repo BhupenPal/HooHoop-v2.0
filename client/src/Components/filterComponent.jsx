@@ -291,7 +291,7 @@ const filterComponent = (props) => {
           Search by Filters
         </Typography>
        
-        <SearchBox/>
+        <SearchBox type="states"/>
         <div className="filterClass">
           <div className="filterHead">
             <Typography variant="h6" component="h6">
