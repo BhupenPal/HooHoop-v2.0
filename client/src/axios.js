@@ -2,8 +2,18 @@ import axios from "axios";
 import store from "./store";
 import { refreshUserToken } from "./actions/authActions";
 
+// axios.interceptors.request.use(
+//   function (request) {
+
+//   },
+//   function (error) {
+
+//   }
+// )
+
 axios.interceptors.response.use(
   function (response) {
+    console.log(store.getState())
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
     return response;
@@ -17,6 +27,6 @@ axios.interceptors.response.use(
     }
     return Promise.reject(error);
   }
-);
+)
 
-export default axios;   
+export default axios;
