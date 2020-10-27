@@ -175,6 +175,10 @@ Router.post("/register", (req, res, next) => {
     }
 })
 
+Router.get('/check-login', verifyAccessToken, (req, res, next) => {
+    res.status(200).json(req.payload)
+})
+
 Router.get('/refresh-token', verifyRefreshToken, async (req, res, next) => {
     try {
         let accessToken = await signAccessToken(req.payload)
