@@ -24,16 +24,17 @@ module.exports = {
                     console.log(err.message)
                     reject(createError.InternalServerError())
                 }
-                resolve(token)
+                // There's a space after Bearer
+                resolve('Bearer ' + token)
             })
         })
     },
 
     verifyAccessToken: (req, res, next) => {
-        if (!req.headers['authorization']) return next(createError.Unauthorized())
+        if (!req.cookies['accessToken']) return next(createError.Unauthorized())
 
-        const authHeader = req.headers['authorization']
-        const Token = authHeader.split(' ')[1]
+        const BearerToken = req.cookies['accessToken']
+        const Token = BearerToken.split(' ')[1]
 
         JWT.verify(Token, process.env.JWT_ACCESS_TOKEN, (err, payload) => {
             if (err) {
@@ -66,26 +67,32 @@ module.exports = {
                         reject(createError.InternalServerError())
                         return
                     }
-                    resolve(token)
+                    // There's a space after Bearer
+                    resolve('Bearer ' + token)
                 })
             })
         })
     },
 
-    verifyRefreshToken: (refreshToken) => {
-        return new Promise((resolve, reject) => {
-            JWT.verify(refreshToken, process.env.JWT_REFRESH_TOKEN, (err, payload) => {
-                if (err) return reject(createError.Unauthorized())
-                const userId = payload.aud
-                client.GET(userId, (err, result) => {
-                    if (err) {
-                        console.log(err.message)
-                        reject(createError.InternalServerError())
-                        return
-                    }
-                    if (refreshToken === result) return resolve(payload)
-                    reject(createError.Unauthorized())
-                })
+    verifyRefreshToken: (req, res, next) => {
+        if (!req.cookies['refreshToken']) return next(createError.Unauthorized())
+
+        const BearerToken = req.cookies['refreshToken']
+        const Token = BearerToken.split(' ')[1]
+
+        JWT.verify(Token, process.env.JWT_REFRESH_TOKEN, (err, payload) => {
+            if (err) {
+                const message = 'JsonWebTokenError' ? 'Unauthorized' : err.message
+                return next(createError.Unauthorized(message))
+            }
+            client.GET(payload.aud, (err, result) => {
+                if (err) {
+                    console.log(err.message)
+                    next(createError.InternalServerError())
+                }
+                if (Token !== result) return next(createError.Unauthorized(message))
+                req.payload = payload
+                next()
             })
         })
     },
@@ -103,6 +110,10 @@ module.exports = {
                 resolve(payload)
             })
         })
+    },
+
+    decodeTrustedToken: Token => {
+        return JWT.decode(Token)
     }
 
 }

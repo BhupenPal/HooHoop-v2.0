@@ -132,6 +132,11 @@ Router.get('/', (req, res, next) => {
     })
 })
 
+Router.get('/csrf-token', (req, res, next) => {
+    // res.cookie('X-CSRF-Tokens', req.csrfToken(), { httpOnly: true })
+    res.sendStatus(200)
+})
+
 Router.post('/contact', (req, res, next) => {
     const { FullName, Email, Subject, Message } = req.body
     const ComplaintNum = GenerateOTP()
@@ -197,7 +202,7 @@ Router.get('/buy-car/:PageNo/:size?', async (req, res, next) => {
         const RegExCar = new RegExp(SearchRegex(SearchedCar), 'gi')
         Filters.$or = [{ Make: RegExCar }, { Model: RegExCar }, { VINum: RegExCar }, { MakeModel: RegExCar }]
     }
-    
+
     CarModel.paginate(Filters, options)
         .then(cars => {
             cars.docs.map(vehicle => {

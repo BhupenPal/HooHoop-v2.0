@@ -1,30 +1,34 @@
 const express = require('express'),
-    app = express(),
-    createError = require('http-errors'),
-    compression = require('compression'),
-    helmet = require('helmet')
+	app = express(),
+	createError = require('http-errors'),
+	compression = require('compression'),
+	helmet = require('helmet'),
+	cookieParser = require('cookie-parser')
 
-app.use(helmet(), express.json(), compression())
+app.use(helmet(), express.json(), compression(), cookieParser())
 
 require('dotenv').config({
-    path: './config/.env'
+	path: './config/.env'
 })
 
 require('./config/database')
 
 // DEV and PRODCTION HANDLER
 if (process.env.NODE_ENV === 'DEV') {
-    const morgan = require('morgan'),
-        cors = require('cors')
-    app.use(morgan('dev'), cors({ origin: `${process.env.HOST_IP}:${process.env.CLIENT_PORT}` }))
+	const morgan = require('morgan'),
+		cors = require('cors')
+	app.use(
+		morgan('dev'),
+		cors({ origin: `${process.env.HOST_IP}:${process.env.CLIENT_PORT}` })
+	)
 }
 
 if (process.env.NODE_ENV === 'PROD') {
-    const { resolve } = require('path')
-    app.use(express.static(resolve(__dirname, '..', 'dist')))
-    app.use('*', (req, res) => {
-        res.sendFile(resolve(__dirname, '..', 'dist', 'index.html'))
-    })
+	const { resolve } = require('path')
+	app.use(express.static(resolve(__dirname, '..', 'dist')))
+	app.use('*', (req, res) => {
+		res.sendFile(resolve(__dirname, '..', 'dist', 'index.html'))
+	})
 }
 
 // WEB APP ROUTES
@@ -35,20 +39,20 @@ app.use('/api/chatbot', require('./api/Chatbot.controller'))
 app.use('/api/transactions', require('./api/Transactions.controller'))
 
 app.use(async (req, res, next) => {
-    next(createError.NotFound())
+	next(createError.NotFound())
 })
 
 app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.send({
-        error: {
-            status: err.status || 500,
-            message: err.message
-        }
-    })
+	res.status(err.status || 500)
+	res.send({
+		error: {
+			status: err.status || 500,
+			message: err.message
+		}
+	})
 })
 
 const PORT = process.env.PORT
 app.listen(PORT, console.log(`Server is running on PORT: ${PORT}`))
 
-module.exports = app
+process.env.NODE_ENV === 'DEV' ? (module.exports = app) : null
