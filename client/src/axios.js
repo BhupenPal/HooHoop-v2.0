@@ -35,7 +35,7 @@ axios.interceptors.response.use(
   function (error) {
     // Any status codes that falls outside the range of 4xx cause this function to trigger
     // Do something with response error
-    console.log(error.message,error.response.status);
+   // console.log(error.message,error.response.status);
    
     return Promise.reject(error);
   }

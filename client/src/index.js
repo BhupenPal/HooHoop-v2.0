@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
@@ -24,6 +24,7 @@ import CarPage from './Screens/CarPage.jsx'
 
 import jwt_decode from 'jwt-decode'
 import setAuthToken from './utils/setAuthToken'
+import CSRFtoken from './utils/CSRFTokenReq'
 import { setCurrentUser, logoutUser } from './actions/authActions'
 import PrivateRoute from './Components/private-route/PrivateRoute'
 import store from './store'
@@ -47,38 +48,41 @@ if (localStorage.accessToken) {
   }
 }
 
-class App extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <Header />
-            <Switch>
-              <Route path='/' exact component={Home} />
-              <Route path='/login' component={SignIn} />
-              <Route path='/register/:dealer?' component={SignUp} />
-              <PrivateRoute path='/user' component={SideBar} />
-              <Route path='/privacy-policy' component={PrivacyPolicy} />
-              <Route path='/terms-and-conditions' component={TermsConditions} />
-              <Route path='/about-us' component={AboutUs} />
-              <Route path='/faq' component={FAQ} />
-              <Route path='/cancellation-policy' component={CancellationPolicy} />
-              <Route path='/contact-us' component={ContactUs} />
-              <Route path='/buy-car' component={BuyCar} />
-              <PrivateRoute path='/sell-car' component={SellCar} />
-              <Route path='/sellcar' component={SellCar} />
-              <Route path='/car/:VINum' component={CarPage} />
-              <Route path='/400' component={ErrorBrokenLink} />
-              <Route path='/500' component={Error500} />
-              <Route component={Error404} />
-            </Switch>
-            <Footer />
-          </BrowserRouter>
-        </ThemeProvider>
-      </Provider>
-    )
-  }
+const App = () => {
+
+  useEffect(() => {
+    CSRFtoken()
+  }, [])
+
+  return (
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Header />
+          <Switch>
+            <Route path='/' exact component={Home} />
+            <Route path='/login' component={SignIn} />
+            <Route path='/register/:dealer?' component={SignUp} />
+            <PrivateRoute path='/user' component={SideBar} />
+            <Route path='/privacy-policy' component={PrivacyPolicy} />
+            <Route path='/terms-and-conditions' component={TermsConditions} />
+            <Route path='/about-us' component={AboutUs} />
+            <Route path='/faq' component={FAQ} />
+            <Route path='/cancellation-policy' component={CancellationPolicy} />
+            <Route path='/contact-us' component={ContactUs} />
+            <Route path='/buy-car' component={BuyCar} />
+            <PrivateRoute path='/sell-car' component={SellCar} />
+            <Route path='/sellcar' component={SellCar} />
+            <Route path='/car/:VINum' component={CarPage} />
+            <Route path='/400' component={ErrorBrokenLink} />
+            <Route path='/500' component={Error500} />
+            <Route component={Error404} />
+          </Switch>
+          <Footer />
+        </BrowserRouter>
+      </ThemeProvider>
+    </Provider>
+  )
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))

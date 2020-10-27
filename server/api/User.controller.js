@@ -16,12 +16,13 @@ const express = require("express"),
 
     //Helper and Services
     { GenerateOTP, HashSalt, GenerateRandom, PassCheck, FormDataBoolCheck } = require('../helper/service'),
-    { signAccessToken, verifyAccessToken, signRefreshToken, verifyRefreshToken } = require('../helper/auth/JWT_service'),
+    { signAccessToken, verifyAccessToken, signRefreshToken, verifyRefreshToken, decodeTrustedToken } = require('../helper/auth/JWT_service'),
     { ValidateGoogle, ValidateFacebook } = require('../helper/auth/OAuth_service'),
     { SendMail } = require('../helper/mail/config'),
     { AccActivationMail } = require("../helper/mail/content"),
     { SendSMS } = require('../helper/sms/config'),
     { PhoneVerification } = require("../helper/sms/content"),
+    { SecureCookieObj } = require('../helper/auth/CSRF_service')
 
     //Car media upload manager
     CarUpload = require('../helper/upload manager/carupload');
@@ -55,7 +56,13 @@ Router.post("/login", async (req, res, next) => {
                 User.aud = User.id
                 const accessToken = await signAccessToken(User)
                 const refreshToken = await signRefreshToken(User)
-                res.status(200).json({ accessToken, refreshToken })
+
+                res.cookie('accessToken', accessToken, SecureCookieObj)
+                res.cookie('refreshToken', refreshToken, SecureCookieObj)
+                
+                const PayLoad = decodeTrustedToken(accessToken)
+
+                res.status(200).json(PayLoad)
             }
         })
     } catch (error) {
@@ -168,19 +175,16 @@ Router.post("/register", (req, res, next) => {
     }
 })
 
-Router.post('/refresh-token', async (req, res, next) => {
+Router.post('/refresh-token', verifyRefreshToken, async (req, res, next) => {
     try {
-        let { refreshToken } = req.body
-        refreshToken = refreshToken.split(' ')[1]
 
-        if (!refreshToken) throw createError.BadRequest()
+        let accessToken = await signAccessToken(req.payload.aud)
+        refreshToken = await signRefreshToken(req.payload.aud)
 
-        const user = await verifyRefreshToken(refreshToken)
+        res.cookie('accessToken', accessToken, SecureCookieObj)
+        res.cookie('refreshToken', refreshToken, SecureCookieObj)
 
-        let accessToken = await signAccessToken(user)
-        refreshToken = await signRefreshToken(user)
-
-        res.status(200).send({ accessToken, refreshToken })
+        res.sendStatus(200)
     } catch (err) {
         console.log(err)
         next(err)
