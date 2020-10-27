@@ -31,6 +31,27 @@ const UserSchema = mongoose.Schema({
         type: Number,
         unique: true
     },
+    Card: [{
+        cardHolderName: {
+            type: String,
+            required: true
+        },
+        cardNumber: {
+            type: String,
+            required: true
+        },
+        dateExpiryMonth: {
+            type: String,
+            required: true
+        },
+        dateExpiryYear: {
+            type: String,
+            required: true
+        },
+        windcaveRef: {
+            type: String
+        }
+    }],
     DisplayPic: {
         type: Boolean,
         default: null

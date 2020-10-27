@@ -53,8 +53,7 @@ export const loginUser = (userData,setError) => dispatch => {
       const message = err.response?.data?.error?.message || err.message;
       setError(message)
       dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
+        type: LOGIN_FAIL,
       })
     });
 }
@@ -105,7 +104,7 @@ export const setCurrentUser = decoded => {
 // Log user out
 export const logoutUser = () => dispatch => {
   axios
-  .post("/api/user/logout", { refreshToken: localStorage.refreshToken})
+  .delete("/api/user/logout", { data: { refreshToken: `Bearer ${localStorage.refreshToken}`} })
   .then(res => {
     dispatch({ type: LOGOUT_SUCCESS })
   })

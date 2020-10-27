@@ -15,7 +15,7 @@ module.exports = {
             }
             const secret = process.env.JWT_ACCESS_TOKEN
             const options = {
-                expiresIn: '1h',
+                expiresIn: 30,
                 issuer: 'hoohoop.co.nz',
                 audience: USER.aud
             }
@@ -74,8 +74,7 @@ module.exports = {
 
     verifyRefreshToken: (refreshToken) => {
         return new Promise((resolve, reject) => {
-            const secret = process.env.JWT_REFRESH_TOKEN
-            JWT.verify(refreshToken, secret, (err, payload) => {
+            JWT.verify(refreshToken, process.env.JWT_REFRESH_TOKEN, (err, payload) => {
                 if (err) return reject(createError.Unauthorized())
                 const userId = payload.aud
                 client.GET(userId, (err, result) => {

@@ -56,7 +56,6 @@ function useQuery() {
 }
 function SearchBox({type}) {
   const query = useQuery()
-  console.log(query.get('search'))
   //const [search,setSearch] = useState();
   const classes = useStyles();
   const history = useHistory();
@@ -80,10 +79,10 @@ function SearchBox({type}) {
   
   const handleSubmit= (e) => {
     e.preventDefault();
-    console.log(getInputProps())
+    // console.log(getInputProps())
     history.push(`/buy-car?search=${getInputProps().value}`)
   }
-  console.log(getInputProps())
+  // console.log(getInputProps())
   return (
     <form onSubmit={handleSubmit}  style={{ position: "relative" }}>
       <div {...getRootProps()}>

@@ -119,7 +119,6 @@ const filterComponent = (props) => {
     query += `Price=${priceRange[0]}-${priceRange[1]}&`;
     query += `KMsDriven=${kmsDriven[0]}-${kmsDriven[1]}&`;
     query += `SearchedCar=${searchQuery.get("search") || ""}`
-    console.log(bodies);
     setQuery(query);
   }, [
     brands,
@@ -134,7 +133,6 @@ const filterComponent = (props) => {
     searchQuery
   ]);
   const toggleFilterVisiblity = () => {
-    //console.log(showFilters)
     setShowFilters((show) => !show);
   };
   function toggleFilter(getState) {
@@ -202,7 +200,6 @@ const filterComponent = (props) => {
   let currentYear = currentDate.getFullYear();
   let p20Year = currentYear - 20;
   const handleYearChange = (event, newValue) => {
-    console.log(newValue);
     dispatch(setFilterYearRange(newValue));
   };
 
@@ -210,7 +207,6 @@ const filterComponent = (props) => {
     return `${priceRange}`;
   }
   const handleRangeChange = (event, newValue) => {
-    console.log(newValue);
     dispatch(setFilterPriceRange(newValue));
   };
 
@@ -266,7 +262,6 @@ const filterComponent = (props) => {
   }
 
   function handleColorList(e) {
-    console.log(e.target.name);
     dispatch(
       setFilterColor({ ...colors, [e.target.name]: !colors[e.target.name] })
     );
@@ -371,11 +366,11 @@ const filterComponent = (props) => {
           <Slider
             value={yearRange}
             onChange={handleYearChange}
-            valueLabelDisplay="true"
+            valueLabelDisplay="auto"
             aria-labelledby="range-slider"
             getAriaValueText={valuetext}
             className="rangeSlider"
-            min={1960}
+            min={currentYear - 20}
             max={currentYear}
           />
         </div>
@@ -395,7 +390,7 @@ const filterComponent = (props) => {
             getAriaValueText={rangetextSet}
             step={1000}
             className="rangeSlider"
-            min={5000}
+            min={0}
             max={100000}
           />
         </div>
@@ -542,6 +537,7 @@ const filterComponent = (props) => {
               {Object.keys(colors).map((item, index) => {
                 return (
                   <label
+                    key={index}
                     htmlFor={item}
                     className={`colorCircle ${colors[item] && "colorSelected"}`}
                   >

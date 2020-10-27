@@ -160,7 +160,7 @@ const CarSlider = ({ data, loading }) => {
                                         <img src={Car} alt='' className={classes.SlideCarImage} />
                                         <div className={classNames(classes.CarDetails, classes.cardText)}>
                                             <div>
-                                                <span className="wt-600">{item.Make} {item.Model}</span>
+                                                <span className="wt-600">{(`${item.Make} ${item.Model}`).slice(0,10)})</span>
                                                 <br />
                                                 &#36; {item.Price}
                                             </div>

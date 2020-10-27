@@ -22,9 +22,9 @@ const arrayToObject = (array) => {
 const initialState = {
     brands:arrayToObject(MakeModel.map(item => item.Make)),
     bodies:{},
-    yearRange:[1977, new Date().getFullYear()],
-    priceRange:[30000, 60000],
-    kmsDriven:[0, 50000],
+    yearRange:[new Date().getFullYear() - 20, new Date().getFullYear()],
+    priceRange:[0, 100000],
+    kmsDriven:[0, 100000],
     bodyTypes:arrayToObject(bodyTypes),
     transmissions:arrayToObject(transmissionTypes),
     fuelTypes:arrayToObject(fuelTypes),
