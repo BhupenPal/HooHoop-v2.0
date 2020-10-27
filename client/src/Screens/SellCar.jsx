@@ -87,26 +87,28 @@ const SellCar = (props) => {
     ExteriorVideo: null,
   });
   const handleVideoUpload = (e) => {
-
+    // if(e.target && e.target.files)
     const files = e.target.files;
-    console.log(e,files)
-    changedata({ ...dataobject, ExteriorVideo: files });
-    var video = document.createElement("video");
-    video.preload = "metadata";
-    video.onloadedmetadata = function () {
-      window.URL.revokeObjectURL(video.src);
-      var duration = video.duration;
-      if(duration > 40){
-        console.log("hi")
-        changedata({ ...dataobject, ExteriorVideo: null});
-        setError("Video must be less than 40 sec");
-        setSnackBar(true);
-        setShowError(true);
-      }
-      console.log(duration)
-    };
-
-    video.src = URL.createObjectURL(files[0]);
+    if (files && files.length > 0) {
+      // console.log(e, files);
+      changedata({ ...dataobject, ExteriorVideo: files });
+      var video = document.createElement("video");
+      video.preload = "metadata";
+      video.onloadedmetadata = function () {
+        window.URL.revokeObjectURL(video.src);
+        var duration = video.duration;
+        if (duration > 40) {
+          console.log("hi");
+          changedata({ ...dataobject, ExteriorVideo: null });
+          setError("Video must be less than 40 sec");
+          setSnackBar(true);
+          setShowError(true);
+        }
+      };
+      video.src = URL.createObjectURL(files[0]);
+    }else{
+      changedata({ ...dataobject, ExteriorVideo: null });
+    }
   };
   const handleFileUpload = (e) => {
     console.log(e.target.files[0]);
@@ -641,7 +643,6 @@ const SellCar = (props) => {
                     name="InteriorMiddle"
                     id="InteriorMiddle"
                     label="Middle"
-
                     onChange={handleFileUpload}
                     previewUrl={preview.InteriorMiddle}
                   />
@@ -650,7 +651,6 @@ const SellCar = (props) => {
                     name="InteriorRear"
                     id="InteriorRear"
                     label="Rear"
-
                     onChange={handleFileUpload}
                     previewUrl={preview.InteriorRear}
                   />
@@ -662,17 +662,19 @@ const SellCar = (props) => {
                   Upload Exterior Images
                 </Typography>
                 <div>
-                  <MultiFileInput 
+                  <MultiFileInput
                     label="Slider"
-                  
-                  onChange={handleMultiFileUpload} filesUploaded={dataobject.ExteriorSlider}/>
+                    onChange={handleMultiFileUpload}
+                    filesUploaded={dataobject.ExteriorSlider}
+                  />
                   <FileInput
                     accept="video/*"
                     name="ExteriorVideo"
                     id="ExteriorVideo"
                     type="video"
                     label="Video"
-
+                    type="video"
+                    currentValue={dataobject.ExteriorVideo}
                     onChange={handleVideoUpload}
                   />
                 </div>

@@ -43,6 +43,7 @@ function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 const filterComponent = (props) => {
+  //console.log(window.width)
   const searchQuery = useQuery()
   const { setQuery } = props;
   const [showFilters, setShowFilters] = useState(false);
@@ -286,7 +287,7 @@ const filterComponent = (props) => {
           Search by Filters
         </Typography>
        
-        <SearchBox/>
+        <SearchBox type="states"/>
         <div className="filterClass">
           <div className="filterHead">
             <Typography variant="h6" component="h6">

@@ -77,6 +77,13 @@ const settings = {
     prevArrow: <BackwardIcon />,
     responsive: [
         {
+            breakpoint: 1450,
+            settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+            }
+        },
+        {
             breakpoint: 1024,
             settings: {
                 slidesToShow: 3,
@@ -153,14 +160,15 @@ const CarSlider = ({ data, loading }) => {
                 {renderSkeletons()}
                 {
                     data.map(item => {
+                        const carName = `${item.Make} ${item.Model}`;
                         return (
-                            <div className='fadeIn' key={item.VINum}>
+                            <div className='fadeIn' key={item.VINum} title={carName}>
                                 <div className={classes.SliderCar}>
                                     <Link to={`/car/${item.VINum}`}>
                                         <img src={Car} alt='' className={classes.SlideCarImage} />
                                         <div className={classNames(classes.CarDetails, classes.cardText)}>
                                             <div>
-                                                <span className="wt-600">{item.Make} {item.Model}</span>
+                                                <span className="wt-600">{carName.slice(0,15) + (carName.length > 15 ? "..." : "")}</span>
                                                 <br />
                                                 &#36; {item.Price}
                                             </div>
