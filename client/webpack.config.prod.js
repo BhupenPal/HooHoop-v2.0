@@ -1,6 +1,8 @@
-const { resolve } = require('path'),
+const webpack = require('webpack'),
+  { resolve } = require('path'),
   HTMLWebpackPlugin = require('html-webpack-plugin'),
-  { CleanWebpackPlugin } = require('clean-webpack-plugin')
+  { CleanWebpackPlugin } = require('clean-webpack-plugin'),
+  MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'production',
@@ -20,11 +22,15 @@ module.exports = {
         use: { loader: 'babel-loader' }
       },
       {
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      },
+      {
         test: /\.s[ac]ss$/i,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
-        test: /\.(png|jpg|jpeg|gif|ttf|svg)$/i,
+        test: /\.(png|jpg|jpeg|gif|ttf|svg|woff|eot)$/i,
         use: {
           loader: 'url-loader',
           options: {
@@ -36,6 +42,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new MiniCssExtractPlugin(),
     new CleanWebpackPlugin(),
     new HTMLWebpackPlugin({
       filename: 'index.html',
