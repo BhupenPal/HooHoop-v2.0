@@ -84,9 +84,7 @@ export const setCurrentUser = decoded => {
 // Log user out
 export const logoutUser = () => dispatch => {
 	axios
-		.delete('/api/user/logout', {
-			data: { refreshToken: `Bearer ${localStorage.refreshToken}` }
-		})
+		.delete('/api/user/logout')
 		.then(res => {
 			dispatch({ type: LOGOUT_SUCCESS })
 		})

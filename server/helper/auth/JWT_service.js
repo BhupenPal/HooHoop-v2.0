@@ -38,7 +38,7 @@ module.exports = {
 
         JWT.verify(Token, process.env.JWT_ACCESS_TOKEN, (err, payload) => {
             if (err) {
-                const message = 'JsonWebTokenError' ? 'Unauthorized' : err.message
+                let message = (err.name === 'JsonWebTokenError') ? 'Unauthorized' : err.message
                 return next(createError.Unauthorized(message))
             }
             req.payload = payload
@@ -90,7 +90,7 @@ module.exports = {
                     console.log(err.message)
                     next(createError.InternalServerError())
                 }
-                if (Token !== result) return next(createError.Unauthorized(message))
+                if (Token !== result) return next(createError.Unauthorized())
                 req.payload = payload
                 next()
             })

@@ -37,17 +37,6 @@ import ErrorBrokenLink from './Screens/Error Pages/ErrorBrokenLink.jsx'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
-if (localStorage.accessToken) {
-  const token = localStorage.accessToken
-  setAuthToken(token)
-  const decoded = jwt_decode(token)
-  store.dispatch(setCurrentUser(decoded))
-  const currentTime = Date.now() / 1000
-  if (decoded.exp < currentTime) {
-    store.dispatch(logoutUser())
-  }
-}
-
 const App = () => {
 
   useEffect(() => {

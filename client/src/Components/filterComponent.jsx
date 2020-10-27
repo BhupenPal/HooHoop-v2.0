@@ -43,6 +43,7 @@ function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 const filterComponent = (props) => {
+  //console.log(window.width)
   const searchQuery = useQuery()
   const { setQuery } = props;
   const [showFilters, setShowFilters] = useState(false);

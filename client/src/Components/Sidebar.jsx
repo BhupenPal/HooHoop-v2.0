@@ -32,8 +32,9 @@ import AllClientManagementScreen from "../Screens/AllClientsManagement.jsx";
 import "../assets/css/dashboard.scss";
 import { useEffect } from "react";
 import { Box } from "@material-ui/core";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import OutsideAlerter from "../Hooks/OutsideAlerter.js";
+import { logoutUser } from "../actions/authActions";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -129,16 +130,16 @@ const Navs = {
     route: "/user/your-payments",
     component: YourPayments,
   },
-  Logout: {
-    route: "/",
-    component: Logout,
-  },
+  // Logout: {
+  //   route: "/",
+  //   component: Logout,
+  // },
 };
 function SideBar(props) {
   const classes = useStyles();
   const history = useHistory();
   const sideBar = useSelector((store) => store.sideBar);
-
+  const dispatch = useDispatch()
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isActive = (route) => {
     return history.location.pathname === route;
@@ -146,6 +147,9 @@ function SideBar(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  }
   const drawer = () => (
     <div>
       <List>
@@ -170,6 +174,24 @@ function SideBar(props) {
           </Link>
         ))}
 
+    <Box display={{ sm: "block" }}>
+            <ListItem
+              button
+              key={Object.keys(Navs).length}
+              className={classes.listItem}
+              onClick={handleLogout}
+            >
+              <ListItemIcon>
+                <img src={Logout} height="20rem" alt="nav item" />
+
+                {/* <img src={} height="20rem" alt="nav item" /> */}
+              </ListItemIcon>
+              <ListItemText
+                primary={<span className={classes.text}>{"Logout"}</span>}
+              />
+            </ListItem>
+  
+        </Box>
         <Box display={{ sm: "block", md: "none" }}>
           <Link to={"/sell-car"}>
             <ListItem

@@ -43,6 +43,13 @@ export default function (state = initialState, action) {
       };
     
     case LOGOUT_SUCCESS:
+      return {
+        ...state,
+        accessToken: null,
+        user: null,
+        isAuthenticated: false,
+        isLoading: false
+      }
     case AUTH_ERROR:
     case LOGIN_FAIL:
       localStorage.removeItem('accessToken')
