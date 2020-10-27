@@ -15,7 +15,7 @@ module.exports = {
             }
             const secret = process.env.JWT_ACCESS_TOKEN
             const options = {
-                expiresIn: 30,
+                expiresIn: 5,
                 issuer: 'hoohoop.co.nz',
                 audience: USER.aud
             }
@@ -112,7 +112,8 @@ module.exports = {
         })
     },
 
-    decodeTrustedToken: Token => {
+    decodeTrustedToken: BearerToken => {
+        const Token = BearerToken.split(' ')[1]
         return JWT.decode(Token)
     }
 

@@ -59,7 +59,7 @@ Router.post("/login", async (req, res, next) => {
 
                 res.cookie('accessToken', accessToken, SecureCookieObj)
                 res.cookie('refreshToken', refreshToken, SecureCookieObj)
-                
+
                 const PayLoad = decodeTrustedToken(accessToken)
 
                 res.status(200).json(PayLoad)
@@ -175,16 +175,17 @@ Router.post("/register", (req, res, next) => {
     }
 })
 
-Router.post('/refresh-token', verifyRefreshToken, async (req, res, next) => {
+Router.get('/refresh-token', verifyRefreshToken, async (req, res, next) => {
     try {
-
-        let accessToken = await signAccessToken(req.payload.aud)
-        refreshToken = await signRefreshToken(req.payload.aud)
+        let accessToken = await signAccessToken(req.payload)
+        refreshToken = await signRefreshToken(req.payload)
 
         res.cookie('accessToken', accessToken, SecureCookieObj)
         res.cookie('refreshToken', refreshToken, SecureCookieObj)
 
-        res.sendStatus(200)
+        const PayLoad = decodeTrustedToken(accessToken)
+
+        res.status(200).json(PayLoad)
     } catch (err) {
         console.log(err)
         next(err)

@@ -20,7 +20,7 @@ export const registerUser = (userData, setError, history) => dispatch => {
 	axios
 		.post('/api/user/register', userData)
 		.then(res => {
-      res.status === 200 ? history.push('/login') : null
+			res.status === 200 ? history.push('/login') : null
 		})
 		.catch(err => {
 			const message = err.response?.data?.error?.message || err.message
@@ -37,7 +37,7 @@ export const loginUser = (userData, setError) => dispatch => {
 	axios
 		.post('/api/user/login', userData)
 		.then(res => {
-			res.status === 200 ? dispatch(setCurrentUser(res.data)) : null
+			dispatch(setCurrentUser(res.data))
 		})
 		.catch(err => {
 			const message = err.response?.data?.error?.message || err.message
@@ -50,21 +50,10 @@ export const loginUser = (userData, setError) => dispatch => {
 }
 
 export const refreshUserToken = () => dispatch => {
-	const oldRefreshToken = localStorage.getItem('refreshToken')
-
 	axios
-		.post('/api/user/refresh-token', {
-			refreshToken: 'Bearer ' + oldRefreshToken
-		})
+		.get('/api/user/refresh-token')
 		.then(res => {
-			if (res.status === 200) {
-				const { accessToken, refreshToken } = res.data
-				localStorage.setItem('accessToken', accessToken)
-				localStorage.setItem('refreshToken', refreshToken)
-				setAuthToken(accessToken)
-				const decoded = jwt_decode(accessToken)
-				dispatch(setCurrentUser(decoded))
-			}
+			dispatch(setCurrentUser(res.data))
 		})
 		.catch(err => {
 			const message = err.response?.data?.error?.message || err.message
