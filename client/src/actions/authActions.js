@@ -83,15 +83,17 @@ export const setCurrentUser = decoded => {
 
 // Log user out
 export const logoutUser = () => dispatch => {
+	dispatch({ type: LOGOUT_SUCCESS })
+
 	axios
 		.delete('/api/user/logout')
 		.then(res => {
-			dispatch({ type: LOGOUT_SUCCESS })
+		//	dispatch({ type: LOGOUT_SUCCESS })
 		})
 		.catch(err => {
 			dispatch({
 				type: GET_ERRORS,
-				payload: err.response.data
+				payload: err.response?.data
 			})
 		})
 }

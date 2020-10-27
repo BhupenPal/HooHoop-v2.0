@@ -181,7 +181,7 @@ function SideBar(props) {
               className={classes.listItem}
               onClick={handleLogout}
             >
-              <ListItemIcon>
+              <ListItemIcon >
                 <img src={Logout} height="20rem" alt="nav item" />
 
                 {/* <img src={} height="20rem" alt="nav item" /> */}
