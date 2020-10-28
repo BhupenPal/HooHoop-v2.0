@@ -198,8 +198,8 @@ Router.get('/refresh-token', verifyRefreshToken, async (req, res, next) => {
 
 Router.delete('/logout', verifyRefreshToken, async (req, res, next) => {
     try {
-        res.clearCookie('accessToken', {...SecureCookieObj, maxAge: process.env.ACCESS_TOKEN_EXPIRE_IN})
-        res.clearCookie('refreshToken', {...SecureCookieObj, maxAge: process.env.REFRESH_TOKEN_EXPIRE_IN})
+        res.clearCookie('accessToken', SecureCookieObj)
+        res.clearCookie('refreshToken', SecureCookieObj)
         client.DEL(req.payload.aud, (err, val) => {
             if (err) {
                 console.log(err)
