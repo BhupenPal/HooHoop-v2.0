@@ -22,7 +22,7 @@ const express = require("express"),
     { AccActivationMail } = require("../helper/mail/content"),
     { SendSMS } = require('../helper/sms/config'),
     { PhoneVerification } = require("../helper/sms/content"),
-    { SecureCookieObj, csrfProtection } = require('../helper/auth/CSRF_service')
+    { SecureCookieObj } = require('../helper/auth/CSRF_service')
 
     //Car media upload manager
     CarUpload = require('../helper/upload manager/carupload');
@@ -30,7 +30,7 @@ const express = require("express"),
 //Clearing Sharp Cache
 sharp.cache(false);
 
-Router.post("/login", csrfProtection, async (req, res, next) => {
+Router.post("/login", async (req, res, next) => {
     try {
         const { Email, Password, LogWithPhone } = req.body;
         let User = null;
@@ -50,7 +50,7 @@ Router.post("/login", csrfProtection, async (req, res, next) => {
         if (!User.isActive) throw createError.BadRequest('Your account is temporarily deactivated. Please contact HooHoop NZ')
 
         bcrypt.compare(Password, User.Password, async (err, isMatch) => {
-            if (!isMatch) return next(createError.Unauthorized('Password does not match'))
+            if (!isMatch) return next(createError.Forbidden('Password does not match'))
             else {
                 //For making it compatible with JWT_SERVICES
                 User.aud = User.id

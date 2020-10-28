@@ -7,7 +7,7 @@ axios.interceptors.response.use(
 		return response
 	},
 	(error) => {
-		if (error?.response?.data?.error?.message === 'jwt expired') {
+		if (error.response && error.response.status === 401) {
 			store.dispatch(refreshUserToken())
 		}
 		return Promise.reject(error)

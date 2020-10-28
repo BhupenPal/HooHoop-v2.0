@@ -75,7 +75,7 @@ module.exports = {
     },
 
     verifyRefreshToken: (req, res, next) => {
-        if (!req.cookies['refreshToken']) return next(createError.Unauthorized())
+        if (!req.cookies['refreshToken']) return next(createError.BadRequest())
 
         const BearerToken = req.cookies['refreshToken']
         const Token = BearerToken.split(' ')[1]
@@ -83,14 +83,14 @@ module.exports = {
         JWT.verify(Token, process.env.JWT_REFRESH_TOKEN, (err, payload) => {
             if (err) {
                 const message = 'JsonWebTokenError' ? 'Unauthorized' : err.message
-                return next(createError.Unauthorized(message))
+                return next(createError.BadRequest(message))
             }
             client.GET(payload.aud, (err, result) => {
                 if (err) {
                     console.log(err.message)
                     next(createError.InternalServerError())
                 }
-                if (Token !== result) return next(createError.Unauthorized())
+                if (Token !== result) return next(createError.BadRequest())
                 req.payload = payload
                 next()
             })

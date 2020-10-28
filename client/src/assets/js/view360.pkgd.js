@@ -1377,7 +1377,7 @@ All-in-one packaged file for ease use of '@egjs/view360' with below dependencies
                      * @example
                     class Some extends eg.Component {
                      hi() {
-                       alert("hi");
+                    //    alert("hi");
                      }
                      thing() {
                        this.once("hi", this.hi);
