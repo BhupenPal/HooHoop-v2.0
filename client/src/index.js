@@ -22,11 +22,8 @@ import BuyCar from './Screens/BuyCar.jsx'
 import SellCar from './Screens/SellCar.jsx'
 import CarPage from './Screens/CarPage.jsx'
 
-import jwt_decode from 'jwt-decode'
-import setAuthToken from './utils/setAuthToken'
 import CSRFtoken from './utils/CSRFTokenReq'
-import CheckFirstLogin from './utils/CheckFirstLogin'
-import { setCurrentUser, logoutUser } from './actions/authActions'
+import CheckLoginOnRender from './utils/CheckLoginOnRender'
 import PrivateRoute from './Components/private-route/PrivateRoute'
 import store from './store'
 import SideBar from './Components/Sidebar.jsx'
@@ -41,7 +38,7 @@ import 'slick-carousel/slick/slick-theme.css'
 const App = () => {
 
   useEffect(() => {
-    CheckFirstLogin()
+    CheckLoginOnRender()
     CSRFtoken()
   }, [])
 
