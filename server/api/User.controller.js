@@ -57,8 +57,8 @@ Router.post("/login", async (req, res, next) => {
                 const accessToken = await signAccessToken(User)
                 const refreshToken = await signRefreshToken(User)
 
-                res.cookie('accessToken', accessToken, SecureCookieObj)
-                res.cookie('refreshToken', refreshToken, SecureCookieObj)
+                res.cookie('accessToken', accessToken, {...SecureCookieObj, maxAge: process.env.ACCESS_TOKEN_EXPIRE_IN})
+                res.cookie('refreshToken', refreshToken, {...SecureCookieObj, maxAge: process.env.REFRESH_TOKEN_EXPIRE_IN})
 
                 const PayLoad = decodeTrustedToken(accessToken)
 
@@ -184,8 +184,8 @@ Router.get('/refresh-token', verifyRefreshToken, async (req, res, next) => {
         let accessToken = await signAccessToken(req.payload)
         refreshToken = await signRefreshToken(req.payload)
 
-        res.cookie('accessToken', accessToken, SecureCookieObj)
-        res.cookie('refreshToken', refreshToken, SecureCookieObj)
+        res.cookie('accessToken', accessToken, {...SecureCookieObj, maxAge: process.env.ACCESS_TOKEN_EXPIRE_IN})
+        res.cookie('refreshToken', refreshToken, {...SecureCookieObj, maxAge: process.env.REFRESH_TOKEN_EXPIRE_IN})
 
         const PayLoad = decodeTrustedToken(accessToken)
 
@@ -198,8 +198,8 @@ Router.get('/refresh-token', verifyRefreshToken, async (req, res, next) => {
 
 Router.delete('/logout', verifyRefreshToken, async (req, res, next) => {
     try {
-        res.clearCookie('accessToken', SecureCookieObj)
-        res.clearCookie('refreshToken', SecureCookieObj)
+        res.clearCookie('accessToken', {...SecureCookieObj, maxAge: process.env.ACCESS_TOKEN_EXPIRE_IN})
+        res.clearCookie('refreshToken', {...SecureCookieObj, maxAge: process.env.REFRESH_TOKEN_EXPIRE_IN})
         client.DEL(req.payload.aud, (err, val) => {
             if (err) {
                 console.log(err)

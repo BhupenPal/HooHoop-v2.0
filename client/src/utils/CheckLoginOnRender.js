@@ -1,11 +1,11 @@
 import { setCurrentUser, logoutUser, refreshUserToken } from '../actions/authActions'
-import { lsBooleanCheck } from '../utils/validations'
+import { GetLSWithExpiry } from '../utils/validations'
 import axios from '../axios'
 import store from '../store'
 
 const CheckLoginOnRender = () => {
 
-    lsBooleanCheck(localStorage.getItem('isAuthenticated'))
+    GetLSWithExpiry('isAuthenticated')
         ?
         // Dispatch user loader here
         axios.get('/api/user/check-login')

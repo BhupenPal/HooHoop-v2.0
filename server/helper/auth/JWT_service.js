@@ -15,7 +15,7 @@ module.exports = {
             }
             const secret = process.env.JWT_ACCESS_TOKEN
             const options = {
-                expiresIn: 15,
+                expiresIn: process.env.ACCESS_TOKEN_EXPIRE_IN,
                 issuer: 'hoohoop.co.nz',
                 audience: USER.aud
             }
@@ -51,7 +51,7 @@ module.exports = {
             const Payload = {}
             const secret = process.env.JWT_REFRESH_TOKEN
             const options = {
-                expiresIn: '1y',
+                expiresIn: process.env.REFRESH_TOKEN_EXPIRE_IN,
                 issuer: 'hoohoop.co.nz',
                 audience: USER.aud
             }
