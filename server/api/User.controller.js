@@ -22,7 +22,7 @@ const express = require("express"),
     { AccActivationMail } = require("../helper/mail/content"),
     { SendSMS } = require('../helper/sms/config'),
     { PhoneVerification } = require("../helper/sms/content"),
-    { SecureCookieObj } = require('../helper/auth/CSRF_service')
+    { SecureCookieObj, csrfProtection } = require('../helper/auth/CSRF_service')
 
     //Car media upload manager
     CarUpload = require('../helper/upload manager/carupload');
@@ -30,7 +30,7 @@ const express = require("express"),
 //Clearing Sharp Cache
 sharp.cache(false);
 
-Router.post("/login", async (req, res, next) => {
+Router.post("/login", csrfProtection, async (req, res, next) => {
     try {
         const { Email, Password, LogWithPhone } = req.body;
         let User = null;
@@ -173,10 +173,6 @@ Router.post("/register", (req, res, next) => {
         console.log('User Controller Register Catch: ' + error.message)
         next(error)
     }
-})
-
-Router.get('/check-login', verifyAccessToken, (req, res, next) => {
-    res.status(200).json(req.payload)
 })
 
 Router.get('/refresh-token', verifyRefreshToken, async (req, res, next) => {

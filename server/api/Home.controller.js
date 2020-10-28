@@ -13,6 +13,7 @@ const express = require('express'),
     //Helper and Services
     { GenerateOTP, SearchRegex, RangeBasedFilter } = require('../helper/service'),
     { verifyAccessToken, decodeToken } = require('../helper/auth/JWT_service'),
+    { csrfProtection } = require('../helper/auth/CSRF_service'),
     { SendMail } = require('../helper/mail/config'),
     { ContactMail } = require('../helper/mail/content');
 
@@ -132,8 +133,8 @@ Router.get('/', (req, res, next) => {
     })
 })
 
-Router.get('/csrf-token', (req, res, next) => {
-    // res.cookie('X-CSRF-Tokens', req.csrfToken(), { httpOnly: true })
+Router.get('/csrf-token', csrfProtection, (req, res, next) => {
+    res.cookie('X-XSRF-Token', req.csrfToken(), { sameSite: true, secure: process.env.NODE_ENV === 'PROD' })
     res.sendStatus(200)
 })
 

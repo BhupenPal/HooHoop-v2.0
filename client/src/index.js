@@ -39,7 +39,7 @@ const App = () => {
 
   useEffect(() => {
     CheckLoginOnRender()
-    // CSRFtoken()
+    CSRFtoken()
   }, [])
 
   return (

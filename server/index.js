@@ -5,7 +5,7 @@ const express = require('express'),
 	helmet = require('helmet'),
 	cookieParser = require('cookie-parser')
 
-app.use(helmet(), express.json(), compression(), cookieParser())
+app.use(helmet(), express.json(), compression(), cookieParser(process.env.COOKIE_SECRET))
 
 require('dotenv').config({
 	path: './config/.env'

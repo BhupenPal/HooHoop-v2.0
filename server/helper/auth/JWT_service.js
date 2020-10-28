@@ -61,7 +61,7 @@ module.exports = {
                     reject(createError.InternalServerError())
                     return
                 }
-                client.SET(USER.aud, token, 'EX', 31536000, (err, reply) => {
+                client.SET(USER.aud, token, 'EX', process.env.REFRESH_TOKEN_EXPIRE_IN, (err, reply) => {
                     if (err) {
                         console.log(err.message)
                         reject(createError.InternalServerError())
