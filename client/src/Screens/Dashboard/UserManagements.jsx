@@ -1,12 +1,12 @@
 import { Icon, makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import SideBar from "../Components/Sidebar.jsx";
-import Table from "../Components/Table.jsx";
+import SideBar from "../../Components/Sidebar.jsx";
+import Table from "../../Components/Table.jsx";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
 import { Skeleton } from "@material-ui/lab";
-import { getUsers } from "../services/userManagement.js";
+import { getUsers } from "../../services/userManagement.js";
 
 const useStyles = makeStyles((theme) => ({
 

@@ -1,7 +1,7 @@
 import { AppBar, makeStyles, Tab, Tabs } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import TestDrives from "../Components/TestDrives.jsx";
-import { getMyClientTestDrives,getMyClientCallBackRequests,getMyClientShipments } from "../services/clientManagement";
+import TestDrives from "../../Components/TestDrives.jsx";
+import { getMyClientTestDrives,getMyClientCallBackRequests,getMyClientShipments } from "../../services/clientManagement";
 
 const useStyles = makeStyles((theme) => ({
   root: {

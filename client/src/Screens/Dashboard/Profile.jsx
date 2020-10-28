@@ -6,9 +6,9 @@ import { makeStyles, Typography, Avatar, Grid } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
 
 // Services and Actions
-import { logoutUser } from '../actions/authActions'
-import FetchProfile from '../services/profile'
-import ProfileEditModal from '../Components/Modals/ProfileEditModal.jsx'
+import { logoutUser } from '../../actions/authActions'
+import FetchProfile from '../../services/profile'
+import ProfileEditModal from '../../Components/Modals/ProfileEditModal.jsx'
 
 const DashboardStyles = makeStyles(theme => ({
   userDetails: {

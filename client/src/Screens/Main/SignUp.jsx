@@ -24,15 +24,15 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
-import styles from "../assets/material/LoginResgister";
+import styles from "../../assets/material/LoginResgister";
 import { Alert } from "@material-ui/lab";
 
-import GoogleLoginButton from "../Components/Buttons/GoogleLoginButton.jsx";
-import FacebookLoginButton from "../Components/Buttons/FacebookLoginButton.jsx";
+import GoogleLoginButton from "../../Components/Buttons/GoogleLoginButton.jsx";
+import FacebookLoginButton from "../../Components/Buttons/FacebookLoginButton.jsx";
 
-import {validateEmail,validPassword} from "../utils/validations"
-import { registerUser } from "../actions/authActions";
-import {states} from "../assets/data/states";
+import {validateEmail,validPassword} from "../../utils/validations"
+import { registerUser } from "../../actions/authActions";
+import {states} from "../../assets/data/states";
 
 
 class SignUp extends Component {

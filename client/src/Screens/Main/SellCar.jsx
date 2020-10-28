@@ -13,22 +13,22 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import styles from "../assets/material/SellForm";
-import SellBackCar from "../assets/img/SellCar/sellbackground.png";
-import ImageIcon from "../assets/img/svgs/Image.svg";
-import EditIcon from "../assets/img/svgs/edit-3.svg";
-import HappyCarIcon from "../assets/img/svgs/Car.svg";
-import FileTextIcon from "../assets/img/svgs/file-text.svg";
-import "../assets/css/sellcarpage.scss";
-import SelectBox from "../Components/Inputs/SelectBox.jsx";
-import axios from "../axios";
-import MakeModel from "../assets/data/MakeModel";
-import RichTextEditor from "../Components/Inputs/RichTextEditor.jsx";
-import FileInput from "../Components/Inputs/FileInput.jsx";
-import { postSellCar } from "../services/sellCar.js";
-import ErrorSnackBar from "../Components/OpenSnackBar.jsx";
+import styles from "../../assets/material/SellForm";
+import SellBackCar from "../../assets/img/SellCar/sellbackground.png";
+import ImageIcon from "../../assets/img/svgs/Image.svg";
+import EditIcon from "../../assets/img/svgs/edit-3.svg";
+import HappyCarIcon from "../../assets/img/svgs/Car.svg";
+import FileTextIcon from "../../assets/img/svgs/file-text.svg";
+import "../../assets/css/sellcarpage.scss";
+import SelectBox from "../../Components/Inputs/SelectBox.jsx";
+import axios from "../../axios";
+import MakeModel from "../../assets/data/MakeModel";
+import RichTextEditor from "../../Components/Inputs/RichTextEditor.jsx";
+import FileInput from "../../Components/Inputs/FileInput.jsx";
+import { postSellCar } from "../../services/sellCar.js";
+import ErrorSnackBar from "../../Components/OpenSnackBar.jsx";
 import { DropzoneDialog } from "material-ui-dropzone";
-import MultiFileInput from "../Components/MultiFileInput.jsx";
+import MultiFileInput from "../../Components/MultiFileInput.jsx";
 
 const SellCar = (props) => {
   const { classes } = props;

@@ -11,7 +11,7 @@ import {
   useRouteMatch,
   useHistory,
 } from "react-router-dom";
-import Profile from "../assets/img/sidebarIcons/profile.svg";
+import ProfileIcon from "../assets/img/sidebarIcons/profile.svg";
 import MyFavourites from "../assets/img/sidebarIcons/favourites.svg";
 import MyListing from "../assets/img/sidebarIcons/listing.svg";
 import AllListing from "../assets/img/sidebarIcons/all_listing.svg";
@@ -22,13 +22,13 @@ import MyOffers from "../assets/img/sidebarIcons/my_offers.svg";
 import NoDealCustomers from "../assets/img/sidebarIcons/no_ideal_customers.svg";
 import YourPayments from "../assets/img/sidebarIcons/your_payments.svg";
 import Logout from "../assets/img/sidebarIcons/logout.svg";
-import Dashboard from "../Screens/Dashboard.jsx";
+import Profile from "../Screens/Dashboard/Profile.jsx";
 import Favourites from '../Screens/Dashboard/Favourites.jsx'
-import MyListingScreen from "../Screens/MyListing.jsx";
-import AllListingScreen from "../Screens/AllListings.jsx";
-import UserManagementScreen from "../Screens/UserManagements.jsx";
-import MyClientManagementScreen from "../Screens/MyClientManagement.jsx";
-import AllClientManagementScreen from "../Screens/AllClientsManagement.jsx";
+import MyListingScreen from "../Screens/Dashboard/MyListing.jsx";
+import AllListingScreen from "../Screens/Dashboard/AllListings.jsx";
+import UserManagementScreen from "../Screens/Dashboard/UserManagements.jsx";
+import MyClientManagementScreen from "../Screens/Dashboard/MyClientManagement.jsx";
+import AllClientManagementScreen from "../Screens/Dashboard/AllClientsManagement.jsx";
 import "../assets/css/dashboard.scss";
 import { useEffect } from "react";
 import { Box } from "@material-ui/core";
@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
 const Navs = {
   Profile: {
     route: "/user/dashboard",
-    component: Profile,
+    component: ProfileIcon,
   },
   "My Favorites": {
     route: "/user/my-favourites",
@@ -242,7 +242,7 @@ function SideBar(props) {
       <div className={classes.content}>
         {/* {props.children} */}
         <Switch>
-          <Route path="/user/dashboard" component={Dashboard} />
+          <Route path="/user/dashboard" component={Profile} />
           <Route path='/user/my-favourites' component={Favourites} />
           <Route path="/user/my-listing" component={MyListingScreen} />
           <Route path="/user/all-listing" component={AllListingScreen} />

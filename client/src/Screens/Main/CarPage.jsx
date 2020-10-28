@@ -1,30 +1,29 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import compose from "recompose/compose";
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Box, Grid, } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-//import { spacing } from "@material-ui/system";
-//import Slider from "react-slick";
-import AsNavFor from "../Components/Sliders/AsNavFor.jsx";
-import View360 from "../Components/View360.jsx";
-import CarSlider from "../Components/Sliders/CarSlider.jsx";
-import Ad from "../Components/Ad.jsx";
-import LeadForm from "../Components/LeadForm.jsx";
-import CarDetails from "../Components/CarDetails.jsx";
 
-import CarImage from "../assets/img/sample-car/interior/middle.jpg";
-import View360Slides from "../Components/View360Slides.jsx";
-import PetrolIcon from "../assets/img/svgs/pertol.svg";
-import KMsIcon from "../assets/img/svgs/KMsDriven.svg";
-import OwnerIcon from "../assets/img/svgs/owner-no.svg";
-import CalanderIcon from "../assets/img/svgs/calander.svg";
+import AsNavFor from "../../Components/Sliders/AsNavFor.jsx";
+import View360 from "../../Components/View360.jsx";
+import CarSlider from "../../Components/Sliders/CarSlider.jsx";
+import Ad from "../../Components/Ad.jsx";
+import LeadForm from "../../Components/LeadForm.jsx";
+import CarDetails from "../../Components/CarDetails.jsx";
 
-import styles from "../assets/material/CarPage";
+import CarImage from "../../assets/img/sample-car/interior/middle.jpg";
+import View360Slides from "../../Components/View360Slides.jsx";
+import PetrolIcon from "../../assets/img/svgs/pertol.svg";
+import KMsIcon from "../../assets/img/svgs/KMsDriven.svg";
+import OwnerIcon from "../../assets/img/svgs/owner-no.svg";
+import CalanderIcon from "../../assets/img/svgs/calander.svg";
 
-import { fetchCar, fetchRecommendedCar } from "../services/fetchCar";
-import { submitCarLead } from "../services/submitCarLead";
+import styles from "../../assets/material/CarPage";
+
+import { fetchCar, fetchRecommendedCar } from "../../services/fetchCar";
+import { submitCarLead } from "../../services/submitCarLead";
 import { useParams } from "react-router-dom";
 
-import '../assets/js/PanoControls.css'
+import '../../assets/Interior 360/PanoControls.css'
 
 const CarPage = (props) => {
   const [user, setUser] = useState({
