@@ -1,4 +1,4 @@
-import { setCurrentUser } from '../actions/authActions'
+import { setCurrentUser, logoutUser, refreshUserToken } from '../actions/authActions'
 import axios from '../axios'
 import store from '../store'
 
@@ -7,8 +7,11 @@ const CheckFirstLogin = () => {
         .then(res => {
             store.dispatch(setCurrentUser(res.data))
         })
+        // .catch(err => {
+        //     store.dispatch(refreshUserToken())
+        // })
         .catch(err => {
-            console.log(err)
+            store.dispatch(logoutUser())
         })
 }
 
