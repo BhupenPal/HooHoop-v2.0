@@ -15,7 +15,7 @@ module.exports = {
             }
             const secret = process.env.JWT_ACCESS_TOKEN
             const options = {
-                expiresIn: 5,
+                expiresIn: 15,
                 issuer: 'hoohoop.co.nz',
                 audience: USER.aud
             }

@@ -51,7 +51,6 @@
     "date-fns": "^2.16.1",
     "dotenv-webpack": "^3.0.0",
     "egjs": "^2.2.0",
-    "jwt-decode": "^2.2.0",
     "material-ui-dropzone": "^3.5.0",
     "panolens": "^0.11.0",
     "react-facebook-login": "^4.1.1",

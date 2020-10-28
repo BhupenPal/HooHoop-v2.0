@@ -1,30 +1,24 @@
 import axios from '../axios'
-import setAuthToken from '../utils/setAuthToken'
-import jwt_decode from 'jwt-decode'
+import { returnErrors } from './errorActions'
+
 import {
-	GET_ERRORS,
 	USER_LOADING,
 	SET_CURRENT_USER,
-	LOGIN_SUCCESS,
-	REGISTER_SUCCESS,
 	LOGOUT_SUCCESS,
-	AUTH_ERROR,
 	LOGIN_FAIL,
-	REGISTER_FAIL
+	AUTH_ERROR,
+	GET_ERRORS
 } from './types'
-import { returnErrors, clearErrors } from './errorActions'
 
 // Register User
 export const registerUser = (userData, setError, history) => dispatch => {
-	dispatch({ type: USER_LOADING })
 	axios
 		.post('/api/user/register', userData)
 		.then(res => {
 			res.status === 200 ? history.push('/login') : null
 		})
 		.catch(err => {
-			const message = err.response?.data?.error?.message || err.message
-			setError(message)
+			setError(err.response?.data?.error?.message || err.message)
 			dispatch(returnErrors(err.response.data, err.response.status))
 			dispatch({
 				type: AUTH_ERROR
@@ -37,14 +31,14 @@ export const loginUser = (userData, setError) => dispatch => {
 	axios
 		.post('/api/user/login', userData)
 		.then(res => {
+			localStorage.setItem('isAuthenticated', 'true')
 			dispatch(setCurrentUser(res.data))
 		})
 		.catch(err => {
-			const message = err.response?.data?.error?.message || err.message
-			setError(message)
+			setError(err.response?.data?.error?.message || err.message)
+			dispatch(returnErrors(err.response.data, err.response.status))
 			dispatch({
-				type: GET_ERRORS,
-				payload: err.response.data
+				type: AUTH_ERROR
 			})
 		})
 }
@@ -53,23 +47,23 @@ export const refreshUserToken = () => dispatch => {
 	axios
 		.get('/api/user/refresh-token')
 		.then(res => {
+			localStorage.setItem('isAuthenticated', 'true')
 			dispatch(setCurrentUser(res.data))
 		})
 		.catch(err => {
-			const message = err.response?.data?.error?.message || err.message
-			// setError(message)
+			localStorage.removeItem('isAuthenticated')
+			setError(err.response?.data?.error?.message || err.message)
 			dispatch({
 				type: LOGIN_FAIL
 			})
 		})
 }
 
-export const socialLogin = tokens => dispatch => {
-	const { accessToken, refreshToken } = tokens
-	localStorage.setItem('accessToken', accessToken)
-	localStorage.setItem('refreshToken', refreshToken)
-	setAuthToken(accessToken)
-	const decoded = jwt_decode(accessToken)
+export const socialLogin = decoded => dispatch => {
+	dispatch({
+		type: USER_LOADING
+	})
+	localStorage.setItem('isAuthenticated', 'true')
 	dispatch(setCurrentUser(decoded))
 }
 
@@ -84,12 +78,10 @@ export const setCurrentUser = decoded => {
 // Log user out
 export const logoutUser = () => dispatch => {
 	dispatch({ type: LOGOUT_SUCCESS })
-
+	localStorage.removeItem('isAuthenticated')
 	axios
 		.delete('/api/user/logout')
-		.then(res => {
-		//	dispatch({ type: LOGOUT_SUCCESS })
-		})
+		.then(res => {})
 		.catch(err => {
 			dispatch({
 				type: GET_ERRORS,

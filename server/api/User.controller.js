@@ -175,6 +175,10 @@ Router.post("/register", (req, res, next) => {
     }
 })
 
+Router.get('/check-login', verifyAccessToken, (req, res, next) => {
+    res.status(200).json(req.payload)
+})
+
 Router.get('/refresh-token', verifyRefreshToken, async (req, res, next) => {
     try {
         let accessToken = await signAccessToken(req.payload)
@@ -192,14 +196,13 @@ Router.get('/refresh-token', verifyRefreshToken, async (req, res, next) => {
     }
 })
 
-Router.delete('/logout', async (req, res, next) => {
+Router.delete('/logout', verifyRefreshToken, async (req, res, next) => {
     try {
-        const { refreshToken } = req.body
-        if (!refreshToken) throw createError.BadRequest()
-        const user = await verifyRefreshToken(refreshToken.split(' ')[1])
-        client.DEL(user.aud, (err, val) => {
+        res.clearCookie('accessToken', SecureCookieObj)
+        res.clearCookie('refreshToken', SecureCookieObj)
+        client.DEL(req.payload.aud, (err, val) => {
             if (err) {
-                console.log(err.message)
+                console.log(err)
                 throw createError.InternalServerError()
             }
             res.sendStatus(204)
