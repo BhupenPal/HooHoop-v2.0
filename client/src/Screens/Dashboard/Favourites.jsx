@@ -29,7 +29,7 @@ const Favourites = (props) => {
     }, [])
 
     return (
-        <Grid container height style={{ height: "fit-content" }}>
+        <Grid container height style={{ height: "fit-content" }} justify="center">
             {
                 favourites.map(car => {
                     return (

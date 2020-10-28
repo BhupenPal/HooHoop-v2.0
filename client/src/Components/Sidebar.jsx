@@ -118,14 +118,6 @@ const Navs = {
     route: "/user/all-client-management",
     component: AllClientManagement,
   },
-  "My Offers": {
-    route: "/user/my-offers",
-    component: MyOffers,
-  },
-  "No Deal Customers": {
-    route: "/user/my-deal-customer",
-    component: NoDealCustomers,
-  },
   "Your Payments": {
     route: "/user/your-payments",
     component: YourPayments,

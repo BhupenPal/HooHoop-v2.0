@@ -38,15 +38,17 @@ import {
 import { FilterList } from "@material-ui/icons";
 import SearchBox from "./Inputs/SearchBox.jsx";
 import { useLocation } from "react-router-dom";
+import useWindowDimensions from "../Hooks/WindowDimensions";
+
 const useStyles = makeStyles(styles);
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 const filterComponent = (props) => {
-  //console.log(window.width)
+  const {width,height} = useWindowDimensions()
   const searchQuery = useQuery()
   const { setQuery } = props;
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState(width > 720);
   const classes = useStyles();
   const [filterstate, toggle] = React.useState({
     State0: true,

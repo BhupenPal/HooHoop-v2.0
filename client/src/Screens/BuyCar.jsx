@@ -22,14 +22,7 @@ const BuyCar = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const debouncedQuery = useDebounce(query, 1000);
-  const setWishlist = (VINum, index) => {
-    addToWishList(VINum).then(() => {
-      setCars((cars) => {
-        cars[index].LikedBy = !cars[index].LikedBy;
-        return [...cars];
-      });
-    });
-  };
+
 
   const fetchMoreCars = () => {
     if (debouncedQuery) {
@@ -59,7 +52,7 @@ const BuyCar = () => {
   const renderSkeleton = () => {
     //if (!loader) return null;
     return (
-      <Grid item container xs={12} style={{ height: "fit-content" }}>
+      <Grid item container xs={12} style={{ height: "fit-content", justifyContent:"center" }}>
         {[1, 2, 3, 4, 5, 6].map(item => (
           <Grid
             item
@@ -96,7 +89,6 @@ const BuyCar = () => {
       <CardComponent
         key={index}
         index={index}
-        setWishlist={setWishlist}
         car={car}
       />
     ));
