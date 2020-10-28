@@ -32,7 +32,7 @@ export const loginUser = (userData, setError) => dispatch => {
 	axios
 		.post('/api/user/login', userData)
 		.then(res => {
-			SetLSWithExpiry('isAuthenticated', 'true', parseInt(process.env.ACCESS_TOKEN_EXPIRE_IN))
+			SetLSWithExpiry('isAuthenticated', 'true', parseInt(process.env.REFRESH_TOKEN_EXPIRE_IN))
 			dispatch(setCurrentUser(res.data))
 		})
 		.catch(err => {
@@ -48,7 +48,7 @@ export const refreshUserToken = () => dispatch => {
 	axios
 		.get('/api/user/refresh-token')
 		.then(res => {
-			SetLSWithExpiry('isAuthenticated', 'true', parseInt(process.env.ACCESS_TOKEN_EXPIRE_IN))
+			SetLSWithExpiry('isAuthenticated', 'true', parseInt(process.env.REFRESH_TOKEN_EXPIRE_IN))
 			dispatch(setCurrentUser(res.data))
 		})
 		.catch(err => {
@@ -64,7 +64,7 @@ export const socialLogin = decoded => dispatch => {
 	dispatch({
 		type: USER_LOADING
 	})
-	SetLSWithExpiry('isAuthenticated', 'true', parseInt(process.env.ACCESS_TOKEN_EXPIRE_IN))
+	SetLSWithExpiry('isAuthenticated', 'true', parseInt(process.env.REFRESH_TOKEN_EXPIRE_IN))
 	dispatch(setCurrentUser(decoded))
 }
 
