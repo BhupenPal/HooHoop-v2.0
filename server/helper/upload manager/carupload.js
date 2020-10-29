@@ -1,21 +1,16 @@
 const multer = require("multer"),
     fs = require("fs"),
     { extname } = require('path'),
-    MaxSize = 15 * 1024 * 1024; //1024 * 1024 = 1MB
-
-let ExteriorSliderCount = 0,
-    ValidationDataSet = false
+    MaxSize = 50 * 1024 * 1024; //1024 * 1024 = 1MB
 
 const fileFilter = (req, file, cb) => {
-    console.log(req.files)
-
-    if (ValidationDataSet === false) {
+    if (req.ValidationDataSet === false) {
         const { Make, Model, ModelYear, Price, BodyType, DoorCount, SeatCount, VINum, KMsDriven, Color, EngineSize, FuelType, WOFExpiry, REGExpiry, Description, Transmission, isExteriorVideo, isExteriorSlider } = req.body;
         //All this info is required and one out of Exterior Video or Slider is Mandatory
         if ((!Make || !Model || !ModelYear || !Price || !BodyType || !DoorCount || !SeatCount || !VINum || !KMsDriven || !Color || !EngineSize || !FuelType || !WOFExpiry || !REGExpiry || !Description || !Transmission) || (!isExteriorVideo && !isExteriorSlider)) {
             return cb(new Error('Please fill in all the required fields'))
         } else {
-            ValidationDataSet = true
+            req.ValidationDataSet = true
         }
     }
 
@@ -91,8 +86,8 @@ const storage = multer.diskStorage({
         let filename = ''
 
         if (file.fieldname === 'ExteriorSlider') {
-            ExteriorSliderCount++
-            filename = ExteriorSliderCount + "." + ext
+            req.ExteriorSliderCount++
+            filename = req.ExteriorSliderCount + "." + ext
             cb(null, filename)
         }
 

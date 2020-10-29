@@ -22,10 +22,11 @@ const express = require("express"),
     { AccActivationMail } = require("../helper/mail/content"),
     { SendSMS } = require('../helper/sms/config'),
     { PhoneVerification } = require("../helper/sms/content"),
-    { SecureCookieObj } = require('../helper/auth/CSRF_service')
+    { SecureCookieObj } = require('../helper/auth/CSRF_service'),
 
     //Car media upload manager
-    CarUpload = require('../helper/upload manager/carupload');
+    CarUpload = require('../helper/upload manager/carupload'),
+    UploadValidateFields = require('../helper/upload manager/uploadvalidate');
 
 //Clearing Sharp Cache
 sharp.cache(false);
@@ -334,7 +335,7 @@ Router.get('/car-data-fetch/:CarPlate', verifyAccessToken, async (req, res, next
     }
 })
 
-Router.post('/sell-form/submit', verifyAccessToken, CarUpload, (req, res, next) => {
+Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpload, (req, res, next) => {
     try {
         // FormData can only store USVString or Blobs, .'. no Booleans
         let { Make, Model, ModelYear, Price, MinPrice, Featured, BodyType, DoorCount, SeatCount, Import, VINum, KMsDriven, Color, EngineSize, FuelType, SafetyStar, WOFExpiry, REGExpiry, DriveWheel4, ONRoadCost, Description, isNewCar, Dealer, isExteriorVideo, isExteriorSlider, is360Images, Transmission } = req.body;
