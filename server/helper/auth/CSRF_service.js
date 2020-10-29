@@ -15,7 +15,8 @@ module.exports = {
     SecureCookieObj: {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'PROD',
-        sameSite: process.env.NODE_ENV === 'PROD'
+        sameSite: process.env.NODE_ENV === 'PROD',
+        signed: process.env.NODE_ENV === 'PROD'
     }
 
 }

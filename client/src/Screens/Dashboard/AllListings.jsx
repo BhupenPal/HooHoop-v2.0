@@ -1,15 +1,24 @@
 import { Icon, makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import SideBar from "../Components/Sidebar.jsx";
-import Table from "../Components/Table.jsx";
+import Table from "../../Components/Table.jsx";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
-import { getMyListing } from "../services/listings.js";
+import { getAllListings } from "../../services/listings.js";
 import { Skeleton } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
-
+  root: {
+    padding: "2rem",
+  },
+  header: {
+    padding: "2rem",
+    display: "flex",
+    alignItems: "baseline",
+  },
+  heading: {
+    margin: "0 1rem",
+  },
   vehicle: {
     display: "flex",
     alignItems: "center",
@@ -19,20 +28,20 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "0.5rem",
   },
 }));
-function MyListing(props) {
+function AllListings(props) {
   const classes = useStyles();
-  const [myListing,setMyListing] = useState([]);
+  const [allListings,setAllListing] = useState([])
   const [listLoader,setListLoader] = useState(false);
-
   useEffect(() => {
     setListLoader(true);
-    getMyListing()
+    getAllListings()
     .then(listing => {
+      console.log(listing)
       setListLoader(false);
-      setMyListing(listing);
+      setAllListing(listing);
     })
     .catch(() => {
-     setListLoader(false);
+      setListLoader(false);
     })
   },[])
   const header = [
@@ -52,7 +61,6 @@ function MyListing(props) {
       title: "Views",
       key: "ViewsCount",
     },
-
 
     {
       title: "Unique ID",
@@ -105,17 +113,16 @@ function MyListing(props) {
     );
   };
   return (
-      <div className="dashboard">
-        <div className="dashboard__header">
-          <h1 className={"dashboard__heading"}>My Listings</h1>
-          <p className={"dashboard__heading"}>{myListing.length} Total</p>
+      <div className={"dashboard"}>
+        <div className={"dashboard__header"}>
+          <h1 className={"dashboard__heading"}>All Listings</h1>
+          <p className={"dashboard__heading"}>{allListings.length} Total</p>
           <p className={"dashboard__heading"}>Sort by :</p>
         </div>
-        <Table header={header} rows={makeData(myListing)} />
+        <Table header={header} rows={makeData(allListings)} />
         {listLoader ? <Skeleton variant="rect" width={"100%"} height={60} /> : null}
-
       </div>
   );
 }
 
-export default MyListing;
+export default AllListings;

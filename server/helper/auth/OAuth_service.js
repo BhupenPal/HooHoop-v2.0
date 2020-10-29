@@ -29,7 +29,7 @@ module.exports = {
             })
             .catch(error => {
                 console.log(error)
-                next(createError.Unauthorized(error.message))
+                next(createError.ExpectationFailed(error.message))
             })
 
     },
@@ -54,7 +54,7 @@ module.exports = {
             })
             .catch(error => {
                 console.log(error)
-                next(createError.Unauthorized(error.message))
+                next(createError.ExpectationFailed(error.message))
             })
     }
 

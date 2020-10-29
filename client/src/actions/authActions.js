@@ -1,5 +1,6 @@
 import axios from '../axios'
 import { returnErrors } from './errorActions'
+import { SetLSWithExpiry } from '../utils/validations'
 
 import {
 	USER_LOADING,
@@ -31,7 +32,7 @@ export const loginUser = (userData, setError) => dispatch => {
 	axios
 		.post('/api/user/login', userData)
 		.then(res => {
-			localStorage.setItem('isAuthenticated', 'true')
+			SetLSWithExpiry('isAuthenticated', 'true', parseInt(process.env.REFRESH_TOKEN_EXPIRE_IN))
 			dispatch(setCurrentUser(res.data))
 		})
 		.catch(err => {
@@ -47,7 +48,7 @@ export const refreshUserToken = () => dispatch => {
 	axios
 		.get('/api/user/refresh-token')
 		.then(res => {
-			localStorage.setItem('isAuthenticated', 'true')
+			SetLSWithExpiry('isAuthenticated', 'true', parseInt(process.env.REFRESH_TOKEN_EXPIRE_IN))
 			dispatch(setCurrentUser(res.data))
 		})
 		.catch(err => {
@@ -63,7 +64,7 @@ export const socialLogin = decoded => dispatch => {
 	dispatch({
 		type: USER_LOADING
 	})
-	localStorage.setItem('isAuthenticated', 'true')
+	SetLSWithExpiry('isAuthenticated', 'true', parseInt(process.env.REFRESH_TOKEN_EXPIRE_IN))
 	dispatch(setCurrentUser(decoded))
 }
 

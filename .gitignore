@@ -78,7 +78,8 @@ web_modules/
 .env.prod
 
 # Todo Reminder
-todo
+Todo/
+*.todo
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache

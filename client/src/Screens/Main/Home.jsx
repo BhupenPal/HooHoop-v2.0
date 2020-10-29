@@ -12,23 +12,23 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
 import Slider from "react-slick";
-import axios from "../axios";
+import axios from "../../axios";
 import { Link } from "react-router-dom";
 
 // Styles
-import styles from "../assets/material/Home";
+import styles from "../../assets/material/Home";
 
 // Icons
 import SearchIcon from "@material-ui/icons/Search";
 
 // Images
-import Toyota from "../assets/img/Home/Banner/toyota.jpg";
-import Volkswagen from "../assets/img/Home/Banner/volkswagen.jpg";
-import Saleen from "../assets/img/Home/Banner/saleen.jpg";
+import Toyota from "../../assets/img/Home/Banner/toyota.jpg";
+import Volkswagen from "../../assets/img/Home/Banner/volkswagen.jpg";
+import Saleen from "../../assets/img/Home/Banner/saleen.jpg";
 
 // Components
-import CarSlider from "../Components/Sliders/CarSlider.jsx";
-import SearchBox from "../Components/Inputs/SearchBox.jsx";
+import CarSlider from "../../Components/Sliders/CarSlider.jsx";
+import SearchBox from "../../Components/Inputs/SearchBox.jsx";
 
 function Home(props) {
   const { classes } = props;

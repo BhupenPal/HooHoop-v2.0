@@ -23,7 +23,7 @@ const Favourites = (props) => {
                 setFavourites(Favs)
             })
             .catch(() => {
-                alert("Error Fetching Favourite Cars")
+                console.log("Error Fetching Favourite Cars")
                 setListLoader(false)
             })
     }, [])

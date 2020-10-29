@@ -1,12 +1,12 @@
 import React from "react";
 import { withStyles, Paper, Grid, Typography, Card, CardContent } from "@material-ui/core";
-import styles from '../assets/material/FooterPages';
+import styles from '../../assets/material/FooterPages';
 import classNames from 'classnames'
-import trust from "../assets/img/svgs/trust.svg";
-import view360 from "../assets/img/svgs/360.svg";
-import timer from "../assets/img/svgs/timer.svg";
-import money from "../assets/img/svgs/money.svg";
-import aboutImg from "../assets/img/FooterPages/about_us.jpeg";
+import trust from "../../assets/img/svgs/trust.svg";
+import view360 from "../../assets/img/svgs/360.svg";
+import timer from "../../assets/img/svgs/timer.svg";
+import money from "../../assets/img/svgs/money.svg";
+import aboutImg from "../../assets/img/FooterPages/about_us.jpeg";
 const AboutUs = (props) => {
     const { classes } = props;
     return (

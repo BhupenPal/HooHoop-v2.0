@@ -1,16 +1,16 @@
 import React, { Component, useEffect, useState } from "react";
 import compose from "recompose/compose";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
-import styles from "../assets/material/Buycar";
-import CardComponent from "../Components/Cards/CardComponent.jsx";
-import SliderComponent from "../Components/sliderComponent.jsx";
-import FilterComponent from "../Components/filterComponent.jsx";
-import { fetchBuyCar } from "../services/fetchCar";
-import useDebounce from "../Hooks/useDebounce.js";
+import styles from "../../assets/material/Buycar";
+import CardComponent from "../../Components/Cards/CardComponent.jsx";
+import SliderComponent from "../../Components/sliderComponent.jsx";
+import FilterComponent from "../../Components/filterComponent.jsx";
+import { fetchBuyCar } from "../../services/fetchCar";
+import useDebounce from "../../Hooks/useDebounce.js";
 import { Skeleton } from "@material-ui/lab";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Empty from "../assets/img/Error Pages/empty.svg";
-import { addToWishList } from "../services/wishlist";
+import Empty from "../../assets/img/Error Pages/empty.svg";
+import { addToWishList } from "../../services/wishlist";
 
 const useStyles = makeStyles(styles);
 const BuyCar = () => {

@@ -3,9 +3,16 @@ const express = require('express'),
 	createError = require('http-errors'),
 	compression = require('compression'),
 	helmet = require('helmet'),
-	cookieParser = require('cookie-parser')
+	cookieParser = require('cookie-parser'),
+	{ csrfProtection } = require('./helper/auth/CSRF_service')
 
-app.use(helmet(), express.json(), compression(), cookieParser())
+app.use(helmet(), express.json(), compression(), cookieParser(process.env.COOKIE_SECRET))
+
+//CSRF AUTHENTICATION
+app.delete('*', csrfProtection)
+app.patch('*', csrfProtection)
+app.post('*', csrfProtection)
+app.put('*', csrfProtection)
 
 require('dotenv').config({
 	path: './config/.env'

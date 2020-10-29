@@ -50,15 +50,15 @@ Router.post("/login", async (req, res, next) => {
         if (!User.isActive) throw createError.BadRequest('Your account is temporarily deactivated. Please contact HooHoop NZ')
 
         bcrypt.compare(Password, User.Password, async (err, isMatch) => {
-            if (!isMatch) return next(createError.Unauthorized('Password does not match'))
+            if (!isMatch) return next(createError.Forbidden('Password does not match'))
             else {
                 //For making it compatible with JWT_SERVICES
                 User.aud = User.id
                 const accessToken = await signAccessToken(User)
                 const refreshToken = await signRefreshToken(User)
 
-                res.cookie('accessToken', accessToken, SecureCookieObj)
-                res.cookie('refreshToken', refreshToken, SecureCookieObj)
+                res.cookie('accessToken', accessToken, {...SecureCookieObj, maxAge: process.env.ACCESS_TOKEN_EXPIRE_IN})
+                res.cookie('refreshToken', refreshToken, {...SecureCookieObj, maxAge: process.env.REFRESH_TOKEN_EXPIRE_IN})
 
                 const PayLoad = decodeTrustedToken(accessToken)
 
@@ -175,17 +175,13 @@ Router.post("/register", (req, res, next) => {
     }
 })
 
-Router.get('/check-login', verifyAccessToken, (req, res, next) => {
-    res.status(200).json(req.payload)
-})
-
 Router.get('/refresh-token', verifyRefreshToken, async (req, res, next) => {
     try {
         let accessToken = await signAccessToken(req.payload)
         refreshToken = await signRefreshToken(req.payload)
 
-        res.cookie('accessToken', accessToken, SecureCookieObj)
-        res.cookie('refreshToken', refreshToken, SecureCookieObj)
+        res.cookie('accessToken', accessToken, {...SecureCookieObj, maxAge: process.env.ACCESS_TOKEN_EXPIRE_IN})
+        res.cookie('refreshToken', refreshToken, {...SecureCookieObj, maxAge: process.env.REFRESH_TOKEN_EXPIRE_IN})
 
         const PayLoad = decodeTrustedToken(accessToken)
 

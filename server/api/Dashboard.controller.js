@@ -61,7 +61,7 @@ Router.put('/update/password', (req, res, next) => {
             .then(user => {
                 if (!user) return next(createError.Forbidden())
                 bcrypt.compare(originalPass, user.Password, async (err, isMatch) => {
-                    if (!isMatch) return next(createError.Unauthorized('Password does not match'))
+                    if (!isMatch) return next(createError.Forbidden('Password does not match'))
                     if (user._id == req.payload.aud || user.Role === 'admin') {
                         Password = await HashSalt(Password)
                         user.Password = Password

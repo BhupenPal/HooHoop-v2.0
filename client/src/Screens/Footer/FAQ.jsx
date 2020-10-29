@@ -1,6 +1,6 @@
 import React from "react";
 import { withStyles, Grid, Typography, Divider } from "@material-ui/core";
-import styles from '../assets/material/FooterPages';
+import styles from '../../assets/material/FooterPages';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';

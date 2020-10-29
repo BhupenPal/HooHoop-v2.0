@@ -1,6 +1,6 @@
 import React from "react";
 import { withStyles, Paper, Grid, Typography } from "@material-ui/core";
-import styles from '../assets/material/FooterPages';
+import styles from '../../assets/material/FooterPages';
 
 const PrivacyPolicy = (props) => {
     const { classes } = props;

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import compose from "recompose/compose";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loginUser } from "../actions/authActions";
+import { loginUser } from "../../actions/authActions";
 import {
   Grid,
   Typography,
@@ -19,10 +19,10 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { NavLink } from "react-router-dom";
-import styles from "../assets/material/LoginResgister";
+import styles from "../../assets/material/LoginResgister";
 import { Alert } from "@material-ui/lab";
-import GoogleLoginButton from "../Components/Buttons/GoogleLoginButton.jsx";
-import FacebookLoginButton from "../Components/Buttons/FacebookLoginButton.jsx";
+import GoogleLoginButton from "../../Components/Buttons/GoogleLoginButton.jsx";
+import FacebookLoginButton from "../../Components/Buttons/FacebookLoginButton.jsx";
 
 class SignIn extends Component {
   constructor(props) {

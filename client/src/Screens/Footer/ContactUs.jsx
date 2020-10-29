@@ -1,6 +1,6 @@
 import React from "react";
 import { withStyles, Grid, Typography, TextField, Button } from "@material-ui/core";
-import styles from '../assets/material/FooterPages';
+import styles from '../../assets/material/FooterPages';
 import PhoneRoundedIcon from '@material-ui/icons/PhoneRounded';
 import LanguageIcon from '@material-ui/icons/Language';
 import MailOutlineRoundedIcon from '@material-ui/icons/MailOutlineRounded';
