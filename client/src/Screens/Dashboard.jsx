@@ -6,7 +6,6 @@ import { makeStyles, Typography, Avatar, Grid } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
 
 // Services and Actions
-import { logoutUser } from '../actions/authActions'
 import FetchProfile from '../services/profile'
 import ProfileEditModal from '../Components/Modals/ProfileEditModal.jsx'
 
@@ -283,7 +282,6 @@ const Dashboard = () => {
 }
 
 Dashboard.propTypes = {
-  logoutUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 }
@@ -293,4 +291,4 @@ const mapStateToProps = state => ({
   errors: state.errors
 })
 
-export default connect(mapStateToProps, { logoutUser })(Dashboard)
+export default connect(mapStateToProps, { })(Dashboard)
