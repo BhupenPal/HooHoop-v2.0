@@ -4,7 +4,7 @@ const CarSchema = mongoose.Schema({
     Make: {
         type: String,
         required: true,
-       // uppercase: true
+        uppercase: true
     },
     Model: {
         type: String,
@@ -42,16 +42,9 @@ const CarSchema = mongoose.Schema({
     SeatCount: {
         type: Number
     },
-    Import: {
-        value: {
-            type: Boolean
-        },
-        place: {
-            type: String
-        },
-        year: {
-            type: Number
-        }
+    Imported: {
+        type: Boolean,
+        default: false
     },
     VINum: {
         type: String,
@@ -110,31 +103,9 @@ const CarSchema = mongoose.Schema({
     Author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user list',
-        // required: true
+        required: true
     },
     LikedBy: [String],
-    Dealer: {
-        value: {
-            type: Boolean,
-            default: false
-        },
-        Name: {
-            type: String,
-            default: null
-        },
-        Phone: {
-            type: Number,
-            default: null
-        },
-        Email: {
-            type: String,
-            default: null
-        },
-        Location: {
-            type: String,
-            default: null
-        }
-    },
     ViewsCount: {
         type: Number,
         default: 0
@@ -159,7 +130,7 @@ const CarSchema = mongoose.Schema({
     timestamps: true
 })
 
-CarSchema.virtual('MakeModel').get(function(){
+CarSchema.virtual('MakeModel').get(function () {
     return `${this.Make} ${this.Model}`
 })
 

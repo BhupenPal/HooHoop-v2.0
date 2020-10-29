@@ -54,10 +54,11 @@ const UserSchema = mongoose.Schema({
     }],
     DisplayPic: {
         type: Boolean,
-        default: null
+        default: false
     },
     Address: {
-        type: String
+        type: String,
+        default: null
     },
     State: {
         type: String,
@@ -103,13 +104,10 @@ const UserSchema = mongoose.Schema({
         default: false
     },
     WishList: [String],
-    isDeleted: {
-        type: Boolean,
-        default: false
-    },
+    // Used By Admin to deactivate account
     isActive: {
         type: Boolean,
-        default: false
+        default: true
     },
     SecretToken: {
         type: String,
