@@ -116,6 +116,8 @@ export const postSellCar = async ({
         InteriorMiddle,
         InteriorRear
     }
-    const res = await Axios.post('/api/user/sell-form/submit',objectToFormData(body));
+    let headers = { 'Content-Type': "multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2) };
+
+    const res = await Axios.post('/api/user/sell-form/submit',objectToFormData(body),{headers});
     return res;
 }

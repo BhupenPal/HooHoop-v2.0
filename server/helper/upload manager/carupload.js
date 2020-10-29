@@ -7,6 +7,8 @@ let ExteriorSliderCount = 0,
     ValidationDataSet = false
 
 const fileFilter = (req, file, cb) => {
+    console.log(req.files)
+
     if (ValidationDataSet === false) {
         const { Make, Model, ModelYear, Price, BodyType, DoorCount, SeatCount, VINum, KMsDriven, Color, EngineSize, FuelType, WOFExpiry, REGExpiry, Description, Transmission, isExteriorVideo, isExteriorSlider } = req.body;
         //All this info is required and one out of Exterior Video or Slider is Mandatory

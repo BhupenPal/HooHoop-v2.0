@@ -53,7 +53,7 @@ export const refreshUserToken = () => dispatch => {
 		})
 		.catch(err => {
 			localStorage.removeItem('isAuthenticated')
-			setError(err.response?.data?.error?.message || err.message)
+			//setError(err.response?.data?.error?.message || err.message)
 			dispatch({
 				type: LOGIN_FAIL
 			})

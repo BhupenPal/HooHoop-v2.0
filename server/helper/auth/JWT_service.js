@@ -31,6 +31,8 @@ module.exports = {
     },
 
     verifyAccessToken: (req, res, next) => {
+        //console.log(req)
+
         if (!req.cookies['accessToken']) return next(createError.Unauthorized())
 
         const BearerToken = req.cookies['accessToken']
