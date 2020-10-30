@@ -6,6 +6,7 @@ import {
   Typography,
   TextField,
   Divider,
+  CircularProgress,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
@@ -86,6 +87,7 @@ const SellCar = (props) => {
     ExteriorSlider: null,
     ExteriorVideo: null,
   });
+  const [loader, setLoader] = useState(false);
   const handleVideoUpload = (e) => {
     // if(e.target && e.target.files)
     const files = e.target.files;
@@ -106,7 +108,7 @@ const SellCar = (props) => {
         }
       };
       video.src = URL.createObjectURL(files[0]);
-    }else{
+    } else {
       changedata({ ...dataobject, ExteriorVideo: null });
     }
   };
@@ -267,12 +269,16 @@ const SellCar = (props) => {
   const handleSubmit = () => {
     console.log(dataobject);
     if (validateForm()) {
+    setLoader(true);
+
       postSellCar(dataobject)
         .then(() => {
           setSuccess(true);
+          setLoader(false);
         })
         .catch((err) => {
           console.log(err);
+          setLoader(false);
         });
     }
   };
@@ -681,7 +687,18 @@ const SellCar = (props) => {
               </div>
             </div>
             <Box display="flex" justifyContent="flex-end">
-              <Button className={classes.LoginButton} onClick={handleSubmit}>
+              <Button
+                disabled={loader}
+                className={classes.LoginButton}
+                onClick={handleSubmit}
+              >
+                {loader ? (
+                  <CircularProgress
+                    className={classes.circularProgress}
+                    size={20}
+                    style={{ margin: "0 1rem" }}
+                  />
+                ) : null}
                 SUBMIT
               </Button>
             </Box>
