@@ -87,7 +87,7 @@ const storage = multer.diskStorage({
 
         if (file.fieldname === 'ExteriorSlider') {
             req.ExteriorSliderCount++
-            filename = req.ExteriorSliderCount + "." + ext
+            filename = 'Photo_' + req.ExteriorSliderCount + "." + ext
             cb(null, filename)
         }
 

@@ -50,7 +50,6 @@ const CarSchema = mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        index: true,
         uppercase: true
     },
     KMsDriven: {
@@ -114,9 +113,27 @@ const CarSchema = mongoose.Schema({
         type: Boolean,
         default: true
     },
-    TotalFrames: {
-        type: Number,
-        required: true
+    ImageData: {
+        InteriorFront: {
+            type: Boolean,
+            default: false
+        },
+        InteriorMiddle: {
+            type: Boolean,
+            default: false
+        },
+        InteriorRear: {
+            type: Boolean,
+            default: false
+        },
+        VideoFrames: {
+            type: Number,
+            deafult: 0
+        },
+        SliderCount: {
+            type: Number,
+            default: 0
+        }
     },
     State: {
         type: String

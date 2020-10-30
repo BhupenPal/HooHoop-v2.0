@@ -48,5 +48,10 @@ module.exports = {
 
   FormDataBoolCheck: ToCheck => {
     return ToCheck === 'true' ? true : false
+  },
+
+  NameWithoutExt: FileName => {
+    const LastDot = FileName.lastIndexOf(".")
+    return LastDot === -1 ? FileName : FileName.substr(0, LastDot)
   }
 }

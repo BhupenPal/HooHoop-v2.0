@@ -15,7 +15,7 @@ const express = require("express"),
     CarModel = require('../models/Car.model'),
 
     //Helper and Services
-    { GenerateOTP, HashSalt, GenerateRandom, PassCheck, FormDataBoolCheck } = require('../helper/service'),
+    { GenerateOTP, HashSalt, GenerateRandom, PassCheck, FormDataBoolCheck, NameWithoutExt } = require('../helper/service'),
     { signAccessToken, verifyAccessToken, signRefreshToken, verifyRefreshToken, decodeTrustedToken } = require('../helper/auth/JWT_service'),
     { ValidateGoogle, ValidateFacebook } = require('../helper/auth/OAuth_service'),
     { SendMail } = require('../helper/mail/config'),
@@ -58,8 +58,8 @@ Router.post("/login", async (req, res, next) => {
                 const accessToken = await signAccessToken(User)
                 const refreshToken = await signRefreshToken(User)
 
-                res.cookie('accessToken', accessToken, {...SecureCookieObj, maxAge: process.env.ACCESS_TOKEN_EXPIRE_IN})
-                res.cookie('refreshToken', refreshToken, {...SecureCookieObj, maxAge: process.env.REFRESH_TOKEN_EXPIRE_IN})
+                res.cookie('accessToken', accessToken, { ...SecureCookieObj, maxAge: process.env.ACCESS_TOKEN_EXPIRE_IN })
+                res.cookie('refreshToken', refreshToken, { ...SecureCookieObj, maxAge: process.env.REFRESH_TOKEN_EXPIRE_IN })
 
                 const PayLoad = decodeTrustedToken(accessToken)
 
@@ -156,7 +156,7 @@ Router.post("/register", (req, res, next) => {
                 const EncryptedCore = await HashSalt(process.env.DEFAULT_CREDIT)
                 Password = await HashSalt(Password)
                 new UserModel({
-                    FirstName, LastName, Email, Password, Phone, Address, State, Role, DealershipName, DealershipEmail, DealershipPhone, DealershipNZBN, 
+                    FirstName, LastName, Email, Password, Phone, Address, State, Role, DealershipName, DealershipEmail, DealershipPhone, DealershipNZBN,
                     SecretToken, EncryptedCore, GoogleID, FacebookID, Gender, DOB
                 })
                     .save()
@@ -181,8 +181,8 @@ Router.get('/refresh-token', verifyRefreshToken, async (req, res, next) => {
         let accessToken = await signAccessToken(req.payload)
         refreshToken = await signRefreshToken(req.payload)
 
-        res.cookie('accessToken', accessToken, {...SecureCookieObj, maxAge: process.env.ACCESS_TOKEN_EXPIRE_IN})
-        res.cookie('refreshToken', refreshToken, {...SecureCookieObj, maxAge: process.env.REFRESH_TOKEN_EXPIRE_IN})
+        res.cookie('accessToken', accessToken, { ...SecureCookieObj, maxAge: process.env.ACCESS_TOKEN_EXPIRE_IN })
+        res.cookie('refreshToken', refreshToken, { ...SecureCookieObj, maxAge: process.env.REFRESH_TOKEN_EXPIRE_IN })
 
         const PayLoad = decodeTrustedToken(accessToken)
 
@@ -346,11 +346,10 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
         Model = Model.toUpperCase()
 
         //Setting up the author
-        let Author = req.payload.aud,
-            TotalFrames = null;
+        let Author = req.payload.aud;
 
         const NewCar = new CarModel({
-            Author, Make, Model, ModelYear, Price, MinPrice, Featured, BodyType, DoorCount, SeatCount, Import, VINum, KMsDriven, Color, EngineSize, FuelType, SafetyStar, WOFExpiry, REGExpiry, DriveWheel4, ONRoadCost, Description, isNewCar, Dealer, TotalFrames, isExteriorVideo, Transmission, isExteriorSlider, is360Images
+            Author, Make, Model, ModelYear, Price, MinPrice, Featured, BodyType, DoorCount, SeatCount, Import, VINum, KMsDriven, Color, EngineSize, FuelType, SafetyStar, WOFExpiry, REGExpiry, DriveWheel4, ONRoadCost, Description, isNewCar, Dealer, Transmission
         })
 
         //Checking if Exterior Video is uploaded
@@ -368,17 +367,18 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
                         if (!err) {
                             fs.unlink(`./assets/uploads/cars/${VINum}/exterior360/${ExteriorVideoName}`, () => {
                                 //Checking if discrete images are not uploaded and if not then using video to make thumbnail
-                                if (!isExteriorSlider) {
-                                    [300, 30].map(async (size) => {
-                                        await sharp(`./assets/uploads/cars/${VINum}/exterior360/Photo_1.jpg`)
-                                            .resize(size, size)
-                                            .jpeg({ quality: 90 })
-                                            .toFile(`./assets/uploads/cars/${vinNum}/thumbnail/Photo${size}.jpg`);
-                                    })
+                                if (!FormDataBoolCheck(isExteriorSlider)) {
+                                    Promise.all(
+                                        [300, 30].map(async (size) => {
+                                            await sharp(`./assets/uploads/cars/${VINum}/exterior360/Photo_1.jpg`)
+                                                .resize(size, size)
+                                                .jpeg({ quality: 90 })
+                                                .toFile(`./assets/uploads/cars/${vinNum}/thumbnail/Photo${size}.jpg`);
+                                        })
+                                    )
                                 }
                                 //Minus 1 as it also counts the video in files.length
-                                NewCar.TotalFrames = files.length - 1
-                                NewCar.save()
+                                NewCar.ImageData.VideoFrames = files.length - 1
                             })
                         }
                     })
@@ -391,6 +391,19 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
         if (FormDataBoolCheck(is360Images)) {
             fs.readdir(`./assets/uploads/cars/${VINum}/interior360/`, (err, files) => {
                 files.forEach(async CurrentFile => {
+
+                    if (CurrentFile.includes('FRONT')) {
+                        NewCar.ImageData.InteriorFront = true
+                    }
+
+                    if (CurrentFile.includes('MIDDLE')) {
+                        NewCar.ImageData.InteriorMiddle = true
+                    }
+
+                    if (CurrentFile.includes('REAR')) {
+                        NewCar.ImageData.InteriorRear = true
+                    }
+
                     await sharp(`./assets/uploads/cars/${VINum}/interior360/${CurrentFile}`)
                         .resize(3200, 1600)
                         .jpeg({ quality: 100 })
@@ -402,10 +415,37 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
         }
 
         if (FormDataBoolCheck(isExteriorSlider)) {
+            NewCar.ImageData.SliderCount = req.ExteriorSliderCount
             //Compress Images Here
+            fs.readdir(`./assets/uploads/cars/${VINum}/exterior/`, (err, files) => {
+                files.forEach(async CurrentFile => {
+                    await sharp(`./assets/uploads/cars/${VINum}/exterior/${CurrentFile}`)
+                        .resize(3200, 1600)
+                        .jpeg({ quality: 90 })
+                        .toFile(`./assets/uploads/cars/${VINum}/exterior/${NameWithoutExt(CurrentFile)}.jpg`, () => {
+                            fs.unlink(`./assets/uploads/cars/${VINum}/exterior/${CurrentFile}`, () => {
+                                // Checking if Photo_1 is processed and then using it to create thumbnails
+                                if (NameWithoutExt(CurrentFile) === 'Photo_1') {
+                                    // Generating Thumbnails
+                                    Promise.all(
+                                        [300, 30].map(async (size) => {
+                                            await sharp(`./assets/uploads/cars/${VINum}/exterior/Photo_1.jpg`)
+                                                .resize(size, size)
+                                                .jpeg({ quality: 90 })
+                                                .toFile(`./assets/uploads/cars/${VINum}/thumbnail/Photo${size}.jpg`)
+                                        })
+                                    )
+                                }
+                            })
+                        })
+                })
+            })
         }
 
-        res.sendStatus(200)
+        // Saving The Car
+        NewCar.save(() => {
+            res.status(200).send('Car upload successful')
+        })
     } catch (error) {
         console.log(error)
         next(error)
