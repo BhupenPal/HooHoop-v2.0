@@ -21,7 +21,7 @@ import HappyCarIcon from "../../assets/img/svgs/Car.svg";
 import FileTextIcon from "../../assets/img/svgs/file-text.svg";
 import "../../assets/css/sellcarpage.scss";
 import SelectBox from "../../Components/Inputs/SelectBox.jsx";
-import axios from "../../axios";
+import axios from "../../utils/axios";
 import MakeModel from "../../assets/data/MakeModel";
 import RichTextEditor from "../../Components/Inputs/RichTextEditor.jsx";
 import FileInput from "../../Components/Inputs/FileInput.jsx";

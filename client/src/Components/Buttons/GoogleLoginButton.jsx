@@ -4,7 +4,7 @@ import GoogleLogin from "react-google-login";
 import { GoogleLoginService } from "../../services/OAuthLogin.js";
 import MoreDetailsDialog from "../Modals/MoreDetailsDialog.jsx";
 import styles from "../../assets/material/LoginResgister";
-import { socialLogin } from "../../actions/authActions.js";
+import { socialLogin } from "../../redux/actions/authActions.js";
 import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles(styles);

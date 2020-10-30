@@ -1,12 +1,17 @@
+// DEPENDENCIES
 import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
-
-import './assets/css/index.scss'
-import theme from './assets/material/theme'
 import { ThemeProvider } from '@material-ui/core'
 
+// STYLES & CSS
+import './assets/css/index.scss'
+import theme from './assets/material/theme'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
+
+// COMPONENTS & SCREENS
 import Header from './Components/Header.jsx'
 import Footer from './Components/Footer.jsx'
 import Home from './Screens/Main/Home.jsx'
@@ -21,19 +26,17 @@ import ContactUs from './Screens/Footer/ContactUs.jsx'
 import BuyCar from './Screens/Main/BuyCar.jsx'
 import SellCar from './Screens/Main/SellCar.jsx'
 import CarPage from './Screens/Main/CarPage.jsx'
-
-import CSRFtoken from './utils/CSRFTokenReq'
-import CheckLoginOnRender from './utils/CheckLoginOnRender'
-import PrivateRoute from './Components/private-route/PrivateRoute'
-import store from './store'
 import SideBar from './Components/Sidebar.jsx'
+
+// ERROR PAGES
 import Error404 from './Screens/Error Pages/Error404.jsx'
 import Error500 from './Screens/Error Pages/Error500.jsx'
-import ErrorBrokenLink from './Screens/Error Pages/ErrorBrokenLink.jsx'
 
-// Slick Carousel CSS
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
+// SERVICES & UTILS
+import CSRFtoken from './utils/CSRFTokenReq'
+import CheckLoginOnRender from './utils/CheckLoginOnRender'
+import PrivateRoute from './utils/PrivateRoute'
+import store from './redux/store'
 
 const App = () => {
 
@@ -60,9 +63,7 @@ const App = () => {
             <Route path='/contact-us' component={ContactUs} />
             <Route path='/buy-car' component={BuyCar} />
             <PrivateRoute path='/sell-car' component={SellCar} />
-            <Route path='/sellcar' component={SellCar} />
             <Route path='/car/:VINum' component={CarPage} />
-            <Route path='/400' component={ErrorBrokenLink} />
             <Route path='/500' component={Error500} />
             <Route component={Error404} />
           </Switch>

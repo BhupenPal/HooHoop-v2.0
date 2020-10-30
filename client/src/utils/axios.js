@@ -1,6 +1,6 @@
 import axios from 'axios'
-import store from './store'
-import { refreshUserToken } from './actions/authActions'
+import store from '../redux/store'
+import { refreshUserToken } from '../redux/actions/authActions'
 
 axios.interceptors.response.use(
 	(response) => {

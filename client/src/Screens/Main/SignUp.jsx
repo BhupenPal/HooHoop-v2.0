@@ -31,7 +31,7 @@ import GoogleLoginButton from "../../Components/Buttons/GoogleLoginButton.jsx";
 import FacebookLoginButton from "../../Components/Buttons/FacebookLoginButton.jsx";
 
 import {validateEmail,validPassword} from "../../utils/validations"
-import { registerUser } from "../../actions/authActions";
+import { registerUser } from "../../redux/actions/authActions";
 import {states} from "../../assets/data/states";
 
 

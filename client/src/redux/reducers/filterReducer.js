@@ -9,8 +9,8 @@ import {
   SET_FILTER_TRANSMISSION,
   SET_FILTER_COLOR,
 } from "../actions/types";
-import {bodyTypes,transmissionTypes,fuelTypes,colors} from "../assets/data/carTypes.js";
-import MakeModel from "../assets/data/MakeModel.js";
+import {bodyTypes,transmissionTypes,fuelTypes,colors} from "../../assets/data/carTypes.js";
+import MakeModel from "../../assets/data/MakeModel.js";
 
 const arrayToObject = (array) => {
     const obj = {};

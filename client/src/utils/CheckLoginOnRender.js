@@ -1,6 +1,6 @@
-import { refreshUserToken } from '../actions/authActions'
+import { refreshUserToken } from '../redux/actions/authActions'
 import { GetLSWithExpiry } from '../utils/validations'
-import store from '../store'
+import store from '../redux/store'
 
 const CheckLoginOnRender = () => {
 

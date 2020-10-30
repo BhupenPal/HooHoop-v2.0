@@ -1,4 +1,4 @@
-import Axios from "../axios";
+import Axios from "../utils/axios";
 
 export const getMyListing = async () => {
     let myListing = await Axios.get('/api/user/dashboard/listings');

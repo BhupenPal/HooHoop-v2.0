@@ -1,4 +1,4 @@
-import axios from '../axios'
+import axios from '../utils/axios'
 
 const GoogleLoginService = async tokenId => {
     return axios.post('/api/user/googlelogin', { tokenId })

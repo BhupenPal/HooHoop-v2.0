@@ -34,7 +34,7 @@ import {
   setFilterBodyType,
   setFilterTransmission,
   setFilterColor,
-} from "../actions/filterActions.js";
+} from "../redux/actions/filterActions.js";
 import { FilterList } from "@material-ui/icons";
 import SearchBox from "./Inputs/SearchBox.jsx";
 import { useLocation } from "react-router-dom";

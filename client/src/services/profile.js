@@ -1,4 +1,4 @@
-import axios from '../axios'
+import axios from '../utils/axios'
 
 const FetchProfile = async () => {
 	let Profile = (await axios.get('/api/user/dashboard/profile')).data

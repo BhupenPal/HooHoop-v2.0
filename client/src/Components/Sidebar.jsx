@@ -34,7 +34,7 @@ import { useEffect } from "react";
 import { Box } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import OutsideAlerter from "../Hooks/OutsideAlerter.js";
-import { logoutUser } from "../actions/authActions";
+import { logoutUser } from "../redux/actions/authActions";
 
 
 const useStyles = makeStyles((theme) => ({

@@ -20,7 +20,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { registerUser } from "../../actions/authActions";
+import { registerUser } from "../../redux/actions/authActions";
 import { states } from "../../assets/data/states";
 import styles from "../../assets/material/LoginResgister";
 import { validateEmail, validPassword } from "../../utils/validations";

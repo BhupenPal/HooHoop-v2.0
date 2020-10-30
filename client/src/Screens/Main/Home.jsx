@@ -5,21 +5,16 @@ import {
   Typography,
   Tabs,
   Tab,
-  Button,
-  TextField,
-  IconButton,
+  Button
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
 import Slider from "react-slick";
-import axios from "../../axios";
+import axios from "../../utils/axios";
 import { Link } from "react-router-dom";
 
 // Styles
 import styles from "../../assets/material/Home";
-
-// Icons
-import SearchIcon from "@material-ui/icons/Search";
 
 // Images
 import Toyota from "../../assets/img/Home/Banner/toyota.jpg";

@@ -1,6 +1,6 @@
-import axios from '../axios'
+import axios from '../../utils/axios'
 import { returnErrors } from './errorActions'
-import { SetLSWithExpiry } from '../utils/validations'
+import { SetLSWithExpiry } from '../../utils/validations'
 
 import {
 	USER_LOADING,
