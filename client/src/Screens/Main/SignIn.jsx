@@ -43,20 +43,27 @@ const SignIn = () => {
   const [errorMessage,setErrorMessage] = useState("");
   const [activationSuccess,setActivationSuccess] = useState(false);
   const auth = useSelector((store) => store.auth);
+  const crsf = useSelector((store) => store.crsf);
+
   const dispatch = useDispatch();
   // const [showGoogleDialog,setGoogleDialog] = useState(false);
   // const [showFacebookDialog,setFacebookDialog] = useState(false);
   // const [socialLoginResult,setSocialLoginResult] = useState(null);
   const classes  = useStyles();
-const history = useHistory();
- 
-  useEffect(() => {
-    if(query.get("token")){
-      activateEmail(query.get("token"))
-      .then(res => {
-        setActivationSuccess(true)
+  const history = useHistory();
+ useEffect(() => {
+   console.log(crsf)
+  if(crsf.crsfAvailable){
+    if(query.get('token')){
+      activateEmail(query.get('token'))
+      .then(() => {
+        setActivationSuccess(true);
       })
     }
+  }
+ },[crsf.crsfAvailable])
+  useEffect(() => {
+    
     if (auth.isAuthenticated) {
       history.push("/user/dashboard");
     }
@@ -81,14 +88,12 @@ const history = useHistory();
   };
   const hideSuccess = () => {
     setActivationSuccess(false);
-
   }
   const handleChange = (e) => {
     const isCheckbox = e.target.type === "checkbox";
     setUser({
       ...user,
       [e.target.name]: isCheckbox ? e.target.checked : e.target.value,
-  
     });
   };
 

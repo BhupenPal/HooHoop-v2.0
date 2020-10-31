@@ -30,6 +30,7 @@ import { postSellCar } from "../../services/sellCar.js";
 import ErrorSnackBar from "../../Components/OpenSnackBar.jsx";
 import { DropzoneDialog } from "material-ui-dropzone";
 import MultiFileInput from "../../Components/MultiFileInput.jsx";
+import { colors } from "../../assets/data/carTypes";
 
 const SellCar = (props) => {
   const { classes } = props;
@@ -62,6 +63,7 @@ const SellCar = (props) => {
     InteriorRear: null,
     InteriorMiddle: null,
   });
+  
   const [dataobject, changedata] = useState({
     Make: "",
     Model: "",
