@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt')
 
 module.exports = {
   GenerateOTP: () => {
+    // Generates a 6 (six) digit code
     return Math.floor(100000 + Math.random() * 900000);
   },
 

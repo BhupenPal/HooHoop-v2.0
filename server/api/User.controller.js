@@ -153,7 +153,7 @@ Router.post("/register", (req, res, next) => {
             if (doc) return next(createError.Conflict('Email already exists'))
             UserModel.findOne({ Phone }, async (err, doc) => {
                 if (doc) return next(createError.Conflict('Phone number already exists'))
-                const SecretToken = GenerateOTP(6)
+                const SecretToken = GenerateOTP()
                 const EncryptedCore = await HashSalt(process.env.DEFAULT_CREDIT)
                 Password = await HashSalt(Password)
                 new UserModel({
@@ -205,6 +205,25 @@ Router.delete('/logout', verifyRefreshToken, async (req, res, next) => {
             }
             res.sendStatus(204)
         })
+    } catch (error) {
+        console.log(error.message)
+        next(error)
+    }
+})
+
+Router.patch('/genmailotp', async (req, res, next) => {
+    try {
+        const SecretToken = GenerateOTP()
+        UserModel.findOne({ Email: req.body.Email }, '-LastName -Password -GoogleID -FacebookID -Gender -Role -isDeleted -EncryptedCore -updatedAt -PassResetToken')
+            .then(user => {
+                if (!user) return next(createError.NotFound('No matching email found'))
+                user.SecretToken = SecretToken
+                user.save()
+                    .then(User => {
+                        SendMail(User.Email, 'HooHoop Account Activation Email', AccActivationMail(User.FirstName, SecretToken))
+                        res.sendStatus(200)
+                    })
+            })
     } catch (error) {
         console.log(error.message)
         next(error)
