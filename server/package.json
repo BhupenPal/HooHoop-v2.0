@@ -12,6 +12,7 @@
   "author": "Bhupen Pal",
   "license": "UNLICENSED",
   "dependencies": {
+    "aws-sdk": "^2.783.0",
     "axios": "^0.20.0",
     "bcrypt": "^5.0.0",
     "compression": "^1.7.4",

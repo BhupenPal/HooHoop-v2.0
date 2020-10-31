@@ -23,6 +23,7 @@ const express = require("express"),
     { SendSMS } = require('../helper/sms/config'),
     { PhoneVerification } = require("../helper/sms/content"),
     { SecureCookieObj } = require('../helper/auth/CSRF_service'),
+    { uploadFolder } = require('../helper/DigitalOcean/spaces'),
 
     //Car media upload manager
     CarUpload = require('../helper/upload manager/carupload'),
@@ -442,10 +443,9 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
             })
         }
 
+        uploadFolder(`assets/uploads/cars/${VINum}`, `HooHoop/uploads/cars/${VINum}`)
         // Saving The Car
-        NewCar.save(() => {
-            res.status(200).send('Car upload successful')
-        })
+        NewCar.save(() => res.status(200).send('Car upload successful'))
     } catch (error) {
         console.log(error)
         next(error)
