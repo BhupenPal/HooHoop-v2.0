@@ -37,6 +37,7 @@ import CSRFtoken from './utils/CSRFTokenReq'
 import CheckLoginOnRender from './utils/CheckLoginOnRender'
 import PrivateRoute from './utils/PrivateRoute'
 import store from './redux/store'
+import CheckAuth from './HOC/CheckAuth'
 
 const App = () => {
 
@@ -54,7 +55,7 @@ const App = () => {
             <Route path='/' exact component={Home} />
             <Route path='/login' component={SignIn} />
             <Route path='/register/:dealer?' component={SignUp} />
-            <PrivateRoute path='/user' component={SideBar} />
+            <Route path='/user' component={CheckAuth(SideBar)} />
             <Route path='/privacy-policy' component={PrivacyPolicy} />
             <Route path='/terms-and-conditions' component={TermsConditions} />
             <Route path='/about-us' component={AboutUs} />
@@ -62,7 +63,7 @@ const App = () => {
             <Route path='/cancellation-policy' component={CancellationPolicy} />
             <Route path='/contact-us' component={ContactUs} />
             <Route path='/buy-car' component={BuyCar} />
-            <PrivateRoute path='/sell-car' component={SellCar} />
+            <Route path='/sell-car' component={CheckAuth(SellCar)} />
             <Route path='/car/:VINum' component={CarPage} />
             <Route path='/500' component={Error500} />
             <Route component={Error404} />

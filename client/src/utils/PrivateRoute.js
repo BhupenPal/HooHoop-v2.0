@@ -2,13 +2,15 @@ import React from "react"
 import { Route, Redirect } from "react-router-dom"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
+import { GetLSWithExpiry } from "./validations"
 
 const PrivateRoute = ({ component: Component, auth, path, ...rest }) => {
+
   return (
     <Route
       {...rest}
       render={props =>
-        auth.isAuthenticated === true
+        GetLSWithExpiry('isAuthenticated')
           ?
           <Route path={path} component={() => <Component {...props} />} />
           :
