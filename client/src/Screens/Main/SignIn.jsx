@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import compose from "recompose/compose";
-import PropTypes from "prop-types";
-import { connect, useDispatch, useSelector } from "react-redux";
+
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../redux/actions/authActions";
 import {
   Grid,
@@ -18,14 +17,19 @@ import {
   Snackbar,
 } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory, useLocation } from "react-router-dom";
 import styles from "../../assets/material/LoginResgister";
 import { Alert } from "@material-ui/lab";
 import GoogleLoginButton from "../../Components/Buttons/GoogleLoginButton.jsx";
 import FacebookLoginButton from "../../Components/Buttons/FacebookLoginButton.jsx";
 import { useState } from "react";
 import { useEffect } from "react";
+import { activateEmail } from "../../services/emailVerifications";
 const useStyles = makeStyles(styles)
+
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 const SignIn = () => {
   const [user,setUser] = useState({
     Email:"",
@@ -33,8 +37,11 @@ const SignIn = () => {
     Remember:false
   })
   // const [Errors,setErrors] = useState(null);
+  const query = useQuery()
+
   const [loginError,setLoginError] = useState(false);
   const [errorMessage,setErrorMessage] = useState("");
+  const [activationSuccess,setActivationSuccess] = useState(false);
   const auth = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   // const [showGoogleDialog,setGoogleDialog] = useState(false);
@@ -42,12 +49,28 @@ const SignIn = () => {
   // const [socialLoginResult,setSocialLoginResult] = useState(null);
   const classes  = useStyles();
 const history = useHistory();
+ 
   useEffect(() => {
+    if(query.get("token")){
+      activateEmail(query.get("token"))
+      .then(res => {
+        setActivationSuccess(true)
+      })
+    }
     if (auth.isAuthenticated) {
       history.push("/user/dashboard");
     }
   }, [])
-
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      history.push("/user/dashboard");
+    }
+    // if (nextProps.errors) {
+    //   this.setState({
+    //     Errors: nextProps.errors,
+    //   });
+    // }
+  })
   const showError = (message) => {
     setLoginError(true);
     setErrorMessage(message)
@@ -56,6 +79,10 @@ const history = useHistory();
     setLoginError(false);
     setErrorMessage("");
   };
+  const hideSuccess = () => {
+    setActivationSuccess(false);
+
+  }
   const handleChange = (e) => {
     const isCheckbox = e.target.type === "checkbox";
     setUser({
@@ -80,7 +107,7 @@ const history = useHistory();
   const handleRedirect = (e, value) => {
     !value
       ? history.push("/register")
-      : push("/login");
+      : history.push("/login");
   };
 
   return (
@@ -194,6 +221,15 @@ const history = useHistory();
               >
                 <Alert onClose={hideError} severity="error">
                   {errorMessage}
+                </Alert>
+              </Snackbar>
+              <Snackbar
+                open={activationSuccess}
+                autoHideDuration={6000}
+                onClose={hideSuccess}
+              >
+                <Alert onClose={hideSuccess} severity="success">
+                  {"Email Activated Successfully"}
                 </Alert>
               </Snackbar>
             </Grid>

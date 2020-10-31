@@ -141,6 +141,7 @@ function SideBar(props) {
   };
   const handleLogout = () => {
     dispatch(logoutUser());
+    history.push("/login")
   }
   const drawer = () => (
     <div>
