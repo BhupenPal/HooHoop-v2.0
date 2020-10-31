@@ -87,7 +87,14 @@ const SellCar = (props) => {
     ExteriorSlider: null,
     ExteriorVideo: null,
   });
+  const [modelOptions, setModels] = useState([]);
   const [loader, setLoader] = useState(false);
+
+  useEffect(() => {
+    setModels(
+      MakeModel.find(({ Make }) => Make === dataobject.Make)?.Models || []
+    );
+  }, [dataobject.Make]);
   const handleVideoUpload = (e) => {
     // if(e.target && e.target.files)
     const files = e.target.files;
@@ -100,7 +107,6 @@ const SellCar = (props) => {
         window.URL.revokeObjectURL(video.src);
         var duration = video.duration;
         if (duration > 40) {
-          console.log("hi");
           changedata({ ...dataobject, ExteriorVideo: null });
           setError("Video must be less than 40 sec");
           setSnackBar(true);
@@ -113,7 +119,6 @@ const SellCar = (props) => {
     }
   };
   const handleFileUpload = (e) => {
-    console.log(e.target.files[0]);
     setPreview({
       ...preview,
       [e.target.name]: URL.createObjectURL(e.target.files[0]),
@@ -121,11 +126,16 @@ const SellCar = (props) => {
     changedata({ ...dataobject, [e.target.name]: e.target.files });
   };
   const handleMultiFileUpload = (files) => {
-    console.log(files);
+   
     changedata({ ...dataobject, ExteriorSlider: files });
   };
+  
+  const handleSelectChange = (name,value) => {
+   // console.log(e.target);
+ changedata({ ...dataobject, [name]: value });
+};
   const handleChange = (e) => {
-    //   console.log(e.target);
+      
     changedata({ ...dataobject, [e.target.name]: e.target.value });
   };
 
@@ -145,7 +155,7 @@ const SellCar = (props) => {
     changedata({ ...dataobject, Description: content });
   };
   useEffect(() => {
-    console.log(dataobject);
+  
   }, [dataobject]);
 
   const FetchJam = () => {
@@ -153,7 +163,6 @@ const SellCar = (props) => {
     axios
       .get(`/api/user/car-data-fetch/${platenum}`)
       .then((res) => {
-        console.log(res.data);
         document.querySelector("#Make").textContent = res.data.make;
         document.querySelector("#ModelYear").textContent =
           res.data.year_of_manufacture;
@@ -168,7 +177,7 @@ const SellCar = (props) => {
         document.querySelector("#PlateNumber").textContent = res.data.plate;
         document.querySelector("#Chassis").textContent = res.data.chassis;
         document.querySelector("#Seats").textContent = res.data.no_of_seats;
-        console.log(res.data);
+        
         dataarray.push(res.data);
         changedata({
           ...dataobject,
@@ -269,8 +278,7 @@ const SellCar = (props) => {
   const handleSubmit = () => {
     console.log(dataobject);
     if (validateForm()) {
-    setLoader(true);
-
+      setLoader(true);
       postSellCar(dataobject)
         .then(() => {
           setSuccess(true);
@@ -435,7 +443,8 @@ const SellCar = (props) => {
               </Typography>
               <div className="BasicDetails_form">
                 <SelectBox
-                  handleChange={handleChange}
+                  handleChange={handleSelectChange}
+                  type="autocomplete"
                   name={"Make"}
                   data={MakeModel.map(({ Make }) => Make) || []}
                   value={dataobject.Make}
@@ -444,13 +453,12 @@ const SellCar = (props) => {
                   error={showErrors && dataobject.Make.length <= 0}
                 />
                 <SelectBox
-                  handleChange={handleChange}
+                  handleChange={handleSelectChange}
                   name={"Model"}
+                  type="autocomplete"
+
                   required
-                  data={
-                    MakeModel.find(({ Make }) => Make === dataobject.Make)
-                      ?.Models || []
-                  }
+                  data={modelOptions}
                   value={dataobject.Model}
                   error={showErrors && dataobject.Model.length <= 0}
                   Label="Model"
@@ -465,8 +473,10 @@ const SellCar = (props) => {
                   Label="Model Year"
                 />
                 <SelectBox
-                  handleChange={handleChange}
+                  handleChange={handleSelectChange}
                   name={"BodyType"}
+                  type="autocomplete"
+
                   data={bodyTypes}
                   value={dataobject.BodyType}
                   required={true}
@@ -474,8 +484,10 @@ const SellCar = (props) => {
                   Label="Body Type"
                 />
                 <SelectBox
-                  handleChange={handleChange}
+                  handleChange={handleSelectChange}
                   name={"Transmission"}
+                  type="autocomplete"
+
                   data={transmissionTypes}
                   value={dataobject.Transmission}
                   required={true}
@@ -492,9 +504,11 @@ const SellCar = (props) => {
                   label="Engine Size"
                 />
                 <SelectBox
-                  handleChange={handleChange}
+                  handleChange={handleSelectChange}
                   name={"FuelType"}
                   data={fuelTypes}
+                  type="autocomplete"
+
                   value={dataobject.FuelType}
                   required={true}
                   error={showErrors && dataobject.FuelType.length <= 0}
@@ -542,7 +556,7 @@ const SellCar = (props) => {
                   value={dataobject.DoorCount}
                   required={true}
                   Label="Number of doors"
-                  error={showErrors && dataobject.DoorCount <= 0}
+                  error={showErrors && dataobject.DoorCount.length <= 0}
                 />
               </div>
             </div>
@@ -558,6 +572,7 @@ const SellCar = (props) => {
               />
 
               <SelectBox
+              
                 handleChange={handleChange}
                 name={"ImportHistory"}
                 data={["Don't Know", "Imported"]}

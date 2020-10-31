@@ -3,17 +3,18 @@ import axios from "../utils/axios";
 export const fetchCar = async (id) => {
   const res = await axios.get(`/api/car/${id}`);
   const car = res.data;
+  console.log(car)
   return {
     Featured: {
       value: car.Featured?.value,
       Time: car.Featured?.Time,
     },
     Dealer: {
-      value: car.Dealer.value,
-      Name: car.Dealer.Name,
-      Phone: car.Dealer.Phone,
-      Email: car.Dealer.Email,
-      Location: car.Dealer.Location,
+      value: car.Dealer?.value,
+      Name: car.Dealer?.Name,
+      Phone: car.Dealer?.Phone,
+      Email: car.Dealer?.Email,
+      Location: car.Dealer?.Location,
     },
     FuelStar: car.FuelStar,
     SafetyStar: car.SafetyStar,
@@ -27,7 +28,7 @@ export const fetchCar = async (id) => {
     Model: car.Model,
     ModelYear: car.ModelYear,
     Price: car.Price,
-    MinPrice: car.MinPrice,
+    MinPrice: car.MinPrice, 
     BodyType: car.BodyType,
     DoorCount: car.DoorCount,
     SeatCount: car.SeatCount,
