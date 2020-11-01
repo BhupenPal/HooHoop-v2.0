@@ -1,15 +1,15 @@
-import { CRSF_TOKEN_FETCHED } from "../actions/types";
+import { CSRF_TOKEN_FETCHED } from "../actions/types";
 
 const initialState = {
-  crsfAvailable: false,
+  csrfAvailable: false,
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case CRSF_TOKEN_FETCHED:
+    case CSRF_TOKEN_FETCHED:
       return {
         ...state,
-        crsfAvailable: true,
+        csrfAvailable: true,
       };
     default:
       return state;
