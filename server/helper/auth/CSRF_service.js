@@ -6,17 +6,17 @@ module.exports = {
         cookie: {
             key: 'X-CSRF-Token',
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'PROD',
-            sameSite: process.env.NODE_ENV === 'PROD'
+            secure: process.env.COOKIE_MODE === 'PROD',
+            sameSite: process.env.COOKIE_MODE === 'PROD'
         }
     }),
 
     // For making AUTH Cookies (mainly) secure
     SecureCookieObj: {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'PROD',
-        sameSite: process.env.NODE_ENV === 'PROD',
-        signed: process.env.NODE_ENV === 'PROD'
+        secure: process.env.COOKIE_MODE === 'PROD',
+        sameSite: process.env.COOKIE_MODE === 'PROD',
+        signed: process.env.COOKIE_MODE === 'PROD'
     }
 
 }
