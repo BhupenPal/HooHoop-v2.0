@@ -97,52 +97,83 @@ const Header = () => {
           </Box>
         </Fragment>
       );
+    }else{
+     return ( <Box display={{ md: "block" }}>
+      <NavLink to="/user/dashboard">
+        <Button color="inherit" className={classes.OptButton}>
+          Profile
+        </Button>
+      </NavLink>
+    </Box>
+     )
     }
   };
+  const renderSideBarToggler = () => {
+    if(auth.isAuthenticated && window.location.pathname.includes("/user/")){
+    return (
+      <Box
+      display={{ xs: "block", md: "none" }}
+      onClick={handleSideBarToggle}
+      >
+        <img src={ToggleIcon} alt="" />
+      </Box>
+      )
+    }
+    }
   return (
     <AppBar
       position="static"
       style={{ backgroundColor: "#fff", position: "relative", zIndex: 200 }}
     >
       <Toolbar className={classes.HeaderStyle}>
+        <Box display={{ sm: "block", md:"flex"}} style={{width:"100%"}} justifyContent="space-between">
+        <Box display={{ xs: "flex" }} alignItems="center" justifyContent="center" style={{paddingTop:"1rem"}}>
+        {renderSideBarToggler()}
         <Box
-          display={{ xs: "inline", md: "none" }}
-          onClick={handleSideBarToggle}
+          display={{ xs: "block" }}
+          flex={1}
         >
-          <img src={ToggleIcon} alt="" />
-        </Box>
-        <Box>
         <Link to="/">
           <img src={Logo} alt="Hoohoop Logo" className={classes.HeaderLogo} />
         </Link>
         </Box>
-        <Box display={{xs:"flex"}} style={{alignItems:"center",flex:1,padding:"0 100px"}} className="header-options">
-        <Box display={{ xs: "none", md: "block" }}  style={{flex:1,margin:"0 5rem"}}>
+        </Box>
+        <Box display={{xs:"block",md:"flex"}} className="header-options">
+        <Box>
+        <Box display={{ md: "block" }}  style={{flex:1,margin:"0 5rem"}}>
           {renderSearchBox()}
         </Box>
-          <Box display={{ xs: "none", md: "block" }}>
+        </Box>
+        <Box display={{ xs: "flex" }} style={{padding:"1rem 0"}} justifyContent="center">
+
+          <Box display={{  md: "block" }}>
             <NavLink to="/">
               <Button color="inherit" className={classes.OptButton}>
                 Home
               </Button>
             </NavLink>
           </Box>
-          <Box display={{ xs: "none", md: "block" }}>
+          <Box display={{ md: "block" }}>
             <NavLink to="/buy-car">
               <Button color="inherit" className={classes.OptButton}>
                 Buy
               </Button>
             </NavLink>
           </Box>
-          <Box display={{ xs: "none", md: "block" }}>
+          <Box display={{  md: "block" }}>
             <NavLink to="/sell-car">
               <Button color="inherit" className={classes.OptButton}>
                 Sell
               </Button>
             </NavLink>
           </Box>
+
           {renderAuthButtons()}
         </Box>
+
+        </Box>
+        </Box>
+
       </Toolbar>
     </AppBar>
   );

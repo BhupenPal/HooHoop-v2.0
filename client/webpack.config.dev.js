@@ -12,7 +12,7 @@ process.env.NODE_ENV = 'development'
 
 // Set the path parameter in the dotenv config
 const fileEnv = dotenv.config({
-  path: '../server/config/.env'
+  path: './.env'
 }).parsed;
   
 // reduce it to a nice object, the same as before (but with the variables from the file)
