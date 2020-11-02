@@ -7,7 +7,7 @@
   "scripts": {
     "start_redis": "redis-server --daemonize yes",
     "start": "concurrently -n 'redis,dev' 'npm run start_redis' 'nodemon index.js'",
-    "build": "concurrently -n 'redis,production' 'npm run start_redis' 'node index.js'"
+    "build": "concurrently -n 'redis,production' 'npm run start_redis' 'nodemon index.js'"
   },
   "author": "Bhupen Pal",
   "license": "UNLICENSED",
