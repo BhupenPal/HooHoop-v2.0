@@ -62,7 +62,14 @@ html, body {
     }
 }
 .header-options {
-
+    align-items: center;
+    flex:1;
+ //   padding:0 100px;
+    justify-content:flex-end;
+    @media (max-width:720px) {
+    padding:0;
+        
+    }
 }
 .primary-bg {
     background-color: $primary-gradient ;
