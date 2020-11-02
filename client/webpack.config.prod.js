@@ -4,6 +4,22 @@ const webpack = require('webpack'),
   { CleanWebpackPlugin } = require('clean-webpack-plugin'),
   MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+  const dotenv = require('dotenv')
+
+  // For React Fast Refresh
+  process.env.NODE_ENV = 'development'
+  
+  // Set the path parameter in the dotenv config
+  const fileEnv = dotenv.config({
+    path: './.env'
+  }).parsed;
+    
+  // reduce it to a nice object, the same as before (but with the variables from the file)
+  const envKeys = Object.keys(fileEnv).reduce((prev, next) => {
+    prev[`process.env.${next}`] = JSON.stringify(fileEnv[next]);
+    return prev;
+  }, {});
+  
 module.exports = {
   mode: 'production',
   entry: {
@@ -44,6 +60,7 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin(),
     new CleanWebpackPlugin(),
+    new webpack.DefinePlugin(envKeys),
     new HTMLWebpackPlugin({
       filename: 'index.html',
       favicon: "./src/assets/img/favicon.ico",
