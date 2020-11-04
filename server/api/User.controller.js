@@ -23,7 +23,7 @@ const express = require("express"),
     { SendSMS } = require('../helper/sms/config'),
     { PhoneVerification } = require("../helper/sms/content"),
     { SecureCookieObj } = require('../helper/auth/CSRF_service'),
-    { uploadFolder } = require('../helper/DigitalOcean/spaces'),
+    { uploadFolder, uploadFile } = require('../helper/DigitalOcean/spaces'),
 
     //Car media upload manager
     CarUpload = require('../helper/upload manager/carupload'),
@@ -358,7 +358,7 @@ Router.get('/car-data-fetch/:CarPlate', verifyAccessToken, async (req, res, next
 Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpload, (req, res, next) => {
     try {
         // FormData can only store USVString or Blobs, .'. no Booleans
-        let { Make, Model, ModelYear, Price, MinPrice, Featured, BodyType, DoorCount, SeatCount, Import, VINum, KMsDriven, Color, EngineSize, FuelType, SafetyStar, WOFExpiry, REGExpiry, DriveWheel4, ONRoadCost, Description, isNewCar, Dealer, isExteriorVideo, isExteriorSlider, is360Images, Transmission } = req.body;
+        let { Make, Model, ModelYear, Price, MinPrice, Featured, BodyType, DoorCount, SeatCount, Import, VINum, KMsDriven, Color, EngineSize, FuelType, SafetyStar, WOFExpiry, REGExpiry, DriveWheel4, ONRoadCost, Description, isNewCar, Dealer, isExteriorVideo, isExteriorSlider, is360Images, Transmission } = req.body
 
         // Manipulating Data
         VINum = VINum.toUpperCase()
@@ -386,14 +386,18 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
                     }, (err, files) => {
                         if (!err) {
                             fs.unlink(`./assets/uploads/cars/${VINum}/exterior360/${ExteriorVideoName}`, () => {
+                                // Uploading Entire Frame Folder to Digital Ocean
+                                uploadFolder(`assets/uploads/cars/${VINum}/exterior360`, `uploads/cars/${VINum}/exterior360`)
                                 //Checking if discrete images are not uploaded and if not then using video to make thumbnail
                                 if (!FormDataBoolCheck(isExteriorSlider)) {
                                     Promise.all(
                                         [300, 30].map(async (size) => {
-                                            await sharp(`./assets/uploads/cars/${VINum}/exterior360/Photo_1.jpg`)
+                                            sharp(`./assets/uploads/cars/${VINum}/exterior360/Photo_1.jpg`)
                                                 .resize(size, size)
                                                 .jpeg({ quality: 90 })
-                                                .toFile(`./assets/uploads/cars/${vinNum}/thumbnail/Photo${size}.jpg`);
+                                                .toFile(`./assets/uploads/cars/${vinNum}/thumbnail/Photo${size}.jpg`, () => {
+                                                    uploadFile(`assets/uploads/cars/${VINum}/thumbnail`, `Photo${size}.jpg`, `uploads/cars/${VINum}/thumbnail`);
+                                                })
                                         })
                                     )
                                 }
@@ -425,11 +429,11 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
                     }
 
                     await sharp(`./assets/uploads/cars/${VINum}/interior360/${CurrentFile}`)
-                        .resize(3200, 1600)
-                        .jpeg({ quality: 100 })
-                        .toFile(`./assets/uploads/cars/${VINum}/interior360/${CurrentFile.toLowerCase()}`, () => {
-                            fs.unlinkSync(`./assets/uploads/cars/${VINum}/interior360/${CurrentFile}`)
-                        })
+                    .resize(3200, 1600)
+                    .jpeg({ quality: 100 })
+                    .toFile(`./assets/uploads/cars/${VINum}/interior360/${CurrentFile.toLowerCase()}`, () => {
+                        uploadFile(`assets/uploads/cars/${VINum}/interior360`, `${CurrentFile.toLowerCase()}`, `uploads/cars/${VINum}/interior360`)
+                    })
                 })
             })
         }
@@ -443,6 +447,7 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
                         .resize(3200, 1600)
                         .jpeg({ quality: 90 })
                         .toFile(`./assets/uploads/cars/${VINum}/exterior/${NameWithoutExt(CurrentFile)}.jpg`, () => {
+                            uploadFile(`assets/uploads/cars/${VINum}/exterior`, `${NameWithoutExt(CurrentFile)}.jpg`, `uploads/cars/${VINum}/exterior`)
                             fs.unlink(`./assets/uploads/cars/${VINum}/exterior/${CurrentFile}`, () => {
                                 // Checking if Photo_1 is processed and then using it to create thumbnails
                                 if (NameWithoutExt(CurrentFile) === 'Photo_1') {
@@ -452,7 +457,9 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
                                             await sharp(`./assets/uploads/cars/${VINum}/exterior/Photo_1.jpg`)
                                                 .resize(size, size)
                                                 .jpeg({ quality: 90 })
-                                                .toFile(`./assets/uploads/cars/${VINum}/thumbnail/Photo${size}.jpg`)
+                                                .toFile(`./assets/uploads/cars/${VINum}/thumbnail/Photo${size}.jpg`, () => {
+                                                    uploadFile(`assets/uploads/cars/${VINum}/thumbnail`, `Photo${size}.jpg`, `uploads/cars/${VINum}/thumbnail`)
+                                                })
                                         })
                                     )
                                 }
@@ -462,7 +469,6 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
             })
         }
 
-        uploadFolder(`assets/uploads/cars/${VINum}`, `HooHoop/uploads/cars/${VINum}`)
         // Saving The Car
         NewCar.save(() => res.status(200).send('Car upload successful'))
     } catch (error) {

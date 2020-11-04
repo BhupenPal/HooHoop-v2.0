@@ -18,7 +18,11 @@ require('dotenv').config({
 	path: './config/.env'
 })
 
+// Initializing Database
 require('./config/database')
+
+// Initializing Cron Jobs
+require('./helper/CronJobs')
 
 // DEV and PRODCTION HANDLER
 if (process.env.NODE_ENV === 'DEV') {

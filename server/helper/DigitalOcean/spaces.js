@@ -29,13 +29,23 @@ module.exports = {
 			})
 		}
 
-		walkSync(fromPath, function (filePath, stat) {
-			let bucketPath = toPath + '/' + filePath.substring(fromPath.length + 1)
+		walkSync(fromPath, filePath => {
+			let bucketPath = 'HooHoop' + '/' + toPath + '/' + filePath.substring(fromPath.length + 1)
 			params.Body = fs.readFileSync(filePath)
 			params.Key = bucketPath
 			s3.putObject(params, function (err, data) {
 				if (err) console.log(err)
 			})
+		})
+	},
+
+	uploadFile: (fromPath, fileName, toPath) => {
+		var filePath = path.join(fromPath, fileName)
+		let bucketPath = 'HooHoop' + '/' + toPath + '/' + fileName
+		params.Body = fs.readFileSync(filePath)
+		params.Key = bucketPath
+		s3.putObject(params, function (err, data) {
+			if (err) console.log(err)
 		})
 	}
 }
