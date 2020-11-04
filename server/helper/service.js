@@ -1,4 +1,5 @@
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt'),
+  fs = require('fs')
 
 module.exports = {
   GenerateOTP: () => {
@@ -54,5 +55,11 @@ module.exports = {
   NameWithoutExt: FileName => {
     const LastDot = FileName.lastIndexOf(".")
     return LastDot === -1 ? FileName : FileName.substr(0, LastDot)
+  },
+
+  RemoveDir: path => {
+    fs.rmdir(path, { recursive: true }, err => {
+      if (err) console.error(err)
+    })
   }
 }

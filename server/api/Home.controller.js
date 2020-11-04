@@ -134,7 +134,7 @@ Router.get('/', (req, res, next) => {
 })
 
 Router.get('/csrf-token', csrfProtection, (req, res, next) => {
-    res.cookie('X-XSRF-Token', req.csrfToken(), { sameSite: true, secure: process.env.NODE_ENV === 'PROD' })
+    res.cookie('X-XSRF-Token', req.csrfToken(), { sameSite: true, secure: process.env.COOKIE_MODE === 'PROD' })
     res.sendStatus(200)
 })
 

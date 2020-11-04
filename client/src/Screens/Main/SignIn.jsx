@@ -43,7 +43,7 @@ const SignIn = () => {
   const [errorMessage,setErrorMessage] = useState("");
   const [activationSuccess,setActivationSuccess] = useState(false);
   const auth = useSelector((store) => store.auth);
-  const crsf = useSelector((store) => store.crsf);
+  const csrf = useSelector((store) => store.csrf);
 
   const dispatch = useDispatch();
   // const [showGoogleDialog,setGoogleDialog] = useState(false);
@@ -52,8 +52,8 @@ const SignIn = () => {
   const classes  = useStyles();
   const history = useHistory();
  useEffect(() => {
-   console.log(crsf)
-  if(crsf.crsfAvailable){
+   console.log(csrf)
+  if(csrf.csrfAvailable){
     if(query.get('token')){
       activateEmail(query.get('token'))
       .then(() => {
@@ -61,7 +61,7 @@ const SignIn = () => {
       })
     }
   }
- },[crsf.crsfAvailable])
+ },[csrf.csrfAvailable])
   useEffect(() => {
     
     if (auth.isAuthenticated) {

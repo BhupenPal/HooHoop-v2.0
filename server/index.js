@@ -18,7 +18,11 @@ require('dotenv').config({
 	path: './config/.env'
 })
 
+// Initializing Database
 require('./config/database')
+
+// Initializing Cron Jobs
+require('./helper/CronJobs')
 
 // DEV and PRODCTION HANDLER
 if (process.env.NODE_ENV === 'DEV') {
@@ -30,20 +34,20 @@ if (process.env.NODE_ENV === 'DEV') {
 	)
 }
 
-if (process.env.NODE_ENV === 'PROD') {
-	const { resolve } = require('path')
-	app.use(express.static(resolve(__dirname, '..', 'dist')))
-	app.use('*', (req, res) => {
-		res.sendFile(resolve(__dirname, '..', 'dist', 'index.html'))
-	})
-}
-
 // WEB APP ROUTES
 app.use('/api/', require('./api/Home.controller'))
 app.use('/api/user/', require('./api/User.controller'))
 app.use('/api/user/dashboard/', require('./api/Dashboard.controller'))
 app.use('/api/chatbot', require('./api/Chatbot.controller'))
 app.use('/api/transactions', require('./api/Transactions.controller'))
+
+if (process.env.NODE_ENV === 'PROD') {
+	const { resolve } = require('path')
+	app.use(express.static(resolve(__dirname, '..', 'dist')))
+	app.get('*', (req, res) => {
+		res.sendFile(resolve(__dirname, '..', 'dist', 'index.html'))
+	})
+}
 
 app.use(async (req, res, next) => {
 	next(createError.NotFound())
