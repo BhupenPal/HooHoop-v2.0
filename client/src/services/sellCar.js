@@ -51,7 +51,7 @@ export const postSellCar = async ({
     Dealer,
     !!ExteriorVideo,
     !!ExteriorSlider,
-    (InteriorFront && InteriorFront[0]) || (InteriorMiddle && InteriorMiddle[0]) || (InteriorRear && InteriorRear[0]),
+    !!((InteriorFront && InteriorFront[0]) || (InteriorMiddle && InteriorMiddle[0]) || (InteriorRear && InteriorRear[0])),
     ExteriorVideo && ExteriorVideo[0],
     ExteriorSlider && ExteriorSlider,
     InteriorFront && InteriorFront[0],
