@@ -192,8 +192,8 @@ const SellCar = (props) => {
           FuelType: res.data.fuel_type,
           Kilometers: res.data.latest_odometer_reading,
           Color: res.data.main_colour,
-          Plate: res.data.plate,
-          Seats: res.data.no_of_seats,
+          VINum: res.data.plate,
+          SeatCount: parseInt(res.data.no_of_seats),
         });
       })
       .catch((err) => {

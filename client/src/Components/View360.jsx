@@ -4,11 +4,18 @@ import { useState } from "react";
 import MiddleImg from "../assets/img/sample-car/interior/middle.jpg";
 import RearImg from "../assets/img/sample-car/interior/rear.jpg";
 
+const CONSTANTS = {
+  REAR: "rear",
+  FRONT: "front",
+  MIDDLE: "middle",
+};
 
-function View360({ url }) {
+function View360({ images }) {
   const interiorView = useRef(null);
   const panoSet = useRef(null);
-  let panoViewer;
+  const [currentView, setCurrentView] = useState(CONSTANTS.MIDDLE);
+  const [panoViewer,setPanoViewer] = useState({});
+  //let panoViewer = {};
   const [randomId, setId] = useState(
     Math.floor(Math.random() * 100).toString()
   );
@@ -16,38 +23,43 @@ function View360({ url }) {
     (Math.floor(Math.random() * 100) + 1).toString()
   );
   const handleChange = (e) => {
-    if(e.target.value === "Rear"){
-    panoViewer.setImage(RearImg, {
-      projectionType: "equirectangular",
-
-     });
-    }else{
-      panoViewer.setImage(MiddleImg, {
-        projectionType: "equirectangular",
-  
-       });      
-    }
-  }
+    console.log(e.target.value);
+    setCurrentView(e.target.value);
+  };
   useEffect(() => {
     var srcImage = new Image();
     srcImage.crossOrigin = "anonymous";
-    srcImage.src =
-      url || MiddleImg;
+    console.log(currentView);
+    srcImage.src = images[currentView] || MiddleImg;
     const interiorViewContainer = document.getElementById(randomId);
-     panoViewer = new PanoViewer(interiorViewContainer, {
+    const pano = new PanoViewer(interiorViewContainer, {
       //image: "src/assets/img/sample-car/interior/middle.jpg",
       image: srcImage,
       projectionType: "equirectangular",
       gyroMode: "yawPitch",
     });
-    console.log(panoViewer);
-    const panoSetContainer = document.getElementById(randomId2);
-    PanoControls.init(panoSetContainer, panoViewer, {
-      enableGyroOption: true,
-      enableTouchOption: true,
+    setPanoViewer(val => {
+      const panoSetContainer = document.getElementById(randomId2);
+      PanoControls.init(panoSetContainer, pano, {
+        enableGyroOption: true,
+        enableTouchOption: true,
+      });
+      PanoControls.showLoading();
+      return pano
     });
-    PanoControls.showLoading();
-  });
+    
+  }, []);
+  useEffect(() => {
+    if("setImage" in panoViewer){
+      console.log(images[currentView]);
+      panoViewer.setImage(images[currentView], {
+        projectionType: "equirectangular",
+      });
+      PanoControls.showLoading();
+
+    }
+  }, [currentView]);
+
   return (
     <div
       style={{ width: "100%", height: "100%" }}
@@ -74,22 +86,22 @@ function View360({ url }) {
           ref={interiorView}
         ></div>
       </div>
-      <input
-        type="text"
-        
-      />
+      <input type="text" />
 
-      <select name="viewType"
-      style={{
-        position: "absolute",
-        top: "20%",
-        left: "50%",
-        transform: "translate(-50%,-50%)",
-      }}
-      onChange={handleChange}
+      <select
+        name="viewType"
+        style={{
+          position: "absolute",
+          top: "20%",
+          left: "50%",
+          transform: "translate(-50%,-50%)",
+        }}
+        value={currentView}
+        onChange={handleChange}
       >
-        <option value="Middle">Middle</option>
-        <option value="Rear">Rear</option>
+        <option value={CONSTANTS.MIDDLE}>Middle</option>
+        <option value={CONSTANTS.FRONT}>Front</option>
+        <option value={CONSTANTS.REAR}>Rear</option>
       </select>
     </div>
   );

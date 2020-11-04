@@ -9,7 +9,7 @@ import { Rating } from "@material-ui/lab";
 import RoundedIcon from "./icons/RoundedIcons.jsx";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ExpandLessSharpIcon from "@material-ui/icons/ExpandLessSharp";
-
+import SanitizeHTML from "./SanitizeHtml.jsx";
 function CarDetails({car,classes}) {
   const [showDetails, setShowDetails] = useState(false);
 
@@ -112,7 +112,7 @@ function CarDetails({car,classes}) {
         </div>
         <div style={{ padding: "1rem" }}>
           <h2>Description</h2>
-          <p>{car?.Description}</p>
+          <p><SanitizeHTML html={car?.Description}/> </p>
         </div>
       </div>
     

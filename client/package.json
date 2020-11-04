@@ -61,6 +61,7 @@
     "recompose": "^0.30.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "sanitize-html": "^2.1.2",
     "slick-carousel": "^1.8.1"
   }
 }

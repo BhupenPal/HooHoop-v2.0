@@ -3,7 +3,7 @@ import axios from "../utils/axios";
 export const fetchCar = async (id) => {
   const res = await axios.get(`/api/car/${id}`);
   const car = res.data;
-  console.log(car)
+  console.log(car);
   return {
     Featured: {
       value: car.Featured?.value,
@@ -15,6 +15,12 @@ export const fetchCar = async (id) => {
       Phone: car.Dealer?.Phone,
       Email: car.Dealer?.Email,
       Location: car.Dealer?.Location,
+    },
+    ImageData: {
+      InteriorFront: car.ImageData?.InteriorFront,
+      InteriorMiddle: car.ImageData?.InteriorMiddle,
+      InteriorRear: car.ImageData?.InteriorRear,
+      SliderCount: car.ImageData?.SliderCount,
     },
     FuelStar: car.FuelStar,
     SafetyStar: car.SafetyStar,
@@ -28,7 +34,7 @@ export const fetchCar = async (id) => {
     Model: car.Model,
     ModelYear: car.ModelYear,
     Price: car.Price,
-    MinPrice: car.MinPrice, 
+    MinPrice: car.MinPrice,
     BodyType: car.BodyType,
     DoorCount: car.DoorCount,
     SeatCount: car.SeatCount,
@@ -66,7 +72,7 @@ export const fetchBuyCar = async (PageNo = 1, query = "") => {
     Model: car.Model,
     ModelYear: car.ModelYear,
     Price: car.Price,
-    LikedBy:Array.isArray(car.LikedBy) ? false : car.LikedBy,
+    LikedBy: Array.isArray(car.LikedBy) ? false : car.LikedBy,
     State: car.State,
     VINum: car.VINum,
     _id: car._id,
