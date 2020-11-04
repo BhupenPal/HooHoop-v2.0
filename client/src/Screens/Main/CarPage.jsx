@@ -24,6 +24,7 @@ import { submitCarLead } from "../../services/submitCarLead";
 import { useParams } from "react-router-dom";
 
 import '../../assets/Interior 360/PanoControls.css'
+import { getInteriorLinks } from "../../utils/getImagesUrl.js";
 
 const CarPage = (props) => {
   const [user, setUser] = useState({
@@ -89,6 +90,7 @@ const CarPage = (props) => {
   useEffect(() => {
     setLoadingMore(true)
     fetchAndSetCar();
+    getInteriorLinks(VINum)
   }, [VINum]);
   const sliderElements = () =>
     [

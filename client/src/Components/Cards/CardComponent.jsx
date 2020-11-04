@@ -25,6 +25,7 @@ import FavoriteIcon  from "@material-ui/icons/Favorite";
 import { addToWishList } from "../../services/wishlist";
 
 import { Link } from "react-router-dom";
+import { getThumbnailLink } from "../../utils/getImagesUrl";
 
 const CardComponent = ({ classes, car, index }) => {
     const [isLiked,setLike] = useState(car.LikedBy)
@@ -42,7 +43,7 @@ const CardComponent = ({ classes, car, index }) => {
           title={<p className={classes.cardTitle}>{car.Make} {car.Model}</p>}
           subheader={<p className={classes.cardSubTitle}>{car.ModelYear} Model</p>}
         />
-        <CardMedia className={classes.media} image={Sports} />
+        <CardMedia className={classes.media} image={getThumbnailLink(car.VINum)} />
         <CardContent className={classes.cardContent}>
           <Box
             display="flex"

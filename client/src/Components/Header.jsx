@@ -109,7 +109,7 @@ const Header = () => {
     }
   };
   const renderSideBarToggler = () => {
-    if(auth.isAuthenticated && window.location.pathname.includes("/user/")){
+    if(auth.isAuthenticated ){
     return (
       <Box
       display={{ xs: "block", md: "none" }}
