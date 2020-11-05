@@ -31,6 +31,8 @@ import ErrorSnackBar from "../../Components/OpenSnackBar.jsx";
 import { DropzoneDialog } from "material-ui-dropzone";
 import MultiFileInput from "../../Components/MultiFileInput.jsx";
 import { colors } from "../../assets/data/carTypes";
+import BodyTypeCodes from "../../assets/data/bodyTypes.js";
+import FuelTypeCodes from "../../assets/data/fuelTypes.js";
 
 const SellCar = (props) => {
   const { classes } = props;
@@ -121,11 +123,14 @@ const SellCar = (props) => {
     }
   };
   const handleFileUpload = (e) => {
-    setPreview({
-      ...preview,
-      [e.target.name]: URL.createObjectURL(e.target.files[0]),
-    });
-    changedata({ ...dataobject, [e.target.name]: e.target.files });
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      setPreview({
+        ...preview,
+        [e.target.name]: URL.createObjectURL(e.target.files[0]),
+      });
+      changedata({ ...dataobject, [e.target.name]: e.target.files });
+    }
   };
   const handleMultiFileUpload = (files) => {
    
@@ -183,13 +188,13 @@ const SellCar = (props) => {
         dataarray.push(res.data);
         changedata({
           ...dataobject,
-          Make: res.data.make,
+          Make: res.data.make.replaceAll("-"," "),
           Model: res.data.model,
           ModelYear: res.data.year_of_manufacture,
-          BodyType: res.data.body_style,
+          BodyType: BodyTypeCodes[res.data.body_style] || "Others",
           Transmission: res.data.transmission,
           EngineSize: res.data.cc_rating,
-          FuelType: res.data.fuel_type,
+          FuelType: FuelTypeCodes[res.data.fuel_type] || "Others",
           Kilometers: res.data.latest_odometer_reading,
           Color: res.data.main_colour,
           VINum: res.data.plate,
@@ -292,6 +297,10 @@ const SellCar = (props) => {
         });
     }
   };
+  const searchCar = (e) => {
+    e.preventDefault()
+    FetchJam()
+  }
   return (
     <Grid
       container
@@ -346,7 +355,7 @@ const SellCar = (props) => {
             <Typography component="h3" variant="h5">
               Tell us about the car you are selling
             </Typography>
-            <div className="searchField">
+            <form onSubmit={searchCar} className="searchField">
               <TextField
                 id="outlined-basic"
                 name="platenum"
@@ -354,7 +363,7 @@ const SellCar = (props) => {
                 variant="outlined"
               />
               <button onClick={() => FetchJam()}>Search</button>
-            </div>
+            </form>
             <Box
               display="flex"
               flexDirection="column"

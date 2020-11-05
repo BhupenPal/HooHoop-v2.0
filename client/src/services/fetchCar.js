@@ -21,6 +21,8 @@ export const fetchCar = async (id) => {
       InteriorMiddle: car.ImageData?.InteriorMiddle,
       InteriorRear: car.ImageData?.InteriorRear,
       SliderCount: car.ImageData?.SliderCount,
+      VideoFrames: car.ImageData?.VideoFrames,
+
     },
     FuelStar: car.FuelStar,
     SafetyStar: car.SafetyStar,

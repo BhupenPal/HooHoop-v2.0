@@ -18,9 +18,11 @@ export default theme =>({
         borderRadius:5 ,
         boxShadow:"none",
         transition:"box-shadow 0.2s",
+        overflow:"hidden",
         cursor:"pointer",
+        boxShadow:"2px 5px 1rem rgba(0,0,0,0.2)",
+
             "&:hover":{
-              boxShadow:"2px 5px 2rem rgba(0,0,0,0.4)"
             },
             [theme.breakpoints.down('md')]: {
             width:"8rem"  ,

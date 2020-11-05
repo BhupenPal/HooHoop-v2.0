@@ -22,9 +22,21 @@ const useStyles = makeStyles(theme => ({
 
     },
     optionLabel:{
-        display:"block",
+        display:"flex",
+        justifyContent:"space-between",
+        alignItems:"center",
         width:"100%",
         padding: "0.3rem 0.8rem",
+    },
+    optionMark:{
+      border:"2px solid #708DC7",
+      height:"1rem",
+      width:"1rem",
+      borderRadius:"200rem"
+    },
+    optionCheckMark:{
+      border:"2px solid #fff",
+     // boxShadow:"-0.1rem -0.1rem  0.5rem #fff"
     },
     checked:{
         backgroundColor:"#708DC7",
@@ -62,7 +74,10 @@ function LeadForm({handleChange,handleCheckboxChange,user,handleSubmit}) {
                   onChange={handleCheckboxChange}
 
                 />
-                <label className={classes.optionLabel} htmlFor="Contact Seller">Contact Seller</label>
+                <label className={classes.optionLabel} htmlFor="Contact Seller">
+                <div>Contact Seller</div>
+                <div><div className={`${classes.optionMark} ${user.CallbackQuery ? classes.optionCheckMark : ""}`}></div></div>
+                </label>
               </div>
               <div className={`${classes.options} ${user.TestDriveQuery ? classes.checked : ""}`}>
                 <input
@@ -73,7 +88,11 @@ function LeadForm({handleChange,handleCheckboxChange,user,handleSubmit}) {
                   onChange={handleCheckboxChange}
 
                 />
-                <label className={classes.optionLabel} htmlFor="Book A Test Drive">Book A Test Drive</label>
+                <label className={classes.optionLabel} htmlFor="Book A Test Drive">
+                <div>Book A Test Drive</div>
+                <div><div className={`${classes.optionMark} ${user.TestDriveQuery ? classes.optionCheckMark : ""}`}></div></div>
+
+                </label>
               </div>
               <div className={`${classes.options} ${user.ShipmentQuery ? classes.checked : ""}`}>
                 <input
@@ -83,7 +102,11 @@ function LeadForm({handleChange,handleCheckboxChange,user,handleSubmit}) {
                   name="ShipmentQuery"
                   onChange={handleCheckboxChange}
                 />
-                <label className={classes.optionLabel} htmlFor="Shipping Query">Shipping Quote</label>
+                <label className={classes.optionLabel} htmlFor="Shipping Query">
+                <div>Shipping Quote</div>
+                <div><div className={`${classes.optionMark} ${user.ShipmentQuery ? classes.optionCheckMark : ""}`}></div></div>
+                
+                </label>
               </div>
             </Box>
             <Box mt={5}>

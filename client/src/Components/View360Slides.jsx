@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
+import { getFramesFolder } from "../utils/getImagesUrl";
 
-function View360Slides(props) {
+function View360Slides({VINum,noOfFrames}) {
 
   useEffect(() => {
     window.CI360.init();
@@ -11,9 +12,9 @@ function View360Slides(props) {
   return (
     <div
       className="cloudimage-360"
-      data-folder="/src/assets/img/sample-car/exterior/"
+      data-folder={getFramesFolder(VINum)}
       data-filename="Photo_{index}.jpg"
-      data-amount="33"
+      data-amount={noOfFrames}
       data-spin-reverse
     ></div>
   );

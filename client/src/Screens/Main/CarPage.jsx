@@ -3,8 +3,6 @@ import compose from "recompose/compose";
 import { Box, Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
-import AsNavFor from "../../Components/Sliders/AsNavFor.jsx";
-import View360 from "../../Components/View360.jsx";
 import CarSlider from "../../Components/Sliders/CarSlider.jsx";
 import Ad from "../../Components/Ad.jsx";
 import LeadForm from "../../Components/LeadForm.jsx";

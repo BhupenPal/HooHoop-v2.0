@@ -19,6 +19,9 @@ export const getSliderLinks = (VINum,noOfImages) => {
     return arr;
 }
 
+export const getFramesFolder = (VINum) => {
+  return `https://${process.env.DO_SPACE_BUCKET_NAME}.${process.env.DO_SPACE_ENDPOINT}/HooHoop/uploads/cars/${VINum}/exterior360/`
+}
 export const getThumbnailLink = (VINum) => {
     return `https://${process.env.DO_SPACE_BUCKET_NAME}.${process.env.DO_SPACE_ENDPOINT}/HooHoop/uploads/cars/${VINum}/thumbnail/Photo300.jpg`
 }
