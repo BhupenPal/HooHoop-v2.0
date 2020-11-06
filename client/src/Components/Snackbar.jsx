@@ -7,7 +7,7 @@ import { closeSnackbar } from "../redux/actions/snackbarActions";
 function CustomSnackbar(props) {
     const dispatch = useDispatch();
     const {open,message} = useSelector(state => state.snackBar)
-    console.log(open,message)
+    //console.log(open,message)
     const handleClose = () => {
         dispatch(closeSnackbar())
     }

@@ -13,6 +13,7 @@ import Car from '../../assets/img/Rectangle 4.png'
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
+import { getThumbnailLink } from '../../utils/getImagesUrl'
 
 const CarSliderStyles = makeStyles(theme => ({
     SliderCar: {
@@ -165,7 +166,7 @@ const CarSlider = ({ data, loading }) => {
                             <div className='fadeIn' key={item.VINum} title={carName}>
                                 <div className={classes.SliderCar}>
                                     <Link to={`/car/${item.VINum}`}>
-                                        <img src={Car} alt='' className={classes.SlideCarImage} />
+                                        <img src={getThumbnailLink(item.VINum)} alt='' className={classes.SlideCarImage} />
                                         <div className={classNames(classes.CarDetails, classes.cardText)}>
                                             <div>
                                                 <span className="wt-600">{carName.slice(0,15) + (carName.length > 15 ? "..." : "")}</span>
