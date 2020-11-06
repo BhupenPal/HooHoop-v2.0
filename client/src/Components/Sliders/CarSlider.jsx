@@ -31,7 +31,8 @@ const CarSliderStyles = makeStyles(theme => ({
         boxShadow: 'none !important'
     },
     SlideCarImage: {
-        width: '100%'
+        width: '100%',
+        height:"15rem"
     },
     SlideCarViews:{
         fontSize:"0.7rem"
@@ -167,6 +168,9 @@ const CarSlider = ({ data, loading }) => {
                                 <div className={classes.SliderCar}>
                                     <Link to={`/car/${item.VINum}`}>
                                         <img src={getThumbnailLink(item.VINum)} alt='' className={classes.SlideCarImage} />
+                                       
+                                        {/* <div style={{backgroundImage:`url(${getThumbnailLink(item.VINum)})`,padding:"56.25%"}}></div> */}
+
                                         <div className={classNames(classes.CarDetails, classes.cardText)}>
                                             <div>
                                                 <span className="wt-600">{carName.slice(0,15) + (carName.length > 15 ? "..." : "")}</span>
