@@ -5,6 +5,7 @@ import csrfReducer from "./csrfReducer"
 import errorReducer from "./errorReducers"
 import filterReducer from "./filterReducer"
 import sideBarReducers from "./sideBarReducers"
+import snackbarReducers from "./snackbarReducers"
 
 export default combineReducers({
   auth: authReducer,
@@ -12,4 +13,5 @@ export default combineReducers({
   sideBar: sideBarReducers,
   filter: filterReducer,
   csrf: csrfReducer,
+  snackBar:snackbarReducers,
 })

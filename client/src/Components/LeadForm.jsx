@@ -1,4 +1,4 @@
-import { Box, Button, makeStyles, TextField } from '@material-ui/core';
+import { Box, Button, makeStyles, Snackbar, TextField } from '@material-ui/core';
 import React from 'react';
 
 const useStyles = makeStyles(theme => ({
@@ -112,6 +112,7 @@ function LeadForm({handleChange,handleCheckboxChange,user,handleSubmit}) {
             <Box mt={5}>
               <Button onClick={handleSubmit}>Submit</Button>
             </Box>
+          
           </form>
         </div>
         </>
