@@ -244,6 +244,7 @@ Router.patch('/wish-handle', verifyAccessToken, async (req, res, next) => {
 Router.get('/car/:VINum', (req, res, next) => {
     const { VINum } = req.params
     CarModel.findOne({ VINum }, '-Featured.validTill')
+        .populate('Author', 'FirstName LastName Phone Email')
         .then(doc => {
             if (!doc) return next(createError.BadRequest())
             res.json(doc)
@@ -289,14 +290,14 @@ Router.get('/recommended-cars/:CurrentPrice', (req, res, next) => {
 })
 
 Router.post('/car/leads/submission', verifyAccessToken, (req, res, next) => {
-    const { FullName, Phone, WantsToTrade, CallbackQuery, ShipmentQuery, TestDriveQuery, MakeModel, VINum, AuthorID } = req.body;
+    const { FullName, Phone, WantsToTrade, CallbackQuery, ShipmentQuery, TestDriveQuery, MakeModel, VINum } = req.body;
 
     const Data = {
         FullName: FullName,
         Email: req.payload.Email,
         Phone: Phone,
         QueryFor: {},
-        Author: AuthorID,
+        Author: mongoose.Types.ObjectId(req.payload.aud),
         MakeModel: MakeModel,
         VINum: VINum
     }
