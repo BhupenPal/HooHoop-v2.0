@@ -38,6 +38,7 @@ import CheckLoginOnRender from './utils/CheckLoginOnRender'
 import PrivateRoute from './utils/PrivateRoute'
 import store from './redux/store'
 import CheckAuth from './HOC/CheckAuth'
+import CustomSnackbar from './Components/Snackbar.jsx'
 
 const App = () => {
 
@@ -68,6 +69,7 @@ const App = () => {
             <Route path='/500' component={Error500} />
             <Route component={Error404} />
           </Switch>
+          <CustomSnackbar/>
           <Footer />
         </BrowserRouter>
       </ThemeProvider>

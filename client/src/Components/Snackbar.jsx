@@ -1,3 +1,5 @@
+import { Snackbar } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeSnackbar } from "../redux/actions/snackbarActions";
@@ -5,6 +7,7 @@ import { closeSnackbar } from "../redux/actions/snackbarActions";
 function CustomSnackbar(props) {
     const dispatch = useDispatch();
     const {open,message} = useSelector(state => state.snackBar)
+    console.log(open,message)
     const handleClose = () => {
         dispatch(closeSnackbar())
     }
