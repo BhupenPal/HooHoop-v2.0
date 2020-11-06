@@ -53,8 +53,7 @@ const LeadGenratedModel = mongoose.Schema({
         }
     },
     WantsToTrade: {
-        type: Boolean,
-        required: false
+        type: Boolean
     }
 },
 {
