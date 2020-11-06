@@ -289,7 +289,7 @@ const filterComponent = (props) => {
           Search by Filters
         </Typography>
        
-        <SearchBox type="states"/>
+        <SearchBox type="states" label="Search State"/>
         <div className="filterClass">
           <div className="filterHead">
             <Typography variant="h6" component="h6">
@@ -340,6 +340,7 @@ const filterComponent = (props) => {
           </div>
           <Collapse in={filterstate.State1}>
             <div className={classes.expandedFilter}>
+              {Object.keys(bodies).length === 0 ? <div style={{padding:"2rem", textAlign:"center"}}>Please Select Make First</div> : null}
               {Object.keys(bodies).map((item, index) => {
                 return (
                   <label htmlFor={item} key={index} className="carMakes">

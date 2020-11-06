@@ -3,6 +3,8 @@ export const bodyTypes = [
   "Hatchback",
   "Heavy Van",
   "Light Van",
+  "Sedan",
+  "Sports Car",
   "Station Wagon",
   "Utility",
   "Other",
@@ -18,6 +20,8 @@ export const fuelTypes = [
   "Don't Know",
   "Petrol",
   "Diesel",
+  "CNG",
+  "PNG",
   "Electric",
   "Hybrid",
 ];

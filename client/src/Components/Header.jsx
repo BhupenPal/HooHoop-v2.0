@@ -74,7 +74,7 @@ const Header = () => {
   };
   const renderSearchBox = () => {
     if (auth.isAuthenticated) {
-      return <SearchBox/>
+      return <SearchBox label={"Search Car"}/>
     } 
   }
   const renderAuthButtons = () => {
@@ -139,10 +139,9 @@ const Header = () => {
         </Box>
         </Box>
         <Box display={{xs:"block",md:"flex"}} className="header-options">
-        <Box>
-        <Box display={{ md: "block" }}  style={{flex:1,margin:"0 5rem"}}>
+      
+        <Box display={{ md: "block" }}  style={{flex:1,margin:"0 10%"}}>
           {renderSearchBox()}
-        </Box>
         </Box>
         <Box display={{ xs: "flex" }} style={{padding:"1rem 0"}} justifyContent="center">
 

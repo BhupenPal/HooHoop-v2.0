@@ -112,7 +112,13 @@ const DashboardStyles = makeStyles(theme => ({
     padding: '0.2rem 2rem',
     borderRadius: '0.5rem'
   },
-  
+  transactionList:{
+    margin:"1rem 0"
+  },
+  transactionListItem:{
+    backgroundColor:"#eee",
+    padding:"0.5rem 0.5rem"
+  }
 }))
 
 const Dashboard = () => {
@@ -274,7 +280,12 @@ const Dashboard = () => {
             </div>
           </Grid>
           <Grid item xs={6} className={classes.userDetails}>
+            <div>
             Transactions
+            </div>
+            <div className={classes.transactionList}>
+              <div className={classes.transactionListItem}>No Transactions Yet</div>
+            </div>
           </Grid>
         </Grid>
     </Grid>

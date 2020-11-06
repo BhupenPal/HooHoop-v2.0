@@ -49,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
     width: "17rem",
     backgroundColor: "#fff",
     minHeight: "80vh",
-    boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.15)",
     marginTop: -2,
     [theme.breakpoints.down("md")]: {
       position: "fixed",

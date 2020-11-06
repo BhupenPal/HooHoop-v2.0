@@ -41,7 +41,8 @@ export default theme => ({
         color: '#fff',
         padding: '5% 10%',
         postion: 'absolute',
-        background: 'url(src/assets/img/Home/Advetisement.png)',
+        //background: 'url(src/assets/img/Home/Advetisement.png)',
+        background:"#eee",
         backgroundSize: 'cover',
         [theme.breakpoints.down('md')]: {
             height: '100%'

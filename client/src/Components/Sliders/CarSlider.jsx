@@ -175,7 +175,7 @@ const CarSlider = ({ data, loading }) => {
                                             <div className={`${classes.SlideCarViews} flex-jc-center`}>
                                                 <VisibilityOutlinedIcon style={{ marginRight: 5,fontSize:"1rem" }} />
                                                 {(item.ViewsCount < 1000) ? item.ViewsCount + ' ' : (item.ViewsCount / 1000).toFixed(1) + 'K '}
-                                                Views
+                                                View{item.ViewsCount > 1 ? "s" : ""}
                                             </div>
                                         </div>
                                     </Link>

@@ -115,7 +115,7 @@ function Home(props) {
                   className={classes.SliderInput}
                 
                 >
-                <SearchBox/>
+                <SearchBox label={"Search Car"}/>
 
                 </div>
                 <p className="wt-500">
@@ -160,7 +160,7 @@ function Home(props) {
           {renderUsedTypeCars()}
         </Grid>
         <Grid item xs={12} md={12} className={classes.AdImage}>
-          <Typography variant="h2" className={classes.AdContent}>
+          {/* "<Typography variant="h2" className={classes.AdContent}>
             Worried about condition of the car?
           </Typography>
           <Typography variant="h5" className={classes.AdContent}>
@@ -168,7 +168,7 @@ function Home(props) {
           </Typography>
           <Button type="submit" color="primary" className={classes.AdButton}>
             Book Now
-          </Button>
+          </Button>" */}
         </Grid>
         <Grid item xs={12} md={10} style={{ marginTop: 70 }}>
           <Typography variant="h2" className="home-subhead">

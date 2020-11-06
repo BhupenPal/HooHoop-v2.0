@@ -54,7 +54,7 @@ const getAllMakers = () => {
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
-function SearchBox({type}) {
+function SearchBox({type,label}) {
   const query = useQuery()
   //const [search,setSearch] = useState();
   const classes = useStyles();
@@ -100,7 +100,7 @@ function SearchBox({type}) {
               </InputAdornment>
             ),
           }}
-          label="Search Cars"
+          label={label}
           className={classes.input}
         />
       </div>
