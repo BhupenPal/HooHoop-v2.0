@@ -13,12 +13,11 @@ import { useState } from "react";
 
 const selectBox = (props) => {
   const { classes } = props;
-  const { data, required, Label, handleChange, name, value, error, type } = props;
+  const { data, required, Label, handleChange, name, value, error, type, multiple } = props;
   const [current,setCurrent] = useState(value || "");
   if(type === "autocomplete"){
       
   return (
-   
     <Autocomplete
       id={Label}
       options={data}
@@ -58,6 +57,7 @@ const selectBox = (props) => {
         error={error}
         onChange={handleChange}
         label={Label}
+        multiple={multiple || false}
       >
         {/* <MenuItem value="">
             <em>None</em>
