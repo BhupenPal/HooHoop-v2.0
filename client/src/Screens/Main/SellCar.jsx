@@ -81,6 +81,7 @@ const SellCar = (props) => {
     Description: "",
     KMsDriven: null,
     VINum: "",
+    State:"",
     DoorCount: null,
     SeatCount: null,
     ModelDetail: "",
@@ -93,7 +94,7 @@ const SellCar = (props) => {
     ExteriorVideo: null,
     FuelStar:null,
     SafetyStar:null,
-    accessories:[],
+    Accessories:[],
   });
   const [modelOptions, setModels] = useState([]);
   const [loader, setLoader] = useState(false);
@@ -508,7 +509,7 @@ const SellCar = (props) => {
                   name={"Transmission"}
                   type="autocomplete"
 
-                  data={["Don't Know",transmissionTypes]}
+                  data={["Don't Know",...transmissionTypes]}
                   value={dataobject.Transmission }
                   required={true}
                   error={showErrors && dataobject.Transmission.length <= 0}
@@ -528,7 +529,7 @@ const SellCar = (props) => {
                 <SelectBox
                   handleChange={handleSelectChange}
                   name={"FuelType"}
-                  data={["Don't Know",fuelTypes]}
+                  data={["Don't Know",...fuelTypes]}
                   type="autocomplete"
 
                   value={dataobject.FuelType}
