@@ -629,7 +629,7 @@ const SellCar = (props) => {
                 handleChange={handleChange}
                 name={"accessories"}
                 multiple={true}
-                value={dataobject.accessories}
+                value={dataobject.Accessories}
                 data={accessories}
                 Label="Select Accessories"
               />
