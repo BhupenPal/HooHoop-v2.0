@@ -34,6 +34,9 @@ import { colors,bodyTypes,transmissionTypes, fuelTypes,states } from "../../asse
 import BodyTypeCodes from "../../assets/data/bodyTypes.js";
 import FuelTypeCodes from "../../assets/data/fuelTypes.js";
 
+transmissionTypes =["Don't Know", ...transmissionTypes];
+fuelTypes =["Don't Know", ...fuelTypes];
+
 const SellCar = (props) => {
   const { classes } = props;
   let dataarray = [];

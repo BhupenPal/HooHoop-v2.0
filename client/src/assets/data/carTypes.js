@@ -10,14 +10,12 @@ export const bodyTypes = [
   "Other",
 ];
 export const transmissionTypes = [
-  "Don't Know",
   "Automatic",
   "Manual",
   "Triptonic",
   "CVT",
 ];
 export const fuelTypes = [
-  "Don't Know",
   "Petrol",
   "Diesel",
   "CNG",
