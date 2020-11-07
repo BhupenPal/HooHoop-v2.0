@@ -30,30 +30,30 @@ import { postSellCar } from "../../services/sellCar.js";
 import ErrorSnackBar from "../../Components/OpenSnackBar.jsx";
 import { DropzoneDialog } from "material-ui-dropzone";
 import MultiFileInput from "../../Components/MultiFileInput.jsx";
-import { colors } from "../../assets/data/carTypes";
+import { colors,bodyTypes,transmissionTypes, fuelTypes,states } from "../../assets/data/carTypes";
 import BodyTypeCodes from "../../assets/data/bodyTypes.js";
 import FuelTypeCodes from "../../assets/data/fuelTypes.js";
 
 const SellCar = (props) => {
   const { classes } = props;
   let dataarray = [];
-  const bodyTypes = [
-    "Convertible",
-    "Hatchback",
-    "Heavy Van",
-    "Light Van",
-    "Station Wagon",
-    "Utility",
-    "Other",
-  ];
-  const transmissionTypes = [
-    "Don't Know",
-    "Automatic",
-    "Manual",
-    "Triptonic",
-    "CVT",
-  ];
-  const fuelTypes = ["Don't Know", "Petrol", "Diesel", "Electric", "Hybrid"];
+  // const bodyTypes = [
+  //   "Convertible",
+  //   "Hatchback",
+  //   "Heavy Van",
+  //   "Light Van",
+  //   "Station Wagon",
+  //   "Utility",
+  //   "Other",
+  // ];
+  // const transmissionTypes = [
+  //   "Don't Know",
+  //   "Automatic",
+  //   "Manual",
+  //   "Triptonic",
+  //   "CVT",
+  // ];
+  // const fuelTypes = ["Don't Know", "Petrol", "Diesel", "Electric", "Hybrid"];
 
   const doorCounts = [1, 2, 3, 4, 5, 6];
   const [showErrors, setShowError] = useState(false);
@@ -74,14 +74,14 @@ const SellCar = (props) => {
     MinPrice: 0,
     BodyType: "",
     Transmission: "",
-    EngineSize: 0,
+    EngineSize: null,
     FuelType: "",
     Color: "",
     Description: "",
-    KMsDriven: 0,
+    KMsDriven: null,
     VINum: "",
-    DoorCount: 0,
-    SeatCount: 0,
+    DoorCount: null,
+    SeatCount: null,
     ModelDetail: "",
     REGExpiry: new Date(),
     WOFExpiry: new Date(),
@@ -90,6 +90,8 @@ const SellCar = (props) => {
     InteriorMiddle: null,
     ExteriorSlider: null,
     ExteriorVideo: null,
+    FuelStar:null,
+    SafetyStar:null,
   });
   const [modelOptions, setModels] = useState([]);
   const [loader, setLoader] = useState(false);
@@ -198,7 +200,11 @@ const SellCar = (props) => {
           KMsDriven: parseInt(res.data.latest_odometer_reading),
           Color: res.data.main_colour,
           VINum: res.data.plate,
-          SeatCount: parseInt(res.data.no_of_seats)
+          SeatCount: parseInt(res.data.no_of_seats),
+          WOFExpiry: !!parseInt(res.data.expiry_date_of_last_successful_wof) ? new Date(parseInt(res.data.expiry_date_of_last_successful_wof)) : new Date(),
+          REGExpiry: !!parseInt(res.data.plates[0].effective_date) ? new Date(parseInt(res.data.plates[0].effective_date)) : new Date(),
+          FuelStar: res.data.safety_economy.fuel_stars,
+          SafetyStar: req.data.safety_economy.driver_safety_stars,
         });
       })
       .catch((err) => {
@@ -264,13 +270,13 @@ const SellCar = (props) => {
       setSnackBar(true);
       setShowError(true);
       return false;
-    } else if (dataobject.SeatCount <= 0) {
-      setError("No. of seats is Required");
+    } else if (dataobject.SeatCount < 1 && dataobject.SeatCount > 11) {
+      setError("No. of seats must be betweeen 1 and 11");
       setSnackBar(true);
       setShowError(true);
       return false;
-    } else if (dataobject.DoorCount <= 0) {
-      setError("No. of doors is Required");
+    } else if (!dataobject.State && dataobject.State.length <= 0) {
+      setError("State is Required");
       setSnackBar(true);
       setShowError(true);
       return false;
@@ -499,7 +505,7 @@ const SellCar = (props) => {
                   type="autocomplete"
 
                   data={transmissionTypes}
-                  value={dataobject.Transmission}
+                  value={dataobject.Transmission }
                   required={true}
                   error={showErrors && dataobject.Transmission.length <= 0}
                   Label="Transmission"
@@ -508,8 +514,10 @@ const SellCar = (props) => {
                   type="number"
                   onChange={handleChange}
                   name={"EngineSize"}
-                  value={dataobject.EngineSize}
+                  value={dataobject.EngineSize ? dataobject.EngineSize : "" }
+                  inputProps={{className:'digitsOnly'}}
                   required={true}
+                  id="random"
                   error={showErrors && dataobject.EngineSize <= 0}
                   label="Engine Size"
                 />
@@ -528,18 +536,21 @@ const SellCar = (props) => {
                   onChange={handleChange}
                   type="number"
                   name={"KMsDriven"}
-                  value={dataobject.KMsDriven}
+                  value={dataobject.KMsDriven ? dataobject.KMsDriven : ""}
                   required={true}
                   error={showErrors && dataobject.KMsDriven <= 0}
                   label="Kilometers Ran"
                 />
-                <TextField
-                  onChange={handleChange}
+                <SelectBox
+                  handleChange={handleSelectChange}
                   name={"Color"}
+                  data={colors}
+                  type="autocomplete"
+
                   value={dataobject.Color}
                   required={true}
                   error={showErrors && dataobject.Color.length <= 0}
-                  label="Color Type"
+                  Label="Color"
                 />
                 <TextField
                   onChange={handleChange}
@@ -549,31 +560,44 @@ const SellCar = (props) => {
                   label="Number Plate"
                   error={showErrors && dataobject.VINum.length <= 0}
                 />
-                <TextField
-                  onChange={handleChange}
-                  type="number"
-                  name={"SeatCount"}
-                  value={dataobject.SeatCount}
-                  required={true}
-                  label="Number of seats"
-                  error={showErrors && dataobject.SeatCount <= 0}
-                />
-
                 <SelectBox
                   handleChange={handleChange}
-                  name={"DoorCount"}
-                  data={doorCounts}
-                  value={dataobject.DoorCount}
+                  name={"SeatCount"}
+                  data={[1,2,3,4,5,6,7,8,9,10,11]}
+
+                  value={dataobject.SeatCount}
                   required={true}
-                  Label="Number of doors"
-                  error={showErrors && dataobject.DoorCount.length <= 0}
+                  error={showErrors && (dataobject.SeatCount <= 0 || dataobject.SeatCount > 11)}
+                  Label="Number of seats"
                 />
+                <SelectBox
+                  handleChange={handleSelectChange}
+                  name={"State"}
+                  data={states}
+                  type="autocomplete"
+
+                  value={dataobject.State}
+                  required={true}
+                  error={showErrors && dataobject.State.length <= 0}
+                  Label="State"
+                />
+
               </div>
             </div>
             <div className="ExtraDetails">
               <Typography component="h3" variant="h5">
                 Help us know more about your car
               </Typography>
+
+              <SelectBox
+                  handleChange={handleChange}
+                  name={"DoorCount"}
+                  data={doorCounts}
+                  value={dataobject.DoorCount}
+              
+                  Label="Number of doors"
+                  error={showErrors && dataobject.DoorCount.length <= 0}
+                />
               <TextField
                 onChange={handleChange}
                 name={"ModelDetail"}
@@ -607,7 +631,7 @@ const SellCar = (props) => {
                   "6 - Cylinder",
                   "8 - Cylinder",
                   "10 - Cylinder",
-                  "12 - Cylinder",
+                  "12 - Cylinder"
                 ]}
                 Label="Cylinders"
               />
