@@ -29,6 +29,7 @@ export const postSellCar = async (data) => {
     InteriorFront: data.InteriorFront && data.InteriorFront[0],
     InteriorMiddle: data.InteriorMiddle && data.InteriorMiddle[0],
     InteriorRear: data.InteriorRear && data.InteriorRear[0],
+    Accessories:data.Accessories
   };
   let headers = {
     "Content-Type":
