@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose'),
+    uniqueValidator = require('mongoose-unique-validator');
 
 const CarSchema = mongoose.Schema({
     Make: {
@@ -50,7 +51,8 @@ const CarSchema = mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        uppercase: true
+        uppercase: true,
+        index: true
     },
     KMsDriven: {
         type: Number,
@@ -136,7 +138,8 @@ const CarSchema = mongoose.Schema({
         }
     },
     State: {
-        type: String
+        type: String,
+        required: true
     },
     isNewCar: {
         type: Boolean,
@@ -150,5 +153,7 @@ const CarSchema = mongoose.Schema({
 CarSchema.virtual('MakeModel').get(function () {
     return `${this.Make} ${this.Model}`
 })
+
+CarSchema.plugin(uniqueValidator)
 
 module.exports = mongoose.model('car list', CarSchema)
