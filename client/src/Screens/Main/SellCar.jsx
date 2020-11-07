@@ -185,7 +185,7 @@ const SellCar = (props) => {
           WOFExpiry: !!parseInt(res.data.expiry_date_of_last_successful_wof) ? new Date(parseInt(res.data.expiry_date_of_last_successful_wof)) : '',
           REGExpiry: !!parseInt(res.data.plates[0].effective_date) ? new Date(parseInt(res.data.plates[0].effective_date)) : '',
           FuelStar: res.data.safety_economy.fuel_stars,
-          SafetyStar: req.data.safety_economy.driver_safety_stars,
+          SafetyStar: res.data.safety_economy.driver_safety_stars,
         });
       })
       .catch((err) => {
@@ -485,7 +485,7 @@ const SellCar = (props) => {
                   name={"Transmission"}
                   type="autocomplete"
 
-                  data={["Don't Know",...transmissionTypes]}
+                  data={transmissionTypes}
                   value={dataobject.Transmission }
                   required={true}
                   error={showErrors && dataobject.Transmission.length <= 0}
