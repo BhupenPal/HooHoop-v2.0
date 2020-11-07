@@ -5,7 +5,7 @@ function RichTextEditor({handleEditorChange}) {
   return (
     <Editor
       initialValue=""
-      
+      apiKey={process.env.TINY_MCE_API_KEY}
       init={{
         height: 500,
         menubar: false,

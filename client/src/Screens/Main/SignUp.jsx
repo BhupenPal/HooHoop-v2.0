@@ -32,7 +32,7 @@ import FacebookLoginButton from "../../Components/Buttons/FacebookLoginButton.js
 
 import { validateEmail, validPassword } from "../../utils/validations";
 import { registerUser } from "../../redux/actions/authActions";
-import { states } from "../../assets/data/states";
+import { states } from "../../assets/data/carTypes";
 import { useState } from "react";
 import { useEffect } from "react";
 
