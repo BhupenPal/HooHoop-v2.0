@@ -195,10 +195,11 @@ const SellCar = (props) => {
           Transmission: res.data.transmission,
           EngineSize: res.data.cc_rating,
           FuelType: FuelTypeCodes[res.data.fuel_type] || "Others",
-          Kilometers: res.data.latest_odometer_reading,
+          KMsDriven: parseInt(res.data.latest_odometer_reading),
           Color: res.data.main_colour,
           VINum: res.data.plate,
           SeatCount: parseInt(res.data.no_of_seats),
+          DoorCount: parseInt(res.data.no_of_seats)
         });
       })
       .catch((err) => {
