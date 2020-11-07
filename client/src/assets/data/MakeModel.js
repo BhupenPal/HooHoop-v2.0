@@ -1083,7 +1083,7 @@ module.exports = [
     ]
   },
   {
-    Make: "MERCEDES-BENZ",
+    Make: "MERCEDES BENZ",
     Models: [
       "190 E",
       "220",

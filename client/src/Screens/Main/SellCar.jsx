@@ -198,8 +198,7 @@ const SellCar = (props) => {
           KMsDriven: parseInt(res.data.latest_odometer_reading),
           Color: res.data.main_colour,
           VINum: res.data.plate,
-          SeatCount: parseInt(res.data.no_of_seats),
-          DoorCount: parseInt(res.data.no_of_seats)
+          SeatCount: parseInt(res.data.no_of_seats)
         });
       })
       .catch((err) => {
@@ -457,18 +456,17 @@ const SellCar = (props) => {
                 <SelectBox
                   handleChange={handleSelectChange}
                   type="autocomplete"
-                  name={"Make"}
+                  name="Make"
                   data={MakeModel.map(({ Make }) => Make) || []}
                   value={dataobject.Make}
                   required
-                  Label="Select Make"
+                  Label="Make"
                   error={showErrors && dataobject.Make.length <= 0}
                 />
                 <SelectBox
                   handleChange={handleSelectChange}
                   name={"Model"}
                   type="autocomplete"
-
                   required
                   data={modelOptions}
                   value={dataobject.Model}
