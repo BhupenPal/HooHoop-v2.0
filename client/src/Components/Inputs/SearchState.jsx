@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { states } from "../../assets/data/carTypes";
 
-function SearchState({ label,handleChange,value }) {
+function SearchState({ label }) {
   const [state, setState] = useState();
   const history = useHistory();
   const handleChange = (e) => {
