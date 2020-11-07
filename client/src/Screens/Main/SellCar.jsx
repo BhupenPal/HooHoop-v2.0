@@ -64,7 +64,6 @@ const SellCar = (props) => {
     State:"",
     DoorCount: null,
     SeatCount: null,
-    ModelDetail: "",
     REGExpiry: new Date(),
     WOFExpiry: new Date(),
     InteriorFront: null,
@@ -580,28 +579,13 @@ const SellCar = (props) => {
                   Label="Number of doors"
                   error={showErrors && dataobject.DoorCount.length <= 0}
                 />
-              <TextField
-                onChange={handleChange}
-                name={"ModelDetail"}
-                value={dataobject.ModelDetail}
-                label="Model Details"
-              />
-
               <SelectBox
-              
                 handleChange={handleChange}
                 name={"ImportHistory"}
-                data={["Don't Know", "Imported"]}
+                data={["New Zealand New", "Imported"]}
                 value={dataobject.ImportHistory}
                 Label="Import History"
               />
-              {/* <SelectBox
-                handleChange={handleChange}
-                name={"PreviousOwners"}
-                value={dataobject.PreviousOwners}
-                data={["1", "2", "3", "4", "5", "5+"]}
-                Label="Previous Oweners"
-              /> */}
               <SelectBox
                 handleChange={handleChange}
                 name={"accessories"}
