@@ -358,7 +358,7 @@ Router.get('/car-data-fetch/:CarPlate', verifyAccessToken, async (req, res, next
 Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpload, (req, res, next) => {
     try {
         // FormData can only store USVString or Blobs, .'. no Booleans
-        let { Make, Model, ModelYear, Price, MinPrice, Featured, BodyType, DoorCount, SeatCount, Import, VINum, KMsDriven, Color, EngineSize, FuelType, FuelStar, SafetyStar, WOFExpiry, REGExpiry, DriveWheel4, ONRoadCost, Description, isNewCar, Dealer, isExteriorVideo, isExteriorSlider, is360Images, Transmission } = req.body
+        let { Make, Model, ModelYear, Price, MinPrice, Featured, BodyType, DoorCount, SeatCount, Import, VINum, KMsDriven, Color, EngineSize, FuelType, FuelStar, SafetyStar, WOFExpiry, REGExpiry, DriveWheel4, ONRoadCost, Description, isNewCar, Dealer, isExteriorVideo, isExteriorSlider, is360Images, Transmission, Accessories } = req.body
 
         // Manipulating Data
         VINum = VINum.toUpperCase()
@@ -369,7 +369,7 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
         let Author = req.payload.aud;
 
         const NewCar = new CarModel({
-            Author, Make, Model, ModelYear, Price, MinPrice, Featured, BodyType, DoorCount, SeatCount, Import, VINum, KMsDriven, Color, EngineSize, FuelType, FuelStar, SafetyStar, WOFExpiry, REGExpiry, DriveWheel4, ONRoadCost, Description, isNewCar, Dealer, Transmission
+            Author, Make, Model, ModelYear, Price, MinPrice, Featured, BodyType, DoorCount, SeatCount, Import, VINum, KMsDriven, Color, EngineSize, FuelType, FuelStar, SafetyStar, WOFExpiry, REGExpiry, DriveWheel4, ONRoadCost, Description, isNewCar, Dealer, Transmission, Accessories
         })
 
         // Setting Make & Model For Search Box Queries

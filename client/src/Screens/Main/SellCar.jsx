@@ -29,7 +29,7 @@ import FileInput from "../../Components/Inputs/FileInput.jsx";
 import { postSellCar } from "../../services/sellCar.js";
 import ErrorSnackBar from "../../Components/OpenSnackBar.jsx";
 import MultiFileInput from "../../Components/MultiFileInput.jsx";
-import { colors,bodyTypes,transmissionTypes, fuelTypes,states } from "../../assets/data/carTypes";
+import { colors,bodyTypes,transmissionTypes, fuelTypes,states,accessories } from "../../assets/data/carTypes";
 import BodyTypeCodes from "../../assets/data/bodyTypes.js";
 import FuelTypeCodes from "../../assets/data/fuelTypes.js";
 
@@ -61,6 +61,7 @@ const SellCar = (props) => {
     Description: "",
     KMsDriven: null,
     VINum: "",
+    State:"",
     DoorCount: null,
     SeatCount: null,
     ModelDetail: "",
@@ -73,6 +74,7 @@ const SellCar = (props) => {
     ExteriorVideo: null,
     FuelStar:null,
     SafetyStar:null,
+    Accessories:[],
   });
   const [modelOptions, setModels] = useState([]);
   const [loader, setLoader] = useState(false);
@@ -484,7 +486,7 @@ const SellCar = (props) => {
                   name={"Transmission"}
                   type="autocomplete"
 
-                  data={transmissionTypes}
+                  data={["Don't Know",...transmissionTypes]}
                   value={dataobject.Transmission }
                   required={true}
                   error={showErrors && dataobject.Transmission.length <= 0}
@@ -504,7 +506,7 @@ const SellCar = (props) => {
                 <SelectBox
                   handleChange={handleSelectChange}
                   name={"FuelType"}
-                  data={fuelTypes}
+                  data={["Don't Know",...fuelTypes]}
                   type="autocomplete"
 
                   value={dataobject.FuelType}
@@ -593,12 +595,20 @@ const SellCar = (props) => {
                 value={dataobject.ImportHistory}
                 Label="Import History"
               />
-              <SelectBox
+              {/* <SelectBox
                 handleChange={handleChange}
                 name={"PreviousOwners"}
                 value={dataobject.PreviousOwners}
                 data={["1", "2", "3", "4", "5", "5+"]}
                 Label="Previous Oweners"
+              /> */}
+              <SelectBox
+                handleChange={handleChange}
+                name={"accessories"}
+                multiple={true}
+                value={dataobject.accessories}
+                data={accessories}
+                Label="Select Accessories"
               />
               <SelectBox
                 handleChange={handleChange}

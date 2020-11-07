@@ -7,7 +7,7 @@ import { useState } from "react"
 
 const selectBox = (props) => {
   const { classes } = props
-  const { data, required, Label, handleChange, name, value, error, type } = props
+  const { data, required, Label, handleChange, name, value, error, type, multiple } = props
   const [current, setCurrent] = useState(value || "")
 
   if (type === "autocomplete") {
@@ -52,6 +52,7 @@ const selectBox = (props) => {
         error={error}
         onChange={handleChange}
         label={Label}
+        multiple={multiple || false}
       >
         {data.map((val, index) => (
           <MenuItem key={index} value={val}>

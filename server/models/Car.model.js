@@ -35,8 +35,16 @@ const CarSchema = mongoose.Schema({
         validTill: {
             type: Date,
             default: null
-        }
+        },
+        transactiondId: [{
+            type: mongoose.Schema.Types.ObjectId,
+            default: null
+        }]
     },
+    Accessories: [{
+        type: String,
+        default: null
+    }],
     BodyType: {
         type: String,
         required: true
