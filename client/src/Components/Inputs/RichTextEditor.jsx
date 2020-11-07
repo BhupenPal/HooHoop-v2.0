@@ -4,11 +4,11 @@ import { Editor } from "@tinymce/tinymce-react";
 function RichTextEditor({handleEditorChange}) {
   return (
     <Editor
-      initialValue=""
       apiKey={process.env.TINY_MCE_API_KEY}
       init={{
         height: 500,
         menubar: false,
+        placeholder: "Describe Here",
         plugins: [
           "advlist autolink lists link image charmap print preview anchor",
           "searchreplace visualblocks code fullscreen",

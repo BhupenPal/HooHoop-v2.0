@@ -28,35 +28,13 @@ import RichTextEditor from "../../Components/Inputs/RichTextEditor.jsx";
 import FileInput from "../../Components/Inputs/FileInput.jsx";
 import { postSellCar } from "../../services/sellCar.js";
 import ErrorSnackBar from "../../Components/OpenSnackBar.jsx";
-import { DropzoneDialog } from "material-ui-dropzone";
 import MultiFileInput from "../../Components/MultiFileInput.jsx";
 import { colors,bodyTypes,transmissionTypes, fuelTypes,states } from "../../assets/data/carTypes";
 import BodyTypeCodes from "../../assets/data/bodyTypes.js";
 import FuelTypeCodes from "../../assets/data/fuelTypes.js";
 
-transmissionTypes =["Don't Know", ...transmissionTypes];
-fuelTypes =["Don't Know", ...fuelTypes];
-
 const SellCar = (props) => {
   const { classes } = props;
-  let dataarray = [];
-  // const bodyTypes = [
-  //   "Convertible",
-  //   "Hatchback",
-  //   "Heavy Van",
-  //   "Light Van",
-  //   "Station Wagon",
-  //   "Utility",
-  //   "Other",
-  // ];
-  // const transmissionTypes = [
-  //   "Don't Know",
-  //   "Automatic",
-  //   "Manual",
-  //   "Triptonic",
-  //   "CVT",
-  // ];
-  // const fuelTypes = ["Don't Know", "Petrol", "Diesel", "Electric", "Hybrid"];
 
   const doorCounts = [1, 2, 3, 4, 5, 6];
   const [showErrors, setShowError] = useState(false);
@@ -190,7 +168,6 @@ const SellCar = (props) => {
         document.querySelector("#Chassis").textContent = res.data.chassis;
         document.querySelector("#Seats").textContent = res.data.no_of_seats;
         
-        dataarray.push(res.data);
         changedata({
           ...dataobject,
           Make: res.data.make.replaceAll("-"," "),
@@ -204,8 +181,8 @@ const SellCar = (props) => {
           Color: res.data.main_colour,
           VINum: res.data.plate,
           SeatCount: parseInt(res.data.no_of_seats),
-          WOFExpiry: !!parseInt(res.data.expiry_date_of_last_successful_wof) ? new Date(parseInt(res.data.expiry_date_of_last_successful_wof)) : new Date(),
-          REGExpiry: !!parseInt(res.data.plates[0].effective_date) ? new Date(parseInt(res.data.plates[0].effective_date)) : new Date(),
+          WOFExpiry: !!parseInt(res.data.expiry_date_of_last_successful_wof) ? new Date(parseInt(res.data.expiry_date_of_last_successful_wof)) : '',
+          REGExpiry: !!parseInt(res.data.plates[0].effective_date) ? new Date(parseInt(res.data.plates[0].effective_date)) : '',
           FuelStar: res.data.safety_economy.fuel_stars,
           SafetyStar: req.data.safety_economy.driver_safety_stars,
         });
