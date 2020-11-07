@@ -35,8 +35,8 @@ import {
   setFilterTransmission,
   setFilterColor,
 } from "../redux/actions/filterActions.js";
-import { FilterList } from "@material-ui/icons";
-import SearchBox from "./Inputs/SearchBox.jsx";
+import { FilterList, Search } from "@material-ui/icons";
+import SearchState from "./Inputs/SearchState.jsx";
 import { useLocation } from "react-router-dom";
 import useWindowDimensions from "../Hooks/WindowDimensions";
 
@@ -288,8 +288,7 @@ const filterComponent = (props) => {
         <Typography variant="h4" component="h3">
           Search by Filters
         </Typography>
-       
-        <SearchBox type="states" label="Search State"/>
+       <SearchState label={"Search State"} />
         <div className="filterClass">
           <div className="filterHead">
             <Typography variant="h6" component="h6">
