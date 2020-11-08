@@ -41,16 +41,14 @@ const CarSchema = mongoose.Schema({
             default: null
         }]
     },
-    Accessories: [{
-        type: String,
-        default: null
-    }],
+    Accessories: [String],
     BodyType: {
         type: String,
         required: true
     },
     DoorCount: {
-        type: Number
+        type: Number,
+        default: null
     },
     SeatCount: {
         type: Number
