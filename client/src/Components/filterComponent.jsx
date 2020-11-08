@@ -288,7 +288,7 @@ const filterComponent = (props) => {
         <Typography variant="h4" component="h3">
           Search by Filters
         </Typography>
-       <SearchState label={"Search State"} />
+       <SearchState label="State" width='90%' />
         <div className="filterClass">
           <div className="filterHead">
             <Typography variant="h6" component="h6">

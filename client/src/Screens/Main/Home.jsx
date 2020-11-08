@@ -113,10 +113,8 @@ function Home(props) {
                 </Typography>
                 <div
                   className={classes.SliderInput}
-                
                 >
-                <SearchBox label={"Search Car"}/>
-
+                <SearchBox placeholder='Search Car' />
                 </div>
                 <p className="wt-500">
                   or try our{" "}

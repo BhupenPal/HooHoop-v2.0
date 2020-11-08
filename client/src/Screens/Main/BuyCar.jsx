@@ -112,11 +112,6 @@ const BuyCar = () => {
           style={{ width: "100%" }}
           loader={renderSkeleton()}
         >
-          {/* {this.state.items.map((i, index) => (
-              <div style={style} key={index}>
-                div - #{index}
-              </div>
-            ))} */}
           <Grid
             item
             container
