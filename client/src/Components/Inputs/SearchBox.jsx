@@ -2,7 +2,6 @@ import { InputAdornment, makeStyles, TextField } from "@material-ui/core";
 import React from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import MakeModel from "../../assets/data/MakeModel.js";
-import {Provinces} from "../../assets/data/Provinces.js";
 import { useAutocomplete } from "@material-ui/lab";
 import { useHistory, useLocation } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
@@ -14,9 +13,8 @@ const useStyles = makeStyles((theme) => ({
   },
   input: {
     width: "100%",
-    background: 'rgba(255,255,255,1)',
+    background: "rgba(255,255,255,1)",
     borderRadius: 5,
-    
   },
   listbox: {
     width: "100%",
@@ -54,8 +52,8 @@ const getAllMakers = () => {
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
-function SearchBox({type,label}) {
-  const query = useQuery()
+function SearchBox({ type, label }) {
+  const query = useQuery();
   //const [search,setSearch] = useState();
   const classes = useStyles();
   const history = useHistory();
@@ -72,30 +70,35 @@ function SearchBox({type,label}) {
     groupedOptions,
   } = useAutocomplete({
     id: "use-autocomplete-demo",
-    options: (type === "states" ? Provinces : getAllMakers()),
-    value:query.get("search") || "",
+    options: getAllMakers(),
+    value: query.get("search") || "",
     getOptionLabel: (option) => option,
   });
-  
-  const handleSubmit= (e) => {
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(getInputProps())
-    history.push(`/buy-car?search=${getInputProps().value}`)
-  }
+    history.push(`/buy-car?search=${getInputProps().value}`);
+  };
   // console.log(getInputProps())
+ 
   return (
-    <form onSubmit={handleSubmit}  style={{ position: "relative" }}>
+    <form onSubmit={handleSubmit} style={{ position: "relative" }}>
       <div {...getRootProps()}>
         {/* <label className={classes.label} {...getInputLabelProps()}>
           useAutocomplete
         </label> */}
         <TextField
-           {...getInputProps()}
-         // defaultValue={search}
-         //  onChange={handleChange}
+          {...getInputProps()}
+          // defaultValue={search}
+          //  onChange={handleChange}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="start" onClick={handleSubmit} style={{cursor:"pointer"}}>
+              <InputAdornment
+                position="start"
+                onClick={handleSubmit}
+                style={{ cursor: "pointer" }}
+              >
                 <SearchIcon />
               </InputAdornment>
             ),
@@ -107,12 +110,7 @@ function SearchBox({type,label}) {
       {groupedOptions.length > 0 ? (
         <ul className={classes.listbox} {...getListboxProps()}>
           {groupedOptions.map((option, index) => (
-            <li
-              {...getOptionProps({ option, index })}
-    
-            >
-              {option}
-            </li>
+            <li {...getOptionProps({ option, index })}>{option}</li>
           ))}
         </ul>
       ) : null}
