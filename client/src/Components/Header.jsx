@@ -1,181 +1,256 @@
-import React, { Fragment } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Button from "@material-ui/core/Button";
-import { Link, NavLink } from "react-router-dom";
-import Logo from "../assets/img/logo/Logo.png";
-import { Box } from "@material-ui/core";
-import ToggleIcon from "../assets/img/svgs/toggleIcon.svg";
-import { useDispatch, useSelector } from "react-redux";
-import { hideSideBar, showSideBar } from "../redux/actions/sideBarActions";
-import SearchBox from "./Inputs/SearchBox.jsx";
+import React, { Fragment } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import { Link, NavLink } from 'react-router-dom'
+import { withRouter } from 'react-router'
+import Logo from '../assets/img/logo/Logo.png'
+import { Box, AppBar, Toolbar, Button, IconButton, Menu, MenuItem } from '@material-ui/core'
+import ToggleIcon from '../assets/img/svgs/toggleIcon.svg'
+import { useDispatch, useSelector } from 'react-redux'
+import { hideSideBar, showSideBar } from '../redux/actions/sideBarActions'
+import SearchBox from './Inputs/SearchBox.jsx'
+import classNames from "classnames";
 
-const HeaderStyles = makeStyles((theme) => ({
+import PermIdentityIcon from '@material-ui/icons/PermIdentity'
+
+const HeaderStyles = makeStyles(theme => ({
   HeaderStyle: {
-    margin: "10px 6%",
-    justifyContent: "space-between",
+    margin: '10px 6%',
+    justifyContent: 'space-between',
     fontSize: 13.5,
     fontWeight: 500,
-    textAlign: "center",
-
-    [theme.breakpoints.down("md")]: {
-      margin: "0",
-    },
+    textAlign: 'center',
+    [theme.breakpoints.down('md')]: {
+      margin: '0'
+    }
   },
   HeaderLogo: {
     width: 300,
-    objectFit: "contain",
-    [theme.breakpoints.down("md")]: {
-      width: 150,
-    },
+    objectFit: 'contain',
+    [theme.breakpoints.down('md')]: {
+      width: 150
+    }
   },
   OptButton: {
     width: 50,
     height: 30,
-    backgroundColor: "#fff",
-    color: "#333",
-    margin:"0 10px"
+    backgroundColor: '#fff',
+    color: '#333',
+    margin: '0 10px'
   },
   RegisterButton: {
     width: 175,
     height: 30,
-    backgroundColor: "#fff",
-    color: "#000",
-    border: "1px solid #DDDDDD",
+    backgroundColor: '#fff',
+    color: '#000',
+    border: '1px solid #DDDDDD'
   },
   LoginButton: {
-    background: "linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%)",
-    color: "#fff",
+    background: 'linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%)',
+    color: '#fff',
     width: 100,
     height: 30,
     borderRadius: 5,
-    [theme.breakpoints.down("md")]: {
-      background: "none",
-      color: "#666666",
-      width: "unset",
-      padding: 0,
-    },
-  },
-}));
+    [theme.breakpoints.down('md')]: {
+      background: 'none',
+      color: '#666666',
+      width: 'unset',
+      padding: 0
+    }
+  }
+}))
 
 const Header = () => {
-  const classes = HeaderStyles();
-  const dispatch = useDispatch();
-  const sideBar = useSelector((store) => store.sideBar);
-  const auth = useSelector((store) => store.auth);
-  
+  const classes = HeaderStyles()
+  const dispatch = useDispatch()
+  const sideBar = useSelector(store => store.sideBar)
+  const auth = useSelector(store => store.auth)
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const handleSideBarToggle = () => {
     if (sideBar.active) {
-      dispatch(hideSideBar());
+      dispatch(hideSideBar())
     } else {
-      dispatch(showSideBar());
+      dispatch(showSideBar())
     }
-  };
-  const renderSearchBox = () => {
-    if (auth.isAuthenticated) {
-      return <SearchBox label={"Search Car"}/>
-    } 
   }
+
+  const renderSearchBox = () => {
+    return (
+      window.location.pathname === '/' ||
+      window.location.pathname === '/sell-car' ||
+      window.location.pathname === '/login' ||
+      window.location.pathname.includes("/register") ||
+      window.location.pathname.includes(500) ||
+      window.location.pathname.includes(400)
+    )
+      ?
+      null
+      :
+      <SearchBox label='' placeholder='Search Car' />
+  }
+
   const renderAuthButtons = () => {
     if (!auth.isAuthenticated) {
       return (
         <Fragment>
-          <Box display={{ xs: "none", md: "inline" }} style={{ marginRight: 20 }}>
-            <NavLink to="/register">
-              <Button color="inherit" className={classes.RegisterButton}>
+          <Box
+            display={{ xs: 'none', md: 'inline' }}
+            style={{ marginRight: 20 }}
+          >
+            <NavLink to='/register'>
+              <Button
+                color='inherit'
+                className={classes.RegisterButton}
+              >
                 Create Account
-              </Button>
+							</Button>
             </NavLink>
           </Box>
-          <Box display={{ xs: "inline" }}>
-            <NavLink to="/login">
-              <Button color="inherit" className={classes.LoginButton}>
+          <Box display={{ xs: 'inline' }}>
+            <NavLink to='/login'>
+              <Button
+                color='inherit'
+                className={classes.LoginButton}
+              >
                 Sign In
-              </Button>
+							</Button>
             </NavLink>
           </Box>
         </Fragment>
-      );
-    }else{
-     return ( <Box display={{ md: "block" }}>
-      <NavLink to="/user/dashboard">
-        <Button color="inherit" className={classes.OptButton}>
-          Profile
-        </Button>
-      </NavLink>
-    </Box>
-     )
-    }
-  };
-  const renderSideBarToggler = () => {
-    if(auth.isAuthenticated ){
-    return (
-      <Box
-      display={{ xs: "block", md: "none" }}
-      onClick={handleSideBarToggle}
-      >
-        <img src={ToggleIcon} alt="" />
-      </Box>
+      )
+    } else {
+      return (
+        <Box display={{ md: 'block' }}>
+          <IconButton color='inherit' className={classes.OptButton} style={{ width: 50, height: 50 }} onClick={handleClick}>
+            <PermIdentityIcon />
+          </IconButton>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            getContentAnchorEl={null}
+            style={{ marginTop: 25 }}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "center" }}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>My Account</MenuItem>
+            <MenuItem onClick={handleClose}>Wishlist</MenuItem>
+            <MenuItem onClick={handleClose}>Logout</MenuItem>
+          </Menu>
+        </Box>
       )
     }
+  }
+
+  const renderSideBarToggler = () => {
+    if (auth.isAuthenticated) {
+      return (
+        <Box
+          display={{ xs: 'block', md: 'none' }}
+          onClick={handleSideBarToggle}
+        >
+          <img src={ToggleIcon} alt='' />
+        </Box>
+      )
     }
+  }
+
   return (
     <AppBar
-      position="static"
-      style={{ backgroundColor: "#fff", position: "relative", zIndex: 200 }}
+      position='static'
+      style={{
+        backgroundColor: '#fff',
+        position: 'relative',
+        zIndex: 200
+      }}
     >
       <Toolbar className={classes.HeaderStyle}>
-        <Box display={{ sm: "block", md:"flex"}} style={{width:"100%"}} justifyContent="space-between">
-        <Box display={{ xs: "flex" }} alignItems="center" justifyContent="center" style={{paddingTop:"1rem"}}>
-        {renderSideBarToggler()}
         <Box
-          display={{ xs: "block" }}
-          flex={1}
+          display={{ sm: 'block', md: 'flex' }}
+          style={{ width: '100%' }}
+          justifyContent='space-between'
         >
-        <Link to="/">
-          <img src={Logo} alt="Hoohoop Logo" className={classes.HeaderLogo} />
-        </Link>
-        </Box>
-        </Box>
-        <Box display={{xs:"block",md:"flex"}} className="header-options">
-      
-        <Box display={{ md: "block" }}  style={{flex:1,margin:"0 10%"}}>
-          {renderSearchBox()}
-        </Box>
-        <Box display={{ xs: "flex" }} style={{padding:"1rem 0"}} justifyContent="center">
-
-          <Box display={{  md: "block" }}>
-            <NavLink to="/">
-              <Button color="inherit" className={classes.OptButton}>
-                Home
-              </Button>
-            </NavLink>
+          <Box
+            display={{ xs: 'flex' }}
+            alignItems='center'
+            justifyContent='center'
+            style={{ paddingTop: '1rem' }}
+          >
+            {renderSideBarToggler()}
+            <Box display={{ xs: 'block' }} flex={1}>
+              <Link to='/'>
+                <img
+                  src={Logo}
+                  alt='Hoohoop Logo'
+                  className={classes.HeaderLogo}
+                />
+              </Link>
+            </Box>
           </Box>
-          <Box display={{ md: "block" }}>
-            <NavLink to="/buy-car">
-              <Button color="inherit" className={classes.OptButton}>
-                Buy
-              </Button>
-            </NavLink>
+          <Box
+            display={{ xs: 'block', md: 'flex' }}
+            className='header-options'
+          >
+            <Box
+              display={{ md: 'block' }}
+              style={{ flex: 1, margin: '0 10%' }}
+            >
+              {renderSearchBox()}
+            </Box>
+            <Box
+              display={{ xs: 'flex' }}
+              style={{ padding: '1rem 0' }}
+              justifyContent='center'
+              className='flex-jc-al-center'
+            >
+              <Box display={{ md: 'block' }}>
+                <NavLink to='/'>
+                  <Button
+                    color='inherit'
+                    className={classes.OptButton}
+                  >
+                    Home
+									</Button>
+                </NavLink>
+              </Box>
+              <Box display={{ md: 'block' }}>
+                <NavLink to='/buy-car'>
+                  <Button
+                    color='inherit'
+                    className={classes.OptButton}
+                  >
+                    Buy
+									</Button>
+                </NavLink>
+              </Box>
+              <Box display={{ md: 'block' }}>
+                <NavLink to='/sell-car'>
+                  <Button
+                    color='inherit'
+                    className={classes.OptButton}
+                  >
+                    Sell
+									</Button>
+                </NavLink>
+              </Box>
+              {renderAuthButtons()}
+            </Box>
           </Box>
-          <Box display={{  md: "block" }}>
-            <NavLink to="/sell-car">
-              <Button color="inherit" className={classes.OptButton}>
-                Sell
-              </Button>
-            </NavLink>
-          </Box>
-
-          {renderAuthButtons()}
         </Box>
-
-        </Box>
-        </Box>
-
       </Toolbar>
     </AppBar>
-  );
-};
+  )
+}
 
-export default Header;
+export default withRouter(Header)
