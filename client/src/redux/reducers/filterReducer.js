@@ -8,6 +8,7 @@ import {
   SET_FILTER_BODY_TYPE,
   SET_FILTER_TRANSMISSION,
   SET_FILTER_COLOR,
+  SET__FILTER_STATE,
 } from "../actions/types";
 import {bodyTypes,transmissionTypes,fuelTypes,colors} from "../../assets/data/carTypes.js";
 import MakeModel from "../../assets/data/MakeModel.js";
@@ -24,11 +25,12 @@ const initialState = {
     bodies:{},
     yearRange:[new Date().getFullYear() - 20, new Date().getFullYear()],
     priceRange:[0, 100000],
-    kmsDriven:[0, 100000],
+    kmsDriven:[0, 200000],
     bodyTypes:arrayToObject(bodyTypes),
     transmissions:arrayToObject(transmissionTypes),
     fuelTypes:arrayToObject(fuelTypes),
     colors:arrayToObject(colors),
+    state:"",
 };
 
 export default function (state = initialState, action) {
@@ -77,6 +79,11 @@ export default function (state = initialState, action) {
         return {
             ...state,
             colors:action.payload
+        }
+    case SET__FILTER_STATE: 
+        return {
+            ...state,
+            state:action.payload
         }
     default:
       return state;

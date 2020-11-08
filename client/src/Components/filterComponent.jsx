@@ -34,6 +34,7 @@ import {
   setFilterBodyType,
   setFilterTransmission,
   setFilterColor,
+  setFilterState,
 } from "../redux/actions/filterActions.js";
 import { FilterList, Search } from "@material-ui/icons";
 import SearchState from "./Inputs/SearchState.jsx";
@@ -68,6 +69,7 @@ const filterComponent = (props) => {
     transmissions,
     fuelTypes,
     colors,
+    state,
   } = useSelector((store) => store.filter);
   const dispatch = useDispatch();
 
@@ -121,7 +123,9 @@ const filterComponent = (props) => {
     query += `ModelYear=${yearRange[0]}-${yearRange[1]}&`;
     query += `Price=${priceRange[0]}-${priceRange[1]}&`;
     query += `KMsDriven=${kmsDriven[0]}-${kmsDriven[1]}&`;
-    query += `SearchedCar=${searchQuery.get("search") || ""}`
+    query += `SearchedCar=${searchQuery.get("search") || ""}&`;
+    query += `SearchedCar=${state}`;
+
     setQuery(query);
   }, [
     brands,
@@ -133,7 +137,8 @@ const filterComponent = (props) => {
     transmissions,
     bodyTypes,
     colors,
-    searchQuery
+    searchQuery,
+    state
   ]);
   const toggleFilterVisiblity = () => {
     setShowFilters((show) => !show);
@@ -255,6 +260,9 @@ const filterComponent = (props) => {
       })
     );
   }
+  function handleStateSearch(e) {
+    dispatch(setFilterState(event.target.value));
+  }
   function handleBodyList(e) {
     dispatch(
       setFilterBodyType({
@@ -288,7 +296,7 @@ const filterComponent = (props) => {
         <Typography variant="h4" component="h3">
           Search by Filters
         </Typography>
-       <SearchState label="State" width='90%' />
+       <SearchState handleChange={handleStateSearch} label="State" width='90%' />
         <div className="filterClass">
           <div className="filterHead">
             <Typography variant="h6" component="h6">
@@ -413,7 +421,7 @@ const filterComponent = (props) => {
             valueLabelFormat={(value) => <div>{numFormatter(value)}</div>}
             className="rangeSlider"
             min={0}
-            max={100000}
+            max={200000}
           />
         </div>
 

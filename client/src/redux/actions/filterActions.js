@@ -8,6 +8,7 @@ import {
     SET_FILTER_BODY_TYPE,
     SET_FILTER_TRANSMISSION,
     SET_FILTER_COLOR,
+    SET__FILTER_STATE,
   } from "../actions/types";
 
 export const setFilterBrands = (data) => {
@@ -64,3 +65,8 @@ export const setFilterColor = (data) => {
         payload:data
     }
 }
+
+export const setFilterState = (data) => ({
+    type:SET__FILTER_STATE,
+    payload:data
+})
