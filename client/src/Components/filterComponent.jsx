@@ -124,7 +124,7 @@ const filterComponent = (props) => {
     query += `Price=${priceRange[0]}-${priceRange[1]}&`;
     query += `KMsDriven=${kmsDriven[0]}-${kmsDriven[1]}&`;
     query += `SearchedCar=${searchQuery.get("search") || ""}&`;
-    query += `SearchedCar=${state}`;
+    query += `State=${state}`;
 
     setQuery(query);
   }, [
@@ -261,7 +261,7 @@ const filterComponent = (props) => {
     );
   }
   function handleStateSearch(e) {
-    dispatch(setFilterState(event.target.value));
+    dispatch(setFilterState(e.target.value));
   }
   function handleBodyList(e) {
     dispatch(
@@ -296,7 +296,7 @@ const filterComponent = (props) => {
         <Typography variant="h4" component="h3">
           Search by Filters
         </Typography>
-       <SearchState handleChange={handleStateSearch} label="State" width='90%' />
+       <SearchState value={state} handleChange={handleStateSearch} label="State" width='90%' />
         <div className="filterClass">
           <div className="filterHead">
             <Typography variant="h6" component="h6">

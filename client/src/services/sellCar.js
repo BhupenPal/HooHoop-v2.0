@@ -1,5 +1,6 @@
 import Axios from "../utils/axios";
 import objectToFormData from "../utils/objectToFormData.js";
+import { successSnackbar } from "../utils/showSnackbar";
 
 export const postSellCar = async (data) => {
   const body = {
@@ -8,7 +9,7 @@ export const postSellCar = async (data) => {
     ModelYear: data.ModelYear,
     Price: data.Price,
     BodyType: data.BodyType,
-    State:data.State,
+    State: data.State,
     DoorCount: data.DoorCount,
     SeatCount: data.SeatCount,
     Transmission: data.Transmission,
@@ -23,24 +24,33 @@ export const postSellCar = async (data) => {
     Dealer: data.Dealer,
     isExteriorVideo: !!data.ExteriorVideo,
     isExteriorSlider: !!data.ExteriorSlider,
-    is360Images: !!((data.InteriorFront && data.InteriorFront[0]) || (data.InteriorMiddle && data.InteriorMiddle[0]) || (data.InteriorRear && data.InteriorRear[0])),
+    is360Images: !!(
+      (data.InteriorFront && data.InteriorFront[0]) ||
+      (data.InteriorMiddle && data.InteriorMiddle[0]) ||
+      (data.InteriorRear && data.InteriorRear[0])
+    ),
     ExteriorVideo: data.ExteriorVideo && data.ExteriorVideo[0],
     ExteriorSlider: data.ExteriorSlider && data.ExteriorSlider,
     InteriorFront: data.InteriorFront && data.InteriorFront[0],
     InteriorMiddle: data.InteriorMiddle && data.InteriorMiddle[0],
     InteriorRear: data.InteriorRear && data.InteriorRear[0],
-    Accessories:data.Accessories
+    Accessories: data.Accessories,
   };
   let headers = {
     "Content-Type":
       "multipart/form-data; charset=utf-8; boundary=" +
       Math.random().toString().substr(2),
   };
-
-  const res = await Axios.post(
-    "/api/user/sell-form/submit",
-    objectToFormData(body),
-    { headers }
-  );
-  return res;
+  try {
+    const res = await Axios.post(
+      "/api/user/sell-form/submit",
+      objectToFormData(body),
+      { headers }
+    );
+    successSnackbar("Car Added Successfully");
+    return res;
+  } catch (err) {
+    errorSnackbar("Something Went Wrong");
+    return null;
+  }
 };

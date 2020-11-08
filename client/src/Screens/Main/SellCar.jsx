@@ -32,15 +32,15 @@ import MultiFileInput from "../../Components/MultiFileInput.jsx";
 import { colors,bodyTypes,transmissionTypes, fuelTypes,states,accessories } from "../../assets/data/carTypes";
 import BodyTypeCodes from "../../assets/data/bodyTypes.js";
 import FuelTypeCodes from "../../assets/data/fuelTypes.js";
+import { useHistory } from "react-router-dom";
+import { errorSnackbar } from "../../utils/showSnackbar";
 
 const SellCar = (props) => {
   const { classes } = props;
-
+  const history = useHistory();
   const doorCounts = [1, 2, 3, 4, 5, 6];
   const [showErrors, setShowError] = useState(false);
-  const [error, setError] = useState("");
-  const [showSuccess, setSuccess] = useState(false);
-  const [showSnackBar, setSnackBar] = useState(false);
+ 
   const [preview, setPreview] = useState({
     InteriorFront: null,
     InteriorRear: null,
@@ -96,9 +96,9 @@ const SellCar = (props) => {
         var duration = video.duration;
         if (duration > 40) {
           changedata({ ...dataobject, ExteriorVideo: null });
-          setError("Video must be less than 40 sec");
-          setSnackBar(true);
-          setShowError(true);
+        
+          errorSnackbar("Video must be less than 40 sec");
+  
         }
       };
       video.src = URL.createObjectURL(files[0]);
@@ -189,7 +189,7 @@ const SellCar = (props) => {
           Model: res.data.model,
           ModelYear: res.data.year_of_manufacture,
           BodyType: BodyTypeCodes[res.data.body_style] || "Others",
-          Transmission: TransmissionStringConvert(res.data.transmission),
+          Transmission: res.data.transmission,
           EngineSize: res.data.cc_rating,
           FuelType: FuelTypeCodes[res.data.fuel_type] || "Others",
           KMsDriven: parseInt(res.data.latest_odometer_reading),
@@ -208,77 +208,53 @@ const SellCar = (props) => {
   };
   const validateForm = () => {
     if (dataobject.Price < 1) {
-      setError("Price is Required");
-      setSnackBar(true);
-      setShowError(true);
+      errorSnackbar("Price is Required");
 
       return false;
     } else if (dataobject.MinPrice < 1) {
-      setError("Minimum Price is Required");
-      setSnackBar(true);
-      setShowError(true);
+      errorSnackbar("Minimum Price is Required");
 
       return false;
     } else if (dataobject.Make.length < 1) {
-      setError("Make is Required");
-      setSnackBar(true);
-      setShowError(true);
+      errorSnackbar("Make is Required");
 
       return false;
     } else if (dataobject.Model.length < 1) {
-      setError("Model is Required");
-      setSnackBar(true);
-      setShowError(true);
+      errorSnackbar("Model is Required");
       return false;
     } else if (dataobject.BodyType.length < 1) {
-      setError("Body Type is Required");
-      setSnackBar(true);
-      setShowError(true);
+      errorSnackbar("Body Type is Required");
       return false;
     } else if (dataobject.Transmission.length < 1) {
-      setError("Transmission is Required");
-      setSnackBar(true);
-      setShowError(true);
+      errorSnackbar("Transmission is Required");
       return false;
     } else if (dataobject.EngineSize <= 0) {
-      setError("Engine Size is Required");
-      setSnackBar(true);
-      setShowError(true);
+      errorSnackbar("Engine Size is Required");
       return false;
     } else if (dataobject.FuelType.length <= 0) {
-      setError("Fuel Type is Required");
-      setSnackBar(true);
-      setShowError(true);
+      errorSnackbar("Fuel Type is Required");
       return false;
     } else if (dataobject.KMsDriven <= 0) {
-      setError("Kilometers Driven is Required");
-      setSnackBar(true);
-      setShowError(true);
+      errorSnackbar("Kilometers Driven is Required");
       return false;
     } else if (dataobject.Color.length <= 0) {
-      setError("Color Type is Required");
-      setSnackBar(true);
-      setShowError(true);
+      errorSnackbar("Color Type is Required");
       return false;
     } else if (dataobject.VINum.length <= 0) {
-      setError("Number Plate is Required");
-      setSnackBar(true);
-      setShowError(true);
+      errorSnackbar("Number Plate is Required");
       return false;
     } else if (dataobject.SeatCount < 1 && dataobject.SeatCount > 11) {
-      setError("No. of seats must be betweeen 1 and 11");
-      setSnackBar(true);
-      setShowError(true);
+      errorSnackbar("No. of seats must be betweeen 1 and 11");
       return false;
     } else if (!dataobject.State && dataobject.State.length <= 0) {
-      setError("State is Required");
-      setSnackBar(true);
-      setShowError(true);
+      errorSnackbar("State is Required");
       return false;
-    } else if (!dataobject.ExteriorSlider && !dataobject.ExteriorVideo) {
-      setError("Please Add Exterior Slider or Exterior Video");
-      setSnackBar(true);
-      setShowError(true);
+    } else if (!dataobject.State && dataobject.State.length <= 0) {
+      errorSnackbar("State is Required");
+      return false;
+    }
+    else if (!dataobject.WOFExpiry && dataobject.WOFExpiry === '') {
+      errorSnackbar("Please Enter Valid WOFExpiry");
       return false;
     }
     return true;
@@ -289,8 +265,8 @@ const SellCar = (props) => {
       setLoader(true);
       postSellCar(dataobject)
         .then(() => {
-          setSuccess(true);
           setLoader(false);
+          history.push("/buy-car");
         })
         .catch((err) => {
           console.log(err);
@@ -309,18 +285,6 @@ const SellCar = (props) => {
       component="main"
       className={`${classes.pageDefault} fadeIn`}
     >
-      <ErrorSnackBar
-        visible={showSnackBar}
-        setVisible={setSnackBar}
-        message={error}
-        severity="error"
-      />
-      <ErrorSnackBar
-        visible={showSuccess}
-        setVisible={setSuccess}
-        message={"Car Listed Successfully"}
-        severity="success"
-      />
       <Grid item container xs={12} className={classes.APIGrid}>
         <img src={SellBackCar} className={classes.backgroundImg} alt="" />
         <Grid

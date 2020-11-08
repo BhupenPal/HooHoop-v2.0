@@ -6,14 +6,14 @@ import { closeSnackbar } from "../redux/actions/snackbarActions";
 
 function CustomSnackbar(props) {
     const dispatch = useDispatch();
-    const {open,message} = useSelector(state => state.snackBar)
+    const {open,severity,message} = useSelector(state => state.snackBar)
     //console.log(open,message)
     const handleClose = () => {
         dispatch(closeSnackbar())
     }
   return (
     <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-      <Alert onClose={handleClose} severity="success">
+      <Alert onClose={handleClose} severity={severity || "success"}>
         {message}
       </Alert>
     </Snackbar>

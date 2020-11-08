@@ -3,9 +3,9 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { states } from '../../assets/data/carTypes'
 
-function SearchState({ label, width, handleChange }) {
-	const [state, setState] = useState()
-	const history = useHistory()
+function SearchState({ label, width, handleChange,value }) {
+	// const [state, setState] = useState()
+	// const history = useHistory()
 // 	const handleChange = e => {
 // 		setState(e.target.value)
 // 		history.push(`/buy-car?search=${e.target.value}`)
@@ -13,12 +13,12 @@ function SearchState({ label, width, handleChange }) {
   
 	return (
 		<FormControl style={{ width, margin: '0 auto' }}>
-			<InputLabel id='demo-simple-select-label'>{label}</InputLabel>
+			<InputLabel id='search-state-label'>{label}</InputLabel>
 			<Select
-				labelId='demo-simple-select-label'
-				id='demo-simple-select'
-				value={state}
+				id='search-state'
+				value={value}
 				onChange={handleChange}
+				label={label}
 			>
 				{states.map(state => (
 					<MenuItem value={state}>{state}</MenuItem>

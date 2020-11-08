@@ -3,9 +3,12 @@ import {
     CLOSE_SNACKBAR
 } from "./types";
 
-export const openSnackbar = (message) => ({
+export const openSnackbar = ({message,severity}) => ({
     type:OPEN_SNACKBAR,
-    payload:message
+    payload:{
+        message,
+        severity
+    }
 })
 export const closeSnackbar = () => ({
     type:CLOSE_SNACKBAR
