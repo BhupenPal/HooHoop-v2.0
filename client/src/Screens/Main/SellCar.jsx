@@ -82,7 +82,7 @@ const SellCar = (props) => {
     KMsDriven: null,
     VINum: "",
     State:"",
-    DoorCount: null,
+    DoorCount: 4,
     SeatCount: null,
     ModelDetail: "",
     REGExpiry: new Date(),
@@ -627,7 +627,7 @@ const SellCar = (props) => {
               /> */}
               <SelectBox
                 handleChange={handleChange}
-                name={"accessories"}
+                name={"Accessories"}
                 multiple={true}
                 value={dataobject.Accessories}
                 data={accessories}
