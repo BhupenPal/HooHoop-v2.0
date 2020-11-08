@@ -201,7 +201,7 @@ Router.get('/buy-car/:PageNo/:size?', async (req, res, next) => {
     // For Search Field Make Model VINum
     if (SearchedCar) {
         const RegExCar = new RegExp(SearchRegex(SearchedCar), 'gi')
-        Filters.$or = [{ Make: RegExCar }, { Model: RegExCar }, { VINum: RegExCar }, { MakeModel: RegExCar }]
+        Filters.$or = [{ VINum: RegExCar }, { MakeModel: RegExCar }]
     }
 
     CarModel.paginate(Filters, options)

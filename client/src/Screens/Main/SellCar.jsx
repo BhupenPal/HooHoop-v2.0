@@ -28,33 +28,13 @@ import RichTextEditor from "../../Components/Inputs/RichTextEditor.jsx";
 import FileInput from "../../Components/Inputs/FileInput.jsx";
 import { postSellCar } from "../../services/sellCar.js";
 import ErrorSnackBar from "../../Components/OpenSnackBar.jsx";
-import { DropzoneDialog } from "material-ui-dropzone";
 import MultiFileInput from "../../Components/MultiFileInput.jsx";
 import { colors,bodyTypes,transmissionTypes, fuelTypes,states,accessories } from "../../assets/data/carTypes";
 import BodyTypeCodes from "../../assets/data/bodyTypes.js";
 import FuelTypeCodes from "../../assets/data/fuelTypes.js";
 
-
 const SellCar = (props) => {
   const { classes } = props;
-  let dataarray = [];
-  // const bodyTypes = [
-  //   "Convertible",
-  //   "Hatchback",
-  //   "Heavy Van",
-  //   "Light Van",
-  //   "Station Wagon",
-  //   "Utility",
-  //   "Other",
-  // ];
-  // const transmissionTypes = [
-  //   "Don't Know",
-  //   "Automatic",
-  //   "Manual",
-  //   "Triptonic",
-  //   "CVT",
-  // ];
-  // const fuelTypes = ["Don't Know", "Petrol", "Diesel", "Electric", "Hybrid"];
 
   const doorCounts = [1, 2, 3, 4, 5, 6];
   const [showErrors, setShowError] = useState(false);
@@ -84,7 +64,6 @@ const SellCar = (props) => {
     State:"",
     DoorCount: 4,
     SeatCount: null,
-    ModelDetail: "",
     REGExpiry: new Date(),
     WOFExpiry: new Date(),
     InteriorFront: null,
@@ -170,6 +149,20 @@ const SellCar = (props) => {
   
   }, [dataobject]);
 
+  const TransmissionStringConvert = CarJamTransmission => {
+    if (CarJamTransmission.includes("automatic")) {
+      return "Automatic"
+    } else if (CarJamTransmission.includes("manual")) {
+      return "Manual"
+    } else if (CarJamTransmission.includes("triptonic")) {
+      return "Triptonic"
+    } else if (CarJamTransmission.includes("CVT")) {
+      return "CVT"
+    } else {
+      return ""
+    }
+  }
+
   const FetchJam = () => {
     var platenum = document.getElementsByName("platenum")[0].value;
     axios
@@ -190,23 +183,21 @@ const SellCar = (props) => {
         document.querySelector("#Chassis").textContent = res.data.chassis;
         document.querySelector("#Seats").textContent = res.data.no_of_seats;
         
-        dataarray.push(res.data);
         changedata({
           ...dataobject,
           Make: res.data.make.replaceAll("-"," "),
           Model: res.data.model,
           ModelYear: res.data.year_of_manufacture,
           BodyType: BodyTypeCodes[res.data.body_style] || "Others",
-          Transmission: res.data.transmission,
+          Transmission: TransmissionStringConvert(res.data.transmission),
           EngineSize: res.data.cc_rating,
           FuelType: FuelTypeCodes[res.data.fuel_type] || "Others",
           KMsDriven: parseInt(res.data.latest_odometer_reading),
           Color: res.data.main_colour,
           VINum: res.data.plate,
           SeatCount: parseInt(res.data.no_of_seats),
-          DoorCount: parseInt(res.data.no_of_seats),
-          WOFExpiry: !!parseInt(res.data.expiry_date_of_last_successful_wof) ? new Date(parseInt(res.data.expiry_date_of_last_successful_wof)) : new Date(),
-          REGExpiry: !!parseInt(res.data.plates[0].effective_date) ? new Date(parseInt(res.data.plates[0].effective_date)): new Date(),
+          WOFExpiry: !!parseInt(res.data.expiry_date_of_last_successful_wof) ? new Date(parseInt(res.data.expiry_date_of_last_successful_wof)) : '',
+          REGExpiry: !!parseInt(res.data.plates[0].effective_date) ? new Date(parseInt(res.data.plates[0].effective_date)) : '',
           FuelStar: res.data.safety_economy.fuel_stars,
           SafetyStar: res.data.safety_economy.driver_safety_stars,
         });
@@ -466,18 +457,17 @@ const SellCar = (props) => {
                 <SelectBox
                   handleChange={handleSelectChange}
                   type="autocomplete"
-                  name={"Make"}
+                  name="Make"
                   data={MakeModel.map(({ Make }) => Make) || []}
                   value={dataobject.Make}
                   required
-                  Label="Select Make"
+                  Label="Make"
                   error={showErrors && dataobject.Make.length <= 0}
                 />
                 <SelectBox
                   handleChange={handleSelectChange}
                   name={"Model"}
                   type="autocomplete"
-
                   required
                   data={modelOptions}
                   value={dataobject.Model}
@@ -603,28 +593,13 @@ const SellCar = (props) => {
                   Label="Number of doors"
                   error={showErrors && dataobject.DoorCount.length <= 0}
                 />
-              <TextField
-                onChange={handleChange}
-                name={"ModelDetail"}
-                value={dataobject.ModelDetail}
-                label="Model Details"
-              />
-
               <SelectBox
-              
                 handleChange={handleChange}
                 name={"ImportHistory"}
-                data={["Don't Know", "Imported"]}
+                data={["New Zealand New", "Imported"]}
                 value={dataobject.ImportHistory}
                 Label="Import History"
               />
-              {/* <SelectBox
-                handleChange={handleChange}
-                name={"PreviousOwners"}
-                value={dataobject.PreviousOwners}
-                data={["1", "2", "3", "4", "5", "5+"]}
-                Label="Previous Oweners"
-              /> */}
               <SelectBox
                 handleChange={handleChange}
                 name={"Accessories"}
@@ -644,7 +619,7 @@ const SellCar = (props) => {
                   "6 - Cylinder",
                   "8 - Cylinder",
                   "10 - Cylinder",
-                  "12 - Cylinder",
+                  "12 - Cylinder"
                 ]}
                 Label="Cylinders"
               />

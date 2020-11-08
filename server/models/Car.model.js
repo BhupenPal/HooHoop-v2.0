@@ -12,6 +12,10 @@ const CarSchema = mongoose.Schema({
         required: true,
         uppercase: true
     },
+    MakeModel: {
+        type: String,
+        required: true
+    },
     ModelYear: {
         type: Number,
         required: true
@@ -31,8 +35,16 @@ const CarSchema = mongoose.Schema({
         validTill: {
             type: Date,
             default: null
-        }
+        },
+        transactiondId: [{
+            type: mongoose.Schema.Types.ObjectId,
+            default: null
+        }]
     },
+    Accessories: [{
+        type: String,
+        default: null
+    }],
     BodyType: {
         type: String,
         required: true
@@ -148,10 +160,6 @@ const CarSchema = mongoose.Schema({
 },
 {
     timestamps: true
-})
-
-CarSchema.virtual('MakeModel').get(function () {
-    return `${this.Make} ${this.Model}`
 })
 
 CarSchema.plugin(uniqueValidator)

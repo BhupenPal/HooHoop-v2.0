@@ -1,46 +1,41 @@
-import React from "react";
-import {
-  InputLabel,
-  MenuItem,
-  FormControl,
-  Select,
-  TextField,
-} from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
-import styles from "../../assets/material/SellForm";
-import { Autocomplete } from "@material-ui/lab";
-import { useState } from "react";
+import React from "react"
+import { InputLabel, MenuItem, FormControl, Select, TextField } from "@material-ui/core"
+import { withStyles } from "@material-ui/core/styles"
+import styles from "../../assets/material/SellForm"
+import { Autocomplete } from "@material-ui/lab"
+import { useState } from "react"
 
 const selectBox = (props) => {
-  const { classes } = props;
-  const { data, required, Label, handleChange, name, value, error, type, multiple } = props;
-  const [current,setCurrent] = useState(value || "");
-  if(type === "autocomplete"){
-      
-  return (
-    <Autocomplete
-      id={Label}
-      options={data}
-      onChange={(e,val) => handleChange(name,val)}
-      onInputChange={(e,val) => setCurrent(val)}
-      name={name}
-      inputValue={current}
-      getOptionLabel={(option) => option}
-      value={value}
-      //style={{ width: 300 }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label={Label}
-          value={value}
-          required={required}
-          error={error}
-          variant="outlined"
-        />
-      )}
-    />
-  );
-}
+  const { classes } = props
+  const { data, required, Label, handleChange, name, value, error, type, multiple } = props
+  const [current, setCurrent] = useState(value || "")
+
+  if (type === "autocomplete") {
+    return (
+      <Autocomplete
+        id={Label}
+        options={data}
+        onChange={(e, val) => handleChange(name, val)}
+        onInputChange={(e, val) => setCurrent(val)}
+        name={name}
+        inputValue={current}
+        getOptionLabel={(option) => option}
+        value={value}
+        disableClearable
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={Label}
+            value={value}
+            required={required}
+            error={error}
+            variant="outlined"
+          />
+        )}
+      />
+    )
+  }
+
   return (
     <FormControl
       size="medium"
@@ -59,20 +54,14 @@ const selectBox = (props) => {
         label={Label}
         multiple={multiple || false}
       >
-        {/* <MenuItem value="">
-            <em>None</em>
-        </MenuItem> */}
         {data.map((val, index) => (
           <MenuItem key={index} value={val}>
             {val}
           </MenuItem>
         ))}
-        {/* <MenuItem value={props.data}>{props.data}</MenuItem>
-        <MenuItem value={20}>Twenty</MenuItem>
-        <MenuItem value={30}>Thirty</MenuItem> */}
       </Select>
     </FormControl>
-  );
-};
+  )
+}
 
-export default withStyles(styles, { withTheme: true })(selectBox);
+export default withStyles(styles, { withTheme: true })(selectBox)

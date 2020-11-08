@@ -358,7 +358,7 @@ Router.get('/car-data-fetch/:CarPlate', verifyAccessToken, async (req, res, next
 Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpload, (req, res, next) => {
     try {
         // FormData can only store USVString or Blobs, .'. no Booleans
-        let { Make, Model, ModelYear, Price, MinPrice, Featured, BodyType, DoorCount, SeatCount, Import, VINum, KMsDriven, Color, EngineSize, FuelType, SafetyStar, WOFExpiry, REGExpiry, DriveWheel4, ONRoadCost, Description, isNewCar, Dealer, isExteriorVideo, isExteriorSlider, is360Images, Transmission } = req.body
+        let { Make, Model, ModelYear, Price, MinPrice, Featured, BodyType, DoorCount, SeatCount, Import, VINum, KMsDriven, Color, EngineSize, FuelType, FuelStar, SafetyStar, WOFExpiry, REGExpiry, DriveWheel4, ONRoadCost, Description, isNewCar, Dealer, isExteriorVideo, isExteriorSlider, is360Images, Transmission, Accessories } = req.body
 
         // Manipulating Data
         VINum = VINum.toUpperCase()
@@ -369,11 +369,15 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
         let Author = req.payload.aud;
 
         const NewCar = new CarModel({
-            Author, Make, Model, ModelYear, Price, MinPrice, Featured, BodyType, DoorCount, SeatCount, Import, VINum, KMsDriven, Color, EngineSize, FuelType, SafetyStar, WOFExpiry, REGExpiry, DriveWheel4, ONRoadCost, Description, isNewCar, Dealer, Transmission
+            Author, Make, Model, ModelYear, Price, MinPrice, Featured, BodyType, DoorCount, SeatCount, Import, VINum, KMsDriven, Color, EngineSize, FuelType, FuelStar, SafetyStar, WOFExpiry, REGExpiry, DriveWheel4, ONRoadCost, Description, isNewCar, Dealer, Transmission, Accessories
         })
+
+        // Setting Make & Model For Search Box Queries
+        NewCar.MakeModel = `${Make} ${Model}`
 
         // Checking if discreter slider images are present
         if (FormDataBoolCheck(isExteriorSlider)) {
+            let ExteriorCounter = 1 
             NewCar.ImageData.SliderCount = req.ExteriorSliderCount
             fs.promises.readdir(`./assets/uploads/cars/${VINum}/exterior/`)
                 .then(files => {
@@ -381,14 +385,15 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
                         sharp(`./assets/uploads/cars/${VINum}/exterior/${CurrentFile}`)
                             .resize(3200, 1600)
                             .jpeg({ quality: 90 })
-                            .toFile(`./assets/uploads/cars/${VINum}/exterior/${NameWithoutExt(CurrentFile)}.jpg`)
+                            .toFile(`./assets/uploads/cars/${VINum}/exterior/Photo_${ExteriorCounter}.jpg`)
                             .then(() => {
-                                if (NameWithoutExt(CurrentFile) !== 'Photo_1') 
+                                ExteriorCounter++
+                                if (NameWithoutExt(CurrentFile) !== 'PHOTO_1') 
                                     fs.unlinkSync(`./assets/uploads/cars/${VINum}/exterior/${CurrentFile}`)
                             })
 
                         // Generating thumbnail using Photo_1
-                        if (NameWithoutExt(CurrentFile) === 'Photo_1') {
+                        if (NameWithoutExt(CurrentFile) === 'PHOTO_1') {
                             Promise.all(
                                 [300, 30].map(size => {
                                     sharp(`./assets/uploads/cars/${VINum}/exterior/${CurrentFile}`)
