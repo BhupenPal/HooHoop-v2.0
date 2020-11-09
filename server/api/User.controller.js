@@ -338,13 +338,6 @@ Router.patch('/forgot-password/confirm', (req, res, next) => {
 })
 
 //Sell Form Routes
-Router.get('/car-exist-check', verifyAccessToken, (req, res, next) => {
-    CarModel.findOne({ VINum: req.body.VINum }, (err, doc) => {
-        if (err || doc) return next(createError.ExpectationFailed())
-        if (!doc) return res.sendStatus(200)
-    })
-})
-
 Router.get('/car-data-fetch/:CarPlate', verifyAccessToken, async (req, res, next) => {
     try {
         const response = await axios.get(`https://carjam.co.nz/a/vehicle:abcd?key=${process.env.CARJAM_API_KEY}&plate=${req.params.CarPlate}`);

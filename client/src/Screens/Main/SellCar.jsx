@@ -150,14 +150,18 @@ const SellCar = (props) => {
   }, [dataobject]);
 
   const TransmissionStringConvert = CarJamTransmission => {
-    if (CarJamTransmission.includes("automatic")) {
-      return "Automatic"
-    } else if (CarJamTransmission.includes("manual")) {
-      return "Manual"
-    } else if (CarJamTransmission.includes("triptonic")) {
-      return "Triptonic"
-    } else if (CarJamTransmission.includes("CVT")) {
-      return "CVT"
+    if (!!CarJamTransmission) {
+      if (CarJamTransmission.includes("automatic")) {
+        return "Automatic"
+      } else if (CarJamTransmission.includes("manual")) {
+        return "Manual"
+      } else if (CarJamTransmission.includes("triptonic")) {
+        return "Triptonic"
+      } else if (CarJamTransmission.includes("CVT")) {
+        return "CVT"
+      } else {
+        return ""
+      }
     } else {
       return ""
     }
@@ -189,7 +193,7 @@ const SellCar = (props) => {
           Model: res.data.model,
           ModelYear: res.data.year_of_manufacture,
           BodyType: BodyTypeCodes[res.data.body_style] || "Others",
-          Transmission: res.data.transmission,
+          Transmission: TransmissionStringConvert(res.data.transmission),
           EngineSize: res.data.cc_rating,
           FuelType: FuelTypeCodes[res.data.fuel_type] || "Others",
           KMsDriven: parseInt(res.data.latest_odometer_reading),
@@ -397,7 +401,7 @@ const SellCar = (props) => {
             type="number"
             name="Price"
             onChange={handleChange}
-            label="Preffered selling price"
+            label="Preferred selling price"
             variant="outlined"
             error={showErrors && dataobject.Price <= 0}
           />
