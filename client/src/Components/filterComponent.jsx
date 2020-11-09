@@ -4,10 +4,6 @@ import {
   Typography,
   Button,
   IconButton,
-  InputLabel,
-  FormControl,
-  OutlinedInput,
-  InputAdornment,
   Collapse,
   Slider,
   Checkbox,
@@ -17,9 +13,6 @@ import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import styles from "../assets/material/Buycar";
 import "../assets/css/buypage.scss";
-
-import classNames from "classnames";
-import edit3 from "../assets/img/svgs/edit-3.svg";
 
 import Makebodies from "../assets/data/MakeModel";
 import { useDispatch, useSelector } from "react-redux";
@@ -300,7 +293,7 @@ const filterComponent = (props) => {
         <div className="filterClass">
           <div className="filterHead">
             <Typography variant="h6" component="h6">
-              Search By Brand
+              Make
             </Typography>
             <IconButton
               size="small"
@@ -335,7 +328,7 @@ const filterComponent = (props) => {
         <div className="filterClass">
           <div className="filterHead">
             <Typography variant="h6" component="h6">
-              Search by Model
+              Model
             </Typography>
             <IconButton
               size="small"
@@ -463,7 +456,7 @@ const filterComponent = (props) => {
         <div className="filterClass">
           <div className="filterHead">
             <Typography variant="h6" component="h6">
-              Type
+              Body Type
             </Typography>
             <IconButton
               size="small"
@@ -546,7 +539,8 @@ const filterComponent = (props) => {
           <Collapse in={filterstate.State5}>
             <div className={classes.expandedFilter} id="colorContainer">
               {Object.keys(colors).map((item, index) => {
-                return (
+                // Making sure the others is not visible in Filter
+                return item !== "Others" && (
                   <label
                     key={index}
                     htmlFor={item}
@@ -564,13 +558,6 @@ const filterComponent = (props) => {
                   </label>
                 );
               })}
-              {/* <div className="colorCircle"></div>
-            <div className="colorCircle"></div>
-            <div className="colorCircle"></div>
-            <div className="colorCircle"></div>
-            <div className="colorCircle"></div>
-            <div className="colorCircle"></div>
-            <div className="colorCircle"></div> */}
             </div>
           </Collapse>
         </div>

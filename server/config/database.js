@@ -3,6 +3,9 @@ const mongoose = require('mongoose'),
 
 const connection = mongoose.connect(process.env.MONGODB_URI, {
     dbName: process.env.DB_NAME,
+    authSource:'admin',
+    user: process.env.DB_USER,
+    pass: process.env.DB_PASSWORD,
     useNewUrlParser: !0,
     useUnifiedTopology: !0,
     useCreateIndex: !0,

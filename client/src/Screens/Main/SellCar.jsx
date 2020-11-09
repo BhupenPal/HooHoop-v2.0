@@ -401,7 +401,7 @@ const SellCar = (props) => {
             type="number"
             name="Price"
             onChange={handleChange}
-            label="Preffered selling price"
+            label="Preferred selling price"
             variant="outlined"
             error={showErrors && dataobject.Price <= 0}
           />
