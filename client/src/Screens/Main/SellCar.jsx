@@ -62,7 +62,7 @@ const SellCar = (props) => {
     KMsDriven: null,
     VINum: "",
     State:"",
-    DoorCount: 4,
+    DoorCount: 5,
     SeatCount: null,
     REGExpiry: new Date(),
     WOFExpiry: new Date(),
@@ -171,7 +171,7 @@ const SellCar = (props) => {
         document.querySelector("#Make").textContent = res.data.make;
         document.querySelector("#ModelYear").textContent =
           res.data.year_of_manufacture;
-        document.querySelector("#BodyStyle").textContent = res.data.body_style;
+        document.querySelector("#BodyStyle").textContent = BodyTypeCodes[res.data.body_style] || "Others";
         document.querySelector("#Model").textContent = res.data.model;
         document.querySelector("#NoOweners").textContent =
           res.data.number_of_owners;
@@ -327,7 +327,7 @@ const SellCar = (props) => {
                 label="Enter your number plate"
                 variant="outlined"
               />
-              <button onClick={() => FetchJam()}>Search</button>
+              <button>Search</button>
             </form>
             <Box
               display="flex"
