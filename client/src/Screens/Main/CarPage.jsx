@@ -21,6 +21,7 @@ import { useParams } from "react-router-dom";
 import "../../assets/Interior 360/PanoControls.css";
 import { getInteriorLinks } from "../../utils/getImagesUrl.js";
 import CarPreview from "../../Components/CarPreview.jsx";
+import WishlistButton from "../../Components/Buttons/WishlistButton.jsx";
 
 const CarPage = (props) => {
   const [user, setUser] = useState({
@@ -127,7 +128,11 @@ const CarPage = (props) => {
           <div className={classes.boxHeader}>
             {car?.Make} {car?.Model}
           </div>
-          <div className={classes.boxText}>$ {car?.Price}</div>
+          <div className={`${classes.boxText} ${classes.price}`}>
+          <div>$ {car?.Price}</div> 
+          <WishlistButton VINum={car?.VINum} LikedBy={car?.LikedBy}/>
+          
+          </div>
           <div>
             <p className={classes.boxText}>About Car</p>
             <Box className={classes.aboutIconsContainer}>
@@ -160,7 +165,7 @@ const CarPage = (props) => {
         </div>
         <div className={classes.boxContainer}>
           <div className={classes.boxHeader}>Seller Details</div>
-          <div className={classes.boxText}>
+          <div className={`${classes.boxText}`}>
             <div className={classes.sellerDetail}>
               <div>Name</div>
               <div>{car?.Dealer.Name}</div>

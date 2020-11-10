@@ -112,7 +112,7 @@ function CarDetails({car,classes}) {
         </div>
         <div style={{ padding: "1rem" }}>
           <h2>Description</h2>
-          <p><SanitizeHTML html={car?.Description}/> </p>
+          <p className={classes.description}><SanitizeHTML html={car?.Description}/> </p>
         </div>
       </div>
     

@@ -82,8 +82,14 @@ export default theme =>({
         borderBottom:"1px solid #DDDDDD",
         fontWeight:600,
     },
-    boxText:{
 
+    price:{
+        display:"flex",
+        alignItems:"center",
+        justifyContent:"space-between",
+        paddingRight:"1rem"
+    },
+    boxText:{
         fontSize:"1.4rem",
         paddingTop:"1rem",
     },
@@ -131,6 +137,10 @@ export default theme =>({
     detailsContainer:{
         marginTop:"-1rem",
         borderTop:"1px solid #DDDDDD"
+    },
+    description:{
+        padding:"2rem",
+        fontSize:"1rem"
     },
     imagesContainer:{
         padding:"1rem",

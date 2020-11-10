@@ -9,6 +9,8 @@ import { FacebookProvider, Share } from "react-facebook";
 import ShareLink from "react-twitter-share-link";
 import React from "react";
 import { useHistory } from "react-router-dom";
+import TwitterIcon from '@material-ui/icons/Twitter';
+import FacebookIcon from '../assets/img/svgs/facebook_white.svg';
 //import {FacebookShareButton, TwitterShareButton} from "react-share";
 const useStyles = makeStyles((theme) => ({
   boxContainer: {
@@ -57,7 +59,15 @@ const useStyles = makeStyles((theme) => ({
     margin:"0 1rem 0 0",
     border:"none",
     cursor:"pointer",
-    color:"#fff"
+    color:"#fff",
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center",
+  },
+  shareContainer:{
+    display:"flex",
+    justifyContent:"space-between",
+    alignItems:"center"
   },
   facebookButton:{
     backgroundColor:"#3B599A"
@@ -73,30 +83,35 @@ function LeadForm({ handleChange, handleCheckboxChange, user, handleSubmit }) {
   //console.log(process.env.FB_APP_ID);
   return (
     <>
-      <div className={classes.boxContainer}>
+      <div className={`${classes.boxContainer} ${classes.shareContainer}` }>
+        <div>
         Share This Deal
+        </div>
+        <div style={{display:"flex"}}>
         <FacebookProvider appId={process.env.FB_CLIENT_ID}>
           <Share href={`${process.env.PUBLIC_URL}${history.location.pathname}`}>
             {({ handleClick, loading }) => (
               <button className={`${classes.shareButton} ${classes.facebookButton}`} type="button" disabled={loading} onClick={handleClick}>
-                F
+                <img height="20rem" src={FacebookIcon} alt="" />
               </button>
             )}
           </Share>
         </FacebookProvider>
+        
         <ShareLink link={`${process.env.PUBLIC_URL}${history.location.pathname}`}>
           {(link) => (
             <a href={link} target="_blank">
               <button className={`${classes.shareButton} ${classes.twitterButton}`} type="button">
-                T
+                <TwitterIcon />
               </button>
             </a>
           )}
         </ShareLink>
+        </div>
       </div>
       <div className={classes.boxContainer}>
         <div>Interested in this Car?</div>
-        <div>Share your details and make offer!</div>
+        <div>Request a call!</div>
         <form onSubmit={handleSubmit}>
           <TextField
             onChange={handleChange}

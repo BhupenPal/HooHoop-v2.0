@@ -20,20 +20,13 @@ import SpeedIcon from "@material-ui/icons/Speed";
 import LocalGasStationIcon from "@material-ui/icons/LocalGasStation";
 import { withStyles } from "@material-ui/core/styles";
 import styles from "../../assets/material/Buycar";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import FavoriteIcon  from "@material-ui/icons/Favorite";
-import { addToWishList } from "../../services/wishlist";
 
 import { Link } from "react-router-dom";
 import { getThumbnailLink } from "../../utils/getImagesUrl";
+import WishlistButton from "../Buttons/WishlistButton.jsx";
 
 const CardComponent = ({ classes, car, index }) => {
-    const [isLiked,setLike] = useState(car.LikedBy)
-    const setWishlist = () => {
-      addToWishList(car.VINum).then(() => {
-        setLike(like => !like);
-      });
-    };
+   
     return (
       <Grid item xs={12} sm={4}  lg={3} xl={2} className={classes.cardContainer}>
 
@@ -118,11 +111,7 @@ const CardComponent = ({ classes, car, index }) => {
               View Details
             </Button>
             </Link>
-            <Avatar onClick={() => setWishlist(car.VINum,index)} className={classes.favoriteIcon}>
-              <IconButton>
-                {(isLiked === true) ? <FavoriteIcon className={classes.heartIcon} /> : <FavoriteBorderIcon className={classes.heartIcon} />}
-              </IconButton>
-            </Avatar>
+            <WishlistButton VINum={car.VINum} LikedBy={car.LikedBy}/>
           </Box>
         </CardContent>
       </Card>

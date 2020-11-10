@@ -75,17 +75,7 @@ export default BuyCar => ({
     typoSmall: {
         fontSize: "0.8rem"
     },
-    favoriteIcon: {
-        backgroundColor: "transparent",
-        border: "1px solid #E85513",
-        marginLeft: "2rem",
-        '&:hover': {
-            backgroundColor: '#E8551310'
-        }
-    },
-    heartIcon: {
-        color: "#E85513",
-    },
+    
     viewDetails:{
         borderRadius: 8,
         display:"block"
