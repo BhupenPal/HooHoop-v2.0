@@ -120,6 +120,7 @@ const CarPage = (props) => {
           </div>
         </Grid>
       </Grid> */}
+
       <CarPreview ImageData={car?.ImageData} VINum={VINum} classes={classes} />
       <Grid item xs={12} md={4}>
         <div className={classes.boxContainer}>

@@ -23,7 +23,7 @@ import NoDealCustomers from "../assets/img/sidebarIcons/no_ideal_customers.svg";
 import YourPayments from "../assets/img/sidebarIcons/your_payments.svg";
 import Logout from "../assets/img/sidebarIcons/logout.svg";
 import Profile from "../Screens/Dashboard/Profile.jsx";
-import Favourites from '../Screens/Dashboard/Favourites.jsx'
+import Favourites from "../Screens/Dashboard/Favourites.jsx";
 import MyListingScreen from "../Screens/Dashboard/MyListing.jsx";
 import AllListingScreen from "../Screens/Dashboard/AllListings.jsx";
 import UserManagementScreen from "../Screens/Dashboard/UserManagements.jsx";
@@ -35,7 +35,7 @@ import { Box } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import OutsideAlerter from "../Hooks/OutsideAlerter.js";
 import { logoutUser } from "../redux/actions/authActions";
-
+import { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navs = {
+const getNavs = (isAdmin) => ({
   Profile: {
     route: "/user/dashboard",
     component: ProfileIcon,
@@ -101,22 +101,28 @@ const Navs = {
     route: "/user/my-listing",
     component: MyListing,
   },
-  "All Listing": {
-    route: "/user/all-listing",
-    component: AllListing,
-  },
-  "User Management": {
-    route: "/user/user-management",
-    component: UserManagement,
-  },
+  "All Listing": isAdmin
+    ? {
+        route: "/user/all-listing",
+        component: AllListing,
+      }
+    : null,
+  "User Management": isAdmin
+    ? {
+        route: "/user/user-management",
+        component: UserManagement,
+      }
+    : null,
   "My Client Management": {
     route: "/user/my-client-management",
     component: MyClientManagement,
   },
-  "All Client Management": {
-    route: "/user/all-client-management",
-    component: AllClientManagement,
-  },
+  "All Client Management": isAdmin
+    ? {
+        route: "/user/all-client-management",
+        component: AllClientManagement,
+      }
+    : null,
   "Your Payments": {
     route: "/user/your-payments",
     component: YourPayments,
@@ -125,13 +131,21 @@ const Navs = {
   //   route: "/",
   //   component: Logout,
   // },
-};
+});
 function SideBar(props) {
   const classes = useStyles();
   const history = useHistory();
   const sideBar = useSelector((store) => store.sideBar);
-  const dispatch = useDispatch()
+  const { user } = useSelector((store) => store.auth);
+
+  const dispatch = useDispatch();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [Navs, setNavs] = useState(getNavs(user && user.Role === "admin"));
+
+  console.log(user);
+  useEffect(() => {
+    setNavs(getNavs(user && user.Role === "admin"));
+  }, [user]);
   const isActive = (route) => {
     return history.location.pathname === route;
   };
@@ -140,49 +154,58 @@ function SideBar(props) {
   };
   const handleLogout = () => {
     dispatch(logoutUser());
-    history.push("/login")
-  }
+    history.push("/login");
+  };
   const drawer = () => (
     <div>
       <List>
         <div className={classes.gap} />
 
-        {Object.keys(Navs).map((text, index) => (
-          <Link to={Navs[text].route} key={index}>
-            <ListItem
-              button
-              key={index}
-              className={
-                isActive(Navs[text].route) ? classes.active : classes.listItem
-              }
-            >
-              <ListItemIcon>
-                <img src={Navs[text].component} height="20rem" alt="nav item" />
-              </ListItemIcon>
-              <ListItemText
-                primary={<span className={classes.text}>{text}</span>}
-              />
-            </ListItem>
-          </Link>
-        ))}
+        {Object.keys(Navs).reduce((arr, text, index) => {
+          if (!Navs[text]) {
+            return arr;
+          }
+          arr.push(
+            <Link to={Navs[text].route} key={arr.length}>
+              <ListItem
+                button
+                key={index}
+                className={
+                  isActive(Navs[text].route) ? classes.active : classes.listItem
+                }
+              >
+                <ListItemIcon>
+                  <img
+                    src={Navs[text].component}
+                    height="20rem"
+                    alt="nav item"
+                  />
+                </ListItemIcon>
+                <ListItemText
+                  primary={<span className={classes.text}>{text}</span>}
+                />
+              </ListItem>
+            </Link>
+          );
+          return arr;
+        }, [])}
 
-    <Box display={{ sm: "block" }}>
-            <ListItem
-              button
-              key={Object.keys(Navs).length}
-              className={classes.listItem}
-              onClick={handleLogout}
-            >
-              <ListItemIcon >
-                <img src={Logout} height="20rem" alt="nav item" />
+        <Box display={{ sm: "block" }}>
+          <ListItem
+            button
+            key={Object.keys(Navs).length}
+            className={classes.listItem}
+            onClick={handleLogout}
+          >
+            <ListItemIcon>
+              <img src={Logout} height="20rem" alt="nav item" />
 
-                {/* <img src={} height="20rem" alt="nav item" /> */}
-              </ListItemIcon>
-              <ListItemText
-                primary={<span className={classes.text}>{"Logout"}</span>}
-              />
-            </ListItem>
-  
+              {/* <img src={} height="20rem" alt="nav item" /> */}
+            </ListItemIcon>
+            <ListItemText
+              primary={<span className={classes.text}>{"Logout"}</span>}
+            />
+          </ListItem>
         </Box>
         <Box display={{ sm: "block", md: "none" }}>
           <Link to={"/sell-car"}>
@@ -235,7 +258,7 @@ function SideBar(props) {
         {/* {props.children} */}
         <Switch>
           <Route path="/user/dashboard" component={Profile} />
-          <Route path='/user/my-favourites' component={Favourites} />
+          <Route path="/user/my-favourites" component={Favourites} />
           <Route path="/user/my-listing" component={MyListingScreen} />
           <Route path="/user/all-listing" component={AllListingScreen} />
           <Route

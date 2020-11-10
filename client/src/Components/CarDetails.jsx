@@ -72,7 +72,7 @@ function CarDetails({car,classes}) {
             <div className={classes.details}>
               <div className={classes.detail}>
                 <p className={classes.detailHead}>Reg. Expiry</p>
-                <p>{car?.REGExpiry}</p>
+                <p>{car?.REGExpiry && new Date(car.REGExpiry).toDateString()}</p>
               </div>
               <div className={classes.detail}>
                 <p className={classes.detailHead}>Fuel Economy</p>
