@@ -43,7 +43,7 @@ export const postSellCar = async (data) => {
   };
   try {
     const res = await Axios.post(
-      "/api/user/sell-form/submit",
+      `/api/user/sell-form/submit?VINum=${data.VINum}`,
       objectToFormData(body),
       { headers }
     );

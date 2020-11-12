@@ -172,7 +172,7 @@ const SellCar = (props) => {
     axios
       .get(`/api/user/car-data-fetch/${platenum}`)
       .then((res) => {
-        document.querySelector("#Make").textContent = res.data.make;
+        document.querySelector("#Make").textContent = res.data.make.replaceAll("-"," ");
         document.querySelector("#ModelYear").textContent =
           res.data.year_of_manufacture;
         document.querySelector("#BodyStyle").textContent = BodyTypeCodes[res.data.body_style] || "Others";
@@ -180,7 +180,7 @@ const SellCar = (props) => {
         document.querySelector("#NoOweners").textContent =
           res.data.number_of_owners;
         document.querySelector("#Color").textContent = res.data.main_colour;
-        document.querySelector("#FuelType").textContent = res.data.fuel_type;
+        document.querySelector("#FuelType").textContent = FuelTypeCodes[res.data.fuel_type] || "Others";
         document.querySelector("#VIN").textContent = res.data.vin;
         document.querySelector("#EngineNo").textContent = res.data.engine_no;
         document.querySelector("#PlateNumber").textContent = res.data.plate;
@@ -213,52 +213,76 @@ const SellCar = (props) => {
   const validateForm = () => {
     if (dataobject.Price < 1) {
       errorSnackbar("Price is Required");
-
+      setShowError  (true);
       return false;
     } else if (dataobject.MinPrice < 1) {
       errorSnackbar("Minimum Price is Required");
+      setShowError  (true);
 
       return false;
     } else if (dataobject.Make.length < 1) {
       errorSnackbar("Make is Required");
+      setShowError  (true);
 
       return false;
     } else if (dataobject.Model.length < 1) {
       errorSnackbar("Model is Required");
+      setShowError  (true);
+
       return false;
     } else if (dataobject.BodyType.length < 1) {
       errorSnackbar("Body Type is Required");
+      setShowError  (true);
+
       return false;
     } else if (dataobject.Transmission.length < 1) {
       errorSnackbar("Transmission is Required");
       return false;
     } else if (dataobject.EngineSize <= 0) {
       errorSnackbar("Engine Size is Required");
+      setShowError  (true);
+
       return false;
     } else if (dataobject.FuelType.length <= 0) {
       errorSnackbar("Fuel Type is Required");
+      setShowError  (true);
+
       return false;
     } else if (dataobject.KMsDriven <= 0) {
       errorSnackbar("Kilometers Driven is Required");
+      setShowError  (true);
+
       return false;
     } else if (dataobject.Color.length <= 0) {
       errorSnackbar("Color Type is Required");
+      setShowError  (true);
+
       return false;
     } else if (dataobject.VINum.length <= 0) {
       errorSnackbar("Number Plate is Required");
+      setShowError  (true);
+
       return false;
     } else if (dataobject.SeatCount < 1 && dataobject.SeatCount > 11) {
       errorSnackbar("No. of seats must be betweeen 1 and 11");
+      setShowError  (true);
+
       return false;
     } else if (!dataobject.State && dataobject.State.length <= 0) {
       errorSnackbar("State is Required");
+      setShowError  (true);
+
       return false;
     } else if (!dataobject.State && dataobject.State.length <= 0) {
       errorSnackbar("State is Required");
+      setShowError  (true);
+
       return false;
     }
     else if (!dataobject.WOFExpiry && dataobject.WOFExpiry === '') {
       errorSnackbar("Please Enter Valid WOFExpiry");
+      setShowError  (true);
+
       return false;
     }
     return true;
@@ -330,6 +354,7 @@ const SellCar = (props) => {
                 name="platenum"
                 label="Enter your number plate"
                 variant="outlined"
+                className="searchInput"
               />
               <button>Search</button>
             </form>

@@ -68,7 +68,7 @@
     align-items: center;
     justify-content: center;
     width: 40%;
-
+    margin:1rem 0;
     @media (max-width:992px) {
         width: 60%;
     }
@@ -76,12 +76,12 @@
         width: 90%;
     }
     button{
-        height: max-content;
+        height: 2rem;
         border: 1px solid #cccccc;
         padding: 7px 1rem;
-        margin: 0 0.5rem;
-        border-radius: 5px;
-        margin-top: 6px;
+        //margin: 0 0.5rem;
+        border-radius: 0 5px 5px 0;
+        //margin-top: 6px;
         outline: none;
         transition: 0.2s;
         cursor: pointer;
@@ -96,13 +96,23 @@
             opacity: 1;
         }
     }
-    div{
-        input{
-            padding: 0.5rem;
-            z-index: 1;
+    .searchInput{
+        margin:0 !important;
+        .MuiOutlinedInput-root{
+            height: 2rem;
+            border-radius: 5px 0 0 5px;
         }
+        .MuiOutlinedInput-input{
+            padding:0 1rem;
+            z-index: 1;
+
+        }
+    }
+    div{
+        
         label{
-            transform: translate(14px, 9px);
+
+            transform: translate(14px, 60%);
         }
     }
     fieldset{
