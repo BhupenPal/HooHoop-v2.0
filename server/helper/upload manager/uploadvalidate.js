@@ -2,7 +2,7 @@ const CarModel = require('../../models/Car.model'),
 	createError = require('http-errors')
 
 module.exports = (req, res, next) => {
-	const { VINExistCheck } = req.headers
+	const { VINExistCheck } = req.query
 	CarModel.findOne({ VINum: VINExistCheck }, (err, doc) => {
 		if (!doc) {
 			req.ValidationDataSet = false

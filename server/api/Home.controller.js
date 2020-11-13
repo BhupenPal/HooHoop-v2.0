@@ -207,7 +207,7 @@ Router.get('/buy-car/:PageNo/:size?', async (req, res, next) => {
     CarModel.paginate(Filters, options)
         .then(cars => {
             cars.docs.map(vehicle => {
-                vehicle.LikedBy = vehicle.LikedBy.some((CurrentObjID) => {
+                vehicle.LikedBy = vehicle.LikedBy.some(CurrentObjID => {
                     return CurrentObjID == UserID ? true : false
                 })
             })
@@ -243,11 +243,27 @@ Router.patch('/wish-handle', verifyAccessToken, async (req, res, next) => {
 
 Router.get('/car/:VINum', (req, res, next) => {
     const { VINum } = req.params
+    let UserID = null
+
+    // Decoding authorization to check user and getting ObjectID
+    if (req.headers['authorization']) {
+        UserID = await decodeToken(req.headers['authorization'])
+        UserID = mongoose.Types.ObjectId(UserID.aud)
+    }
+
     CarModel.findOne({ VINum }, '-Featured.validTill')
         .populate('Author', 'FirstName LastName Phone Email')
         .then(doc => {
             if (!doc) return next(createError.BadRequest())
+            // Checking if user has liked that car or not
+            doc.LikedBy = doc.LikedBy.some(CurrentObjID => {
+                return CurrentObjID == UserID ? true : false
+            })
+            // Deleting seller details if user is not logged in
+            if (!UserID)  delete doc.Author
             res.json(doc)
+            doc.ViewsCount++
+            doc.save()
         })
 })
 
