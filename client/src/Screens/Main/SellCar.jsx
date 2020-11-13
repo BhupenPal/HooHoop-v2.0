@@ -352,7 +352,7 @@ const SellCar = (props) => {
               <TextField
                 id="outlined-basic"
                 name="platenum"
-                label="Enter your number plate"
+                label="Enter Plate or VIN"
                 variant="outlined"
                 className="searchInput"
               />
