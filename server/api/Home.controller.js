@@ -241,7 +241,7 @@ Router.patch('/wish-handle', verifyAccessToken, async (req, res, next) => {
     }
 })
 
-Router.get('/car/:VINum', (req, res, next) => {
+Router.get('/car/:VINum', async (req, res, next) => {
     const { VINum } = req.params
     let UserID = null
 
