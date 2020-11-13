@@ -9,8 +9,10 @@ import { FacebookProvider, Share } from "react-facebook";
 import ShareLink from "react-twitter-share-link";
 import React from "react";
 import { useHistory } from "react-router-dom";
+
 import TwitterIcon from '@material-ui/icons/Twitter';
 import FacebookIcon from '../assets/img/svgs/facebook_white.svg';
+
 //import {FacebookShareButton, TwitterShareButton} from "react-share";
 const useStyles = makeStyles((theme) => ({
   boxContainer: {

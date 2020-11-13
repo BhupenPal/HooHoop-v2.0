@@ -22,7 +22,13 @@ export const fetchCar = async (id) => {
       InteriorRear: car.ImageData?.InteriorRear,
       SliderCount: car.ImageData?.SliderCount,
       VideoFrames: car.ImageData?.VideoFrames,
-
+    },
+    Author: {
+      Email: car.Author.Email,
+      FirstName: car.Author.FirstName,
+      LastName: car.Author.LastName,
+      Phone: car.Author.Phone,
+      _id: car.Author._id,
     },
     FuelStar: car.FuelStar,
     SafetyStar: car.SafetyStar,

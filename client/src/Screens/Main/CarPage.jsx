@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import compose from "recompose/compose";
 import { Box, Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import CarSlider from "../../Components/Sliders/CarSlider.jsx";
 import Ad from "../../Components/Ad.jsx";
@@ -22,6 +26,7 @@ import "../../assets/Interior 360/PanoControls.css";
 import { getInteriorLinks } from "../../utils/getImagesUrl.js";
 import CarPreview from "../../Components/CarPreview.jsx";
 import WishlistButton from "../../Components/Buttons/WishlistButton.jsx";
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 const CarPage = (props) => {
   const [user, setUser] = useState({
@@ -134,7 +139,8 @@ const CarPage = (props) => {
           
           </div>
           <div>
-            <p className={classes.boxText}>About Car</p>
+            {/* <p className={classes.boxText}>About Car</p>
+            */}
             <Box className={classes.aboutIconsContainer}>
               <div>
                 <div className={classes.icon}>
@@ -163,27 +169,39 @@ const CarPage = (props) => {
             </Box>
           </div>
         </div>
-        <div className={classes.boxContainer}>
-          <div className={classes.boxHeader}>Seller Details</div>
-          <div className={`${classes.boxText}`}>
+        <Accordion className={classes.sellerCard}>
+        <AccordionSummary
+          expandIcon={car?.Author ? <ExpandMoreIcon /> : <LockOutlinedIcon/>}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+          
+        >
+          <div className={classes.sellerHeader}>Seller Details</div>
+
+        </AccordionSummary>
+        <AccordionDetails >
+        <div className={`${classes.sellerHeader}`}>
             <div className={classes.sellerDetail}>
               <div>Name</div>
-              <div>{car?.Dealer.Name}</div>
+              <div>{car?.Author.FirstName} {car?.Author.LastName}</div>
             </div>
             <div className={classes.sellerDetail}>
               <div>Phone No.</div>
-              <div>{car?.Dealer.Phone}</div>
+              <div>{car?.Author.Phone}</div>
             </div>
             <div className={classes.sellerDetail}>
               <div>Email</div>
-              <div>{car?.Dealer.Email}</div>
+              <div>{car?.Author.Email}</div>
             </div>
             <div className={classes.sellerDetail}>
               <div>Location</div>
-              <div>{car?.Dealer.Location}</div>
+              <div>{car?.Location}</div>
             </div>
           </div>
-        </div>
+        </AccordionDetails>
+        </Accordion>
+        
+        
       </Grid>
       <Grid item container xs={12} sm={8}>
         <CarDetails car={car} classes={classes} />

@@ -1,6 +1,7 @@
 import { Box, Grid } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { getInteriorLinks, getSliderLinks } from "../utils/getImagesUrl";
+
 import AsNavFor from "./Sliders/AsNavFor.jsx";
 import View360 from "./View360.jsx";
 import Icon360 from "../assets/img/360 Components/360-degree.svg";
@@ -18,7 +19,7 @@ function CarPreview({ ImageData, VINum, classes }) {
     const navImages = [];
 
     if (
-      !(
+      (
         ImageData.InteriorFront ||
         ImageData.InteriorRear ||
         ImageData.InteriorMiddle

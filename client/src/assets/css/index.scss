@@ -96,7 +96,9 @@ input[type=number]::-webkit-outer-spin-button {
     }
     
 }
-
+.MuiAccordion-root.Mui-expanded{
+    margin:1rem !important;
+}
 .fadeIn{
     animation: fadeIn 0.4s;
 }

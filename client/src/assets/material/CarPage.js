@@ -92,11 +92,14 @@ export default theme =>({
     boxText:{
         fontSize:"1.4rem",
         paddingTop:"1rem",
+        //margin:"0 1rem"
     },
     sellerDetail:{
         display:"flex",
+        width:"100%",
         justifyContent:"space-between",
-        fontSize:"1rem"
+        fontSize:"1rem",
+        margin:"0 0 1rem 0"
     },
     topSpecs:{
         padding:"3rem",
@@ -148,5 +151,22 @@ export default theme =>({
             padding:"0rem",
         
           }
-    }
+    },
+    sellerCard:{
+        backgroundColor:"#fff",
+
+        //padding:"1rem",
+        margin:"1rem",
+        height:"fit-content",
+        
+        [theme.breakpoints.down('md')]: {
+             //padding:"1rem",
+             margin:"1rem 0",
+          }
+    },
+    sellerHeader:{
+        width:"100%",
+        fontSize:"1.4rem",
+        fontWeight:500,
+    },
 })
