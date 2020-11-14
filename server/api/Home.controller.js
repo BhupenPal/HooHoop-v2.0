@@ -12,7 +12,7 @@ const express = require('express'),
 
     //Helper and Services
     { GenerateOTP, SearchRegex, RangeBasedFilter } = require('../helper/service'),
-    { verifyAccessToken, decodeToken } = require('../helper/auth/JWT_service'),
+    { verifyAccessToken, decodeToken, decodeTrustedToken } = require('../helper/auth/JWT_service'),
     { csrfProtection } = require('../helper/auth/CSRF_service'),
     { SendMail } = require('../helper/mail/config'),
     { ContactMail } = require('../helper/mail/content');
@@ -241,17 +241,19 @@ Router.patch('/wish-handle', verifyAccessToken, async (req, res, next) => {
     }
 })
 
-Router.get('/car/:VINum', async (req, res, next) => {
+Router.get('/car/:VINum', (req, res, next) => {
     const { VINum } = req.params
     let UserID = null
 
     // Decoding authorization to check user and getting ObjectID
     if (req.headers['authorization']) {
-        UserID = await decodeToken(req.headers['authorization'])
+        UserID = decodeTrustedToken(req.headers['authorization'])
         UserID = mongoose.Types.ObjectId(UserID.aud)
     }
 
-    CarModel.findOne({ VINum }, '-Featured.validTill')
+    const RemovedData = (!UserID) ? '-Featured.validTill -Author' : '-Featured.validTill'
+
+    CarModel.findOne({ VINum }, RemovedData)
         .populate('Author', 'FirstName LastName Phone Email')
         .then(doc => {
             if (!doc) return next(createError.BadRequest())
@@ -259,8 +261,6 @@ Router.get('/car/:VINum', async (req, res, next) => {
             doc.LikedBy = doc.LikedBy.some(CurrentObjID => {
                 return CurrentObjID == UserID ? true : false
             })
-            // Deleting seller details if user is not logged in
-            if (!UserID)  delete doc.Author
             res.json(doc)
             doc.ViewsCount++
             doc.save()
