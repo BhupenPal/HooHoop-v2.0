@@ -161,8 +161,8 @@ Router.get('/buy-car/:PageNo/:size?', async (req, res, next) => {
         UserID = null
 
     // Decoding authorization to check user and getting ObjectID
-    if (req.headers['authorization']) {
-        UserID = await decodeToken(req.headers['authorization'])
+    if (req.cookies['accessToken']) {
+        UserID = await decodeToken(req.cookies['accessToken'])
         UserID = mongoose.Types.ObjectId(UserID.aud)
     }
 
@@ -246,8 +246,8 @@ Router.get('/car/:VINum', (req, res, next) => {
     let UserID = null
 
     // Decoding authorization to check user and getting ObjectID
-    if (req.headers['authorization']) {
-        UserID = decodeTrustedToken(req.headers['authorization'])
+    if (req.cookies['accessToken']) {
+        UserID = decodeTrustedToken(req.cookies['accessToken'])
         UserID = mongoose.Types.ObjectId(UserID.aud)
     }
 

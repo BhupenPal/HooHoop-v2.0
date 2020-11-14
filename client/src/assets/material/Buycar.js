@@ -73,7 +73,8 @@ export default BuyCar => ({
         flex:1,
     },
     typoSmall: {
-        fontSize: "0.8rem"
+        fontSize: "0.8rem",
+        textAlign: 'center'
     },
     
     viewDetails:{

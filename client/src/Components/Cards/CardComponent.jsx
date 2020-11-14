@@ -13,7 +13,6 @@ import {
   Button,
   Grid,
 } from "@material-ui/core";
-import Sports from "../../assets/img/Home/Banner/saleen.jpg";
 import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
 import LocalTaxiIcon from "@material-ui/icons/LocalTaxi";
 import SpeedIcon from "@material-ui/icons/Speed";
