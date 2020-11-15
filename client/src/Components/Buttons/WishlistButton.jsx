@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { addToWishList } from "../../services/wishlist";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     favoriteIcon: {
@@ -21,10 +23,17 @@ const useStyles = makeStyles(theme => ({
 function WishlistButton({ VINum,LikedBy }) {
     const classes = useStyles();
   const [isLiked, setLike] = useState(LikedBy);
+  const {isAuthenticated} = useSelector(state => state.auth)
+  const history = useHistory();
   const setWishlist = () => {
-    addToWishList(VINum).then(() => {
-      setLike((like) => !like);
-    });
+    if(isAuthenticated){
+      addToWishList(VINum).then(() => {
+        setLike((like) => !like);
+      });
+    }else{
+      history.push("/login");
+    }
+    
   };
   useEffect(() => {
     setLike(LikedBy)

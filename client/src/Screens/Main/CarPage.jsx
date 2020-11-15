@@ -2,19 +2,15 @@ import React, { useEffect, useState } from "react";
 import compose from "recompose/compose";
 import { Box, Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import CarSlider from "../../Components/Sliders/CarSlider.jsx";
 import Ad from "../../Components/Ad.jsx";
 import LeadForm from "../../Components/LeadForm.jsx";
 import CarDetails from "../../Components/CarDetails.jsx";
-import PetrolIcon from "../../assets/img/svgs/pertol.svg";
-import KMsIcon from "../../assets/img/svgs/KMsDriven.svg";
-import OwnerIcon from "../../assets/img/svgs/owner-no.svg";
-import CalanderIcon from "../../assets/img/svgs/calander.svg";
 
 import styles from "../../assets/material/CarPage";
 
@@ -25,8 +21,8 @@ import { useParams } from "react-router-dom";
 import "../../assets/Interior 360/PanoControls.css";
 import { getInteriorLinks } from "../../utils/getImagesUrl.js";
 import CarPreview from "../../Components/CarPreview.jsx";
-import WishlistButton from "../../Components/Buttons/WishlistButton.jsx";
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import AboutCar from "../../Components/AboutCar.jsx";
 
 const CarPage = (props) => {
   const [user, setUser] = useState({
@@ -40,6 +36,7 @@ const CarPage = (props) => {
     VINum: "",
     AuthorID: "",
   });
+  
   const [car, setCar] = useState(null);
   const [recommendedCars, setRecommendedCars] = useState([]);
   const [loadingMore, setLoadingMore] = useState(true);
@@ -61,7 +58,6 @@ const CarPage = (props) => {
 
     fetchCar(VINum)
       .then((res) => {
-        
         setCar(res);
         setUser((user) => ({
           ...user,
@@ -82,6 +78,8 @@ const CarPage = (props) => {
           });
       })
       .catch((err) => {
+        setLoadingMore(false);
+
         console.log(err);
       });
   };
@@ -100,113 +98,60 @@ const CarPage = (props) => {
       component="main"
       className={classes.pageDefault}
     >
-      {/* <Grid
-        item
-        container
-        className={classes.imagesContainer}
-        style={{ position: "relative" }}
-        xs={12}
-        md={8}
-      >
-        <Grid item container style={{ position: "relative" }} xs={12}>
-          <div
-            style={{
-              height: "100% ",
-              width: "100%",
-              borderRadius: 5,
-              overflow: "hidden",
-            }}
-          >
-            {sliderElements()}
-          </div>
-        </Grid>
-        <Grid item container xs={12}>
-          <div style={{ width: "100%" }}>
-            <AsNavFor elements={navs} setSlide={setSlide} />
-          </div>
-        </Grid>
-      </Grid> */}
-
-      <CarPreview ImageData={car?.ImageData} VINum={VINum} classes={classes} />
-      <Grid item xs={12} md={4}>
-        <div className={classes.boxContainer}>
-          <div className={classes.boxHeader}>
-            {car?.Make} {car?.Model}
-          </div>
-          <div className={`${classes.boxText} ${classes.price}`}>
-          <div>$ {car?.Price}</div> 
-          <WishlistButton VINum={car?.VINum} LikedBy={car?.LikedBy}/>
-          
-          </div>
-          <div>
-            {/* <p className={classes.boxText}>About Car</p>
-            */}
-            <Box className={classes.aboutIconsContainer}>
-              <div>
-                <div className={classes.icon}>
-                  <img src={PetrolIcon} alt="icon" />
-                </div>
-                <p className={classes.iconText}>{car?.FuelType}</p>
-              </div>
-              <div>
-                <div className={classes.icon}>
-                  <img src={KMsIcon} alt="icon" />
-                </div>
-                <p className={classes.iconText}>{car?.KMsDriven} KM</p>
-              </div>
-              <div>
-                <div className={classes.icon}>
-                  <img src={OwnerIcon} alt="icon" />
-                </div>
-                <p className={classes.iconText}>1st Owner</p>
-              </div>
-              <div>
-                <div className={classes.icon}>
-                  <img src={CalanderIcon} alt="icon" />
-                </div>
-                <p className={classes.iconText}>{car?.ModelYear}</p>
-              </div>
-            </Box>
-          </div>
-        </div>
-        <Accordion className={classes.sellerCard}>
-        <AccordionSummary
-          expandIcon={car?.Author ? <ExpandMoreIcon /> : <LockOutlinedIcon/>}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-          
-        >
-          <div className={classes.sellerHeader}>Seller Details</div>
-
-        </AccordionSummary>
-        <AccordionDetails >
-        <div className={`${classes.sellerHeader}`}>
-            <div className={classes.sellerDetail}>
-              <div>Name</div>
-              <div>{car?.Author.FirstName} {car?.Author.LastName}</div>
-            </div>
-            <div className={classes.sellerDetail}>
-              <div>Phone No.</div>
-              <div>{car?.Author.Phone}</div>
-            </div>
-            <div className={classes.sellerDetail}>
-              <div>Email</div>
-              <div>{car?.Author.Email}</div>
-            </div>
-            <div className={classes.sellerDetail}>
-              <div>Location</div>
-              <div>{car?.Location}</div>
-            </div>
-          </div>
-        </AccordionDetails>
-        </Accordion>
-        
-        
-      </Grid>
       <Grid item container xs={12} sm={8}>
-        <CarDetails car={car} classes={classes} />
+        <Grid item xs={12}>
+          <CarPreview
+            ImageData={car?.ImageData}
+            VINum={VINum}
+            classes={classes}
+          />
+        </Grid>
+        <Box display={{xs:"block",md:"none"}} width={"100%"}>
+        <AboutCar classes={classes} car={car} />
+
+        </Box>
+        <Grid item xs={12}>
+          <CarDetails car={car} classes={classes} />
+        </Grid>
       </Grid>
+
       <Grid item xs={12} md={4}>
+        <Box display={{xs:"none",md:"block"}}>
+        <AboutCar classes={classes} car={car} />
+
+        </Box>
+
+        <Accordion disabled={!car?.Author} className={`${classes.sellerCard} sellerDetails`}>
+          <AccordionSummary
+            expandIcon={car?.Author ? <ExpandMoreIcon /> : <LockOutlinedIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <div className={classes.sellerHeader}>Seller Details</div>
+          </AccordionSummary>
+          <AccordionDetails>
+            <div className={`${classes.sellerHeader}`}>
+              <div className={classes.sellerDetail}>
+                <div>Name</div>
+                <div>
+                  {car?.Author?.FirstName} {car?.Author?.LastName}
+                </div>
+              </div>
+              <div className={classes.sellerDetail}>
+                <div>Phone No.</div>
+                <div>{car?.Author?.Phone}</div>
+              </div>
+              <div className={classes.sellerDetail}>
+                <div>Email</div>
+                <div>{car?.Author?.Email}</div>
+              </div>
+              <div className={classes.sellerDetail}>
+                <div>Location</div>
+                <div>{car?.Location}</div>
+              </div>
+            </div>
+          </AccordionDetails>
+        </Accordion>
         <LeadForm
           handleChange={handleChange}
           handleSubmit={handleSubmit}

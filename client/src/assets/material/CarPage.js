@@ -45,8 +45,10 @@ export default theme =>({
         display:"grid",
         gridTemplateColumns:"repeat(4,1fr)",
         justifyContent:"center",
+        display:"flex",
+        justifyContent:"space-between",
         textAlign:"center",
-        margin:"1rem 0",
+        margin:"2rem 0 1rem 0",
         
     },
     iconsContainer:{
@@ -87,7 +89,7 @@ export default theme =>({
         display:"flex",
         alignItems:"center",
         justifyContent:"space-between",
-        paddingRight:"1rem"
+       // paddingRight:"1rem"
     },
     boxText:{
         fontSize:"1.4rem",
@@ -115,7 +117,7 @@ export default theme =>({
         display:"grid",
         gridTemplateColumns:"1fr 1fr",
         gridGap:"0 1rem",
-        padding:"1rem 0",
+        padding:"1rem",
         overflow:"hidden"
     },
     detailsHeader:{
@@ -138,10 +140,15 @@ export default theme =>({
         width:"100%",
     },
     detailsContainer:{
-        marginTop:"-1rem",
-        borderTop:"1px solid #DDDDDD"
+        borderTop:"1px solid #DDDDDD",
+        margin: "-1rem 1rem",
+        [theme.breakpoints.down('md')]: {
+            margin: "-1rem 0rem"
+        
+          }
     },
     description:{
+        
         padding:"2rem",
         fontSize:"1rem"
     },
@@ -169,4 +176,21 @@ export default theme =>({
         fontSize:"1.4rem",
         fontWeight:500,
     },
+    buttons360:{
+        marginTop:"-4rem",
+        position:"absolute",
+        display:"flex"
+    },
+    button360:{
+        backgroundColor:"#fff",
+        border:"none",
+        borderRadius:"10rem",
+       height:"3rem",
+       width:"3rem",
+       display:"flex",
+       alignItems:"center",
+       justifyContent:"center",
+       marginLeft:"1rem",
+       cursor:"pointer"
+    }
 })

@@ -85,6 +85,9 @@ input[type=number]::-webkit-outer-spin-button {
 
     .slick-list{
         margin: -20px;
+        @media (max-width:720px) {
+            margin: -20px 0;
+        }
     }
 
     .slick-slide *{
@@ -96,7 +99,7 @@ input[type=number]::-webkit-outer-spin-button {
     }
     
 }
-.MuiAccordion-root.Mui-expanded{
+.sellerDetails.MuiAccordion-root.Mui-expanded{
     margin:1rem !important;
 }
 .fadeIn{

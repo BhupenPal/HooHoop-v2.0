@@ -68,8 +68,8 @@ function View360({ images }) {
       <div
         style={{
           width: "100%",
-          height: "100%",
-          minHeight: "25rem",
+          // height: "100%",
+          // minHeight: "25rem",
           // paddingTop: "56.25%",
           position: "relative",
         }}
@@ -86,7 +86,6 @@ function View360({ images }) {
           ref={interiorView}
         ></div>
       </div>
-      <input type="text" />
 
       <select
         name="viewType"

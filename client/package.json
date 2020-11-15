@@ -59,6 +59,7 @@
     "react-infinite-scroll-component": "^5.1.0",
     "react-redux": "^7.2.0",
     "react-slick": "^0.27.11",
+    "react-spring": "^8.0.27",
     "react-twitter-share-link": "^1.2.1",
     "recompose": "^0.30.0",
     "redux": "^4.0.5",
