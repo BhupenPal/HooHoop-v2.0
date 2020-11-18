@@ -35,7 +35,7 @@
         }
     ],
     "start_url":"/",
-    "scope":".",
+    "scope":"/",
     "display":"standalone",
     "orientation":"portrait-primary",
     "background_color":"#fff",

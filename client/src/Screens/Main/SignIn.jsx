@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../redux/actions/authActions";
@@ -15,6 +15,8 @@ import {
   Divider,
   Box,
   Snackbar,
+  InputAdornment,
+  IconButton
 } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
@@ -25,6 +27,10 @@ import FacebookLoginButton from "../../Components/Buttons/FacebookLoginButton.js
 import { useState } from "react";
 import { useEffect } from "react";
 import { activateEmail } from "../../services/emailVerifications";
+
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+
 const useStyles = makeStyles(styles)
 
 function useQuery() {
@@ -34,7 +40,8 @@ const SignIn = () => {
   const [user,setUser] = useState({
     Email:"",
     Password:"",
-    Remember:false
+    Remember:false,
+    showPassword: false
   })
   // const [Errors,setErrors] = useState(null);
   const query = useQuery()
@@ -52,7 +59,6 @@ const SignIn = () => {
   const classes  = useStyles();
   const history = useHistory();
  useEffect(() => {
-   console.log(csrf)
   if(csrf.csrfAvailable){
     if(query.get('token')){
       activateEmail(query.get('token'))
@@ -115,6 +121,14 @@ const SignIn = () => {
       : history.push("/login");
   };
 
+  const handleClickShowPassword = () => {
+    setUser({ ...user, showPassword: !user.showPassword });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <Grid
       item
@@ -169,10 +183,24 @@ const SignIn = () => {
               required
               name="Password"
               label="Password"
-              type="password"
+              type={user.showPassword ? 'text' : 'password'}
               value={user.Password}
               onChange={handleChange}
               autoComplete="current-password"
+              InputProps={{
+                endAdornment: (
+                <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {user.showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                  )
+              }}
             />
             <Grid className={classes.split}>
               <FormControlLabel

@@ -8,7 +8,7 @@ import ToggleIcon from '../assets/img/svgs/toggleIcon.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { hideSideBar, showSideBar } from '../redux/actions/sideBarActions'
 import SearchBox from './Inputs/SearchBox.jsx'
-import classNames from "classnames";
+import { logoutUser } from "../redux/actions/authActions"
 
 import PermIdentityIcon from '@material-ui/icons/PermIdentity'
 
@@ -83,6 +83,11 @@ const Header = () => {
     }
   }
 
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    setAnchorEl(null);
+  };
+
   const renderSearchBox = () => {
     return (
       window.location.pathname === '/' ||
@@ -137,16 +142,26 @@ const Header = () => {
             id="simple-menu"
             anchorEl={anchorEl}
             getContentAnchorEl={null}
-            style={{ marginTop: 25 }}
+            style={{ marginTop: 18 }}
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             transformOrigin={{ vertical: "top", horizontal: "center" }}
             keepMounted
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>My Account</MenuItem>
-            <MenuItem onClick={handleClose}>Wishlist</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
+            <MenuItem onClick={handleClose}>
+              <NavLink to='/user/dashboard' style={{ color: 'inherit' }}>
+                My Account
+              </NavLink>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <NavLink to='/user/my-favourites' style={{ color: 'inherit' }}>
+                Wishlist
+              </NavLink>
+            </MenuItem>
+            <MenuItem onClick={handleLogout}>
+              Logout
+            </MenuItem>
           </Menu>
         </Box>
       )
@@ -185,7 +200,6 @@ const Header = () => {
             display={{ xs: 'flex' }}
             alignItems='center'
             justifyContent='center'
-            style={{ paddingTop: '1rem' }}
           >
             {renderSideBarToggler()}
             <Box display={{ xs: 'block' }} flex={1}>

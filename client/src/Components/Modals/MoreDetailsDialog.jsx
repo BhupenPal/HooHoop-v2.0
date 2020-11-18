@@ -2,14 +2,9 @@ import {
   Avatar,
   Button,
   Dialog,
-  DialogTitle,
   FormControl,
   FormControlLabel,
   InputLabel,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
   makeStyles,
   MenuItem,
   Select,
@@ -77,7 +72,6 @@ function MoreDetailsDialog({ visible, type, handleClose, userDetails, GoogleID, 
     });
   };
   const validateForm = () => {
-    console.log(user)
     if (!State || State.length < 1) {
       return false;
     } else if (!Password || !validPassword(Password)) {
@@ -101,7 +95,6 @@ function MoreDetailsDialog({ visible, type, handleClose, userDetails, GoogleID, 
   };
 
   const handleSubmit = (e) => {
-   // e.preventDefault();
     if (validateForm()) {
       dispatch(registerUser(user, setError, history));
     }

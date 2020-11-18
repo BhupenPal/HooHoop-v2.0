@@ -68,7 +68,7 @@ function SearchBox({ label, placeholder }) {
   } = useAutocomplete({
     id: 'use-autocomplete-demo',
     options: getAllMakers(),
-    value: query.get('search') || '',
+    value: query.get('search') || null,
     getOptionLabel: option => option
   })
 
