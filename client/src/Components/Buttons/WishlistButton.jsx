@@ -5,6 +5,8 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import { addToWishList } from "../../services/wishlist";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import LoginModel from "../Modals/LoginModel.jsx";
+import { showLoginModel } from "../../utils/showLoginModel";
 
 const useStyles = makeStyles(theme => ({
     favoriteIcon: {
@@ -24,22 +26,26 @@ function WishlistButton({ VINum,LikedBy }) {
     const classes = useStyles();
   const [isLiked, setLike] = useState(LikedBy);
   const {isAuthenticated} = useSelector(state => state.auth)
-  const history = useHistory();
+ 
   const setWishlist = () => {
     if(isAuthenticated){
       addToWishList(VINum).then(() => {
         setLike((like) => !like);
       });
     }else{
-      history.push("/login");
+      console.log("show")
+      showLoginModel();
     }
-    
   };
+  
   useEffect(() => {
     setLike(LikedBy)
   }, [LikedBy])
   return (
-    <Avatar onClick={() => setWishlist()} className={classes.favoriteIcon}>
+    <>
+    <LoginModel/>
+
+    <Avatar onClick={setWishlist} className={classes.favoriteIcon}>
       <IconButton>
         {isLiked === true ? (
           <FavoriteIcon className={classes.heartIcon} />
@@ -48,6 +54,7 @@ function WishlistButton({ VINum,LikedBy }) {
         )}
       </IconButton>
     </Avatar>
+    </>
   );
 }
 

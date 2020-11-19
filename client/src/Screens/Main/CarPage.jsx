@@ -23,6 +23,8 @@ import { getInteriorLinks } from "../../utils/getImagesUrl.js";
 import CarPreview from "../../Components/CarPreview.jsx";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import AboutCar from "../../Components/AboutCar.jsx";
+import { useSelector } from "react-redux";
+import { showLoginModel } from "../../utils/showLoginModel.js";
 
 const CarPage = (props) => {
   const [user, setUser] = useState({
@@ -36,7 +38,9 @@ const CarPage = (props) => {
     VINum: "",
     AuthorID: "",
   });
-  
+  const {isAuthenticated} = useSelector(state => state.auth);
+  const isLoginModelVisible = useSelector(state => state.loginModel.active);
+
   const [car, setCar] = useState(null);
   const [recommendedCars, setRecommendedCars] = useState([]);
   const [loadingMore, setLoadingMore] = useState(true);
@@ -46,6 +50,9 @@ const CarPage = (props) => {
     console.log(e.target);
     setUser({ ...user, [e.target.name]: e.target.value });
   };
+  const closeLoginModel = () => {
+    setLoginModel(visible => false)
+  }
   const handleCheckboxChange = (e) => {
     console.log(e.target.checked);
     setUser({ ...user, [e.target.name]: e.target.checked });
@@ -83,13 +90,24 @@ const CarPage = (props) => {
         console.log(err);
       });
   };
+  const handleDetailsClick = () => {
+    if(!isAuthenticated){
+      showLoginModel();
+    }
+  }
   useEffect(() => {
     document.documentElement.scrollTop = 0;
   }, [VINum]);
-  useEffect(() => {
+  useEffect((...args) => {
+    console.log("args",args)
     setLoadingMore(true);
     fetchAndSetCar();
-  }, [VINum]);
+  }, [VINum,isAuthenticated]);
+
+  // useEffect(() => {
+  //   fetchAndSetCar();
+  // }, [,isLoginModelVisible]);
+
 
   return (
     <Grid
@@ -121,7 +139,7 @@ const CarPage = (props) => {
 
         </Box>
 
-        <Accordion disabled={!car?.Author} className={`${classes.sellerCard} sellerDetails`}>
+        <Accordion disabled={!car?.Author} onClick={handleDetailsClick} style={{background:"#fff"}} className={`${classes.sellerCard} sellerDetails`}>
           <AccordionSummary
             expandIcon={car?.Author ? <ExpandMoreIcon /> : <LockOutlinedIcon />}
             aria-controls="panel1a-content"

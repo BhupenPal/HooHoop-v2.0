@@ -47,12 +47,11 @@ function CarPreview({ ImageData, VINum, classes }) {
         </div>
       );
       setButtons((arr) => {
-        arr.push(
+        return [
           <button onClick={() => setSlide(0)} className={classes.button360}>
             <img src={InteriorIcon} alt={"interior"} />
           </button>
-        );
-        return arr;
+        ]
       });
     }
     if (ImageData.VideoFrames && ImageData.VideoFrames > 0) {
@@ -83,15 +82,17 @@ function CarPreview({ ImageData, VINum, classes }) {
         </div>
       );
       setButtons((arr) => {
-        arr.push(
+        
 
-          <button onClick={() => setSlide(
+        const button = (
+           <button onClick={() => setSlide(
             Number(ImageData.InteriorFront ||
             ImageData.InteriorRear ||
             ImageData.InteriorMiddle))} className={classes.button360}>
             <img src={ExteriorIcon} alt={"exterior"} />
           </button>
         );
+        arr = arr[0] ? [arr[0],button] : [button];
         return arr;
       });
     }

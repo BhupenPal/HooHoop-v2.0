@@ -36,7 +36,7 @@ const useStyles = makeStyles(styles)
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
-const SignIn = () => {
+const SignIn = ({inDialog,closeDialog}) => {
   const [user,setUser] = useState({
     Email:"",
     Password:"",
@@ -70,20 +70,24 @@ const SignIn = () => {
  },[csrf.csrfAvailable])
   useEffect(() => {
     
-    if (auth.isAuthenticated) {
+    if (!inDialog && auth.isAuthenticated) {
       history.push("/user/dashboard");
     }
-  }, [])
-  useEffect(() => {
-    if (auth.isAuthenticated) {
-      history.push("/user/dashboard");
+
+    if (inDialog && auth.isAuthenticated) {
+      closeDialog();
     }
+  })
+  // useEffect(() => {
+  //   if (auth.isAuthenticated) {
+  //     history.push("/user/dashboard");
+  //   }
     // if (nextProps.errors) {
     //   this.setState({
     //     Errors: nextProps.errors,
     //   });
     // }
-  })
+  // })
   const showError = (message) => {
     setLoginError(true);
     setErrorMessage(message)
@@ -144,7 +148,7 @@ const SignIn = () => {
         justify="center"
         xs={10}
         md={12}
-        lg={5}
+        lg={inDialog ? 12: 5}
         component={Paper}
         elevation={6}
         square
@@ -270,7 +274,8 @@ const SignIn = () => {
         </Grid>
       </Grid>
       {/* RIGHT BANNER IMAGE */}
-      <Grid item md={false} lg={7} className={classes.image} />
+      
+      <Grid item md={false} lg={!inDialog && 7} className={classes.image} />
     </Grid>
   );
 
