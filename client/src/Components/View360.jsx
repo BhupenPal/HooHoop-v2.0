@@ -51,7 +51,6 @@ function View360({ images }) {
   }, []);
   useEffect(() => {
     if("setImage" in panoViewer){
-      console.log(images[currentView]);
       panoViewer.setImage(images[currentView], {
         projectionType: "equirectangular",
       });
@@ -62,7 +61,7 @@ function View360({ images }) {
 
   return (
     <div
-      style={{ width: "100%", height: "100%" }}
+      style={{ width: "100%", height: "100%",  }}
       className="panoviewer-container viewer"
     >
       <div
@@ -72,6 +71,7 @@ function View360({ images }) {
           // minHeight: "25rem",
           // paddingTop: "56.25%",
           position: "relative",
+          
         }}
         id={randomId2}
         ref={panoSet}
