@@ -20,7 +20,7 @@ const HeaderStyles = makeStyles(theme => ({
     fontWeight: 500,
     textAlign: 'center',
     [theme.breakpoints.down('md')]: {
-      margin: '0'
+      padding: '1rem 0 0 0'
     }
   },
   HeaderLogo: {
