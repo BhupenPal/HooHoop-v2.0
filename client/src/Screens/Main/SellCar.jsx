@@ -177,7 +177,7 @@ const SellCar = (props) => {
           res.data.year_of_manufacture;
         document.querySelector("#BodyStyle").textContent = BodyTypeCodes[res.data.body_style] || "Others";
         document.querySelector("#Model").textContent = res.data.model;
-        document.querySelector("#NoOweners").textContent =
+        document.querySelector("#NoOwners").textContent =
           res.data.number_of_owners;
         document.querySelector("#Color").textContent = res.data.main_colour;
         document.querySelector("#FuelType").textContent = FuelTypeCodes[res.data.fuel_type] || "Others";
@@ -381,7 +381,7 @@ const SellCar = (props) => {
                   Model : <span id="Model"></span>
                 </span>
                 <span>
-                  No of Oweners : <span id="NoOweners"></span>
+                  No of Owners : <span id="NoOwners"></span>
                 </span>
                 <span>
                   Color : <span id="Color"></span>
@@ -426,7 +426,7 @@ const SellCar = (props) => {
             type="number"
             name="Price"
             onChange={handleChange}
-            label="Preferred selling price"
+            label="Preferred Selling Price"
             variant="outlined"
             error={showErrors && dataobject.Price <= 0}
           />
@@ -435,7 +435,7 @@ const SellCar = (props) => {
             type="number"
             name="MinPrice"
             onChange={handleChange}
-            label="Minimum selling price"
+            label="Minimum Selling Price"
             variant="outlined"
             error={showErrors && dataobject.MinPrice <= 0}
           />

@@ -95,7 +95,7 @@ Router.get('/', (req, res, next) => {
                             $gt: ['$Price', 10000]
                         }, DataToFetch, '$$REMOVE']
                     }
-                },
+                }
             }
         },
         {
@@ -254,8 +254,8 @@ Router.get('/car/:VINum', (req, res, next) => {
     const RemovedData = '-Featured.validTill -Featured.transactiondId ' + ((!UserID) ? '-Author' : '-Featured.validTill')
 
     CarModel.findOneAndUpdate({ VINum }, {$inc: {ViewsCount: 1}}, {upsert: true})
-        .populate('Author', 'FirstName LastName Phone Email')
         .select(RemovedData)
+        .populate('Author', 'FirstName LastName Phone Email')
         .lean()
         .exec()
         .then(doc => {
