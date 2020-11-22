@@ -61,6 +61,7 @@ var PanoControls = (function() {
 		var fullscreenContainer = document.getElementsByClassName("fullscreen-container")[0];
 
 		function changeMode(mode) {
+			const viewer = document.getElementById("pano-adjustable");
 			var rootNode = target.parentNode.removeChild(target);
 			var requestFullscreen;
 
@@ -74,14 +75,16 @@ var PanoControls = (function() {
 				document.body.style.overflow = "hidden";
 				fullscreenContainer.appendChild(rootNode);
 				fullscreenContainer.style.display = "block";
+				viewer.style.height = "100vh";
 			} else {
 				document.body.style.overflow = "initial";
 				originalContainer.insertBefore(rootNode, nextElementSibling);
 				fullscreenContainer.style.display = "none";
+				viewer.style.height = "100%";
+
 			}
 
-			// resize event is not triggered.
-			panoViewer.updateViewportDimensions();
+			panoViewer.updateViewportDimensions()
 		}
 
 		screenfull.enabled && screenfull.on("change", changeMode);
