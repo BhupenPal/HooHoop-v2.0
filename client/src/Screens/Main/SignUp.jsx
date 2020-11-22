@@ -50,6 +50,7 @@ const SignUp = (props) => {
     Phone: "",
     State: "",
     Role: false,
+    termsAndConditions:false,
     DealershipName: null,
     DealershipEmail: null,
     DealershipPhone: null,
@@ -97,6 +98,7 @@ const SignUp = (props) => {
       cPassword,
       Phone,
       State,
+      termsAndConditions,
     } = user;
     if (!FirstName || FirstName.length < 1) {
       return false;
@@ -111,6 +113,8 @@ const SignUp = (props) => {
     } else if (!Phone || Phone.length !== 10) {
       return false;
     } else if (!states.includes(State)) {
+      return false;
+    } else if (!termsAndConditions) {
       return false;
     }
     return true;
@@ -299,7 +303,7 @@ const SignUp = (props) => {
             ) : null}
             <Grid className={classes.split}>
               <FormControlLabel
-                control={<Checkbox required color="primary" />}
+                control={<Checkbox onChange={handleChange} name="termsAndConditions" checked={user.termsAndConditions} required color="primary" />}
                 label="By creating an account you agree to accept our terms and conditions."
               />
             </Grid>

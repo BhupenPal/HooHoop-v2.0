@@ -57,7 +57,6 @@ function CarDetails({ car, classes }) {
       </div>
       <Accordion
         className={`${classes.detailsContainer}`}
-        style={{  }}
       >
         <AccordionSummary
           expandIcon={<ChevronRightIcon style={{ color: "#E85513" }} />}
@@ -108,7 +107,7 @@ function CarDetails({ car, classes }) {
         </AccordionDetails>
       </Accordion>
 
-      <div style={{ padding: "2rem",marginTop:"1rem" }}>
+      <div style={{ padding: "2rem 1rem",marginTop:"1rem" }}>
         <h2>Description</h2>
         <p className={classes.description}>
           <SanitizeHTML html={car?.Description} />{" "}

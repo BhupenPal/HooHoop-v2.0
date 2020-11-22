@@ -130,10 +130,10 @@ const SellCar = (props) => {
     changedata({ ...dataobject, [e.target.name]: e.target.value });
   };
 
-  const getLast20Years = () => {
+  const getLast35Years = () => {
     let years = [];
     for (
-      let i = new Date().getFullYear() - 20;
+      let i = new Date().getFullYear() - 35;
       i <= new Date().getFullYear();
       i++
     ) {
@@ -470,7 +470,7 @@ const SellCar = (props) => {
                 <SelectBox
                   handleChange={handleChange}
                   name={"ModelYear"}
-                  data={getLast20Years()}
+                  data={getLast35Years()}
                   value={dataobject.ModelYear}
                   required={true}
                   error={showErrors && dataobject.ModelYear.length <= 0}
