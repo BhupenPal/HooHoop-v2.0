@@ -40,7 +40,15 @@ function FacebookLoginButton(props) {
       <FacebookLogin
         appId={process.env.FB_CLIENT_ID}
         render={(renderProps) => (
-          <Button onClick={renderProps.onClick} className={classes.social}>
+          <Button 
+          onClick={renderProps.onClick} 
+          className={classes.social}
+          style={{
+            color:"#fff",
+            backgroundColor:"#3B5998",
+            boxShadow:"0.2rem 0.2rem 1rem rgba(0,0,0,0.2)"
+          }}
+          >
             Facebook
           </Button>
         )}
