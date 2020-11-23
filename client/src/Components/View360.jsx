@@ -31,7 +31,7 @@ function View360({ images }) {
     srcImage.crossOrigin = "anonymous";
     console.log(currentView);
     srcImage.src = images[currentView] || MiddleImg;
-    const interiorViewContainer = document.getElementById(randomId);
+    const interiorViewContainer = document.getElementById("pano-adjustable");
     const pano = new PanoViewer(interiorViewContainer, {
       //image: "src/assets/img/sample-car/interior/middle.jpg",
       image: srcImage,
@@ -53,6 +53,8 @@ function View360({ images }) {
     if("setImage" in panoViewer){
       panoViewer.setImage(images[currentView], {
         projectionType: "equirectangular",
+        // fullscreen:true,
+        
       });
       PanoControls.showLoading();
 
@@ -61,15 +63,12 @@ function View360({ images }) {
 
   return (
     <div
-      style={{ width: "100%", height: "100%",  }}
+      style={{ width: "100%", height: "100%"  }}
       className="panoviewer-container viewer"
     >
       <div
         style={{
           width: "100%",
-          // height: "100%",
-          // minHeight: "25rem",
-          // paddingTop: "56.25%",
           position: "relative",
           
         }}
@@ -77,10 +76,10 @@ function View360({ images }) {
         ref={panoSet}
       >
         <div
-          id={randomId}
+          id={"pano-adjustable"}
+          
           style={{
-            width: "100%",
-            height: "100%",
+            height:"100%",
             paddingTop: "56.25%",
           }}
           ref={interiorView}
