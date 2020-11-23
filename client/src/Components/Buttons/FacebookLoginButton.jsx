@@ -1,5 +1,5 @@
 import { Button, makeStyles } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import  FacebookLogin  from "react-facebook-login/dist/facebook-login-render-props";
 import { FacebookLoginService } from "../../services/OAuthLogin.js";
 import MoreDetailsDialog from "../Modals/MoreDetailsDialog.jsx";
@@ -30,7 +30,7 @@ function FacebookLoginButton(props) {
     }
   };
   return (
-    <>
+    <Fragment>
       <MoreDetailsDialog
         visible={showDialog}
         type="facebook_login"
@@ -61,7 +61,7 @@ function FacebookLoginButton(props) {
         ].join(" ")}
         callback={facebookLogin}
       />
-    </>
+    </Fragment>
   );
 }
 

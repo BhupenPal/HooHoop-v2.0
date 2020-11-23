@@ -148,7 +148,7 @@ function LeadForm({ handleChange, handleCheckboxChange, user, handleSubmit }) {
       </div>
       <div className={classes.boxContainer}>
         <div style={{fontSize:"1.2rem"}}>Interested in this Car?</div>
-        <div>Request a call!</div>
+        <div>Contact Seller!</div>
         <div style={{position:"relative"}}>
         {renderLock()}
         <form
@@ -183,7 +183,7 @@ function LeadForm({ handleChange, handleCheckboxChange, user, handleSubmit }) {
                 onChange={handleCheckboxChange}
               />
               <label className={classes.optionLabel} htmlFor="Contact Seller">
-                <div>Contact Seller</div>
+                <div>Request a callback</div>
                 <div>
                   {
                     user.CallbackQuery ?
@@ -212,7 +212,7 @@ function LeadForm({ handleChange, handleCheckboxChange, user, handleSubmit }) {
                 className={classes.optionLabel}
                 htmlFor="Book A Test Drive"
               >
-                <div>Book A Test Drive</div>
+                <div>Book a Test Drive</div>
                 <div>
                   
                   {
@@ -239,7 +239,7 @@ function LeadForm({ handleChange, handleCheckboxChange, user, handleSubmit }) {
                 onChange={handleCheckboxChange}
               />
               <label className={classes.optionLabel} htmlFor="Shipping Query">
-                <div>Shipping Quote</div>
+                <div>Get Shipping Quote</div>
                 <div>
                   {
                     user.ShipmentQuery ?
