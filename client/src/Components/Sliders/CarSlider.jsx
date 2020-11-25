@@ -70,7 +70,7 @@ const BackwardIcon = ({ className, style, onClick }) => {
 }
 
 const settings = {
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
@@ -106,8 +106,7 @@ const settings = {
             settings: {
                 slidesToShow: 1.4,
                 slidesToScroll: 1,
-                nextArrow: null,
-                prevArrow: null
+                arrows:false
             }
         }
     ]
@@ -115,15 +114,14 @@ const settings = {
 
 const CarSlider = ({ data, loading }) => {
     const classes = CarSliderStyles()
-
     const renderSkeletons = () => {
-        return (!loading)
-            ?
-            null
-            :
-            (
+        return(
+        <div style={{ width: '100%', margin: '30px 0' }}>
+
+                <Slider {...settings}>
+                {
                 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => (
-                    <div key={item}>
+                    <div key={item * 100}>
                         <div className={classNames(classes.SliderCar, classes.HideBoxShadow)}>
                             <Skeleton
                                 variant='rect'
@@ -155,13 +153,20 @@ const CarSlider = ({ data, loading }) => {
                         </div>
                     </div>
                 ))
+            }
+                </Slider>
+            </div>
             )
+        
+    }
+    if(loading){
+        return renderSkeletons();
     }
 
     return (
         <div style={{ width: '100%', margin: '30px 0' }}>
             <Slider {...settings}>
-                {renderSkeletons()}
+            
                 {
                     data.map(item => {
                         const carName = `${item.Make} ${item.Model}`;
