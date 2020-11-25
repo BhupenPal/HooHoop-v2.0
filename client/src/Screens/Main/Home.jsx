@@ -17,9 +17,9 @@ import { Link } from "react-router-dom";
 import styles from "../../assets/material/Home";
 
 // Images
-import Toyota from "../../assets/img/Home/Banner/toyota.jpg";
-import Volkswagen from "../../assets/img/Home/Banner/volkswagen.jpg";
-import Saleen from "../../assets/img/Home/Banner/saleen.jpg";
+import banner_1 from "../../assets/img/Home/Banner/banner_5.png";
+import banner_2 from "../../assets/img/Home/Banner/banner_1.png";
+import banner_3 from "../../assets/img/Home/Banner/banner_7.png";
 
 // Components
 import CarSlider from "../../Components/Sliders/CarSlider.jsx";
@@ -51,9 +51,9 @@ function Home(props) {
 
   // Banner Images Slider
   const SliderImages = [
-    { id: 1, url: Saleen },
-    { id: 2, url: Volkswagen },
-    { id: 3, url: Toyota },
+    { id: 1, url: banner_1 },
+    { id: 2, url: banner_2 },
+    { id: 3, url: banner_3 },
   ];
 
   // Banner Images Slider Settings

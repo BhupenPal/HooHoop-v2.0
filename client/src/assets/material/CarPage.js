@@ -143,7 +143,7 @@ export default theme =>({
     },
     detailsContainer:{
         borderTop:"1px solid #DDDDDD",
-        margin: "-1rem 1rem",
+        margin: "-1rem 1rem !important",
         [theme.breakpoints.down('md')]: {
             margin: "-1rem 0rem"
         

@@ -7,6 +7,9 @@ import MailOutlineRoundedIcon from '@material-ui/icons/MailOutlineRounded';
 
 const ContactUS = (props) => {
     const { classes } = props;
+    useEffect(() => {
+        document.documentElement.scrollTop = 0;
+    },[])
     return (
         <Grid container component='main' xs={12} className={classes.root}>
             <Grid item xs={12} className={classes.faqIntro}>

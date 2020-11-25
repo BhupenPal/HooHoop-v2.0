@@ -4,6 +4,9 @@ import styles from "../../assets/material/FooterPages";
 
 const TermsConditions = (props) => {
   const { classes } = props;
+  useEffect(() => {
+    document.documentElement.scrollTop = 0;
+  }, []);
   return (
     <Paper>
       <Grid

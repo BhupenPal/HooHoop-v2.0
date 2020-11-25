@@ -6,6 +6,9 @@ import classNames from 'classnames'
 
 const CancellationPolicy = (props) => {
     const { classes } = props;
+    useEffect(() => {
+        document.documentElement.scrollTop = 0;
+    },[])
     return (
         <Grid container component='main' xs={10} className={classNames(classes.root, classes.marginBT90)}>
             <Grid item xs={12}>
