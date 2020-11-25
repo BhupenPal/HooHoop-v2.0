@@ -4,8 +4,7 @@ import {
   Grid,
   Typography,
   Tabs,
-  Tab,
-  Button
+  Tab
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
@@ -17,9 +16,8 @@ import { Link } from "react-router-dom";
 import styles from "../../assets/material/Home";
 
 // Images
-import banner_3 from "../../assets/img/Home/Banner/banner_5.png";
-import banner_1 from "../../assets/img/Home/Banner/banner_1.png";
-import banner_2 from "../../assets/img/Home/Banner/banner_7.png";
+import banner_1 from "../../assets/img/Home/Banner/mercedes.png";
+import banner_2 from "../../assets/img/Home/Banner/headlight.png";
 
 // Components
 import CarSlider from "../../Components/Sliders/CarSlider.jsx";
@@ -52,8 +50,7 @@ function Home(props) {
   // Banner Images Slider
   const SliderImages = [
     { id: 1, url: banner_1 },
-    { id: 2, url: banner_2 },
-    { id: 3, url: banner_3 },
+    { id: 2, url: banner_2 }
   ];
 
   // Banner Images Slider Settings
@@ -158,15 +155,6 @@ function Home(props) {
           {renderUsedTypeCars()}
         </Grid>
         <Grid item xs={12} md={12} className={classes.AdImage}>
-          {/* "<Typography variant="h2" className={classes.AdContent}>
-            Worried about condition of the car?
-          </Typography>
-          <Typography variant="h5" className={classes.AdContent}>
-            Get a free test drive on your first selection.
-          </Typography>
-          <Button type="submit" color="primary" className={classes.AdButton}>
-            Book Now
-          </Button>" */}
         </Grid>
         <Grid item xs={12} md={10} style={{ marginTop: 70 }}>
           <Typography variant="h2" className="home-subhead">

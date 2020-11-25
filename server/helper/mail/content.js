@@ -2,7 +2,7 @@ module.exports = {
 
    ContactMail: (Email, Subject, FullName, Message) => {
       return {
-         templateId: '',
+         templateId: 'd-7f4db062ff1344318d7c5a5aa55bb99c',
          Data: {
             CustomerEmail: Email,
             CustomerName: FullName,
@@ -17,7 +17,7 @@ module.exports = {
       return {
          templateId: 'd-70629e5f131344819b4d6ef309823693',
          Data: {
-            FirstName: FirstName,
+            CustomerName: FirstName,
             SecretToken: SecretToken
          }
       }

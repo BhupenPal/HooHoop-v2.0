@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { withStyles, Grid, Typography, Divider } from "@material-ui/core";
 import styles from '../../assets/material/FooterPages';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
