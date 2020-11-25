@@ -4,6 +4,9 @@ import styles from '../../assets/material/FooterPages';
 
 const PrivacyPolicy = (props) => {
     const { classes } = props;
+    useEffect(() => {
+        document.documentElement.scrollTop = 0;
+    },[])
     return (
         <Paper>
             <Grid container component="main" justify="center" className={classes.marginBT90}>

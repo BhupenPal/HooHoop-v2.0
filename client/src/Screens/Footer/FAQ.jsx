@@ -9,6 +9,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const FAQ = (props) => {
     const { classes } = props;
+    useEffect(() => {
+        document.documentElement.scrollTop = 0;
+    },[])
     return (
         <Grid container component='main' className={classes.root}>
             <Grid item xs={12} className={classes.faqIntro} >

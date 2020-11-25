@@ -33,7 +33,7 @@ export default ({elements,setSlide}) => {
         {
             breakpoint: 720,
             settings: {
-                slidesToShow: elements.length < 3 ? elements.length : 3.2,
+                slidesToShow: elements.length <= 3 ? elements.length : 3.2,
                 slidesToScroll: 1,
                 initialSlide: 0,
                 arrows:false,

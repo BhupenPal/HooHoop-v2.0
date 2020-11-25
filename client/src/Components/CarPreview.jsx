@@ -17,6 +17,7 @@ function CarPreview({ ImageData, VINum, classes }) {
   const [navs, setNavs] = useState([]);
   const [slide, setSlide] = useState(0);
   const [buttons, setButtons] = useState([]);
+  let [sliderNavStart,setNavStart] = useState(0);
   const makeSliderElements = () => {
     const slider = [];
     const navImages = [];
@@ -31,7 +32,7 @@ function CarPreview({ ImageData, VINum, classes }) {
         <div
           className={classes.sliderImages}
           style={{
-            display: "flex",
+            display: "none",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
@@ -46,12 +47,14 @@ function CarPreview({ ImageData, VINum, classes }) {
           <div>Interior</div>
         </div>
       );
+      setNavStart(val => 1);
       setButtons((arr) => {
         return [
           <button onClick={() => setSlide(0)} className={classes.button360}>
             <img src={InteriorIcon} alt={"interior"} />
           </button>
         ]
+
       });
     }
     if (ImageData.VideoFrames && ImageData.VideoFrames > 0) {
@@ -62,11 +65,12 @@ function CarPreview({ ImageData, VINum, classes }) {
           noOfFrames={ImageData.VideoFrames}
         />
       );
+      setNavStart(val => val ? 2 : 1)
       navImages.push(
         <div
           className={classes.sliderImages}
           style={{
-            display: "flex",
+            display: "none",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
@@ -130,7 +134,9 @@ function CarPreview({ ImageData, VINum, classes }) {
     }
   }, [ImageData]);
   console.log(navs);
-
+  const setSlideFromNav = (index) => {
+    setSlide(index + sliderNavStart);
+  }
   if (sliderElements.length < 1) {
     const SkeletonNavs = [
       <Skeleton variant="rect" className={classes.sliderImages} key={1} />,
@@ -185,7 +191,7 @@ function CarPreview({ ImageData, VINum, classes }) {
       </Grid>
       <Grid item container xs={12}>
         <div style={{ width: "100%" }}>
-          <AsNavFor elements={navs} setSlide={setSlide} />
+          <AsNavFor elements={navs.slice(sliderNavStart)} setSlide={setSlideFromNav} />
         </div>
       </Grid>
     </Grid>

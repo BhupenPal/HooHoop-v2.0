@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { withStyles, Paper, Grid, Typography, Card, CardContent } from "@material-ui/core";
 import styles from '../../assets/material/FooterPages';
 import classNames from 'classnames'
@@ -9,6 +9,9 @@ import money from "../../assets/img/svgs/money.svg";
 import aboutImg from "../../assets/img/FooterPages/about_us.jpeg";
 const AboutUs = (props) => {
     const { classes } = props;
+    useEffect(() => {
+        document.documentElement.scrollTop = 0;
+    },[])
     return (
         <Grid item container component='main' xs={10} className={classNames(classes.root, classes.marginBT90)}>
             <Grid item xs={12}>
