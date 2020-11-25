@@ -32,7 +32,7 @@ export default theme => ({
         }
     },
     AdvanceSearchLink: {
-        color: '#fff',
+        color: '#fff !important',
         borderBottom: '2px solid #fff'
     },
     AdImage: {

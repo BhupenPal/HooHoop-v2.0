@@ -1,16 +1,15 @@
 module.exports = {
 
    ContactMail: (Email, Subject, FullName, Message) => {
-      return `
-         <h1 style="color: red;">Email:</h1>
-         <h1>${Email}</h1>
-         <h1 style="color: red;">Subject:</h1>
-         <h1>${Subject}</h1>
-         <h1 style="color: red;">Name:</h1>
-         <h1>${FullName}</h1>
-         <h1 style="color: red;">Message:</h1>
-         <h2>${Message}</h2>
-      `
+      return {
+         templateId: '',
+         Data: {
+            CustomerEmail: Email,
+            CustomerName: FullName,
+            MessageByCustomer: Message,
+            SubjectByCustomer: Subject
+         }
+      }
    },
 
    //Email verification with secret token; for signup
