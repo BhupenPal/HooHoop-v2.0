@@ -17,8 +17,8 @@ import { Link } from "react-router-dom";
 import styles from "../../assets/material/Home";
 
 // Images
-import banner_1 from "../../assets/img/Home/Banner/banner_5.png";
-import banner_2 from "../../assets/img/Home/Banner/banner_1.png";
+import banner_1 from "../../assets/img/Home/Banner/banner_1.png";
+import banner_2 from "../../assets/img/Home/Banner/banner_5.png";
 import banner_3 from "../../assets/img/Home/Banner/banner_7.png";
 
 // Components
