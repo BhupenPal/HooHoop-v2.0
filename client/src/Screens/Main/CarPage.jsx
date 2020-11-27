@@ -145,7 +145,7 @@ const CarPage = (props) => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <div className={classes.sellerHeader}>Seller Details</div>
+            <div className={classes.sellerHeader}>Seller Details </div>
           </AccordionSummary>
           <AccordionDetails>
             <div className={`${classes.sellerHeader}`}>
