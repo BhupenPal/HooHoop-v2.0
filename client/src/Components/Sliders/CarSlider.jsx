@@ -69,10 +69,56 @@ const BackwardIcon = ({ className, style, onClick }) => {
     )
 }
 
+// const settings = {
+//     infinite: true,
+//     speed: 500,
+//     slidesToShow: 4,
+//     slidesToScroll: 1,
+//     initialSlide: 0,
+//     nextArrow: <ForwardIcon />,
+//     prevArrow: <BackwardIcon />,
+//     responsive: [
+//         {
+//             breakpoint: 1450,
+//             settings: {
+//                 slidesToShow: 3,
+//                 slidesToScroll: 1,
+//             }
+//         },
+//         {
+//             breakpoint: 1024,
+//             settings: {
+//                 slidesToShow: 3,
+//                 slidesToScroll: 1,
+//             }
+//         },
+//         {
+//             breakpoint: 600,
+//             settings: {
+//                 slidesToShow: 2,
+//                 slidesToScroll: 1,
+//                 arrows:false,
+
+//             }
+//         },
+//         {
+//             breakpoint: 480,
+//             settings: {
+//                 slidesToShow: 1.4,
+//                 slidesToScroll: 1,
+//                 arrows:false
+//             }
+//         }
+//     ]
+// }
+
+const CarSlider = ({ data, loading }) => {
+    const classes = CarSliderStyles()
+
 const settings = {
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: Math.min(data?.length || 4 ,4),
     slidesToScroll: 1,
     initialSlide: 0,
     nextArrow: <ForwardIcon />,
@@ -81,21 +127,21 @@ const settings = {
         {
             breakpoint: 1450,
             settings: {
-                slidesToShow: 3,
+                slidesToShow: Math.min(data?.length || 3 ,3),
                 slidesToScroll: 1,
             }
         },
         {
             breakpoint: 1024,
             settings: {
-                slidesToShow: 3,
+                slidesToShow: Math.min(data?.length || 3 ,3),
                 slidesToScroll: 1,
             }
         },
         {
             breakpoint: 600,
             settings: {
-                slidesToShow: 2,
+                slidesToShow: Math.min(data?.length || 2 ,2),
                 slidesToScroll: 1,
                 arrows:false,
 
@@ -104,7 +150,7 @@ const settings = {
         {
             breakpoint: 480,
             settings: {
-                slidesToShow: 1.4,
+                slidesToShow: Math.min(data?.length || 1.4 ,1.4),
                 slidesToScroll: 1,
                 arrows:false
             }
@@ -112,8 +158,6 @@ const settings = {
     ]
 }
 
-const CarSlider = ({ data, loading }) => {
-    const classes = CarSliderStyles()
     const renderSkeletons = () => {
         return(
         <div style={{ width: '100%', margin: '30px 0' }}>

@@ -139,9 +139,9 @@ const CarPage = (props) => {
 
         </Box>
 
-        <Accordion disabled={!car?.Author} onClick={handleDetailsClick} style={{background:"#fff", borderRadius:"5px"}} className={`${classes.sellerCard} sellerDetails`}>
+        <Accordion disabled={!car?.Author}  onClick={handleDetailsClick} style={{background:"#fff", borderRadius:"5px",cursor:(!car?.Author) ? "pointer" : "initial"}} className={`${classes.sellerCard} sellerDetails`}>
           <AccordionSummary
-            expandIcon={car?.Author ? <ExpandMoreIcon /> : <LockOutlinedIcon />}
+            expandIcon={car?.Author ? <ExpandMoreIcon /> : <LockOutlinedIcon  />}
             aria-controls="panel1a-content"
             id="panel1a-header"
           >

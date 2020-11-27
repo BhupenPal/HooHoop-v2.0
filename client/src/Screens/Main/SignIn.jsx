@@ -71,7 +71,7 @@ const SignIn = ({inDialog,closeDialog}) => {
   useEffect(() => {
     
     if (!inDialog && auth.isAuthenticated) {
-      history.push("/user/dashboard");
+      history.push(query.get("redirect") || "/user/dashboard");
     }
 
     if (inDialog && auth.isAuthenticated) {

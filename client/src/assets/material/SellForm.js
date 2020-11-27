@@ -74,6 +74,9 @@ export default (SellForm) => ({
     "&:disabled":{
       background: "#eee",
 
+    },
+    checkBox:{
+      padding:"0 2rem"
     }
   },
 });

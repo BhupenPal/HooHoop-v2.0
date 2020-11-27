@@ -170,7 +170,7 @@ const Header = () => {
   useEffect(() => {
     if(!auth.isAuthenticated){
       if(window.location.pathname.includes("user") || window.location.pathname === '/sell-car'){
-        history.push("/login");
+        history.push(`/login?redirect=${window.location.pathname}`);
       }
     }
   },[auth.isAuthenticated])

@@ -101,9 +101,10 @@ function LeadForm({ handleChange, handleCheckboxChange, user, handleSubmit }) {
           display:"flex",
           justifyContent:"center",
           alignItems:"center",
-          zIndex:10
+          zIndex:10,
+          cursor:"pointer"
         }}>
-            <LockOutlined style={{fontSize:"10rem"}}/>
+            <LockOutlined style={{fontSize:"10rem",}}/>
         </div>
       )
     }
