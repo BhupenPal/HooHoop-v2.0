@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Link, NavLink } from 'react-router-dom'
-import { withRouter } from 'react-router'
+import { useHistory, withRouter } from 'react-router'
 import Logo from '../assets/img/logo/Logo.png'
 import { Box, AppBar, Toolbar, Button, IconButton, Menu, MenuItem } from '@material-ui/core'
 import ToggleIcon from '../assets/img/svgs/toggleIcon.svg'
@@ -64,7 +64,7 @@ const Header = () => {
   const dispatch = useDispatch()
   const sideBar = useSelector(store => store.sideBar)
   const auth = useSelector(store => store.auth)
-
+  const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -167,7 +167,13 @@ const Header = () => {
       )
     }
   }
-
+  useEffect(() => {
+    if(!auth.isAuthenticated){
+      if(window.location.pathname.includes("user") || window.location.pathname === '/sell-car'){
+        history.push(`/login?redirect=${window.location.pathname}`);
+      }
+    }
+  },[auth.isAuthenticated])
   const renderSideBarToggler = () => {
     if (auth.isAuthenticated) {
       return (

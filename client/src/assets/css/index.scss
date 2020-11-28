@@ -105,11 +105,20 @@ input[type=number]::-webkit-outer-spin-button {
 .fadeIn{
     animation: fadeIn 0.4s;
 }
+// .cloudimage-360{
+//     height: 25rem;
+// }
 .cloudimage-360 canvas {
-    min-height: 25rem;
-    //height: 100%;
+    height: 25rem;
+    overflow: hidden;
 }
 
+a{
+    color:blue;
+    &:visited{
+        color:blue;
+    }
+}
 
 @keyframes fadeIn{
     from {

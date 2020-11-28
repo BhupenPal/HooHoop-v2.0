@@ -11,7 +11,8 @@ const CheckAuth = (OriginalComponent) => {
         if(GetLSWithExpiry('isAuthenticated')){
             return <OriginalComponent {...this.props} />;
         }else{
-          return <Redirect to="/login" />;
+
+          return <Redirect to={`/login?redirect=${window.location.pathname}`} />;
 
         }
 

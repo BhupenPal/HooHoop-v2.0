@@ -71,7 +71,7 @@ const SignIn = ({inDialog,closeDialog}) => {
   useEffect(() => {
     
     if (!inDialog && auth.isAuthenticated) {
-      history.push("/user/dashboard");
+      history.push(query.get("redirect") || "/user/dashboard");
     }
 
     if (inDialog && auth.isAuthenticated) {
@@ -222,7 +222,11 @@ const SignIn = ({inDialog,closeDialog}) => {
                 <Typography>Forgot Password?</Typography>
               </NavLink>
             </Grid>
-            <Button type="submit" className={classes.submit}>
+            <Button type="submit" className={classes.submit} 
+              style={{
+                background: 'linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%)',
+              }}
+            >
               Login
             </Button>
             <Grid container className={classes.close}>

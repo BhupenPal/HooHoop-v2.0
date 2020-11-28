@@ -47,6 +47,11 @@ function GoogleLoginButton(props) {
             onClick={renderProps.onClick}
             disabled={renderProps.disabled}
             className={classes.social}
+            style={{
+              color:"#fff",
+              backgroundColor:"#DE403A",
+              boxShadow:"0.2rem 0.2rem 1rem rgba(0,0,0,0.2)"
+            }}
           >
             Google
           </Button>

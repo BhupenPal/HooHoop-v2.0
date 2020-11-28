@@ -22,6 +22,8 @@ export const postSellCar = async (data) => {
     REGExpiry: data.REGExpiry,
     Description: data.Description,
     Dealer: data.Dealer,
+    ONRoadCost: data.ONRoadCost,
+    WheelDrive4: data.WheelDrive4,
     isExteriorVideo: !!data.ExteriorVideo,
     isExteriorSlider: !!data.ExteriorSlider,
     is360Images: !!(

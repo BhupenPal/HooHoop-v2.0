@@ -19,6 +19,7 @@ export default theme => ({
     submit: {
         height: 40,
         margin: theme.spacing(3, 0, 2, 0),
+        color:"#fff"
     },
     active: {
 
@@ -43,7 +44,8 @@ export default theme => ({
     social: {
         height: 45,
         width: "100%",
-        margin: theme.spacing(3, 0, 2, 0)
+        margin: theme.spacing(3, 0, 2, 0),
+        
     },
     controller: {
         margin: theme.spacing(2, 0, 1, 0)

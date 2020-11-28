@@ -116,7 +116,7 @@ const CarPage = (props) => {
       component="main"
       className={classes.pageDefault}
     >
-      <Grid item container xs={12} sm={8}>
+      <Grid item container xs={12} sm={12} md={8}>
         <Grid item xs={12}>
           <CarPreview
             ImageData={car?.ImageData}
@@ -139,13 +139,13 @@ const CarPage = (props) => {
 
         </Box>
 
-        <Accordion disabled={!car?.Author} onClick={handleDetailsClick} style={{background:"#fff"}} className={`${classes.sellerCard} sellerDetails`}>
+        <Accordion disabled={!car?.Author}  onClick={handleDetailsClick} style={{background:"#fff", borderRadius:"5px",cursor:(!car?.Author) ? "pointer" : "initial"}} className={`${classes.sellerCard} sellerDetails`}>
           <AccordionSummary
-            expandIcon={car?.Author ? <ExpandMoreIcon /> : <LockOutlinedIcon />}
+            expandIcon={car?.Author ? <ExpandMoreIcon /> : <LockOutlinedIcon  />}
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <div className={classes.sellerHeader}>Seller Details</div>
+            <div className={classes.sellerHeader}>Seller Details </div>
           </AccordionSummary>
           <AccordionDetails>
             <div className={`${classes.sellerHeader}`}>
@@ -179,14 +179,18 @@ const CarPage = (props) => {
       </Grid>
 
       <Grid item xs={12}>
-        <div>
+        <div style={{paddingLeft:"1rem"}}>
           <h2>Recommended Cars For You</h2>
         </div>
         <div>
           <CarSlider loading={false} data={recommendedCars} />
         </div>
       </Grid>
+      <Grid item xs={12}>
+
       <Ad />
+
+      </Grid>
     </Grid>
   );
 };

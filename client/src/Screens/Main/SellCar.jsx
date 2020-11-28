@@ -7,6 +7,12 @@ import {
   TextField,
   Divider,
   CircularProgress,
+  FormControlLabel,
+  Checkbox,
+  FormControl,
+  RadioGroup,
+  FormLabel,
+  Radio,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
@@ -29,24 +35,32 @@ import FileInput from "../../Components/Inputs/FileInput.jsx";
 import { postSellCar } from "../../services/sellCar.js";
 import ErrorSnackBar from "../../Components/OpenSnackBar.jsx";
 import MultiFileInput from "../../Components/MultiFileInput.jsx";
-import { colors,bodyTypes,transmissionTypes, fuelTypes,states,accessories } from "../../assets/data/carTypes";
+import {
+  colors,
+  bodyTypes,
+  transmissionTypes,
+  fuelTypes,
+  states,
+  accessories,
+} from "../../assets/data/carTypes";
 import BodyTypeCodes from "../../assets/data/bodyTypes.js";
 import FuelTypeCodes from "../../assets/data/fuelTypes.js";
 import { useHistory } from "react-router-dom";
 import { errorSnackbar } from "../../utils/showSnackbar";
+import { id } from "date-fns/esm/locale";
 
 const SellCar = (props) => {
   const { classes } = props;
   const history = useHistory();
   const doorCounts = [1, 2, 3, 4, 5, 6];
   const [showErrors, setShowError] = useState(false);
- 
+
   const [preview, setPreview] = useState({
     InteriorFront: null,
     InteriorRear: null,
     InteriorMiddle: null,
   });
-  
+
   const [dataobject, changedata] = useState({
     Make: "",
     Model: "",
@@ -61,7 +75,7 @@ const SellCar = (props) => {
     Description: "",
     KMsDriven: null,
     VINum: "",
-    State:"",
+    State: "",
     DoorCount: 5,
     SeatCount: null,
     REGExpiry: new Date(),
@@ -71,9 +85,11 @@ const SellCar = (props) => {
     InteriorMiddle: null,
     ExteriorSlider: null,
     ExteriorVideo: null,
-    FuelStar:null,
-    SafetyStar:null,
-    Accessories:[],
+    FuelStar: null,
+    SafetyStar: null,
+    Accessories: [],
+    ONRoadCost: false,
+    DriveWheel4: false,
   });
   const [modelOptions, setModels] = useState([]);
   const [loader, setLoader] = useState(false);
@@ -96,9 +112,8 @@ const SellCar = (props) => {
         var duration = video.duration;
         if (duration > 40) {
           changedata({ ...dataobject, ExteriorVideo: null });
-        
+
           errorSnackbar("Video must be less than 40 sec");
-  
         }
       };
       video.src = URL.createObjectURL(files[0]);
@@ -117,23 +132,33 @@ const SellCar = (props) => {
     }
   };
   const handleMultiFileUpload = (files) => {
-   
     changedata({ ...dataobject, ExteriorSlider: files });
   };
-  
-  const handleSelectChange = (name,value) => {
-   // console.log(e.target);
- changedata({ ...dataobject, [name]: value });
-};
+
+  const handleSelectChange = (name, value) => {
+    // console.log(e.target);
+    changedata({ ...dataobject, [name]: value });
+  };
   const handleChange = (e) => {
-      
-    changedata({ ...dataobject, [e.target.name]: e.target.value });
+    const isCheckBox = e.target.type === "checkbox";
+    const isRadioBox = e.target.type === "radio";
+    if (isRadioBox) {
+      changedata({
+        ...dataobject,
+        [e.target.name]: JSON.parse(e.target.value),
+      });
+    } else {
+      changedata({
+        ...dataobject,
+        [e.target.name]: isCheckBox ? e.target.checked : e.target.value,
+      });
+    }
   };
 
-  const getLast20Years = () => {
+  const getLast35Years = () => {
     let years = [];
     for (
-      let i = new Date().getFullYear() - 20;
+      let i = new Date().getFullYear() - 35;
       i <= new Date().getFullYear();
       i++
     ) {
@@ -145,51 +170,54 @@ const SellCar = (props) => {
   const handleEditorChange = (content, editor) => {
     changedata({ ...dataobject, Description: content });
   };
-  useEffect(() => {
-  
-  }, [dataobject]);
+  useEffect(() => {}, [dataobject]);
 
-  const TransmissionStringConvert = CarJamTransmission => {
+  const TransmissionStringConvert = (CarJamTransmission) => {
     if (!!CarJamTransmission) {
       if (CarJamTransmission.includes("automatic")) {
-        return "Automatic"
+        return "Automatic";
       } else if (CarJamTransmission.includes("manual")) {
-        return "Manual"
+        return "Manual";
       } else if (CarJamTransmission.includes("triptonic")) {
-        return "Triptonic"
+        return "Triptonic";
       } else if (CarJamTransmission.includes("CVT")) {
-        return "CVT"
+        return "CVT";
       } else {
-        return ""
+        return "";
       }
     } else {
-      return ""
+      return "";
     }
-  }
+  };
 
   const FetchJam = () => {
     var platenum = document.getElementsByName("platenum")[0].value;
     axios
       .get(`/api/user/car-data-fetch/${platenum}`)
       .then((res) => {
-        document.querySelector("#Make").textContent = res.data.make.replaceAll("-"," ");
+        document.querySelector("#Make").textContent = res.data.make.replaceAll(
+          "-",
+          " "
+        );
         document.querySelector("#ModelYear").textContent =
           res.data.year_of_manufacture;
-        document.querySelector("#BodyStyle").textContent = BodyTypeCodes[res.data.body_style] || "Others";
+        document.querySelector("#BodyStyle").textContent =
+          BodyTypeCodes[res.data.body_style] || "Others";
         document.querySelector("#Model").textContent = res.data.model;
         document.querySelector("#NoOwners").textContent =
           res.data.number_of_owners;
         document.querySelector("#Color").textContent = res.data.main_colour;
-        document.querySelector("#FuelType").textContent = FuelTypeCodes[res.data.fuel_type] || "Others";
+        document.querySelector("#FuelType").textContent =
+          FuelTypeCodes[res.data.fuel_type] || "Others";
         document.querySelector("#VIN").textContent = res.data.vin;
         document.querySelector("#EngineNo").textContent = res.data.engine_no;
         document.querySelector("#PlateNumber").textContent = res.data.plate;
         document.querySelector("#Chassis").textContent = res.data.chassis;
         document.querySelector("#Seats").textContent = res.data.no_of_seats;
-        
+
         changedata({
           ...dataobject,
-          Make: res.data.make.replaceAll("-"," "),
+          Make: res.data.make.replaceAll("-", " "),
           Model: res.data.model,
           ModelYear: res.data.year_of_manufacture,
           BodyType: BodyTypeCodes[res.data.body_style] || "Others",
@@ -200,8 +228,12 @@ const SellCar = (props) => {
           Color: res.data.main_colour,
           VINum: res.data.plate,
           SeatCount: parseInt(res.data.no_of_seats),
-          WOFExpiry: !!parseInt(res.data.expiry_date_of_last_successful_wof) ? new Date(parseInt(res.data.expiry_date_of_last_successful_wof)) : '',
-          REGExpiry: !!parseInt(res.data.plates[0].effective_date) ? new Date(parseInt(res.data.plates[0].effective_date)) : '',
+          WOFExpiry: !!parseInt(res.data.expiry_date_of_last_successful_wof)
+            ? new Date(parseInt(res.data.expiry_date_of_last_successful_wof))
+            : "",
+          REGExpiry: !!parseInt(res.data.plates[0].effective_date)
+            ? new Date(parseInt(res.data.plates[0].effective_date))
+            : "",
           FuelStar: res.data.safety_economy.fuel_stars,
           SafetyStar: res.data.safety_economy.driver_safety_stars,
         });
@@ -213,26 +245,26 @@ const SellCar = (props) => {
   const validateForm = () => {
     if (dataobject.Price < 1) {
       errorSnackbar("Price is Required");
-      setShowError  (true);
+      setShowError(true);
       return false;
     } else if (dataobject.MinPrice < 1) {
       errorSnackbar("Minimum Price is Required");
-      setShowError  (true);
+      setShowError(true);
 
       return false;
     } else if (dataobject.Make.length < 1) {
       errorSnackbar("Make is Required");
-      setShowError  (true);
+      setShowError(true);
 
       return false;
     } else if (dataobject.Model.length < 1) {
       errorSnackbar("Model is Required");
-      setShowError  (true);
+      setShowError(true);
 
       return false;
     } else if (dataobject.BodyType.length < 1) {
       errorSnackbar("Body Type is Required");
-      setShowError  (true);
+      setShowError(true);
 
       return false;
     } else if (dataobject.Transmission.length < 1) {
@@ -240,48 +272,47 @@ const SellCar = (props) => {
       return false;
     } else if (dataobject.EngineSize <= 0) {
       errorSnackbar("Engine Size is Required");
-      setShowError  (true);
+      setShowError(true);
 
       return false;
     } else if (dataobject.FuelType.length <= 0) {
       errorSnackbar("Fuel Type is Required");
-      setShowError  (true);
+      setShowError(true);
 
       return false;
     } else if (dataobject.KMsDriven <= 0) {
       errorSnackbar("Kilometers Driven is Required");
-      setShowError  (true);
+      setShowError(true);
 
       return false;
     } else if (dataobject.Color.length <= 0) {
       errorSnackbar("Color Type is Required");
-      setShowError  (true);
+      setShowError(true);
 
       return false;
     } else if (dataobject.VINum.length <= 0) {
       errorSnackbar("Number Plate is Required");
-      setShowError  (true);
+      setShowError(true);
 
       return false;
     } else if (dataobject.SeatCount < 1 && dataobject.SeatCount > 11) {
       errorSnackbar("No. of seats must be betweeen 1 and 11");
-      setShowError  (true);
+      setShowError(true);
 
       return false;
     } else if (!dataobject.State && dataobject.State.length <= 0) {
       errorSnackbar("State is Required");
-      setShowError  (true);
+      setShowError(true);
 
       return false;
     } else if (!dataobject.State && dataobject.State.length <= 0) {
       errorSnackbar("State is Required");
-      setShowError  (true);
+      setShowError(true);
 
       return false;
-    }
-    else if (!dataobject.WOFExpiry && dataobject.WOFExpiry === '') {
+    } else if (!dataobject.WOFExpiry && dataobject.WOFExpiry === "") {
       errorSnackbar("Please Enter Valid WOFExpiry");
-      setShowError  (true);
+      setShowError(true);
 
       return false;
     }
@@ -303,9 +334,9 @@ const SellCar = (props) => {
     }
   };
   const searchCar = (e) => {
-    e.preventDefault()
-    FetchJam()
-  }
+    e.preventDefault();
+    FetchJam();
+  };
   return (
     <Grid
       container
@@ -470,7 +501,7 @@ const SellCar = (props) => {
                 <SelectBox
                   handleChange={handleChange}
                   name={"ModelYear"}
-                  data={getLast20Years()}
+                  data={getLast35Years()}
                   value={dataobject.ModelYear}
                   required={true}
                   error={showErrors && dataobject.ModelYear.length <= 0}
@@ -480,7 +511,6 @@ const SellCar = (props) => {
                   handleChange={handleSelectChange}
                   name={"BodyType"}
                   type="autocomplete"
-
                   data={bodyTypes}
                   value={dataobject.BodyType}
                   required={true}
@@ -491,9 +521,8 @@ const SellCar = (props) => {
                   handleChange={handleSelectChange}
                   name={"Transmission"}
                   type="autocomplete"
-
                   data={transmissionTypes}
-                  value={dataobject.Transmission }
+                  value={dataobject.Transmission}
                   required={true}
                   error={showErrors && dataobject.Transmission.length <= 0}
                   Label="Transmission"
@@ -502,8 +531,8 @@ const SellCar = (props) => {
                   type="number"
                   onChange={handleChange}
                   name={"EngineSize"}
-                  value={dataobject.EngineSize ? dataobject.EngineSize : "" }
-                  inputProps={{className:'digitsOnly'}}
+                  value={dataobject.EngineSize ? dataobject.EngineSize : ""}
+                  inputProps={{ className: "digitsOnly" }}
                   required={true}
                   id="random"
                   error={showErrors && dataobject.EngineSize <= 0}
@@ -512,9 +541,8 @@ const SellCar = (props) => {
                 <SelectBox
                   handleChange={handleSelectChange}
                   name={"FuelType"}
-                  data={["Don't Know",...fuelTypes]}
+                  data={["Don't Know", ...fuelTypes]}
                   type="autocomplete"
-
                   value={dataobject.FuelType}
                   required={true}
                   error={showErrors && dataobject.FuelType.length <= 0}
@@ -534,7 +562,6 @@ const SellCar = (props) => {
                   name={"Color"}
                   data={colors}
                   type="autocomplete"
-
                   value={dataobject.Color}
                   required={true}
                   error={showErrors && dataobject.Color.length <= 0}
@@ -551,25 +578,96 @@ const SellCar = (props) => {
                 <SelectBox
                   handleChange={handleChange}
                   name={"SeatCount"}
-                  data={[1,2,3,4,5,6,7,8,9,10,11]}
-
+                  data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]}
                   value={dataobject.SeatCount}
                   required={true}
-                  error={showErrors && (dataobject.SeatCount <= 0 || dataobject.SeatCount > 11)}
+                  error={
+                    showErrors &&
+                    (dataobject.SeatCount <= 0 || dataobject.SeatCount > 11)
+                  }
                   Label="Number of seats"
                 />
+
                 <SelectBox
                   handleChange={handleSelectChange}
                   name={"State"}
                   data={states}
                   type="autocomplete"
-
                   value={dataobject.State}
                   required={true}
                   error={showErrors && dataobject.State.length <= 0}
                   Label="State"
                 />
+                <div style={{ padding: "0 1rem" }}>
+                  {/*                   
+                <FormControlLabel
 
+                  control={
+                    <Checkbox
+                      checked={dataobject.DriveWheel4}
+                      onChange={handleChange}
+                      name="DriveWheel4"
+                      color="primary"
+                    />
+                  }
+                  label="4 Drive Wheel"
+                /> */}
+                  <FormControl component="fieldset">
+                    <FormLabel component="legend">4 Drive Wheel</FormLabel>
+                    <RadioGroup
+                      name="DriveWheel4"
+                      value={dataobject.DriveWheel4}
+                      onChange={handleChange}
+                      style={{flexDirection:"row"}}
+                    >
+                      <FormControlLabel
+                        value={true}
+                        control={<Radio color={"primary"}/>}
+                        label="Yes"
+                      />
+                      <FormControlLabel
+                        value={false}
+                        control={<Radio color={"primary"}/>}
+                        label="No"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </div>
+                <div style={{ padding: "0 1rem" }}>
+                  {/* <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={dataobject.ONRoadCost}
+                        onChange={handleChange}
+                        name="ONRoadCost"
+                        color="primary"
+                      />
+                    }
+                    label="On Road Cost Included"
+                  />
+ */}
+
+                  <FormControl component="fieldset">
+                    <FormLabel component="legend">On Road Cost Included</FormLabel>
+                    <RadioGroup
+                      name="ONRoadCost"
+                      value={dataobject.ONRoadCost}
+                      onChange={handleChange}
+                      style={{flexDirection:"row"}}
+                    >
+                      <FormControlLabel
+                        value={true}
+                        control={<Radio color={"primary"}/>}
+                        label="Yes"
+                      />
+                      <FormControlLabel
+                        value={false}
+                        control={<Radio color={"primary"}/>}
+                        label="No"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </div>
               </div>
             </div>
             <div className="ExtraDetails">
@@ -578,14 +676,13 @@ const SellCar = (props) => {
               </Typography>
 
               <SelectBox
-                  handleChange={handleChange}
-                  name={"DoorCount"}
-                  data={doorCounts}
-                  value={dataobject.DoorCount}
-              
-                  Label="Number of doors"
-                  error={showErrors && dataobject.DoorCount.length <= 0}
-                />
+                handleChange={handleChange}
+                name={"DoorCount"}
+                data={doorCounts}
+                value={dataobject.DoorCount}
+                Label="Number of doors"
+                error={showErrors && dataobject.DoorCount.length <= 0}
+              />
               <SelectBox
                 handleChange={handleChange}
                 name={"ImportHistory"}
@@ -612,7 +709,7 @@ const SellCar = (props) => {
                   "6 - Cylinder",
                   "8 - Cylinder",
                   "10 - Cylinder",
-                  "12 - Cylinder"
+                  "12 - Cylinder",
                 ]}
                 Label="Cylinders"
               />

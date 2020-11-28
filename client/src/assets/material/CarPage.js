@@ -36,6 +36,8 @@ export default theme =>({
         padding:"1rem",
         margin:"1rem",
         height:"fit-content",
+        borderRadius:"5px",
+        overflow:"hidden",
         [theme.breakpoints.down('md')]: {
             padding:"1rem",
             margin:"1rem 0",
@@ -141,7 +143,7 @@ export default theme =>({
     },
     detailsContainer:{
         borderTop:"1px solid #DDDDDD",
-        margin: "-1rem 1rem",
+        margin: "-1rem 1rem !important",
         [theme.breakpoints.down('md')]: {
             margin: "-1rem 0rem"
         
@@ -169,8 +171,12 @@ export default theme =>({
         [theme.breakpoints.down('md')]: {
              //padding:"1rem",
              margin:"1rem 0",
-          }
+          },
+        ['&:before']:{
+            opacity:0
+        }
     },
+
     sellerHeader:{
         width:"100%",
         fontSize:"1.4rem",

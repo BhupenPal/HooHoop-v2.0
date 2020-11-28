@@ -30,7 +30,7 @@ const Footer = () => {
             <p>Follow us on</p>
             <span className="footer__logo">
               <a href="https://www.facebook.com/HooHoopNZ/" target="_blank">
-                <img src={Facebook} />
+                <img src={Facebook} height={"12rem"} />
               </a>
             </span>
             <span className="footer__logo">
@@ -46,7 +46,7 @@ const Footer = () => {
                 href="https://instagram.com/hoohoopnz?igshid=43art0hn3v5n"
                 target="_blank"
               >
-                <img src={Instagram} />
+                <img src={Instagram} height={"12rem"} />
               </a>
             </span>
           </div>
