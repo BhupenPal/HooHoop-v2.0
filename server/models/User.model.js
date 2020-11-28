@@ -31,7 +31,7 @@ const UserSchema = mongoose.Schema({
         type: Number,
         unique: true
     },
-    Card: [{
+    PayCards: [{
         cardHolderName: {
             type: String,
             required: true

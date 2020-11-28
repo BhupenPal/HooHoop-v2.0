@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { withStyles, Paper, Grid, Typography } from "@material-ui/core";
 import styles from '../../assets/material/FooterPages';
 import classNames from 'classnames'
