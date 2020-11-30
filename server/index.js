@@ -15,7 +15,7 @@ app.post('*', csrfProtection)
 app.put('*', csrfProtection)
 
 require('dotenv').config({
-	path: './config/.env.prod'
+	path: './config/.env'
 })
 
 // Initializing Database
