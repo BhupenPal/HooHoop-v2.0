@@ -101,7 +101,7 @@ const AboutUs = (props) => {
                             <Typography align='center' variant='h4'>Mana</Typography>
                             <Typography align='center'>CEO, Founder</Typography>
                             <Typography align='center' variant='h6' className={classes.compText}>
-                                Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis
+                                He is passionate and set high expectation to help you as the client to achieve the outcome you desire.
                             </Typography>
                         </CardContent>
                     </Card>
@@ -113,7 +113,7 @@ const AboutUs = (props) => {
                             <Typography align='center' variant='h4'>Leighton</Typography>
                             <Typography align='center'>Head of Marketing</Typography>
                             <Typography align='center' variant='h6' className={classes.compText}>
-                                Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis
+                                Leighton brings expertise around social media and marketing. He is behind the social media success of Canterbury weather updates.
                             </Typography>
                         </CardContent>
                     </Card>
@@ -125,7 +125,7 @@ const AboutUs = (props) => {
                             <Typography align='center' variant='h4'>Paul Skene</Typography>
                             <Typography align='center'>Head of Marketing</Typography>
                             <Typography align='center' variant='h6' className={classes.compText}>
-                                Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis
+                            Paul is a franchise owner of for pit stop in Canterbury. He brings over 29 years of experience to the industry.
                             </Typography>
                         </CardContent>
                     </Card>

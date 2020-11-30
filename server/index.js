@@ -15,7 +15,7 @@ app.post('*', csrfProtection)
 app.put('*', csrfProtection)
 
 require('dotenv').config({
-	path: './config/.env'
+	path: './config/.env.prod'
 })
 
 // Initializing Database
@@ -24,7 +24,7 @@ require('./config/database')
 // Initializing Cron Jobs
 require('./helper/CronJobs')
 
-// DEV and PRODCTION HANDLER
+// Request Logging and CORS Handling
 if (process.env.NODE_ENV === 'DEV') {
 	const morgan = require('morgan'),
 		cors = require('cors')
@@ -41,15 +41,7 @@ app.use('/api/user/dashboard/', require('./api/Dashboard.controller'))
 app.use('/api/chatbot', require('./api/Chatbot.controller'))
 app.use('/api/transactions', require('./api/Transactions.controller'))
 
-if (process.env.NODE_ENV === 'PROD') {
-	const { resolve } = require('path')
-	app.use(express.static(resolve(__dirname, '..', 'dist')))
-	app.get('*', (req, res) => {
-		res.sendFile(resolve(__dirname, '..', 'dist', 'index.html'))
-	})
-}
-
-app.use(async (req, res, next) => {
+app.use((req, res, next) => {
 	next(createError.NotFound())
 })
 

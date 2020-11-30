@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { PanoViewer } from "@egjs/view360";
 import { useState } from "react";
-import MiddleImg from "../assets/img/sample-car/interior/middle.jpg";
-import RearImg from "../assets/img/sample-car/interior/rear.jpg";
 
 const CONSTANTS = {
   REAR: "rear",
@@ -30,10 +28,9 @@ function View360({ images }) {
     var srcImage = new Image();
     srcImage.crossOrigin = "anonymous";
     console.log(currentView);
-    srcImage.src = images[currentView] || MiddleImg;
+    srcImage.src = images[currentView];
     const interiorViewContainer = document.getElementById("pano-adjustable");
     const pano = new PanoViewer(interiorViewContainer, {
-      //image: "src/assets/img/sample-car/interior/middle.jpg",
       image: srcImage,
       projectionType: "equirectangular",
       gyroMode: "yawPitch",
