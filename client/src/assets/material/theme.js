@@ -86,7 +86,10 @@ const theme = createMuiTheme({
         MuiTextField: {
             variant: 'outlined',
             fullWidth: true,
-            margin: 'normal'
+            margin: 'normal',
+            InputProps: { style: {
+                backgroundColor: '#fff'
+            }}
         },
         MuiTab: {
             disableRipple: true
