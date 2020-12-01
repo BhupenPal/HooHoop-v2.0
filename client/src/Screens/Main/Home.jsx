@@ -111,7 +111,7 @@ function Home(props) {
                 <div
                   className={classes.SliderInput}
                 >
-                <SearchBox placeholder='Search Car' />
+                  <SearchBox placeholder='Search Car' />
                 </div>
                 <p className="wt-500">
                   or try our{" "}
@@ -154,8 +154,18 @@ function Home(props) {
           </Tabs>
           {renderUsedTypeCars()}
         </Grid>
-        <Grid item xs={12} md={12} className={classes.AdImage}>
-        </Grid>
+        {/*         
+        <Grid item xs={12} md={12} className={classes.AdImage}> */}
+        {/* "<Typography variant="h2" className={classes.AdContent}>
+            Worried about condition of the car?
+          </Typography>
+          <Typography variant="h5" className={classes.AdContent}>
+            Get a free test drive on your first selection.
+          </Typography>
+          <Button type="submit" color="primary" className={classes.AdButton}>
+            Book Now
+          </Button>" */}
+        {/* </Grid> */}
         <Grid item xs={12} md={10} style={{ marginTop: 70 }}>
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Shop</span> by Range
@@ -166,7 +176,7 @@ function Home(props) {
             TabIndicatorProps={{ style: { background: "#000" } }}
           >
             <Tab label="UNDER $5000" index={0} />
-            <Tab label="UNDER $10000" index={1} />
+            <Tab label="UNDER $100#00" index={1} />
             <Tab label="ABOVE $10000" index={2} />
           </Tabs>
           {renderRangeCars()}

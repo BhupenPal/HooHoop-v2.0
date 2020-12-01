@@ -9,6 +9,22 @@ export const validPassword = password => {
 	return re.test(password)
 }
 
+export const invalidPasswordMessage = password => {
+	const re = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+	const special = /^(.*[@$!%*#?&].*)$/;
+	const alphabet = /^(.*[A-Za-z].*)$/;
+	if(password.length < 8){
+		return "Password must have at least 8 characters"
+	}
+	else if(!special.test(password)){
+		return "Password must have an special character"
+	}
+	else if(!alphabet.test(password)){
+		return "Password must have an alphabet"
+	}
+	return "";
+}
+
 export const SetLSWithExpiry = (key, value, ttl) => {
 	const now = new Date()
 

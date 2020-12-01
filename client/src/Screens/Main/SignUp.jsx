@@ -21,6 +21,8 @@ import {
   Select,
   MenuItem,
   Snackbar,
+  InputAdornment,
+  IconButton,
 } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { NavLink, useHistory, useParams } from "react-router-dom";
@@ -30,17 +32,25 @@ import { Alert } from "@material-ui/lab";
 import GoogleLoginButton from "../../Components/Buttons/GoogleLoginButton.jsx";
 import FacebookLoginButton from "../../Components/Buttons/FacebookLoginButton.jsx";
 
-import { validateEmail, validPassword } from "../../utils/validations";
+import {
+  invalidPasswordMessage,
+  validateEmail,
+  validPassword,
+} from "../../utils/validations";
 import { registerUser } from "../../redux/actions/authActions";
 import { states } from "../../assets/data/carTypes";
 import { useState } from "react";
 import { useEffect } from "react";
+
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 const useStyles = makeStyles(styles);
 const SignUp = (props) => {
   const params = useParams();
   const history = useHistory();
   const classes = useStyles();
+  const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({
     FirstName: "",
     LastName: "",
@@ -50,7 +60,7 @@ const SignUp = (props) => {
     Phone: "",
     State: "",
     Role: false,
-    termsAndConditions:false,
+    termsAndConditions: false,
     DealershipName: null,
     DealershipEmail: null,
     DealershipPhone: null,
@@ -241,16 +251,51 @@ const SignUp = (props) => {
                 ))}
               </Select>
             </FormControl>
-            <TextField
-              margin="normal"
-              required
+            <FormControl margin="normal" variant="outlined"
               error={!!Password && !validPassword(Password)}
-              name="Password"
-              label="Password"
-              type="password"
+            >
+              <InputLabel htmlFor="outlined-adornment-password">
+                Password
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                name="Password"
+                label="Password"
+                type="password"
+                required
+                error={!!Password && !validPassword(Password)}
+                //helperText={}
+                type={showPassword ? "text" : "password"}
+                value={user.Password}
+                onChange={handleChange}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => setShowPassword((val) => !val)}
+                      edge="end"
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                labelWidth={70}
+              />
+               <FormHelperText id="component-error-text">{invalidPasswordMessage(Password)}</FormHelperText>
+            </FormControl>
+            {/* <TextField
               value={user.Password}
               onChange={handleChange}
-            />
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                  //  onMouseDown={handleMouseDownPassword}
+                  >
+                  </IconButton>
+                </InputAdornment>
+              }
+            /> */}
             <TextField
               margin="normal"
               error={!!cPassword && cPassword !== Password}
@@ -303,7 +348,15 @@ const SignUp = (props) => {
             ) : null}
             <Grid className={classes.split}>
               <FormControlLabel
-                control={<Checkbox onChange={handleChange} name="termsAndConditions" checked={user.termsAndConditions} required color="primary" />}
+                control={
+                  <Checkbox
+                    onChange={handleChange}
+                    name="termsAndConditions"
+                    checked={user.termsAndConditions}
+                    required
+                    color="primary"
+                  />
+                }
                 label="By creating an account you agree to accept our terms and conditions."
               />
             </Grid>
