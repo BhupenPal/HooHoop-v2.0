@@ -53,7 +53,7 @@ function AboutCar({ car }) {
             <div className={classes.icon}>
               <img src={OwnerIcon} alt="icon" />
             </div>
-            <p className={classes.iconText}>1st Owner</p>
+            <p className={classes.iconText}>{car?.State}</p>
           </div>
           <div>
             <div className={classes.icon}>

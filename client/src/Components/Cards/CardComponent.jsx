@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React from "react";
 import { withRouter } from "react-router";
 import compose from "recompose/compose";
 import {
@@ -54,7 +54,7 @@ const CardComponent = ({ classes, car, index }) => {
               component="h2"
               className={`${classes.typoBold} ${classes.cardLocation}`}
             >
-              <IconButton className={classes.LocationIcon}>
+              <IconButton className={classes.LocationIcon} disableRipple style={{ backgroundColor: 'transparent' }} >
                 <RoomOutlinedIcon />
               </IconButton>
               {car.State}

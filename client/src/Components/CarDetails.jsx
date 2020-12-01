@@ -25,8 +25,8 @@ function CarDetails({ car, classes }) {
         <div className={`${classes.iconsContainer} ${classes.topSpecs}`}>
           <RoundedIcon
             icon={MilageIcon}
-            title="Milage"
-            content={`${car?.ONRoadCost} kmpl`}
+            title="Body Type"
+            content={`${car?.BodyType}`}
           />
           <RoundedIcon
             icon={EngineIcon}
@@ -69,12 +69,11 @@ function CarDetails({ car, classes }) {
         <AccordionDetails className={classes.details}>
           <div className={classes.detail}>
             <p className={classes.detailHead}>Reg. Expiry</p>
-            <p>{car?.REGExpiry && new Date(car.REGExpiry).toDateString()}</p>
+            <p>{car?.REGExpiry && new Date(car.REGExpiry).toDateString().replace(' ', ', ')}</p>
           </div>
           <div className={classes.detail}>
             <p className={classes.detailHead}>Fuel Economy</p>
             <p>
-              {" "}
               <Rating
                 name="half-rating-read"
                 precision={0.1}
@@ -86,23 +85,28 @@ function CarDetails({ car, classes }) {
             </p>
           </div>
           <div className={classes.detail}>
-            <p className={classes.detailHead}>On Road Cost</p>
-            <p>{car?.ONRoadCost}</p>
+            <p className={classes.detailHead}>WOF Expiry</p>
+            <p>{car?.WOFExpiry && new Date(car.WOFExpiry).toDateString().replace(' ', ', ')}</p>
           </div>
           <div className={classes.detail}>
             <p className={classes.detailHead}>Safety Stars</p>
             <p>
-              {" "}
               <Rating
                 name="half-rating-read"
+                precision={0.1}
+                readOnly={true}
                 value={car?.SafetyStar || 0}
                 size="small"
               />
             </p>
           </div>
           <div className={classes.detail}>
-            <p className={classes.detailHead}>Drive Type</p>
-            <p>{car?.DriveWheel4}</p>
+            <p className={classes.detailHead}>On Road Cost</p>
+            <p>{(car?.ONRoadCost) ? 'Included' : 'Not Included'}</p>
+          </div>
+          <div className={classes.detail}>
+            <p className={classes.detailHead}>Drive Wheel</p>
+            <p>{(car?.DriveWheel4) ? '4WD' : '2WD'}</p>
           </div>
         </AccordionDetails>
       </Accordion>
