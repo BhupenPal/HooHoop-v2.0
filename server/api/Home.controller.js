@@ -95,7 +95,7 @@ Router.get('/', (req, res, next) => {
                             $gt: ['$Price', 10000]
                         }, DataToFetch, '$$REMOVE']
                     }
-                },
+                }
             }
         },
         {
@@ -251,19 +251,22 @@ Router.get('/car/:VINum', (req, res, next) => {
         UserID = mongoose.Types.ObjectId(UserID.aud)
     }
 
-    const RemovedData = (!UserID) ? '-Featured.validTill -Author' : '-Featured.validTill'
+    const RemovedData = '-Featured.validTill -Featured.transactiondId ' + ((!UserID) ? '-Author' : '-Featured.validTill')
 
-    CarModel.findOne({ VINum }, RemovedData)
+    CarModel.findOneAndUpdate({ VINum }, {$inc: {ViewsCount: 1}}, {upsert: true})
+        .select(RemovedData)
         .populate('Author', 'FirstName LastName Phone Email')
+        .lean()
+        .exec()
         .then(doc => {
             if (!doc) return next(createError.BadRequest())
+
             // Checking if user has liked that car or not
-            doc.LikedBy = doc.LikedBy.some(CurrentObjID => {
+            const LikedBy = doc.LikedBy.some(CurrentObjID => {
                 return CurrentObjID == UserID ? true : false
             })
-            res.json(doc)
-            doc.ViewsCount++
-            doc.save()
+
+            res.json({...doc, LikedBy})
         })
 })
 

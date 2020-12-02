@@ -21,7 +21,7 @@ export default theme =>({
         overflow:"hidden",
         cursor:"pointer",
         boxShadow:"2px 5px 1rem rgba(0,0,0,0.2)",
-
+     
             "&:hover":{
             },
             [theme.breakpoints.down('md')]: {

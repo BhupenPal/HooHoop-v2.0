@@ -53,8 +53,9 @@ class GoogleBtn extends Component {
           buttonText='Logout'
           onLogoutSuccess={ this.logout }
           onFailure={ this.handleLogoutFailure }
-        >
-        </GoogleLogout>: <GoogleLogin
+        />
+        :
+        <GoogleLogin
           clientId={ CLIENT_ID }
           buttonText='Login'
           onSuccess={ this.login }

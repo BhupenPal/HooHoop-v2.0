@@ -4,8 +4,7 @@ import {
   Grid,
   Typography,
   Tabs,
-  Tab,
-  Button
+  Tab
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
@@ -17,9 +16,8 @@ import { Link } from "react-router-dom";
 import styles from "../../assets/material/Home";
 
 // Images
-import banner_1 from "../../assets/img/Home/Banner/banner_1.png";
-import banner_2 from "../../assets/img/Home/Banner/banner_5.png";
-import banner_3 from "../../assets/img/Home/Banner/banner_7.png";
+import banner_1 from "../../assets/img/Home/Banner/mercedes.png";
+import banner_2 from "../../assets/img/Home/Banner/headlight.png";
 
 // Components
 import CarSlider from "../../Components/Sliders/CarSlider.jsx";
@@ -52,8 +50,7 @@ function Home(props) {
   // Banner Images Slider
   const SliderImages = [
     { id: 1, url: banner_1 },
-    { id: 2, url: banner_2 },
-    { id: 3, url: banner_3 },
+    { id: 2, url: banner_2 }
   ];
 
   // Banner Images Slider Settings
@@ -88,12 +85,12 @@ function Home(props) {
 
   const renderRangeCars = () => {
     const tabs = [under5K, under10K, above10K];
-    return <CarSlider data={tabs[rangeTab]} loading={loader} />;
+    return <CarSlider giveMargin={true} data={tabs[rangeTab]} loading={loader} />;
   };
 
   const renderUsedTypeCars = () => {
     const tabs = [sedanType, hatchbackType, suvType];
-    return <CarSlider data={tabs[carTypeTab]} loading={loader} />;
+    return <CarSlider giveMargin={true} data={tabs[carTypeTab]} loading={loader} />;
   };
 
   return (
@@ -114,7 +111,7 @@ function Home(props) {
                 <div
                   className={classes.SliderInput}
                 >
-                <SearchBox placeholder='Search Car' />
+                  <SearchBox placeholder='Search Car' />
                 </div>
                 <p className="wt-500">
                   or try our{" "}
@@ -127,19 +124,19 @@ function Home(props) {
           );
         })}
       </Slider>
-      <Grid container justify="center" style={{ margin: "35px 0 85px 0" }}>
+      <Grid container justify="center" style={{ margin: "35px 0 35px 0" }}>
         <Grid item xs={12} md={10}>
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Popular</span> Used Cars
           </Typography>
-          <CarSlider loading={loader} data={usedCars} />
+          <CarSlider giveMargin={true} loading={loader} data={usedCars} />
         </Grid>
         <Grid item xs={12} md={10} style={{ marginTop: 70 }}>
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Recently</span> Added Cars
           </Typography>
           <div>
-            <CarSlider loading={loader} data={above10K} />
+            <CarSlider giveMargin={true} loading={loader} data={above10K} />
           </div>
         </Grid>
         <Grid item xs={12} md={10} style={{ marginTop: 70 }}>
@@ -157,9 +154,9 @@ function Home(props) {
           </Tabs>
           {renderUsedTypeCars()}
         </Grid>
-{/*         
+        {/*         
         <Grid item xs={12} md={12} className={classes.AdImage}> */}
-          {/* "<Typography variant="h2" className={classes.AdContent}>
+        {/* "<Typography variant="h2" className={classes.AdContent}>
             Worried about condition of the car?
           </Typography>
           <Typography variant="h5" className={classes.AdContent}>

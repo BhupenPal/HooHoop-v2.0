@@ -79,6 +79,12 @@ input[type=number]::-webkit-outer-spin-button {
     background-color: $primary-gradient ;
 }
 
+// .slick-list{
+//     @media (max-width:720px) {
+//         padding-left: 10rem;
+//     }
+// }
+
 .asNavFor {
     width: 100%;
     padding: 0;
@@ -114,9 +120,9 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 a{
-    color:blue;
+    color:#3279e4;
     &:visited{
-        color:blue;
+        color:#3279e4;
     }
 }
 

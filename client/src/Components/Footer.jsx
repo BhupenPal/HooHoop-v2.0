@@ -60,19 +60,19 @@ const Footer = () => {
             <Link to="/privacy-policy">Privacy Policy</Link>
           </div>
           <div>
-            <Link to="/terms-and-conditions"> Terms and Conditions </Link>
+            <Link to="/terms-and-conditions">Terms of Use</Link>
           </div>
           <div>
-            <Link to="/cancellation-policy"> Cancellation Policy </Link>
+            <Link to="/cancellation-policy">Cancellation Policy</Link>
           </div>
           <div>
-            <Link to="/contact-us"> Contact Us </Link>
+            <Link to="/contact-us">Contact Us</Link>
           </div>
           <div className="footer__copyrights">
-            <p className="">
+            <p>
               &copy; {new Date().getFullYear()} by HoopHoop.co.nz
             </p>
-            <p className="">Powered By Grey Dot Solutions</p>
+            {/* <p className="">Powered By Grey Dot Solutions</p>  */}
           </div>
         </footer>
       )}

@@ -127,4 +127,5 @@ dist/
 .pnp.*
 
 # Deployment Script
+deployment/
 deploy.sh
