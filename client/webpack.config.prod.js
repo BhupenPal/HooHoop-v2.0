@@ -2,21 +2,22 @@ const webpack = require('webpack'),
   { resolve } = require('path'),
   HTMLWebpackPlugin = require('html-webpack-plugin'),
   { CleanWebpackPlugin } = require('clean-webpack-plugin'),
-  MiniCssExtractPlugin = require('mini-css-extract-plugin');
+  MiniCssExtractPlugin = require('mini-css-extract-plugin'),
+  LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
   const dotenv = require('dotenv')
 
   // For React Fast Refresh
-  process.env.NODE_ENV = 'development'
+  process.env.NODE_ENV = 'production'
   
   // Set the path parameter in the dotenv config
-  const fileEnv = dotenv.config({
+  const EnvFile = dotenv.config({
     path: './.env'
   }).parsed;
-    
+
   // reduce it to a nice object, the same as before (but with the variables from the file)
-  const envKeys = Object.keys(fileEnv).reduce((prev, next) => {
-    prev[`process.env.${next}`] = JSON.stringify(fileEnv[next]);
+  const EnvKeys = Object.keys(EnvFile).reduce((prev, next) => {
+    prev[`process.env.${next}`] = JSON.stringify(EnvFile[next]);
     return prev;
   }, {});
   
@@ -61,7 +62,8 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin(),
     new CleanWebpackPlugin(),
-    new webpack.DefinePlugin(envKeys),
+    new webpack.DefinePlugin(EnvKeys),
+    new LodashModuleReplacementPlugin,
     new HTMLWebpackPlugin({
       filename: 'index.html',
       favicon: "./src/assets/img/favicon.ico",
