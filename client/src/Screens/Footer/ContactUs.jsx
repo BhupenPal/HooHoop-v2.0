@@ -5,12 +5,14 @@ import {
   Typography,
   TextField,
   Button,
+  Box,
 } from "@material-ui/core";
 import styles from "../../assets/material/FooterPages";
 import PhoneRoundedIcon from "@material-ui/icons/PhoneRounded";
 import LanguageIcon from "@material-ui/icons/Language";
 import MailOutlineRoundedIcon from "@material-ui/icons/MailOutlineRounded";
 import Recaptcha from "react-recaptcha";
+import Banner from "../../assets/img/FooterPages/contact_info.png";
 
 const ContactUS = (props) => {
   const { classes } = props;
@@ -19,42 +21,45 @@ const ContactUS = (props) => {
   }, []);
   return (
     <Grid container component="main" xs={12} className={classes.root}>
-      <Grid item xs={12} className={classes.faqIntro}>
-        <Typography variant="h1" align="center">
+      <Grid item xs={12} className={`${classes.contactIntro}`}>
+        <Typography variant="h1" className={`${classes.contactHeading}`} align="left">
           Contact Us
         </Typography>
-        <Typography align="center">
+        <Typography style={{fontSize:"1.4rem"}} align="left">
           Reach out to us for further queries
         </Typography>
       </Grid>
-      <Grid container xs={10} spacing={10} className={classes.root}>
-        <Grid item container xs={6}>
-          <Grid xs={12}></Grid>
-          <Grid xs={6}>
-            <Typography>ADDRESS</Typography>
-            <Typography>
+      <Grid container xs={12} md={10} className={classes.root}>
+        <Grid item container xs={12} md={6} className={classes.contactContainers}>
+          <Grid item xs={12} >
+            <img src={Banner} width={"100%"} alt="banner"/>
+          </Grid>
+          <Grid item xs={12} md={6} className={classes.contactDetails}>
+            <Typography className={classes.contactSubHeading}>ADDRESS</Typography>
+            <Typography className={classes.contactText}>
               Christchurch Central, Christchurch 8011, New Zealand
             </Typography>
           </Grid>
-          <Grid xs={6}>
-            <Typography>PHONE</Typography>
-            <Typography>
-              {" "}
+          <Grid item xs={12} md={6} className={classes.contactDetails}>
+            <Typography className={classes.contactSubHeading}>PHONE</Typography>
+            <Typography className={classes.contactText}>
+              
               <PhoneRoundedIcon /> (642) 111 43347
             </Typography>
           </Grid>
-          <Grid xs={6}>
-            <Typography>Online Services</Typography>
-            <Typography>
+          <Grid item xs={12} md={6} className={classes.contactDetails}>
+            <Typography className={classes.contactSubHeading}>Online Services</Typography>
+            <Typography className={classes.contactText}>
               <LanguageIcon /> www.hoohoop.co.nz
             </Typography>
-            <Typography>
+            <Typography className={classes.contactText}>
               <MailOutlineRoundedIcon /> contact@hoohoop.co.nz
             </Typography>
           </Grid>
         </Grid>
-        <Grid item xs={4}>
-          <Typography>Send us a message</Typography>
+        <Grid item xs={12} md={6} className={classes.contactContainers}>
+          <Box  className={classes.contactForm}>
+          <Typography className={classes.contactFormHeading}>Send Us a Message</Typography>
           <form>
             <TextField
               InputLabelProps={{ required: false }}
@@ -72,15 +77,18 @@ const ContactUS = (props) => {
               rows={4}
               multiline={true}
             />
+            <div className={classes.captchaContainer}>
             <Recaptcha
               sitekey="6Lc_ZPUZAAAAAPlpT9XJsq3pGwvI8GhqaBG6yhiU"
               render="invisible"
               type="reCAPTCHA v2"
             />
-            <Button type="submit" color="primary">
+            </div>
+            <Button type="submit" className={classes.contactButton}>
               Submit
             </Button>
           </form>
+          </Box>
         </Grid>
       </Grid>
     </Grid>
