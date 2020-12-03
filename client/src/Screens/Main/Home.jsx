@@ -176,7 +176,7 @@ function Home(props) {
             TabIndicatorProps={{ style: { background: "#000" } }}
           >
             <Tab label="UNDER $5000" index={0} />
-            <Tab label="UNDER $100#00" index={1} />
+            <Tab label="UNDER $10000" index={1} />
             <Tab label="ABOVE $10000" index={2} />
           </Tabs>
           {renderRangeCars()}

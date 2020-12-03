@@ -27,7 +27,7 @@ const AboutUs = (props) => {
                             </div>
                             <Typography align='center' variant='h4'>Trust</Typography>
                             <Typography align='center' variant='h6' className={classes.compText}>
-                                Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis
+                                Our platforms designed to bring an authentic experience to you, the customer. You stay in control throughout.
                             </Typography>
                         </CardContent>
                     </Card>
@@ -40,7 +40,7 @@ const AboutUs = (props) => {
                             </div>
                             <Typography align='center' variant='h4'>360 View</Typography>
                             <Typography align='center' variant='h6' className={classes.compText}>
-                                Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis
+                                Our latest technology leaves no angle unturned and gives clear, concise and a quality viewing experience online.
                             </Typography>
                         </CardContent>
                     </Card>
@@ -54,7 +54,7 @@ const AboutUs = (props) => {
                             </div>
                             <Typography align='center' variant='h4'>Save Money</Typography>
                             <Typography align='center' variant='h6' className={classes.compText}>
-                                Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis
+                                Our online negotiator robot is formulated to give you the best deal possible. No pressure from salesman!
                             </Typography>
                         </CardContent>
                     </Card>
@@ -68,7 +68,7 @@ const AboutUs = (props) => {
                             </div>
                             <Typography align='center' variant='h4'>Save Time</Typography>
                             <Typography align='center' variant='h6' className={classes.compText}>
-                                Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis
+                               Our virtual experience gives you the closest online experience to reality. Browse comfortably from your own home.
                             </Typography>
                         </CardContent>
                     </Card>
@@ -101,7 +101,7 @@ const AboutUs = (props) => {
                             <Typography align='center' variant='h4'>Mana</Typography>
                             <Typography align='center'>CEO, Founder</Typography>
                             <Typography align='center' variant='h6' className={classes.compText}>
-                                He is passionate and set high expectation to help you as the client to achieve the outcome you desire.
+                                Mana is passionate in this field and is driven to help clients achieve the outcomes they desire.
                             </Typography>
                         </CardContent>
                     </Card>
@@ -113,7 +113,7 @@ const AboutUs = (props) => {
                             <Typography align='center' variant='h4'>Leighton</Typography>
                             <Typography align='center'>Head of Marketing</Typography>
                             <Typography align='center' variant='h6' className={classes.compText}>
-                                Leighton brings expertise around social media and marketing. He is behind the social media success of Canterbury weather updates.
+                            Leighton brings experience in a social media capacity having been part of the success to Canterbury Weather Updates.
                             </Typography>
                         </CardContent>
                     </Card>
@@ -125,7 +125,7 @@ const AboutUs = (props) => {
                             <Typography align='center' variant='h4'>Paul Skene</Typography>
                             <Typography align='center'>Head of Marketing</Typography>
                             <Typography align='center' variant='h6' className={classes.compText}>
-                            Paul is a franchise owner of for pit stop in Canterbury. He brings over 29 years of experience to the industry.
+                            Paul brings in-depth knowledge and experience as the current owner of all Pit Stop branches in Christchurch.
                             </Typography>
                         </CardContent>
                     </Card>
