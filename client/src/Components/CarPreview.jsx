@@ -110,6 +110,9 @@ function CarPreview({ ImageData, VINum, classes }) {
               backgroundImage: `url(${link})`,
               backgroundSize: "cover",
               paddingTop: "56.25%",
+              backgroundPosition:"center",
+              backgroundSize:"cover",
+              backgroundRepeat:"no-repeat"
             }}
           ></div>
         );

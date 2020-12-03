@@ -85,12 +85,12 @@ function Home(props) {
 
   const renderRangeCars = () => {
     const tabs = [under5K, under10K, above10K];
-    return <CarSlider data={tabs[rangeTab]} loading={loader} />;
+    return <CarSlider giveMargin={true} data={tabs[rangeTab]} loading={loader} />;
   };
 
   const renderUsedTypeCars = () => {
     const tabs = [sedanType, hatchbackType, suvType];
-    return <CarSlider data={tabs[carTypeTab]} loading={loader} />;
+    return <CarSlider giveMargin={true} data={tabs[carTypeTab]} loading={loader} />;
   };
 
   return (
@@ -129,14 +129,14 @@ function Home(props) {
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Popular</span> Used Cars
           </Typography>
-          <CarSlider loading={loader} data={usedCars} />
+          <CarSlider giveMargin={true} loading={loader} data={usedCars} />
         </Grid>
         <Grid item xs={12} md={10} style={{ marginTop: 70 }}>
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Recently</span> Added Cars
           </Typography>
           <div>
-            <CarSlider loading={loader} data={above10K} />
+            <CarSlider giveMargin={true} loading={loader} data={above10K} />
           </div>
         </Grid>
         <Grid item xs={12} md={10} style={{ marginTop: 70 }}>

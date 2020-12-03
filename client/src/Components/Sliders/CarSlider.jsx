@@ -1,5 +1,5 @@
 // Dependencies
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
 import Slider from 'react-slick'
@@ -24,7 +24,12 @@ const CarSliderStyles = makeStyles(theme => ({
         transition: 'box-shadow 0.2s',
         boxShadow: '0 0.1rem 1rem rgba(0,0,0,0.2)',
         [theme.breakpoints.down('md')]: {
-            width: 250
+            width: 250,
+        }
+    },
+    smMargin:{
+        [theme.breakpoints.down('md')]: {
+            margin: '1rem 0 1rem 5rem',
         }
     },
     HideBoxShadow: {
@@ -112,7 +117,9 @@ const BackwardIcon = ({ className, style, onClick }) => {
 //     ]
 // }
 
-const CarSlider = ({ data, loading }) => {
+const CarSlider = ({ data, loading, giveMargin }) => {
+   // data = [...data,...data,...data];
+    
     const classes = CarSliderStyles()
 
 const settings = {
@@ -150,7 +157,7 @@ const settings = {
         {
             breakpoint: 480,
             settings: {
-                slidesToShow: Math.min(data?.length || 1.4 ,1.4),
+                slidesToShow:  Math.min(data?.length || 1.1 ,1.1),
                 slidesToScroll: 1,
                 arrows:false
             }
@@ -166,7 +173,7 @@ const settings = {
                 {
                 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => (
                     <div key={item * 100}>
-                        <div className={classNames(classes.SliderCar, classes.HideBoxShadow)}>
+                        <div className={`${classes.SliderCar} ${classes.HideBoxShadow} `}>
                             <Skeleton
                                 variant='rect'
                                 height={250}
@@ -206,7 +213,6 @@ const settings = {
     if(loading){
         return renderSkeletons();
     }
-
     return (
         <div style={{ width: '100%', margin: '30px 0' }}>
             <Slider {...settings}>
@@ -216,7 +222,7 @@ const settings = {
                         const carName = `${item.Make} ${item.Model}`;
                         return (
                             <div className='fadeIn' key={item.VINum} title={carName}>
-                                <div className={classes.SliderCar}>
+                                <div className={`${classes.SliderCar} ${giveMargin?classes.smMargin:''} `}>
                                     <Link to={`/car/${item.VINum}`}>
                                         <img src={getThumbnailLink(item.VINum)} alt='' className={classes.SlideCarImage} />
                                        
