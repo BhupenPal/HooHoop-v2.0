@@ -79,7 +79,7 @@ const ContactUS = (props) => {
             />
             <div className={classes.captchaContainer}>
             <Recaptcha
-              sitekey="6Lc_ZPUZAAAAAPlpT9XJsq3pGwvI8GhqaBG6yhiU"
+              sitekey={process.env.CAPTCHA_KEY}
               render="invisible"
               type="reCAPTCHA v2"
             />

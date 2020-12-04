@@ -5,22 +5,22 @@ const webpack = require('webpack'),
   MiniCssExtractPlugin = require('mini-css-extract-plugin'),
   LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
-  const dotenv = require('dotenv')
+const dotenv = require('dotenv')
 
-  // For React Fast Refresh
-  process.env.NODE_ENV = 'production'
-  
-  // Set the path parameter in the dotenv config
-  const EnvFile = dotenv.config({
-    path: './.env'
-  }).parsed;
+// Set the path parameter in the dotenv config
+const EnvFile = dotenv.config({
+  path: './.env'
+}).parsed;
 
-  // reduce it to a nice object, the same as before (but with the variables from the file)
-  const EnvKeys = Object.keys(EnvFile).reduce((prev, next) => {
-    prev[`process.env.${next}`] = JSON.stringify(EnvFile[next]);
-    return prev;
-  }, {});
-  
+// reduce it to a nice object, the same as before (but with the variables from the file)
+const EnvKeys = Object.keys(EnvFile).reduce((prev, next) => {
+  prev[`process.env.${next}`] = JSON.stringify(EnvFile[next]);
+  return prev;
+}, {});
+
+// For React Fast Refresh
+process.env.NODE_ENV = 'production'
+
 module.exports = {
   mode: 'production',
   entry: {

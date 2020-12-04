@@ -1,5 +1,5 @@
 import { Button, makeStyles } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import GoogleLogin from "react-google-login";
 import { GoogleLoginService } from "../../services/OAuthLogin.js";
 import MoreDetailsDialog from "../Modals/MoreDetailsDialog.jsx";
@@ -32,7 +32,7 @@ function GoogleLoginButton(props) {
     }
   };
   return (
-    <>
+    <Fragment>
       <MoreDetailsDialog
         visible={showGoogleDialog}
         type="google_login"
@@ -69,7 +69,7 @@ function GoogleLoginButton(props) {
         onFailure={googleLogin}
         cookiePolicy={"single_host_origin"}
       />
-    </>
+    </Fragment>
   );
 }
 
