@@ -7,9 +7,6 @@ const webpack = require('webpack'),
 
 const dotenv = require('dotenv')
 
-// For React Fast Refresh
-process.env.NODE_ENV = 'development'
-
 // Set the path parameter in the dotenv config
 const fileEnv = dotenv.config({
   path: './.env'
@@ -17,9 +14,12 @@ const fileEnv = dotenv.config({
   
 // reduce it to a nice object, the same as before (but with the variables from the file)
 const envKeys = Object.keys(fileEnv).reduce((prev, next) => {
-  prev[`process.env.${next}`] = JSON.stringify(fileEnv[next]);
-  return prev;
-}, {});
+  prev[`process.env.${next}`] = JSON.stringify(fileEnv[next])
+  return prev
+}, {})
+
+// For React Fast Refresh
+process.env.NODE_ENV = 'development'
 
 module.exports = {
   mode: 'development',

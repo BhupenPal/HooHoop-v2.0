@@ -14,9 +14,9 @@ const EnvFile = dotenv.config({
 
 // reduce it to a nice object, the same as before (but with the variables from the file)
 const EnvKeys = Object.keys(EnvFile).reduce((prev, next) => {
-  prev[`process.env.${next}`] = JSON.stringify(EnvFile[next]);
-  return prev;
-}, {});
+  prev[`process.env.${next}`] = JSON.stringify(EnvFile[next])
+  return prev
+}, {})
 
 // For React Fast Refresh
 process.env.NODE_ENV = 'production'
