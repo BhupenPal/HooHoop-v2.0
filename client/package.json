@@ -51,6 +51,7 @@
     "date-fns": "^2.16.1",
     "dotenv-webpack": "^3.0.0",
     "egjs": "^2.2.0",
+    "lodash-webpack-plugin": "^0.11.5",
     "material-ui-dropzone": "^3.5.0",
     "panolens": "^0.11.0",
     "react-facebook": "^8.1.4",
