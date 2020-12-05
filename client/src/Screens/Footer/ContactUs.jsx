@@ -20,7 +20,7 @@ const ContactUS = (props) => {
     document.documentElement.scrollTop = 0;
   }, []);
   return (
-    <Grid container component="main" xs={12} className={classes.root}>
+    <Grid container component="main" className={classes.root}>
       <Grid item xs={12} className={`${classes.contactIntro}`}>
         <Typography variant="h1" className={`${classes.contactHeading}`} align="left">
           Contact Us
