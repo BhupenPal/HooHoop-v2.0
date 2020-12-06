@@ -4,6 +4,7 @@ import  FacebookLogin  from "react-facebook-login/dist/facebook-login-render-pro
 import { FacebookLoginService } from "../../services/OAuthLogin.js";
 import MoreDetailsDialog from "../Modals/MoreDetailsDialog.jsx";
 import styles from "../../assets/material/LoginResgister";
+import { errorSnackbar } from "../../utils/showSnackbar.js";
 
 const useStyles = makeStyles(styles);
 
@@ -26,7 +27,7 @@ function FacebookLoginButton(props) {
         throw new Error(authResult);
       }
     } catch (error) {
-      console.log(Object.keys(error.message));
+      errorSnackbar(error?.message || "Something Went Wrong")
     }
   };
   return (

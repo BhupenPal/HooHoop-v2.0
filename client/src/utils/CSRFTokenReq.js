@@ -15,7 +15,7 @@ const CSRFtoken = () => {
 			store.dispatch(csrfTokenFetched());
 		})
 		.catch(err => {
-			console.log(err)
+			
 		})
 }
 

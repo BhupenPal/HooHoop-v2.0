@@ -16,7 +16,6 @@ const defaultOptions = {
   });
   
   const SanitizeHTML = ({ html, options }) => {
-    console.log(html)
 
     return(
     <div dangerouslySetInnerHTML={sanitize(html, options)} />

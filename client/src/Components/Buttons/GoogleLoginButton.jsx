@@ -28,7 +28,7 @@ function GoogleLoginButton(props) {
         throw new Error(authResult);
       }
     } catch (error) {
-      console.log(error);
+      errorSnackbar(error?.message || "Something Went Wrong")
     }
   };
   return (

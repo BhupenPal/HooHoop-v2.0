@@ -21,7 +21,6 @@ const BackwardIcon = ({ className, style, onClick }) => {
 }
 
 export default ({elements,setSlide}) => {
-    console.log("called",elements)
     const settings = {
       dots:false,
       speed: 500,

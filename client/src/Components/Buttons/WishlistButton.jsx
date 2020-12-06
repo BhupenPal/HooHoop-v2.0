@@ -33,7 +33,6 @@ function WishlistButton({ VINum,LikedBy }) {
         setLike((like) => !like);
       });
     }else{
-      console.log("show")
       showLoginModel();
     }
   };

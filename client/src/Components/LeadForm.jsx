@@ -87,8 +87,6 @@ function LeadForm({ handleChange, handleCheckboxChange, user, handleSubmit }) {
   const classes = useStyles();
   const history = useHistory();
   const { isAuthenticated } = useSelector((state) => state.auth);
-  console.log(history);
-  //console.log(process.env.FB_APP_ID);
   const renderLock = () => {
     if(!isAuthenticated){
       return (

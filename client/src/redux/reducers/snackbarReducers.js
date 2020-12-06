@@ -18,7 +18,7 @@ export default function (state = initialState, action) {
     case CLOSE_SNACKBAR:
       return {
         message:"",
-        severity:null,
+        severity: state.severity,
         open:false
       };
 

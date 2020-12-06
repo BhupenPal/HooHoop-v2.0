@@ -21,13 +21,11 @@ function View360({ images }) {
     (Math.floor(Math.random() * 100) + 1).toString()
   );
   const handleChange = (e) => {
-    console.log(e.target.value);
     setCurrentView(e.target.value);
   };
   useEffect(() => {
     var srcImage = new Image();
     srcImage.crossOrigin = "anonymous";
-    console.log(currentView);
     srcImage.src = images[currentView];
     const interiorViewContainer = document.getElementById("pano-adjustable");
     const pano = new PanoViewer(interiorViewContainer, {

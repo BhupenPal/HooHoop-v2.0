@@ -90,7 +90,6 @@ var PanoControls = (function() {
         screenfull.enabled && screenfull.on("change", changeMode);
 
         document.querySelector(".enterfs").addEventListener("click", function() {
-            console.log("changing mode")
 
             if (screenfull.enabled) {
                 screenfull.request();

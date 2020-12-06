@@ -142,7 +142,6 @@ function SideBar(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [Navs, setNavs] = useState(getNavs(user && user.Role === "admin"));
 
-  console.log(user);
   useEffect(() => {
     setNavs(getNavs(user && user.Role === "admin"));
   }, [user]);

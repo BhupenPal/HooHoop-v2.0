@@ -47,14 +47,12 @@ const CarPage = (props) => {
   const { VINum } = useParams();
   const { classes } = props;
   const handleChange = (e) => {
-    console.log(e.target);
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   const closeLoginModel = () => {
     setLoginModel(visible => false)
   }
   const handleCheckboxChange = (e) => {
-    console.log(e.target.checked);
     setUser({ ...user, [e.target.name]: e.target.checked });
   };
   const handleSubmit = () => {
@@ -81,13 +79,11 @@ const CarPage = (props) => {
           .catch((err) => {
             alert("Error fetching data");
             setLoadingMore(false);
-            console.log(err);
           });
       })
       .catch((err) => {
         setLoadingMore(false);
 
-        console.log(err);
       });
   };
   const handleDetailsClick = () => {
@@ -99,7 +95,6 @@ const CarPage = (props) => {
     document.documentElement.scrollTop = 0;
   }, [VINum]);
   useEffect((...args) => {
-    console.log("args",args)
     setLoadingMore(true);
     fetchAndSetCar();
   }, [VINum,isAuthenticated]);

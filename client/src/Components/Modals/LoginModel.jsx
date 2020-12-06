@@ -8,7 +8,6 @@ function LoginModel() {
     const {active} = useSelector(state => state.loginModel);
     const dispatch = useDispatch();
     const handleClose = () => {
-        console.log("closeme")
         dispatch(closeLoginModel());
     }
 

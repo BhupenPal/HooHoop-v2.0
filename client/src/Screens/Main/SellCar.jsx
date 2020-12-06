@@ -103,7 +103,6 @@ const SellCar = (props) => {
     // if(e.target && e.target.files)
     const files = e.target.files;
     if (files && files.length > 0) {
-      // console.log(e, files);
       changedata({ ...dataobject, ExteriorVideo: files });
       var video = document.createElement("video");
       video.preload = "metadata";
@@ -136,7 +135,6 @@ const SellCar = (props) => {
   };
 
   const handleSelectChange = (name, value) => {
-    // console.log(e.target);
     changedata({ ...dataobject, [name]: value });
   };
   const handleChange = (e) => {
@@ -239,7 +237,7 @@ const SellCar = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err);
+        errorSnackbar(err?.message || "Something went wrong")
       });
   };
   const validateForm = () => {
@@ -319,7 +317,6 @@ const SellCar = (props) => {
     return true;
   };
   const handleSubmit = () => {
-    console.log(dataobject);
     if (validateForm()) {
       setLoader(true);
       postSellCar(dataobject)
@@ -328,7 +325,6 @@ const SellCar = (props) => {
           history.push("/buy-car");
         })
         .catch((err) => {
-          console.log(err);
           setLoader(false);
         });
     }

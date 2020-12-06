@@ -8,6 +8,7 @@ import { Skeleton } from '@material-ui/lab'
 // Services and Actions
 import FetchProfile from '../../services/profile'
 import ProfileEditModal from '../../Components/Modals/ProfileEditModal.jsx'
+import { errorSnackbar } from '../../utils/showSnackbar'
 
 const DashboardStyles = makeStyles(theme => ({
   userDetails: {
@@ -132,7 +133,8 @@ const Dashboard = () => {
         setProfile(profile)
       })
       .catch(err => {
-        console.log(err)
+        errorSnackbar(err?.message || "Something Went Wrong")
+
       })
   }, [])
 

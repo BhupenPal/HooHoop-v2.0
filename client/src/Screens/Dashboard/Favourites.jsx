@@ -18,12 +18,10 @@ const Favourites = (props) => {
     useEffect(() => {
         FetchFavs()
             .then(Favs => {
-                console.log(Favs)
                 setListLoader(false)
                 setFavourites(Favs)
             })
             .catch(() => {
-                console.log("Error Fetching Favourite Cars")
                 setListLoader(false)
             })
     }, [])

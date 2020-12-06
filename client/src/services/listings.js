@@ -1,4 +1,5 @@
 import Axios from "../utils/axios";
+import { errorSnackbar, successSnackbar } from "../utils/showSnackbar";
 
 export const getMyListing = async () => {
     let myListing = await Axios.get('/api/user/dashboard/listings');
@@ -71,4 +72,17 @@ export const getAllListings = async () => {
             "Phone": listing.Author?.Phone
         }
     }))
+}
+
+export const deleteListing = async (VINum) => {
+    return Axios
+    .delete('/api/user/dashboard/delete/listing', {data:{value:VINum}})
+    .then(() => {
+        successSnackbar("Car Deleted successfully")
+        return true;
+    }) 
+    .catch(err => {
+        errorSnackbar(err?.message || "Something Went Wrong");
+        return false;
+    })
 }

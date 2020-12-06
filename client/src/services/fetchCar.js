@@ -3,7 +3,6 @@ import axios from "../utils/axios";
 export const fetchCar = async (id) => {
   const res = await axios.get(`/api/car/${id}`);
   const car = res.data;
-  console.log(car);
   return {
     Featured: {
       value: car.Featured?.value,

@@ -31,7 +31,6 @@ var PanoControls = (function() {
 			"viewChange": function (e) {
 					var hfov = panoViewer._getHFov();
 					pieView.setState(e.yaw,  hfov);
-					// console.log("viewChange");
 			}
 		});
 

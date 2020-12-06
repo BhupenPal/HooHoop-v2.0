@@ -15,7 +15,6 @@ const useStyles = makeStyles(theme => (
     }
 ))
 function ProfileEditModal({user}) {
-    console.log(user)
     const classes = useStyles();
     const [visible,setVisible] = useState(false);
 

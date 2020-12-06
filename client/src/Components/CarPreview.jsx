@@ -11,7 +11,6 @@ import InteriorIcon from "../assets/img/svgs/interior.svg";
 import ExteriorIcon from "../assets/img/svgs/exterior.svg";
 
 function CarPreview({ ImageData, VINum, classes }) {
-  console.log(ImageData, VINum);
 
   const [sliderElements, setSliderElements] = useState([]);
   const [navs, setNavs] = useState([]);
@@ -118,6 +117,8 @@ function CarPreview({ ImageData, VINum, classes }) {
         );
         navImages.push(
           <img
+          key={navImages.length}
+
             className={classes.sliderImages}
             height={"100%"}
             width={"100%"}
@@ -136,16 +137,15 @@ function CarPreview({ ImageData, VINum, classes }) {
       makeSliderElements();
     }
   }, [ImageData]);
-  console.log(navs);
   const setSlideFromNav = (index) => {
     setSlide(index + sliderNavStart);
   }
   if (sliderElements.length < 1) {
     const SkeletonNavs = [
-      <Skeleton variant="rect" className={classes.sliderImages} key={1} />,
-      <Skeleton variant="rect" className={classes.sliderImages} key={2} />,
-      <Skeleton variant="rect" className={classes.sliderImages} key={3} />,
-      <Skeleton variant="rect" className={classes.sliderImages} key={4} />,
+      <Skeleton  variant="rect" className={classes.sliderImages} key={1} />,
+      <Skeleton  variant="rect" className={classes.sliderImages} key={2} />,
+      <Skeleton  variant="rect" className={classes.sliderImages} key={3} />,
+      <Skeleton  variant="rect" className={classes.sliderImages} key={4} />,
     ];
     return (
       <Grid
