@@ -2,14 +2,13 @@ import { makeStyles } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import React, { useState } from "react";
 import { deleteListing } from "../services/listings.js";
+import { getSmallThumbnailLink } from "../utils/getImagesUrl.js";
 import ListingOptions from "./Buttons/ListingOptions.jsx";
 import DeleteDialog from "./Modals/DeleteListingModal.jsx";
 import EditCarModal from "./Modals/EditCarModal.jsx";
 import CustomTable from "./Table.jsx";
 
-
 const useStyles = makeStyles((theme) => ({
-
   vehicle: {
     display: "flex",
     alignItems: "center",
@@ -20,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Listing({listings,listLoader,setListing}) {
+function Listing({ listings, listLoader, setListing }) {
   const classes = useStyles();
   const [currentVINum, setVINum] = useState("");
   const [currentCar, setCar] = useState(null);
@@ -44,12 +43,12 @@ function Listing({listings,listLoader,setListing}) {
       title: "Views",
       key: "ViewsCount",
     },
-  
+
     {
       title: "Unique ID",
       key: "VINum",
     },
-  
+
     {
       title: "Price",
       key: "Price",
@@ -63,20 +62,24 @@ function Listing({listings,listLoader,setListing}) {
       key: "manage",
     },
   ];
-  
+
   const makeData = (rows) => {
     return rows.map((row, index) => ({
       sno: index + 1,
       date: row.date,
-      Make: row.Make,
+      Make: (
+        <div>
+          {renderVehicle({VINum:row.VINum,name:row.Make})}
+          
+        </div>
+      ),
       ViewsCount: row.ViewsCount,
       VINum: row.VINum,
       Price: row.Price,
       Email: row.Author.Email || "Not Available",
-      manage: renderOptions(index,row),
+      manage: renderOptions(index, row),
     }));
   };
-
 
   const showEditDialog = (car) => {
     setEditDialog(true);
@@ -100,7 +103,6 @@ function Listing({listings,listLoader,setListing}) {
     });
   };
 
-
   const handleDeleteCar = (VINum) => {
     if (VINum && VINum.length > 0) {
       deleteListing(VINum).then((isSuccess) => {
@@ -113,14 +115,23 @@ function Listing({listings,listLoader,setListing}) {
   };
   const renderOptions = (index, car) => {
     return (
-      <ListingOptions car={car} showDeleteDialog={showDialog} showEditDialog={showEditDialog} classes={classes}/>
+      <ListingOptions
+        car={car}
+        showDeleteDialog={showDialog}
+        showEditDialog={showEditDialog}
+        classes={classes}
+      />
     );
   };
 
-  const renderVehicle = ({ imgUrl, name }) => {
+  const renderVehicle = ({ VINum, name }) => {
     return (
       <div className={classes.vehicle}>
-        <img className={classes.vehicleImg} height={"20rem"} src={imgUrl} />{" "}
+        <img
+          className={classes.vehicleImg}
+          height={"20rem"}
+          src={getSmallThumbnailLink(VINum)}
+        />{" "}
         {name}
       </div>
     );

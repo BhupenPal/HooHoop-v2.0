@@ -22,8 +22,7 @@ function EditCarModal(props) {
       open={open}
     >
       <DialogTitle id="simple-dialog-title">
-        Edit User
-
+        Edit Car
       </DialogTitle>
       {/* <DialogContent>
         <Grid container spacing={"2"} style={{display:"flex"}}>

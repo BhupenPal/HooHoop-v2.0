@@ -26,3 +26,6 @@ export const getThumbnailLink = (VINum) => {
     return `https://${process.env.DO_SPACE_BUCKET_NAME}.${process.env.DO_SPACE_ENDPOINT}/HooHoop/uploads/cars/${VINum}/thumbnail/Photo300.jpg`
 }
 
+export const getSmallThumbnailLink = (VINum) => {
+  return `https://${process.env.DO_SPACE_BUCKET_NAME}.${process.env.DO_SPACE_ENDPOINT}/HooHoop/uploads/cars/${VINum}/thumbnail/Photo30.jpg`
+}
