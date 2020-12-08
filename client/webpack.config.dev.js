@@ -18,6 +18,9 @@ const envKeys = Object.keys(fileEnv).reduce((prev, next) => {
   return prev
 }, {})
 
+// For React Fast Refresh
+process.env.NODE_ENV = 'development'
+
 module.exports = {
   mode: 'development',
   devServer: {
