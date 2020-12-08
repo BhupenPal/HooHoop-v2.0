@@ -70,7 +70,6 @@ function Listing({ listings, listLoader, setListing }) {
       Make: (
         <div>
           {renderVehicle({VINum:row.VINum,name:row.Make})}
-          
         </div>
       ),
       ViewsCount: row.ViewsCount,

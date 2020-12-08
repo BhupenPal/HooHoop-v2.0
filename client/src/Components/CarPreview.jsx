@@ -11,12 +11,11 @@ import InteriorIcon from "../assets/img/svgs/interior.svg";
 import ExteriorIcon from "../assets/img/svgs/exterior.svg";
 
 function CarPreview({ ImageData, VINum, classes }) {
-
   const [sliderElements, setSliderElements] = useState([]);
   const [navs, setNavs] = useState([]);
   const [slide, setSlide] = useState(0);
   const [buttons, setButtons] = useState([]);
-  let [sliderNavStart,setNavStart] = useState(0);
+  let [sliderNavStart, setNavStart] = useState(0);
   const makeSliderElements = () => {
     const slider = [];
     const navImages = [];
@@ -26,7 +25,15 @@ function CarPreview({ ImageData, VINum, classes }) {
       ImageData.InteriorRear ||
       ImageData.InteriorMiddle
     ) {
-      slider.push(<View360 key={1} images={getInteriorLinks(VINum)} />);
+      slider.push(
+        <View360
+          key={1}
+          images={getInteriorLinks(VINum)}
+          isFront={ImageData.InteriorFront}
+          isRear={ImageData.InteriorRear}
+          isMiddle={ImageData.InteriorMiddle}
+        />
+      );
       navImages.push(
         <div
           className={classes.sliderImages}
@@ -46,14 +53,13 @@ function CarPreview({ ImageData, VINum, classes }) {
           <div>Interior</div>
         </div>
       );
-      setNavStart(val => 1);
+      setNavStart((val) => 1);
       setButtons((arr) => {
         return [
           <button onClick={() => setSlide(0)} className={classes.button360}>
             <img src={InteriorIcon} alt={"interior"} />
-          </button>
-        ]
-
+          </button>,
+        ];
       });
     }
     if (ImageData.VideoFrames && ImageData.VideoFrames > 0) {
@@ -64,7 +70,7 @@ function CarPreview({ ImageData, VINum, classes }) {
           noOfFrames={ImageData.VideoFrames}
         />
       );
-      setNavStart(val => val ? 2 : 1)
+      setNavStart((val) => (val ? 2 : 1));
       navImages.push(
         <div
           className={classes.sliderImages}
@@ -85,17 +91,23 @@ function CarPreview({ ImageData, VINum, classes }) {
         </div>
       );
       setButtons((arr) => {
-        
-
         const button = (
-           <button onClick={() => setSlide(
-            Number(ImageData.InteriorFront ||
-            ImageData.InteriorRear ||
-            ImageData.InteriorMiddle))} className={classes.button360}>
+          <button
+            onClick={() =>
+              setSlide(
+                Number(
+                  ImageData.InteriorFront ||
+                    ImageData.InteriorRear ||
+                    ImageData.InteriorMiddle
+                )
+              )
+            }
+            className={classes.button360}
+          >
             <img src={ExteriorIcon} alt={"exterior"} />
           </button>
         );
-        arr = arr[0] ? [arr[0],button] : [button];
+        arr = arr[0] ? [arr[0], button] : [button];
         return arr;
       });
     }
@@ -109,16 +121,15 @@ function CarPreview({ ImageData, VINum, classes }) {
               backgroundImage: `url(${link})`,
               backgroundSize: "cover",
               paddingTop: "56.25%",
-              backgroundPosition:"center",
-              backgroundSize:"cover",
-              backgroundRepeat:"no-repeat"
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
             }}
           ></div>
         );
         navImages.push(
           <img
-          key={navImages.length}
-
+            key={navImages.length}
             className={classes.sliderImages}
             height={"100%"}
             width={"100%"}
@@ -139,13 +150,13 @@ function CarPreview({ ImageData, VINum, classes }) {
   }, [ImageData]);
   const setSlideFromNav = (index) => {
     setSlide(index + sliderNavStart);
-  }
+  };
   if (sliderElements.length < 1) {
     const SkeletonNavs = [
-      <Skeleton  variant="rect" className={classes.sliderImages} key={1} />,
-      <Skeleton  variant="rect" className={classes.sliderImages} key={2} />,
-      <Skeleton  variant="rect" className={classes.sliderImages} key={3} />,
-      <Skeleton  variant="rect" className={classes.sliderImages} key={4} />,
+      <Skeleton variant="rect" className={classes.sliderImages} key={1} />,
+      <Skeleton variant="rect" className={classes.sliderImages} key={2} />,
+      <Skeleton variant="rect" className={classes.sliderImages} key={3} />,
+      <Skeleton variant="rect" className={classes.sliderImages} key={4} />,
     ];
     return (
       <Grid
@@ -194,7 +205,10 @@ function CarPreview({ ImageData, VINum, classes }) {
       </Grid>
       <Grid item container xs={12}>
         <div style={{ width: "100%" }}>
-          <AsNavFor elements={navs.slice(sliderNavStart)} setSlide={setSlideFromNav} />
+          <AsNavFor
+            elements={navs.slice(sliderNavStart)}
+            setSlide={setSlideFromNav}
+          />
         </div>
       </Grid>
     </Grid>

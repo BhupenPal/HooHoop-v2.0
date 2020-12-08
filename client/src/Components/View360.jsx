@@ -7,16 +7,27 @@ const CONSTANTS = {
   FRONT: "front",
   MIDDLE: "middle",
 };
-
-function View360({ images }) {
+const getDefaultImage = ({isFront,isRear,isMiddle}) => {
+  console.log({isFront,isRear,isMiddle})
+  if(isFront){
+    return (CONSTANTS.FRONT);
+  }
+  else if(isRear){
+    return (CONSTANTS.REAR);
+  }
+  else if(isMiddle){
+    return (CONSTANTS.MIDDLE);
+  }
+}
+function View360({ images, isFront, isRear, isMiddle }) {
   const interiorView = useRef(null);
   const panoSet = useRef(null);
-  const [currentView, setCurrentView] = useState(CONSTANTS.MIDDLE);
+  const [currentView, setCurrentView] = useState();
   const [panoViewer,setPanoViewer] = useState({});
   //let panoViewer = {};
-  const [randomId, setId] = useState(
-    Math.floor(Math.random() * 100).toString()
-  );
+  // const [randomId, setId] = useState(
+  //   Math.floor(Math.random() * 100).toString()
+  // );
   const [randomId2, setId2] = useState(
     (Math.floor(Math.random() * 100) + 1).toString()
   );
@@ -54,8 +65,26 @@ function View360({ images }) {
       PanoControls.showLoading();
 
     }
-  }, [currentView]);
 
+  }, [currentView]);
+  
+  useEffect(() => {
+    setCurrentView(getDefaultImage({isFront, isRear, isMiddle}));
+  }, [isFront,isMiddle,isRear]);
+  const renderOptions = () => {
+    console.log(currentView);
+    const arr = [];
+    if(isFront){
+      arr.push(<option value={CONSTANTS.FRONT}>Front</option>)
+    }
+    if(isRear){
+      arr.push(<option value={CONSTANTS.REAR}>Rear</option>)
+    }
+    if(isMiddle){
+      arr.push(<option value={CONSTANTS.MIDDLE}>Middle</option>)
+    }
+    return arr;
+  }
   return (
     <div
       style={{ width: "100%", height: "100%"  }}
@@ -92,9 +121,7 @@ function View360({ images }) {
         value={currentView}
         onChange={handleChange}
       >
-        <option value={CONSTANTS.MIDDLE}>Middle</option>
-        <option value={CONSTANTS.FRONT}>Front</option>
-        <option value={CONSTANTS.REAR}>Rear</option>
+        {renderOptions()}
       </select>
     </div>
   );
