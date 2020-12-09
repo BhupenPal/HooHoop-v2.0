@@ -25,6 +25,7 @@ export default BuyCar => ({
         }
 
     },
+
     media: {
         height: 0,
         paddingTop: '50%', // 16:9

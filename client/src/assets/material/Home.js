@@ -1,7 +1,18 @@
 export default theme => ({
+    Slider:{
+        //overflowX:"hidden",
+        ['& .slick-list']: {
+            height:"100%",
+            //overflow:"visible !important",
+            //overflowX:"hidden !important",
+          //  overflowX:"hidden !important",
+
+        }
+    },
     SliderDiv: {
         minHeight: '20vh',
-        position: 'relative'
+        position: 'relative',
+        
     },
     SliderImage: {
         width: '100%',
@@ -21,7 +32,14 @@ export default theme => ({
         fontSize: '3rem',
         fontWeight: '900',
         [theme.breakpoints.down('md')]: {
-            fontSize: '2rem'
+            fontSize: '1.6rem'
+        }
+    },
+    marginTop:{
+        marginTop:70,
+        [theme.breakpoints.down('md')]: {
+            marginTop:40,
+
         }
     },
     SliderInput: {

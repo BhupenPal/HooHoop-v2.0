@@ -4,7 +4,8 @@ import {
   Grid,
   Typography,
   Tabs,
-  Tab
+  Tab,
+  Hidden
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
@@ -95,7 +96,7 @@ function Home(props) {
 
   return (
     <Fragment>
-      <Slider {...settings} className="fadeIn">
+      <Slider {...settings} className={`${classes.Slider} fadeIn`} >
         {SliderImages.map((item) => {
           return (
             <div className={classes.SliderDiv} key={item.id}>
@@ -124,6 +125,7 @@ function Home(props) {
           );
         })}
       </Slider>
+    
       <Grid container justify="center" style={{ margin: "35px 0 35px 0" }}>
         <Grid item xs={12} md={10}>
           <Typography variant="h2" className="home-subhead">
@@ -131,7 +133,7 @@ function Home(props) {
           </Typography>
           <CarSlider giveMargin={true} loading={loader} data={usedCars} />
         </Grid>
-        <Grid item xs={12} md={10} style={{ marginTop: 70 }}>
+        <Grid item xs={12} md={10} className={classes.marginTop}>
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Recently</span> Added Cars
           </Typography>
@@ -139,7 +141,7 @@ function Home(props) {
             <CarSlider giveMargin={true} loading={loader} data={above10K} />
           </div>
         </Grid>
-        <Grid item xs={12} md={10} style={{ marginTop: 70 }}>
+        <Grid item xs={12} md={10} className={classes.marginTop}>
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Feautured</span> Used Cars
           </Typography>
@@ -166,7 +168,7 @@ function Home(props) {
             Book Now
           </Button>" */}
         {/* </Grid> */}
-        <Grid item xs={12} md={10} style={{ marginTop: 70 }}>
+        <Grid item xs={12} md={10} className={classes.marginTop}>
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Shop</span> by Range
           </Typography>

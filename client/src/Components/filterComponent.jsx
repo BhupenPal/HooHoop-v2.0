@@ -289,7 +289,7 @@ const filterComponent = (props) => {
         <Typography variant="h4" component="h3">
           Search by Filters
         </Typography>
-       <SearchState value={state} handleChange={handleStateSearch} label="State" width='90%' />
+       <SearchState value={state} handleChange={handleStateSearch} label="State" width="90%" margin="0 5% 1rem 5%" />
         <div className="filterClass">
           <div className="filterHead">
             <Typography variant="h6" component="h6">
@@ -304,7 +304,7 @@ const filterComponent = (props) => {
             </IconButton>
           </div>
           <Collapse in={filterstate.State0}>
-            <div className={classes.expandedFilter} id="BrandNames">
+            <div className={`${classes.expandedFilter} custom-scroll`} id="BrandNames">
               {Object.keys(brands).map((item, index) => {
                 return (
                   <label htmlFor={item} key={index} className="carMakes">
@@ -339,7 +339,7 @@ const filterComponent = (props) => {
             </IconButton>
           </div>
           <Collapse in={filterstate.State1}>
-            <div className={classes.expandedFilter}>
+            <div className={`${classes.expandedFilter} custom-scroll`}>
               {Object.keys(bodies).length === 0 ? <div style={{padding:"2rem", textAlign:"center"}}>Please Select Make First</div> : null}
               {Object.keys(bodies).map((item, index) => {
                 return (
@@ -432,7 +432,7 @@ const filterComponent = (props) => {
             </IconButton>
           </div>
           <Collapse in={filterstate.State2}>
-            <div className={classes.expandedFilter}>
+            <div className={`${classes.expandedFilter} custom-scroll`}>
               {Object.keys(fuelTypes).map((item, index) => {
                 return (
                   <label htmlFor={item} key={index} className="carMakes">
@@ -467,7 +467,7 @@ const filterComponent = (props) => {
             </IconButton>
           </div>
           <Collapse in={filterstate.State3}>
-            <div className={classes.expandedFilter}>
+            <div className={`${classes.expandedFilter} custom-scroll`}>
               {Object.keys(bodyTypes).map((item, index) => {
                 return (
                   <label htmlFor={item} key={index} className="carMakes">
@@ -502,7 +502,7 @@ const filterComponent = (props) => {
             </IconButton>
           </div>
           <Collapse in={filterstate.State4}>
-            <div className={classes.expandedFilter}>
+            <div className={`${classes.expandedFilter} custom-scroll`}>
               {Object.keys(transmissions).map((item, index) => {
                 return (
                   <label htmlFor={item} key={index} className="carMakes">
@@ -537,7 +537,7 @@ const filterComponent = (props) => {
             </IconButton>
           </div>
           <Collapse in={filterstate.State5}>
-            <div className={classes.expandedFilter} id="colorContainer">
+            <div className={`${classes.expandedFilter} custom-scroll`} id="colorContainer">
               {Object.keys(colors).map((item, index) => {
                 // Making sure the others is not visible in Filter
                 return item !== "Others" && (

@@ -1,8 +1,10 @@
 export default (theme) => ({
   //Common
   marginBT90: {
-    marginTop: "90px !important",
-    marginBottom: "90px !important",
+    // paddingTop: "90px !important",
+    // paddingBottom: "90px !important",
+    padding:"5rem 10%",
+
   },
   leftMargin: {
     marginLeft: "2%",

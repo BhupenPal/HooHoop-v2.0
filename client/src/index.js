@@ -39,6 +39,7 @@ import PrivateRoute from './utils/PrivateRoute'
 import store from './redux/store'
 import CheckAuth from './HOC/CheckAuth'
 import CustomSnackbar from './Components/Snackbar.jsx'
+import Layout from './Components/Layout.jsx'
 
 const App = () => {
 
@@ -51,7 +52,7 @@ const App = () => {
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Header />
+        <Layout>
           <Switch>
             <Route path='/' exact component={Home} />
             <Route path='/login' component={SignIn} />
@@ -70,7 +71,7 @@ const App = () => {
             <Route component={Error404} />
           </Switch>
           <CustomSnackbar/>
-          <Footer />
+          </Layout>
         </BrowserRouter>
       </ThemeProvider>
     </Provider>

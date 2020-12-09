@@ -21,27 +21,35 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     margin: 0,
     padding: 0,
-    zIndex: 1,
     position: 'absolute',
+    zIndex:10000000000,
     listStyle: 'none',
     backgroundColor: theme.palette.background.paper,
     overflow: 'auto',
     maxHeight: 200,
     border: '1px solid rgba(0,0,0,.25)',
     borderRadius: 5,
+   // backgroundColor:"#000",
     '& li': {
       padding: '0.5rem',
       textAlign: 'left',
       color: '#000',
-      transition: 'background-color 0.2s'
+      transition: 'background-color 0.2s',
+    //  backgroundColor:"#000",
+    
     },
     '& li[data-focus="true"]': {
       backgroundColor: '#eee',
+     // backgroundColor:"#000",
+
       color: '#000',
       cursor: 'pointer'
     },
     '& li:active': {
+
       backgroundColor: '#eee',
+     // backgroundColor:"#000",
+
       color: '#000'
     }
   }

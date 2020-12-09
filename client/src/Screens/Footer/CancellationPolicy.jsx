@@ -10,7 +10,7 @@ const CancellationPolicy = (props) => {
         document.documentElement.scrollTop = 0;
     },[])
     return (
-        <Grid container component='main' xs={10} className={classNames(classes.root, classes.marginBT90)}>
+        <Grid container component='main' xs={12} className={classNames(classes.root, classes.marginBT90)}>
             <Grid item xs={12}>
                 <Typography variant='h1'>
                     Cancellation Policy

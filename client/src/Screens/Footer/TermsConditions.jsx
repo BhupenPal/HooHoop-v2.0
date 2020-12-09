@@ -15,7 +15,7 @@ const TermsConditions = (props) => {
         justify="center"
         className={classes.marginBT90}
       >
-        <Grid item xs={11} sm={10}>
+        <Grid item xs={12}>
           <Typography variant="h3">HOOHOOP TERMS OF SERVICE</Typography>
           <Typography variant="h4" className={classes.updateNotice}>
             Last Updated on 19 January 2020

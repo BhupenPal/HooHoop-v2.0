@@ -26,7 +26,9 @@ input[type=number]::-webkit-outer-spin-button {
     appearance: none;
     margin: 0; 
 }
-
+body{
+    overflow-x: hidden;
+}
 /* Font Weight Classes */
 .wt-500 {
     font-weight: 500;
@@ -79,11 +81,12 @@ input[type=number]::-webkit-outer-spin-button {
     background-color: $primary-gradient ;
 }
 
-// .slick-list{
-//     @media (max-width:720px) {
-//         padding-left: 10rem;
-//     }
-// }
+.slick-list{
+    // @media (max-width:720px) {
+    //     padding-left: 10rem;
+    // }
+}
+
 
 .asNavFor {
     width: 100%;

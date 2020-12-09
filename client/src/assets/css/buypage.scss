@@ -49,10 +49,10 @@
         margin: 1rem 1.2rem;
     }
 
-    label{
-        color: #000000;
-        font-weight: bold;
-    }
+    // label{
+    //     color: #000000;
+    //     font-weight: bold;
+    // }
 
     .controlInput{
         margin: 1rem auto 2rem auto;
@@ -65,7 +65,7 @@
     }
 
     fieldset{
-        border-width: 2px;
+        border-width: 1px;
         border-color: #000000;
 
         &:hover{
@@ -239,6 +239,16 @@
 #BrandNames{
     padding: 1rem 0;
     box-sizing: border-box;
+    &::-webkit-scrollbar{
+        width: 6px;
+    }
+    &::-webkit-scrollbar-thumb{
+        background-color: #E85513;
+        border-radius: 2rem;
+    }
+}
+
+.custom-scroll {
     &::-webkit-scrollbar{
         width: 6px;
     }

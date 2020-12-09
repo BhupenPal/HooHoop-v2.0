@@ -10,7 +10,7 @@ const sliderComponent = (props) => {
     return (
         <Box className='sliderBox'>
             <Box>
-                <Typography variant="h3">Want to get your car listed <br /> at lowest prices?</Typography>
+                <Typography variant="h3" >Want to get your car listed <br /> at lowest prices?</Typography>
                 <Button variant="contained" className={classes.gButton}>Get Started Now</Button>
             </Box>
             <Box>

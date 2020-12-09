@@ -13,7 +13,7 @@ const AboutUs = (props) => {
         document.documentElement.scrollTop = 0;
     },[])
     return (
-        <Grid item container component='main' xs={10} className={classNames(classes.root, classes.marginBT90)}>
+        <Grid item container component='main' xs={12} className={classNames(classes.root, classes.marginBT90)}>
             <Grid item xs={12}>
                 <Typography variant="h3">Why Hoohoop?</Typography>
             </Grid>
