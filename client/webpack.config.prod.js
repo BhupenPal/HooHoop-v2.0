@@ -3,6 +3,8 @@ const webpack = require('webpack'),
   HTMLWebpackPlugin = require('html-webpack-plugin'),
   { CleanWebpackPlugin } = require('clean-webpack-plugin'),
   MiniCssExtractPlugin = require('mini-css-extract-plugin'),
+  OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin'),
+  UglifyJsPlugin = require('uglifyjs-webpack-plugin'),
   LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const dotenv = require('dotenv')
@@ -18,7 +20,7 @@ const EnvKeys = Object.keys(EnvFile).reduce((prev, next) => {
   return prev
 }, {})
 
-// For React Fast Refresh
+// Setting NODE_ENV
 process.env.NODE_ENV = 'production'
 
 module.exports = {
@@ -57,6 +59,16 @@ module.exports = {
           }
         }
       }
+    ]
+  },
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+      cache: true,
+      parallel: true,
+      sourceMap: true
+      }),
+      new OptimizeCSSAssetsPlugin({})
     ]
   },
   plugins: [

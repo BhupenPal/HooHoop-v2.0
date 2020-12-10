@@ -53,6 +53,7 @@
     "egjs": "^2.2.0",
     "lodash-webpack-plugin": "^0.11.5",
     "material-ui-dropzone": "^3.5.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.4",
     "panolens": "^0.11.0",
     "react-facebook": "^8.1.4",
     "react-facebook-login": "^4.1.1",
@@ -67,6 +68,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "sanitize-html": "^2.1.2",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "uglifyjs-webpack-plugin": "^2.2.0"
   }
 }

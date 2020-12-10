@@ -18,7 +18,7 @@ const envKeys = Object.keys(fileEnv).reduce((prev, next) => {
   return prev
 }, {})
 
-// For React Fast Refresh
+// Setting NODE_ENV
 process.env.NODE_ENV = 'development'
 
 module.exports = {
@@ -85,5 +85,6 @@ module.exports = {
       inject: true,
       template: resolve(__dirname, 'src', 'index.html')
     })
-  ]
+  ],
+  watch: true
 }

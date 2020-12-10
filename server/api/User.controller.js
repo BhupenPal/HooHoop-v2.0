@@ -353,6 +353,9 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
         // FormData can only store USVString or Blobs, .'. no Booleans
         let { Make, Model, ModelYear, Price, MinPrice, Featured, BodyType, DoorCount, SeatCount, Import, VINum, KMsDriven, Color, EngineSize, FuelType, FuelStar, SafetyStar, WOFExpiry, REGExpiry, DriveWheel4, ONRoadCost, Description, isNewCar, Dealer, isExteriorVideo, isExteriorSlider, is360Images, Transmission, Accessories, State } = req.body
 
+        // FOR SEPRATING TEST DATA
+        VINum = (process.env.NODE_ENV === 'PROD') ? VINum : `TEST_${VINum}`
+
         // Manipulating Data
         VINum = VINum.toUpperCase()
         Make = Make.toUpperCase()
