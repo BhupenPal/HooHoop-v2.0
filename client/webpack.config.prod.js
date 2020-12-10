@@ -4,7 +4,7 @@ const webpack = require('webpack'),
   { CleanWebpackPlugin } = require('clean-webpack-plugin'),
   MiniCssExtractPlugin = require('mini-css-extract-plugin'),
   OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin'),
-  UglifyJsPlugin = require('uglifyjs-webpack-plugin'),
+  TerserPlugin = require('terser-webpack-plugin'),
   LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const dotenv = require('dotenv')
@@ -62,11 +62,12 @@ module.exports = {
     ]
   },
   optimization: {
+    minimze: true,
     minimizer: [
-      new UglifyJsPlugin({
-      cache: true,
-      parallel: true,
-      sourceMap: true
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true
       }),
       new OptimizeCSSAssetsPlugin({})
     ]
