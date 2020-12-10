@@ -62,13 +62,14 @@ module.exports = {
     ]
   },
   optimization: {
-    minimze: true,
     minimizer: [
-      new TerserPlugin({
-        cache: true,
-        parallel: true,
-        sourceMap: true
-      }),
+      // new TerserPlugin({
+      //   parallel: true,
+      //   terserOptions: {
+      //     compress: {},
+      //     mangle: true
+      //   }
+      // }),
       new OptimizeCSSAssetsPlugin({})
     ]
   },
