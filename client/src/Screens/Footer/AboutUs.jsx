@@ -22,8 +22,7 @@ const AboutUs = (props) => {
                     <Card className={classes.root}>
                         <CardContent className={classes.allCen}>
                             <div className={classes.circle}>
-                            <img src={trust} alt="Trust" />
-
+                                <img src={trust} alt="Trust" />
                             </div>
                             <Typography align='center' variant='h4'>Trust</Typography>
                             <Typography align='center' variant='h6' className={classes.compText}>
