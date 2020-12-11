@@ -67,11 +67,7 @@ function Listing({ listings, listLoader, setListing }) {
     return rows.map((row, index) => ({
       sno: index + 1,
       date: row.date,
-      Make: (
-        <div>
-          {renderVehicle({VINum:row.VINum,name:row.Make})}
-        </div>
-      ),
+      Make: <div>{renderVehicle({ VINum: row.VINum, name: row.Make })}</div>,
       ViewsCount: row.ViewsCount,
       VINum: row.VINum,
       Price: row.Price,
@@ -79,7 +75,16 @@ function Listing({ listings, listLoader, setListing }) {
       manage: renderOptions(index, row),
     }));
   };
-
+  const editCar = (VINum, info) => {
+    setListing((cars) => {
+      return cars.map((car) => {
+        if (car.VINum === VINum) {
+          return { ...car, ...info };
+        }
+        return car;
+      });
+    });
+  };
   const showEditDialog = (car) => {
     setEditDialog(true);
     setCar(car);
@@ -141,6 +146,7 @@ function Listing({ listings, listLoader, setListing }) {
         open={openEditDialog}
         car={currentCar}
         onClose={closeEditDialog}
+        editCar={editCar}
       />
       <DeleteDialog
         open={openDialog}
