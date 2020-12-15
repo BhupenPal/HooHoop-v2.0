@@ -65,7 +65,12 @@ const filterComponent = (props) => {
     state,
   } = useSelector((store) => store.filter);
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    const maker = searchQuery.get("make");
+    if(maker){
+      handleMakerList(maker);
+    }
+  },[])
   useEffect(() => {
     const newbodies = {};
 
@@ -227,8 +232,8 @@ const filterComponent = (props) => {
       return num;
     }
   }
-  function handleMakerList(e) {
-    brands[e.target.name] = !brands[e.target.name];
+  function handleMakerList(name) {
+    brands[name] = !brands[name];
     dispatch(setFilterBrands({ ...brands }));
   }
 
@@ -315,7 +320,7 @@ const filterComponent = (props) => {
                       name={item}
                       id={item}
                       checked={brands[item]}
-                      onClick={handleMakerList}
+                      onClick={(e) => handleMakerList(e.target.name)}
                       className="MakeCheck"
                     />
                   </label>
