@@ -51,10 +51,8 @@ Router.post("/login", async (req, res, next) => {
     if (!User.EmailVerified)
       throw createError.BadRequest("Please activate your account.")
 
-    if (!User.isActive)
-      throw createError.BadRequest(
-        "Your account is temporarily deactivated. Please contact HooHoop NZ"
-      )
+    if (!User.isActive) 
+      throw createError.BadRequest("Your account is temporarily deactivated. Please contact HooHoop NZ")
 
     bcrypt.compare(Password, User.Password, async (err, isMatch) => {
       if (!isMatch) return next(createError.Forbidden("Password does not match"))
