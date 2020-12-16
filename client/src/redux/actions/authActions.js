@@ -10,12 +10,14 @@ import {
 	AUTH_ERROR,
 	GET_ERRORS
 } from './types'
+import { successSnackbar } from '../../utils/showSnackbar'
 
 // Register User
 export const registerUser = (userData, setError, history) => dispatch => {
 	axios
 		.post('/api/user/register', userData)
 		.then(res => {
+			successSnackbar("Registration Successful! Please check your email");
 			res.status === 200 ? history.push('/login') : null
 		})
 		.catch(err => {

@@ -8,7 +8,6 @@ const CONSTANTS = {
   MIDDLE: "middle",
 };
 const getDefaultImage = ({isFront,isRear,isMiddle}) => {
-  console.log({isFront,isRear,isMiddle})
   if(isFront){
     return (CONSTANTS.FRONT);
   }
@@ -72,7 +71,6 @@ function View360({ images, isFront, isRear, isMiddle }) {
     setCurrentView(getDefaultImage({isFront, isRear, isMiddle}));
   }, [isFront,isMiddle,isRear]);
   const renderOptions = () => {
-    console.log(currentView);
     const arr = [];
     if(isFront){
       arr.push(<option value={CONSTANTS.FRONT}>Front</option>)

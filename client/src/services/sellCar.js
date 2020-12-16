@@ -1,9 +1,8 @@
 import Axios from "../utils/axios";
 import objectToFormData from "../utils/objectToFormData.js";
-import { successSnackbar } from "../utils/showSnackbar";
+import { errorSnackbar,successSnackbar } from "../utils/showSnackbar";
 
 export const postSellCar = async (data) => {
-  console.log(process.env.NODE_ENV)
   const body = {
     Make: data.Make,
     Model: data.Model,

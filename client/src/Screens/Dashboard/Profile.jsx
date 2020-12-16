@@ -126,16 +126,18 @@ const Dashboard = () => {
   const classes = DashboardStyles()
 
   const [profile, setProfile] = useState(null)
-
-  useEffect(() => {
+  const fetchProfile = () => {
     FetchProfile()
-      .then(profile => {
-        setProfile(profile)
-      })
-      .catch(err => {
-        errorSnackbar(err?.message || "Something Went Wrong")
+    .then(profile => {
+      setProfile(profile)
+    })
+    .catch(err => {
+      errorSnackbar(err?.message || "Something Went Wrong")
+    })
 
-      })
+  }
+  useEffect(() => {
+    fetchProfile();
   }, [])
 
   const DisplayPicHandle = () => {
