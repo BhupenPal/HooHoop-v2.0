@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import compose from "recompose/compose";
-import { Box, Grid } from "@material-ui/core";
+import { Box, Breadcrumbs, Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -16,7 +16,7 @@ import styles from "../../assets/material/CarPage";
 
 import { fetchCar, fetchRecommendedCar } from "../../services/fetchCar";
 import { submitCarLead } from "../../services/submitCarLead";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import "../../assets/Interior 360/PanoControls.css";
 import { getInteriorLinks } from "../../utils/getImagesUrl.js";
@@ -38,8 +38,8 @@ const CarPage = (props) => {
     VINum: "",
     AuthorID: "",
   });
-  const {isAuthenticated} = useSelector(state => state.auth);
-  const isLoginModelVisible = useSelector(state => state.loginModel.active);
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  const isLoginModelVisible = useSelector((state) => state.loginModel.active);
 
   const [car, setCar] = useState(null);
   const [recommendedCars, setRecommendedCars] = useState([]);
@@ -50,8 +50,8 @@ const CarPage = (props) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   const closeLoginModel = () => {
-    setLoginModel(visible => false)
-  }
+    setLoginModel((visible) => false);
+  };
   const handleCheckboxChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.checked });
   };
@@ -83,26 +83,34 @@ const CarPage = (props) => {
       })
       .catch((err) => {
         setLoadingMore(false);
-
       });
   };
   const handleDetailsClick = () => {
-    if(!isAuthenticated){
+    if (!isAuthenticated) {
       showLoginModel();
     }
+  };
+
+  function searchMoreCars(e) {
+    brands[car?.make] = !brands[car?.Make];
+    dispatch(setFilterBrands({ ...brands }));
   }
   useEffect(() => {
     document.documentElement.scrollTop = 0;
   }, [VINum]);
-  useEffect((...args) => {
-    setLoadingMore(true);
-    fetchAndSetCar();
-  }, [VINum,isAuthenticated]);
+  useEffect(
+    (...args) => {
+      setLoadingMore(true);
+      fetchAndSetCar();
+    },
+    [VINum, isAuthenticated]
+  );
+
+  
 
   // useEffect(() => {
   //   fetchAndSetCar();
   // }, [,isLoginModelVisible]);
-
 
   return (
     <Grid
@@ -111,6 +119,25 @@ const CarPage = (props) => {
       component="main"
       className={classes.pageDefault}
     >
+      <Grid item xs={12} style={{padding:"1rem"}}>
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link color="inherit" to="/buy-car" >
+            BUY CAR
+          </Link>
+          <Link
+            color="inherit"
+            to={`/buy-car?make=${car?.Make}`} 
+          >
+            {car?.Make}
+          </Link>
+          <Link
+            color="textPrimary"
+            to={`/car/${car?.VINum}`}
+          >
+            {car?.VINum}
+          </Link>
+        </Breadcrumbs>
+      </Grid>
       <Grid item container xs={12} sm={12} md={8}>
         <Grid item xs={12}>
           <CarPreview
@@ -119,9 +146,8 @@ const CarPage = (props) => {
             classes={classes}
           />
         </Grid>
-        <Box display={{xs:"block",md:"none"}} width={"100%"}>
-        <AboutCar classes={classes} car={car} />
-
+        <Box display={{ xs: "block", md: "none" }} width={"100%"}>
+          <AboutCar classes={classes} car={car} />
         </Box>
         <Grid item xs={12}>
           <CarDetails car={car} classes={classes} />
@@ -129,14 +155,22 @@ const CarPage = (props) => {
       </Grid>
 
       <Grid item xs={12} md={4}>
-        <Box display={{xs:"none",md:"block"}}>
-        <AboutCar classes={classes} car={car} />
-
+        <Box display={{ xs: "none", md: "block" }}>
+          <AboutCar classes={classes} car={car} />
         </Box>
 
-        <Accordion disabled={!car?.Author}  onClick={handleDetailsClick} style={{background:"#fff", borderRadius:"5px",cursor:(!car?.Author) ? "pointer" : "initial"}} className={`${classes.sellerCard} sellerDetails`}>
+        <Accordion
+          disabled={!car?.Author}
+          onClick={handleDetailsClick}
+          style={{
+            background: "#fff",
+            borderRadius: "5px",
+            cursor: !car?.Author ? "pointer" : "initial",
+          }}
+          className={`${classes.sellerCard} sellerDetails`}
+        >
           <AccordionSummary
-            expandIcon={car?.Author ? <ExpandMoreIcon /> : <LockOutlinedIcon  />}
+            expandIcon={car?.Author ? <ExpandMoreIcon /> : <LockOutlinedIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
@@ -174,7 +208,7 @@ const CarPage = (props) => {
       </Grid>
 
       <Grid item xs={12}>
-        <div style={{paddingLeft:"1rem"}}>
+        <div style={{ paddingLeft: "1rem" }}>
           <h2>Recommended Cars For You</h2>
         </div>
         <div>
@@ -182,9 +216,7 @@ const CarPage = (props) => {
         </div>
       </Grid>
       <Grid item xs={12}>
-
-      <Ad />
-
+        <Ad />
       </Grid>
     </Grid>
   );
