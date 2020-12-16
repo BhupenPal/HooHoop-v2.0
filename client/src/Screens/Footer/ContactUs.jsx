@@ -20,7 +20,7 @@ const ContactUS = (props) => {
     document.documentElement.scrollTop = 0;
   }, []);
   return (
-    <Grid container component="main" xs={12} className={classes.root}>
+    <Grid item container component="main" xs={12} className={classes.root}>
       <Grid item xs={12} className={`${classes.contactIntro}`}>
         <Typography variant="h1" className={`${classes.contactHeading}`} align="left">
           Contact Us
@@ -29,7 +29,7 @@ const ContactUS = (props) => {
           Reach out to us for further queries
         </Typography>
       </Grid>
-      <Grid container xs={12} md={10} className={classes.root}>
+      <Grid item container xs={12} md={10} className={classes.root}>
         <Grid item container xs={12} md={6} className={classes.contactContainers}>
           <Grid item xs={12} >
             <img src={Banner} width={"100%"} alt="banner"/>
@@ -62,7 +62,6 @@ const ContactUS = (props) => {
           <Typography className={classes.contactFormHeading}>Send Us a Message</Typography>
           <form>
             <TextField
-              InputLabelProps={{ required: false }}
               label="Full Name"
               required
               name="FullName"
@@ -71,7 +70,6 @@ const ContactUS = (props) => {
             <TextField label="Subject" required name="Subject" />
             <TextField
               label="Your Message"
-              margin="normal"
               required
               name="Msg"
               rows={4}
@@ -79,7 +77,7 @@ const ContactUS = (props) => {
             />
             <div className={classes.captchaContainer}>
             <Recaptcha
-              sitekey={process.env.CAPTCHA_KEY}
+              sitekey={process.env.CAPTCHA_KEY_V2}
               render="invisible"
               type="reCAPTCHA v2"
             />

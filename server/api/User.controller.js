@@ -113,15 +113,13 @@ Router.post("/googlelogin", ValidateGoogle, (req, res, next) => {
         const refreshToken = await signRefreshToken(User);
         res.status(200).json({ accessToken, refreshToken });
       } else {
-        res
-          .status(201)
-          .json({
-            FirstGoogleLogin: true,
-            Email,
-            FirstName,
-            LastName,
-            GoogleID,
-          });
+        res.status(201).json({
+          FirstGoogleLogin: true,
+          Email,
+          FirstName,
+          LastName,
+          GoogleID,
+        });
       }
     });
   } catch (error) {
@@ -145,15 +143,13 @@ Router.post("/facebooklogin", ValidateFacebook, (req, res, next) => {
         const refreshToken = await signRefreshToken(User);
         res.status(200).json({ accessToken, refreshToken });
       } else {
-        res
-          .status(201)
-          .json({
-            FirstFacebookLogin: true,
-            Email,
-            FirstName,
-            LastName,
-            GoogleID,
-          });
+        res.status(201).json({
+          FirstFacebookLogin: true,
+          Email,
+          FirstName,
+          LastName,
+          GoogleID,
+        });
       }
     });
   } catch (error) {
@@ -493,10 +489,22 @@ Router.post(
         State,
       } = req.body;
 
+      // Booleans to check which data is processed
+      const Processed = {
+        Interior360: false,
+        ExteriorVideo: false,
+        ExteriorSlider: false,
+      };
+
+      // FOR SEPRATING TEST DATA
+      // VINum = process.env.NODE_ENV === "PROD" ? VINum : `TEST_${VINum}`;
+
       // Manipulating Data
       VINum = VINum.toUpperCase();
       Make = Make.toUpperCase();
       Model = Model.toUpperCase();
+      DriveWheel4 = FormDataBoolCheck(DriveWheel4);
+      ONRoadCost = FormDataBoolCheck(ONRoadCost);
 
       //Setting up the author
       let Author = req.payload.aud;
@@ -535,50 +543,77 @@ Router.post(
       // Setting Make & Model For Search Box Queries
       NewCar.MakeModel = `${Make} ${Model}`;
 
-      // Checking if discreter slider images are present
+      // Checking if discrete slider images are present
       if (FormDataBoolCheck(isExteriorSlider)) {
         NewCar.ImageData.SliderCount = req.ExteriorSliderCount;
+
         fs.promises
           .readdir(`./assets/uploads/cars/${VINum}/exterior/`)
           .then((files) => {
-            files.forEach((CurrentFile, CurrentIndex) => {
-              sharp(`./assets/uploads/cars/${VINum}/exterior/${CurrentFile}`)
-                .resize(3200, 1600)
-                .jpeg({ quality: 90 })
-                .toFile(
-                  `./assets/uploads/cars/${VINum}/exterior/Photo_${
-                    CurrentIndex + 1
-                  }.jpg`
+            return Promise.all(
+              files.map(async (CurrentFile, CurrentIndex) => {
+                await sharp(
+                  `./assets/uploads/cars/${VINum}/exterior/${CurrentFile}`
                 )
-                .then(() => {
-                  if (NameWithoutExt(CurrentFile) !== "PHOTO_1")
-                    fs.unlinkSync(
-                      `./assets/uploads/cars/${VINum}/exterior/${CurrentFile}`
-                    );
-                });
+                  .resize(3200, 1600)
+                  .jpeg({ quality: 90 })
+                  .toFile(
+                    `./assets/uploads/cars/${VINum}/exterior/Photo_${
+                      CurrentIndex + 1
+                    }.jpg`
+                  )
+                  .then(() => {
+                    if (NameWithoutExt(CurrentFile) !== "PHOTO_1")
+                      fs.unlinkSync(
+                        `./assets/uploads/cars/${VINum}/exterior/${CurrentFile}`
+                      );
+                  });
 
-              // Generating thumbnail using Photo_1
-              if (NameWithoutExt(CurrentFile) === "PHOTO_1") {
-                Promise.all(
-                  [300, 30].map((size) => {
-                    sharp(
-                      `./assets/uploads/cars/${VINum}/exterior/${CurrentFile}`
-                    )
-                      .resize(size, size)
-                      .jpeg({ quality: 90 })
-                      .toFile(
-                        `./assets/uploads/cars/${VINum}/thumbnail/Photo${size}.jpg`
+                // Generating thumbnail using Photo_1
+                if (NameWithoutExt(CurrentFile) === "PHOTO_1") {
+                  await Promise.all(
+                    [300, 30].map((size) => {
+                      sharp(
+                        `./assets/uploads/cars/${VINum}/exterior/${CurrentFile}`
                       )
-                      .then(() => {
-                        if (size === 30)
-                          fs.unlinkSync(
-                            `./assets/uploads/cars/${VINum}/exterior/${CurrentFile}`
-                          );
-                      });
-                  })
-                );
-              }
+                        .resize(size, size)
+                        .jpeg({ quality: 90 })
+                        .toFile(
+                          `./assets/uploads/cars/${VINum}/thumbnail/Photo${size}.jpg`
+                        )
+                        .then(() => {
+                          if (size === 30)
+                            fs.unlinkSync(
+                              `./assets/uploads/cars/${VINum}/exterior/${CurrentFile}`
+                            );
+                        });
+                    })
+                  );
+                }
+              })
+            ).catch((err) => {
+              res.json(createError.InternalServerError);
+              console.log(err);
             });
+          })
+          .then(() => {
+            Processed.ExteriorSlider = true;
+
+            if (
+              Processed.ExteriorSlider &&
+              Processed.ExteriorVideo &&
+              Processed.Interior360
+            ) {
+              // Upload and save car
+              uploadFolder(
+                `assets/uploads/cars/${VINum}`,
+                `uploads/cars/${VINum}`
+              );
+            }
+          })
+          .catch((err) => {
+            res.json(createError.InternalServerError);
+            console.log(err);
           });
       }
 
@@ -586,32 +621,58 @@ Router.post(
       if (FormDataBoolCheck(is360Images)) {
         fs.readdir(
           `./assets/uploads/cars/${VINum}/interior360/`,
-          (err, files) => {
-            files.forEach((CurrentFile) => {
-              if (CurrentFile.includes("FRONT")) {
-                NewCar.ImageData.InteriorFront = true;
-              }
+          async (err, files) => {
+            if (err) {
+              res.json(createError.InternalServerError);
+              console.log(err);
+            }
 
-              if (CurrentFile.includes("MIDDLE")) {
-                NewCar.ImageData.InteriorMiddle = true;
-              }
+            await Promise.all(
+              files.map(async (CurrentFile) => {
+                if (CurrentFile.includes("FRONT")) {
+                  NewCar.ImageData.InteriorFront = true;
+                }
 
-              if (CurrentFile.includes("REAR")) {
-                NewCar.ImageData.InteriorRear = true;
-              }
+                if (CurrentFile.includes("MIDDLE")) {
+                  NewCar.ImageData.InteriorMiddle = true;
+                }
 
-              sharp(`./assets/uploads/cars/${VINum}/interior360/${CurrentFile}`)
-                .resize(3200, 1600)
-                .jpeg({ quality: 100 })
-                .toFile(
-                  `./assets/uploads/cars/${VINum}/interior360/${CurrentFile.toLowerCase()}`
-                )
-                .then(() => {
-                  fs.unlinkSync(
-                    `./assets/uploads/cars/${VINum}/interior360/${CurrentFile}`
-                  );
-                });
-            });
+                if (CurrentFile.includes("REAR")) {
+                  NewCar.ImageData.InteriorRear = true;
+                }
+
+                await sharp({
+                  input: `./assets/uploads/cars/${VINum}/interior360/${CurrentFile}`,
+                  create: {
+                    width: 3200,
+                    height: 1800,
+                  },
+                })
+                  .jpeg({ quality: 100 })
+                  .toFile(
+                    `./assets/uploads/cars/${VINum}/interior360/${CurrentFile.toLowerCase()}`
+                  )
+                  .then(() => {
+                    fs.unlinkSync(
+                      `./assets/uploads/cars/${VINum}/interior360/${CurrentFile}`
+                    );
+                  });
+              })
+            );
+
+            Processed.Interior360 = true;
+
+            if (
+              Processed.ExteriorSlider &&
+              Processed.ExteriorVideo &&
+              Processed.Interior360
+            ) {
+              // Upload and save car
+              uploadFolder(
+                `assets/uploads/cars/${VINum}`,
+                `uploads/cars/${VINum}`
+              );
+            }
           }
         );
       }
@@ -635,7 +696,7 @@ Router.post(
               if (!err) {
                 fs.unlink(
                   `./assets/uploads/cars/${VINum}/exterior360/${ExteriorVideoName}`,
-                  () => {
+                  async () => {
                     //Minus 1 as it also counts the video in files.length
                     NewCar.ImageData.VideoFrames = files.length - 1;
 
@@ -644,12 +705,15 @@ Router.post(
 
                     //Checking if discrete images are not uploaded and if not then using video to make thumbnail
                     if (!FormDataBoolCheck(isExteriorSlider)) {
-                      Promise.all(
+                      await Promise.all(
                         [300, 30].map(async (size) => {
-                          sharp(
-                            `./assets/uploads/cars/${VINum}/exterior360/Photo_1.jpg`
-                          )
-                            .resize(size, size)
+                          await sharp({
+                            input: `./assets/uploads/cars/${VINum}/exterior360/Photo_1.jpg`,
+                            create: {
+                              width: size,
+                              height: size,
+                            },
+                          })
                             .jpeg({ quality: 90 })
                             .toFile(
                               `./assets/uploads/cars/${vinNum}/thumbnail/Photo${size}.jpg`
