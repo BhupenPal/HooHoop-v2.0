@@ -6,18 +6,14 @@ import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-
 import CarSlider from "../../Components/Sliders/CarSlider.jsx";
 import Ad from "../../Components/Ad.jsx";
 import LeadForm from "../../Components/LeadForm.jsx";
 import CarDetails from "../../Components/CarDetails.jsx";
-
 import styles from "../../assets/material/CarPage";
-
 import { fetchCar, fetchRecommendedCar } from "../../services/fetchCar";
 import { submitCarLead } from "../../services/submitCarLead";
 import { Link, useParams } from "react-router-dom";
-
 import "../../assets/Interior 360/PanoControls.css";
 import { getInteriorLinks } from "../../utils/getImagesUrl.js";
 import CarPreview from "../../Components/CarPreview.jsx";
@@ -190,7 +186,7 @@ const CarPage = (props) => {
               </div>
               <div className={classes.sellerDetail}>
                 <div>Email</div>
-                <div>{car?.Author?.Email}</div>
+                <div>{car?.Author?.Email}</div> 
               </div>
               <div className={classes.sellerDetail}>
                 <div>Location</div>

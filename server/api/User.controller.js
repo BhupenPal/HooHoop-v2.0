@@ -491,9 +491,9 @@ Router.post(
 
       // Booleans to check which data is processed
       const Processed = {
-        Interior360: false,
-        ExteriorVideo: false,
-        ExteriorSlider: false,
+        Interior360: !FormDataBoolCheck(is360Images),
+        ExteriorVideo: !FormDataBoolCheck(isExteriorVideo),
+        ExteriorSlider: !FormDataBoolCheck(isExteriorSlider),
       };
 
       // FOR SEPRATING TEST DATA
