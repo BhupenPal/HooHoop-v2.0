@@ -143,7 +143,7 @@ function Home(props) {
         </Grid>
         <Grid item xs={12} md={10} className={classes.marginTop}>
           <Typography variant="h2" className="home-subhead">
-            <span className="wt-600">Feautured</span> Used Cars
+            <span className="wt-600">Featured</span> Used Cars
           </Typography>
           <Tabs
             value={carTypeTab}

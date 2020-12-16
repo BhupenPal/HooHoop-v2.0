@@ -31,8 +31,6 @@ module.exports = {
     },
 
     verifyAccessToken: (req, res, next) => {
-        //console.log(req)
-
         if (!req.cookies['accessToken']) return next(createError.Unauthorized())
 
         const BearerToken = req.cookies['accessToken']
@@ -50,7 +48,13 @@ module.exports = {
 
     signRefreshToken: (USER) => {
         return new Promise((resolve, reject) => {
-            const Payload = {}
+            const Payload = {
+                FirstName: USER.FirstName,
+                LastName: USER.LastName,
+                Email: USER.Email,
+                Role: USER.Role,
+                DP: USER.DisplayPic
+            }
             const secret = process.env.JWT_REFRESH_TOKEN
             const options = {
                 expiresIn: process.env.REFRESH_TOKEN_EXPIRE_IN,

@@ -3,6 +3,9 @@ import objectToFormData from "../utils/objectToFormData.js";
 import { errorSnackbar,successSnackbar } from "../utils/showSnackbar";
 
 export const postSellCar = async (data) => {
+  // Manipulating VIN to differentiate between Test and actual data
+  data.VINum = process.env.NODE_ENV == 'development' ? `TEST_${data.VINum}` : data.VINum
+
   const body = {
     Make: data.Make,
     Model: data.Model,
@@ -15,7 +18,7 @@ export const postSellCar = async (data) => {
     Transmission: data.Transmission,
     KMsDriven: data.KMsDriven,
     Color: data.Color,
-    VINum: `${process.env.NODE_ENV == 'DEV' ? 'test_': ''}data.VINum`,
+    VINum: data.VINum,
     EngineSize: data.EngineSize,
     FuelType: data.FuelType,
     WOFExpiry: data.WOFExpiry,

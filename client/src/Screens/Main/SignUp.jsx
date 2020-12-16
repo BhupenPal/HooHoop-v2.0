@@ -329,7 +329,7 @@ const SignUp = (props) => {
                     <TextField
                       required
                       name="DealershipPhone"
-                      label="Deakership Phone"
+                      label="Dealership Phone"
                       value={user.DealershipPhone}
                       onChange={handleChange}
                     />
@@ -338,7 +338,7 @@ const SignUp = (props) => {
                     <TextField
                       required
                       name="DealershipNZBN"
-                      label="Deakership NZBN"
+                      label="Dealership NZBN"
                       value={user.DealershipNZBN}
                       onChange={handleChange}
                     />

@@ -75,14 +75,14 @@ const AboutUs = (props) => {
             </Grid>
             
             <Typography variant="h3" align='center' style={{ margin: '65px 0 100px 0',color:"#E85513" }}>
-                We dont sell vehicles here at Hoohoop, we promote stress free, joyful trading
+                We dont sell vehicles here at Hoohoop, we promote stress free, joyful trading!
             </Typography>
 
             <Grid item container>
                 <Grid item xs={12} md={6}>
                     <Typography variant='h3'>Who are we?</Typography>
                     <Typography className={classes.whoText}>
-                        HooHoop is not the seller of the vehicle, but instead is the ‘middle man’ to help support both potential buyer and sellers. You can look at us as the building the trust in the relationship! HooHoop is the first company in NZ to offer this 360 virtual experience and by doing so saves plenty of time, so you can browse in front of your screen at home without any external pressure.
+                        HooHoop is not the seller of the vehicle, but instead is the ‘middle man’ to help support both potential buyer and seller. You can look at us as the building the trust in the relationship! HooHoop is the first company in NZ to offer this 360 virtual experience and by doing so saves plenty of time, so you can browse in front of your screen at home without any external pressure.
                     </Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
@@ -122,7 +122,7 @@ const AboutUs = (props) => {
                         <CardContent className={classes.allCen}>
                             <div className={classes.circle}></div>
                             <Typography align='center' variant='h4'>Paul Skene</Typography>
-                            <Typography align='center'>Head of Marketing</Typography>
+                            <Typography align='center'>Mentor</Typography>
                             <Typography align='center' variant='h6' className={classes.compText}>
                             Paul brings in-depth knowledge and experience as the current owner of all Pit Stop branches in Christchurch.
                             </Typography>
