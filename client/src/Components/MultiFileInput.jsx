@@ -20,6 +20,7 @@ function MultiFileInput({
       <DropzoneDialog
         open={visible}
         // onChange={}
+        filesLimit={12}
         acceptedFiles={["image/jpeg", "image/png", "image/bmp"]}
         showPreviews={true}
         maxFileSize={5000000}
