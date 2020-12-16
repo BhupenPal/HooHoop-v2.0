@@ -353,6 +353,13 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
         // FormData can only store USVString or Blobs, .'. no Booleans
         let { Make, Model, ModelYear, Price, MinPrice, Featured, BodyType, DoorCount, SeatCount, Import, VINum, KMsDriven, Color, EngineSize, FuelType, FuelStar, SafetyStar, WOFExpiry, REGExpiry, DriveWheel4, ONRoadCost, Description, isNewCar, Dealer, isExteriorVideo, isExteriorSlider, is360Images, Transmission, Accessories, State } = req.body
 
+        // Booleans to check which data is processed
+        const Processed = {
+            'Interior360': false,
+            'ExteriorVideo': false,
+            'ExteriorSlider': false,
+        }
+
         // FOR SEPRATING TEST DATA
         VINum = (process.env.NODE_ENV === 'PROD') ? VINum : `TEST_${VINum}`
 
@@ -360,6 +367,8 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
         VINum = VINum.toUpperCase()
         Make = Make.toUpperCase()
         Model = Model.toUpperCase()
+        DriveWheel4 = FormDataBoolCheck(DriveWheel4)
+        ONRoadCost = FormDataBoolCheck(ONRoadCost)
 
         //Setting up the author
         let Author = req.payload.aud;
@@ -371,12 +380,12 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
         // Setting Make & Model For Search Box Queries
         NewCar.MakeModel = `${Make} ${Model}`
 
-        // Checking if discreter slider images are present
+        // Checking if discrete slider images are present
         if (FormDataBoolCheck(isExteriorSlider)) {
             NewCar.ImageData.SliderCount = req.ExteriorSliderCount
             fs.promises.readdir(`./assets/uploads/cars/${VINum}/exterior/`)
                 .then(files => {
-                    files.forEach((CurrentFile, CurrentIndex) => {
+                    files.forEach(async (CurrentFile, CurrentIndex) => {
                         sharp(`./assets/uploads/cars/${VINum}/exterior/${CurrentFile}`)
                             .resize(3200, 1600)
                             .jpeg({ quality: 90 })
@@ -388,7 +397,7 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
 
                         // Generating thumbnail using Photo_1
                         if (NameWithoutExt(CurrentFile) === 'PHOTO_1') {
-                            Promise.all(
+                            await Promise.all(
                                 [300, 30].map(size => {
                                     sharp(`./assets/uploads/cars/${VINum}/exterior/${CurrentFile}`)
                                         .resize(size, size)
@@ -403,11 +412,28 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
                         }
                     })
                 })
+                .then(() => {
+                    Processed.ExteriorSlider = true
+
+                    if (Processed.ExteriorSlider && Processed.ExteriorVideo && Processed.Interior360) {
+                        // Upload and save car
+                    }
+                })
+                .catch(err => {
+                    res.json(createError.InternalServerError)
+                    console.log(err)
+                })
         }
 
         // Checking if Interior 360 Images are present
         if (FormDataBoolCheck(is360Images)) {
             fs.readdir(`./assets/uploads/cars/${VINum}/interior360/`, (err, files) => {
+
+                if (err) {
+                    res.json(createError.InternalServerError)
+                    console.log(err)
+                }
+
                 files.forEach(CurrentFile => {
 
                     if (CurrentFile.includes('FRONT')) {
@@ -430,6 +456,9 @@ Router.post('/sell-form/submit', verifyAccessToken, UploadValidateFields, CarUpl
                             fs.unlinkSync(`./assets/uploads/cars/${VINum}/interior360/${CurrentFile}`)
                         })
                 })
+
+                Processed.Interior360 = true
+                
             })
         }
 
