@@ -137,7 +137,6 @@ function SideBar(props) {
   const history = useHistory();
   const sideBar = useSelector((store) => store.sideBar);
   const { user } = useSelector((store) => store.auth);
-
   const dispatch = useDispatch();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [Navs, setNavs] = useState(getNavs(user && user.Role === "admin"));
@@ -145,16 +144,20 @@ function SideBar(props) {
   useEffect(() => {
     setNavs(getNavs(user && user.Role === "admin"));
   }, [user]);
+
   const isActive = (route) => {
     return history.location.pathname === route;
   };
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
   const handleLogout = () => {
     dispatch(logoutUser());
     history.push(`/login?redirect=${history.location.pathname}`);
   };
+
   const drawer = () => (
     <div>
       <List>
@@ -241,7 +244,7 @@ function SideBar(props) {
       </List>
     </div>
   );
-
+        
   return (
     <div className={classes.root}>
       <OutsideAlerter isActive={sideBar.active}>

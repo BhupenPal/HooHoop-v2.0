@@ -66,7 +66,6 @@ function EditCarModal(props) {
   };
 
   const handleConfirm = () => {
-    console.log(currentCar);
     if (validateForm()) {
       editListing(car.VINum, currentCar).then(() => {
         editCar(car.VINum,currentCar);
@@ -75,7 +74,6 @@ function EditCarModal(props) {
     }
   };
   useEffect(() => {
-    console.log("car", car);
     if (car) {
       setCar({
         Price: car?.Price,
