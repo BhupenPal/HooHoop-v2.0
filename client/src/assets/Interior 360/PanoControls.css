@@ -142,11 +142,11 @@
 }
  
 .optionSet .option:hover {
-	background-color: rgb(73, 73, 201);
+	background-color: rgb(0, 132, 209);
 }
 
 .optionSet .option.selected {
-	background-color: rgb(175, 64, 226);
+
 }
 
 .selectGroup {
@@ -192,7 +192,8 @@
 }
  
 .statusButton.option:hover {
-	background-color: #7f1e1f;
+	background-color: rgb(0, 132, 209);
+
 }
  
 .selectGroup.hide {
