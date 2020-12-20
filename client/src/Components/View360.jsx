@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from "react";
-import { PanoViewer } from "@egjs/view360";
+//import { PanoViewer } from "@egjs/view360";
 import { useState } from "react";
 
+const PanoViewer = eg.view360.PanoViewer;
 const CONSTANTS = {
   REAR: "rear",
   FRONT: "front",

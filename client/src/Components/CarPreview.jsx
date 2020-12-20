@@ -19,49 +19,52 @@ function CarPreview({ ImageData, VINum, classes }) {
   const makeSliderElements = () => {
     const slider = [];
     const navImages = [];
-
-    // if (
-    //   ImageData.InteriorFront ||
-    //   ImageData.InteriorRear ||
-    //   ImageData.InteriorMiddle
-    // ) {
-    //   slider.push(
-    //     <View360
-    //       key={1}
-    //       images={getInteriorLinks(VINum)}
-    //       isFront={ImageData.InteriorFront}
-    //       isRear={ImageData.InteriorRear}
-    //       isMiddle={ImageData.InteriorMiddle}
-    //     />
-    //   );
-    //   navImages.push(
-    //     <div
-    //       className={classes.sliderImages}
-    //       style={{
-    //         display: "none",
-    //         flexDirection: "column",
-    //         justifyContent: "center",
-    //         alignItems: "center",
-    //       }}
-    //     >
-    //       <img
-    //         src={Icon360}
-    //         alt="360 View"
-    //         height={"40rem"}
-    //         style={{ margin: "0 auto" }}
-    //       />
-    //       <div>Interior</div>
-    //     </div>
-    //   );
-    //   setNavStart((val) => 1);
-    //   setButtons((arr) => {
-    //     return [
-    //       <button onClick={() => setSlide(0)} className={classes.button360}>
-    //         <img src={InteriorIcon} alt={"interior"} />
-    //       </button>,
-    //     ];
-    //   });
-    // }
+    console.log(
+      ImageData.InteriorFront ||
+      ImageData.InteriorRear ||
+      ImageData.InteriorMiddle)
+    if (
+      ImageData.InteriorFront ||
+      ImageData.InteriorRear ||
+      ImageData.InteriorMiddle
+    ) {
+      slider.push(
+        <View360
+          key={1}
+          images={getInteriorLinks(VINum)}
+          isFront={ImageData.InteriorFront}
+          isRear={ImageData.InteriorRear}
+          isMiddle={ImageData.InteriorMiddle}
+        />
+      );
+      navImages.push(
+        <div
+          className={classes.sliderImages}
+          style={{
+            display: "none",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <img
+            src={Icon360}
+            alt="360 View"
+            height={"40rem"}
+            style={{ margin: "0 auto" }}
+          />
+          <div>Interior</div>
+        </div>
+      );
+      setNavStart((val) => 1);
+      setButtons((arr) => {
+        return [
+          <button onClick={() => setSlide(0)} className={classes.button360}>
+            <img src={InteriorIcon} alt={"interior"} />
+          </button>,
+        ];
+      });
+    }
     if (ImageData.VideoFrames && ImageData.VideoFrames > 0) {
       slider.push(
         <View360Slides
