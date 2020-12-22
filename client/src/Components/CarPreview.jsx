@@ -19,16 +19,9 @@ function CarPreview({ ImageData, VINum, classes }) {
   const makeSliderElements = () => {
     const slider = [];
     const navImages = [];
-   
-    if (
-      ImageData.Interior
-    ) {
-      slider.push(
-        <View360
-          key={1}
-          image={getInteriorLink(VINum)}
-        />
-      );
+
+    if (ImageData.Interior) {
+      slider.push(<View360 key={1} image={getInteriorLink(VINum)} />);
       navImages.push(
         <div
           className={classes.sliderImages}
@@ -88,13 +81,7 @@ function CarPreview({ ImageData, VINum, classes }) {
       setButtons((arr) => {
         const button = (
           <button
-            onClick={() =>
-              setSlide(
-                Number(
-				  ImageData.Interior                
-				)
-              )
-            }
+            onClick={() => setSlide(Number(ImageData.Interior | false))}
             className={classes.button360}
           >
             <img src={ExteriorIcon} alt={"exterior"} />
