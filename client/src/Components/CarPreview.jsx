@@ -81,7 +81,7 @@ function CarPreview({ ImageData, VINum, classes }) {
       setButtons((arr) => {
         const button = (
           <button
-            onClick={() => setSlide(Number(ImageData.Interior | false))}
+            onClick={() => setSlide(Number(ImageData.Interior === true))}
             className={classes.button360}
           >
             <img src={ExteriorIcon} alt={"exterior"} />
