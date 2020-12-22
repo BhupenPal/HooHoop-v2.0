@@ -8,7 +8,6 @@ import {
   Divider,
   CircularProgress,
   FormControlLabel,
-  Checkbox,
   FormControl,
   RadioGroup,
   FormLabel,
@@ -33,7 +32,6 @@ import MakeModel from "../../assets/data/MakeModel";
 import RichTextEditor from "../../Components/Inputs/RichTextEditor.jsx";
 import FileInput from "../../Components/Inputs/FileInput.jsx";
 import { postSellCar } from "../../services/sellCar.js";
-import ErrorSnackBar from "../../Components/OpenSnackBar.jsx";
 import MultiFileInput from "../../Components/MultiFileInput.jsx";
 import {
   colors,
@@ -47,7 +45,6 @@ import BodyTypeCodes from "../../assets/data/bodyTypes.js";
 import FuelTypeCodes from "../../assets/data/fuelTypes.js";
 import { useHistory } from "react-router-dom";
 import { errorSnackbar } from "../../utils/showSnackbar";
-import { id } from "date-fns/esm/locale";
 
 const SellCar = (props) => {
   const { classes } = props;
@@ -78,7 +75,6 @@ const SellCar = (props) => {
     SeatCount: null,
     REGExpiry: new Date(),
     WOFExpiry: new Date(),
-    InteriorFront: null,
     Interior: null,
     ExteriorVideo: null,
     FuelStar: null,

@@ -5,7 +5,6 @@ import { useState } from "react";
 const PanoViewer = eg.view360.PanoViewer;
 
 function View360({ image }) {
-  console.log(image)
   const interiorView = useRef(null);
   const panoSet = useRef(null);
   const [panoViewer, setPanoViewer] = useState({});

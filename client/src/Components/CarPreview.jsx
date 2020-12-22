@@ -91,10 +91,8 @@ function CarPreview({ ImageData, VINum, classes }) {
             onClick={() =>
               setSlide(
                 Number(
-                  ImageData.InteriorFront ||
-                    ImageData.InteriorRear ||
-                    ImageData.InteriorMiddle
-                )
+				  ImageData.Interior                
+				)
               )
             }
             className={classes.button360}
