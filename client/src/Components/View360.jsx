@@ -5,20 +5,12 @@ import { useState } from "react";
 const PanoViewer = eg.view360.PanoViewer;
 
 function View360({ image }) {
-  console.log(image)
   const interiorView = useRef(null);
   const panoSet = useRef(null);
-  const [panoViewer, setPanoViewer] = useState({});
-  //let panoViewer = {};
-  // const [randomId, setId] = useState(
-  //   Math.floor(Math.random() * 100).toString()
-  // );
+  
   const [randomId2, setId2] = useState(
     (Math.floor(Math.random() * 100) + 1).toString()
   );
-  // const handleChange = (e) => {
-  //   setCurrentView(e.target.value);
-  // };
   useEffect(() => {
     var srcImage = new Image();
     srcImage.crossOrigin = "anonymous";
@@ -36,22 +28,6 @@ function View360({ image }) {
     });
     PanoControls.showLoading();
   }, []);
-  // useEffect(() => {
-  //   if("setImage" in panoViewer){
-  //     panoViewer.setImage(images[currentView], {
-  //       projectionType: "equirectangular",
-  //       // fullscreen:true,
-
-  //     });
-  //     PanoControls.showLoading();
-
-  //   }
-
-  // }, [currentView]);
-
-  // useEffect(() => {
-  //   setCurrentView(getDefaultImage({isFront, isRear, isMiddle}));
-  // }, [isFront,isMiddle,isRear]);
 
   return (
     <div
