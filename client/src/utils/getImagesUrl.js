@@ -1,12 +1,5 @@
-import Axios from "axios";
-
-export const getInteriorLinks =  (VINum) => {
-
-  return {
-    front:`https://${process.env.DO_SPACE_BUCKET_NAME}.${process.env.DO_SPACE_ENDPOINT}/HooHoop/uploads/cars/${VINum}/interior360/interiorfront.jpg`,
-    middle:`https://${process.env.DO_SPACE_BUCKET_NAME}.${process.env.DO_SPACE_ENDPOINT}/HooHoop/uploads/cars/${VINum}/interior360/interiormiddle.jpg`,
-    rear:`https://${process.env.DO_SPACE_BUCKET_NAME}.${process.env.DO_SPACE_ENDPOINT}/HooHoop/uploads/cars/${VINum}/interior360/interiorrear.jpg`,
-  }
+export const getInteriorLink =  (VINum) => {
+  return `https://${process.env.DO_SPACE_BUCKET_NAME}.${process.env.DO_SPACE_ENDPOINT}/HooHoop/uploads/cars/${VINum}/interior360/interior.jpg`;
 };
 
 export const getSliderLinks = (VINum,noOfImages) => {
@@ -22,6 +15,7 @@ export const getSliderLinks = (VINum,noOfImages) => {
 export const getFramesFolder = (VINum) => {
   return `https://${process.env.DO_SPACE_BUCKET_NAME}.${process.env.DO_SPACE_ENDPOINT}/HooHoop/uploads/cars/${VINum}/exterior360/`
 }
+
 export const getThumbnailLink = (VINum) => {
     return `https://${process.env.DO_SPACE_BUCKET_NAME}.${process.env.DO_SPACE_ENDPOINT}/HooHoop/uploads/cars/${VINum}/thumbnail/Photo300.jpg`
 }

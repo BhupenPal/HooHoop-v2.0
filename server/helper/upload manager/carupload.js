@@ -5,7 +5,8 @@ const multer = require("multer"),
 
 const fileFilter = (req, file, cb) => {
     if (req.ValidationDataSet === false) {
-        const { Make, Model, ModelYear, Price, BodyType, SeatCount, VINum, KMsDriven, Color, EngineSize, FuelType, WOFExpiry, REGExpiry, Description, Transmission, isExteriorVideo, isExteriorSlider } = req.body;
+		const { Make, Model, ModelYear, Price, BodyType, SeatCount, VINum, KMsDriven, Color, EngineSize, FuelType, WOFExpiry, REGExpiry, Description, Transmission, isExteriorVideo, isExteriorSlider } = req.body;
+		
         //All this info is required and one out of Exterior Video or Slider is Mandatory
         if ((!Make || !Model || !ModelYear || !Price || !BodyType || !SeatCount || !VINum || !KMsDriven || !Color || !EngineSize || !FuelType || !WOFExpiry || !REGExpiry || !Description || !Transmission) || (!isExteriorVideo && !isExteriorSlider)) {
             return cb(new Error('Please fill in all the required fields'))
@@ -111,7 +112,5 @@ module.exports = multer({
 .fields([
     { name: "ExteriorSlider", maxCount: 12 },
     { name: "ExteriorVideo", maxCount: 1 },
-    { name: "InteriorFront", maxCount: 1 },
-    { name: "InteriorMiddle", maxCount: 1 },
-    { name: "InteriorRear", maxCount: 1 }
+    { name: "Interior", maxCount: 1 }
 ])

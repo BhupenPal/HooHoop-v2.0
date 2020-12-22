@@ -4,7 +4,7 @@ import { errorSnackbar,successSnackbar } from "../utils/showSnackbar";
 
 export const postSellCar = async (data) => {
   // Manipulating VIN to differentiate between Test and actual data
-  data.VINum = process.env.NODE_ENV == 'development' ? `TEST_${data.VINum}` : data.VINum
+  data.VINum = (process.env.NODE_ENV == 'development' || process.env.NODE_ENV == 'dev') ? `TEST_${data.VINum}` : data.VINum
 
   const body = {
     Make: data.Make,
@@ -29,16 +29,10 @@ export const postSellCar = async (data) => {
     WheelDrive4: data.WheelDrive4,
     isExteriorVideo: !!data.ExteriorVideo,
     isExteriorSlider: !!data.ExteriorSlider,
-    is360Images: !!(
-      (data.InteriorFront && data.InteriorFront[0]) ||
-      (data.InteriorMiddle && data.InteriorMiddle[0]) ||
-      (data.InteriorRear && data.InteriorRear[0])
-    ),
+    is360Image: !!data.Interior,
     ExteriorVideo: data.ExteriorVideo && data.ExteriorVideo[0],
     ExteriorSlider: data.ExteriorSlider && data.ExteriorSlider,
-    InteriorFront: data.InteriorFront && data.InteriorFront[0],
-    InteriorMiddle: data.InteriorMiddle && data.InteriorMiddle[0],
-    InteriorRear: data.InteriorRear && data.InteriorRear[0],
+    Interior: data.Interior && data.Interior[0],
     Accessories: data.Accessories,
   };
   let headers = {
@@ -48,7 +42,7 @@ export const postSellCar = async (data) => {
   };
   try {
     const res = await Axios.post(
-      `/api/user/sell-form/submit?VINum=${data.VINum}`,
+      `/api/user/sell-form/submit?VINExistCheck=${data.VINum}`,
       objectToFormData(body),
       { headers }
     );
