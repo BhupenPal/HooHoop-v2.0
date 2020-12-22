@@ -279,12 +279,12 @@ const SellCar = (props) => {
       setShowError(true);
 
       return false;
-    } else if (dataobject.Color.length <= 0) {
+    } else if (dataobject.Color && dataobject.Color.length <= 0) {
       errorSnackbar("Color Type is Required");
       setShowError(true);
 
       return false;
-    } else if (dataobject.VINum.length <= 0) {
+    } else if (dataobject.VINum && dataobject.VINum.length <= 0) {
       errorSnackbar("Number Plate is Required");
       setShowError(true);
 

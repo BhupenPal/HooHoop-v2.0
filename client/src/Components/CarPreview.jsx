@@ -1,6 +1,6 @@
 import { Box, Grid } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { getInteriorLinks, getSliderLinks } from "../utils/getImagesUrl";
+import { getInteriorLink, getSliderLinks } from "../utils/getImagesUrl";
 
 import AsNavFor from "./Sliders/AsNavFor.jsx";
 import View360 from "./View360.jsx";
@@ -19,22 +19,14 @@ function CarPreview({ ImageData, VINum, classes }) {
   const makeSliderElements = () => {
     const slider = [];
     const navImages = [];
-    console.log(
-      ImageData.InteriorFront ||
-      ImageData.InteriorRear ||
-      ImageData.InteriorMiddle)
+   
     if (
-      ImageData.InteriorFront ||
-      ImageData.InteriorRear ||
-      ImageData.InteriorMiddle
+      ImageData.Interior
     ) {
       slider.push(
         <View360
           key={1}
-          images={getInteriorLinks(VINum)}
-          isFront={ImageData.InteriorFront}
-          isRear={ImageData.InteriorRear}
-          isMiddle={ImageData.InteriorMiddle}
+          image={getInteriorLink(VINum)}
         />
       );
       navImages.push(

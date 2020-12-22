@@ -15,7 +15,7 @@ import { fetchCar, fetchRecommendedCar } from "../../services/fetchCar";
 import { submitCarLead } from "../../services/submitCarLead";
 import { Link, useParams } from "react-router-dom";
 import "../../assets/Interior 360/PanoControls.css";
-import { getInteriorLinks } from "../../utils/getImagesUrl.js";
+import { getInteriorLink } from "../../utils/getImagesUrl.js";
 import CarPreview from "../../Components/CarPreview.jsx";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import AboutCar from "../../Components/AboutCar.jsx";

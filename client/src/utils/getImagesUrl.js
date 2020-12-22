@@ -1,12 +1,8 @@
 import Axios from "axios";
 
-export const getInteriorLinks =  (VINum) => {
+export const getInteriorLink =  (VINum) => {
 
-  return {
-    front:`https://${process.env.DO_SPACE_BUCKET_NAME}.${process.env.DO_SPACE_ENDPOINT}/HooHoop/uploads/cars/${VINum}/interior360/interiorfront.jpg`,
-    middle:`https://${process.env.DO_SPACE_BUCKET_NAME}.${process.env.DO_SPACE_ENDPOINT}/HooHoop/uploads/cars/${VINum}/interior360/interiormiddle.jpg`,
-    rear:`https://${process.env.DO_SPACE_BUCKET_NAME}.${process.env.DO_SPACE_ENDPOINT}/HooHoop/uploads/cars/${VINum}/interior360/interiorrear.jpg`,
-  }
+  return `https://${process.env.DO_SPACE_BUCKET_NAME}.${process.env.DO_SPACE_ENDPOINT}/HooHoop/uploads/cars/${VINum}/interior360/interior.jpg`;
 };
 
 export const getSliderLinks = (VINum,noOfImages) => {
