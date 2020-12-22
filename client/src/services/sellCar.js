@@ -4,7 +4,7 @@ import { errorSnackbar,successSnackbar } from "../utils/showSnackbar";
 
 export const postSellCar = async (data) => {
   // Manipulating VIN to differentiate between Test and actual data
-  data.VINum = process.env.NODE_ENV == 'development' ? `TEST_${data.VINum}` : data.VINum
+  data.VINum = (process.env.NODE_ENV == 'development' || process.env.NODE_ENV == 'dev') ? `TEST_${data.VINum}` : data.VINum
 
   const body = {
     Make: data.Make,
