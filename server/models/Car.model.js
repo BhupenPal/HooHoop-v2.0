@@ -126,18 +126,10 @@ const CarSchema = mongoose.Schema({
         default: true
     },
     ImageData: {
-        InteriorFront: {
-            type: Boolean,
-            default: false
-        },
-        InteriorMiddle: {
-            type: Boolean,
-            default: false
-        },
-        InteriorRear: {
-            type: Boolean,
-            default: false
-        },
+		Interior: {
+			type: Boolean,
+			default: false
+		},
         VideoFrames: {
             type: Number,
             deafult: 0

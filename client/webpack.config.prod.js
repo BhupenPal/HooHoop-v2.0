@@ -4,7 +4,6 @@ const webpack = require('webpack'),
   { CleanWebpackPlugin } = require('clean-webpack-plugin'),
   MiniCssExtractPlugin = require('mini-css-extract-plugin'),
   OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin'),
-  TerserPlugin = require('terser-webpack-plugin'),
   LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const dotenv = require('dotenv')
@@ -63,13 +62,6 @@ module.exports = {
   },
   optimization: {
     minimizer: [
-      // new TerserPlugin({
-      //   parallel: true,
-      //   terserOptions: {
-      //     compress: {},
-      //     mangle: true
-      //   }
-      // }),
       new OptimizeCSSAssetsPlugin({})
     ]
   },
