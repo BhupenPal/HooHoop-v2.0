@@ -29,16 +29,10 @@ export const postSellCar = async (data) => {
     WheelDrive4: data.WheelDrive4,
     isExteriorVideo: !!data.ExteriorVideo,
     isExteriorSlider: !!data.ExteriorSlider,
-    is360Images: !!(
-      (data.InteriorFront && data.InteriorFront[0]) ||
-      (data.InteriorMiddle && data.InteriorMiddle[0]) ||
-      (data.InteriorRear && data.InteriorRear[0])
-    ),
+    is360Image: !!data.Interior,
     ExteriorVideo: data.ExteriorVideo && data.ExteriorVideo[0],
     ExteriorSlider: data.ExteriorSlider && data.ExteriorSlider,
-    InteriorFront: data.InteriorFront && data.InteriorFront[0],
-    InteriorMiddle: data.InteriorMiddle && data.InteriorMiddle[0],
-    InteriorRear: data.InteriorRear && data.InteriorRear[0],
+    Interior: data.Interior && data.Interior[0],
     Accessories: data.Accessories,
   };
   let headers = {

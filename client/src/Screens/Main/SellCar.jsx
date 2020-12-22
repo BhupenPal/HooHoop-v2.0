@@ -56,9 +56,7 @@ const SellCar = (props) => {
   const [showErrors, setShowError] = useState(false);
 
   const [preview, setPreview] = useState({
-    InteriorFront: null,
-    InteriorRear: null,
-    InteriorMiddle: null,
+    Interior: null,
   });
 
   const [dataobject, changedata] = useState({
@@ -81,9 +79,7 @@ const SellCar = (props) => {
     REGExpiry: new Date(),
     WOFExpiry: new Date(),
     InteriorFront: null,
-    InteriorRear: null,
-    InteriorMiddle: null,
-    ExteriorSlider: null,
+    Interior: null,
     ExteriorVideo: null,
     FuelStar: null,
     SafetyStar: null,
@@ -761,27 +757,11 @@ const SellCar = (props) => {
                 <div>
                   <FileInput
                     accept="image/*"
-                    name="InteriorFront"
-                    id="InteriorFront"
-                    label="Front"
+                    name="Interior"
+                    id="Interior"
+                    label="360 Interior"
                     onChange={handleFileUpload}
-                    previewUrl={preview.InteriorFront}
-                  />
-                  <FileInput
-                    accept="image/*"
-                    name="InteriorMiddle"
-                    id="InteriorMiddle"
-                    label="Middle"
-                    onChange={handleFileUpload}
-                    previewUrl={preview.InteriorMiddle}
-                  />
-                  <FileInput
-                    accept="image/*"
-                    name="InteriorRear"
-                    id="InteriorRear"
-                    label="Rear"
-                    onChange={handleFileUpload}
-                    previewUrl={preview.InteriorRear}
+                    previewUrl={preview.Interior}
                   />
                 </div>
               </div>
