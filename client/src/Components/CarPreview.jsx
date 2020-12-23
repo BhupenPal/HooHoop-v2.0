@@ -92,6 +92,7 @@ function CarPreview({ ImageData, VINum, classes }) {
       });
     }
     if (ImageData.SliderCount && ImageData.SliderCount > 0) {
+      setSlide(navImages.length);
       getSliderLinks(VINum, ImageData.SliderCount).forEach((link) => {
         slider.push(
           <div
