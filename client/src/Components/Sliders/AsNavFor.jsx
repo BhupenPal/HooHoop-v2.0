@@ -26,6 +26,7 @@ export default ({elements,setSlide}) => {
       speed: 500,
       slidesToShow: (elements.length < 4) ? elements.length : 4,
       slidesToScroll: 1,
+      swipeToSlide:true,
       nextArrow: <ForwardIcon />,
       prevArrow: <BackwardIcon />,
       responsive: [
