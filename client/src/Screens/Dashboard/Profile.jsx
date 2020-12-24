@@ -9,6 +9,7 @@ import { Skeleton } from '@material-ui/lab'
 import FetchProfile from '../../services/profile'
 import ProfileEditModal from '../../Components/Modals/ProfileEditModal.jsx'
 import { errorSnackbar } from '../../utils/showSnackbar'
+import AddMoneyModal from '../../Components/Modals/AddMoneyModal.jsx'
 
 const DashboardStyles = makeStyles(theme => ({
   userDetails: {
@@ -124,7 +125,7 @@ const DashboardStyles = makeStyles(theme => ({
 
 const Dashboard = () => {
   const classes = DashboardStyles()
-
+  const [showAddMoneyModal,setMoneyModal] = useState(false);
   const [profile, setProfile] = useState(null)
   const fetchProfile = () => {
     FetchProfile()
@@ -275,9 +276,10 @@ const Dashboard = () => {
               </div>
             </div>
             <div className={classes.walletActions}>
-              <button className={classes.walletButton}>
+              <button onClick={() => setMoneyModal(true)} className={classes.walletButton}>
                 Add money
 							</button>
+              <AddMoneyModal open={showAddMoneyModal} setModal={setMoneyModal}/>
               <button className={classes.buttonPrimary}>
                 Sell Car
 							</button>
