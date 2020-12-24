@@ -14,7 +14,11 @@ const TransactSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user list',
         required: true
-    },
+	},
+	Car: {
+		type: mongoose.Schema.Types.ObjectId,
+        ref: 'car list'
+	}
 },
 {
     timestamps: true

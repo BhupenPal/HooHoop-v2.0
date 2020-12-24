@@ -12,6 +12,7 @@ import compose from "recompose/compose";
 import Slider from "react-slick";
 import axios from "../../utils/axios";
 import { Link } from "react-router-dom";
+import PaypalPaymentButton from "../../Components/Buttons/PaypalPaymentButton.jsx"
 
 // Styles
 import styles from "../../assets/material/Home";
@@ -94,6 +95,16 @@ function Home(props) {
     return <CarSlider giveMargin={true} data={tabs[carTypeTab]} loading={loader} />;
   };
 
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const onSuccess = (data) => {
+	  alert('Success')
+	  const payload = {
+		  
+	  }
+	//   axios.post('/payment-success-url', payload)
+  }
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   return (
     <Fragment>
       <Slider {...settings} className={`${classes.Slider} fadeIn`} >
@@ -125,7 +136,9 @@ function Home(props) {
           );
         })}
       </Slider>
-    
+	  {/* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+    <PaypalPaymentButton toPay={10} onSuccess={onSuccess} transactionError={null} transactionCancelled={null} />
+	{/* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
       <Grid container justify="center" style={{ margin: "35px 0 35px 0" }}>
         <Grid item xs={12} md={10}>
           <Typography variant="h2" className="home-subhead">

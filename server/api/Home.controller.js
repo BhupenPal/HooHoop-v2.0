@@ -26,6 +26,11 @@ Router.get('/', (req, res, next) => {
         VINum: '$VINum'
     }
     CarModel.aggregate([
+		{
+			$sort: {
+				'createdAt': -1
+			}
+		},
         {
             $match: {
                 isActive: true
@@ -173,7 +178,8 @@ Router.get('/buy-car/:PageNo/:size?', async (req, res, next) => {
         page: PageNo || 1,
         select: 'Make Model ModelYear Price State BodyType FuelType KMsDriven ViewsCount VINum LikedBy',
         lean: true,
-        limit: size || 15
+        limit: size || 15,
+		sort: { $natural: -1 }
     }
 
     // Basic Filter For All Queries
@@ -283,6 +289,11 @@ Router.get('/recommended-cars/:CurrentPrice', (req, res, next) => {
     }
 
     CarModel.aggregate([
+		{
+			$sort: {
+				'createdAt': -1
+			}
+		},
         {
             $match: {
                 isActive: true,

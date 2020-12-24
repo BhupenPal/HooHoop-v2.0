@@ -95,7 +95,8 @@ Router.get('/listings/', (req, res, next) => {
         page: req.body.PageNo || 1,
         select: 'Make Model Price isNewCar VINum ViewsCount createdAt KMsDriven WOFExpiry Description',
         lean: true,
-        limit: req.body.SetLimit || 10
+		limit: req.body.SetLimit || 10,
+		sort: { $natural: -1 }
     }
 
     if (!req.body.Pagination) {
@@ -198,7 +199,8 @@ Router.get('/all-users', (req, res, next) => {
                 page: req.body.PageNo || 1,
                 select: 'FirstName LastName Email Phone EmailVerified PhoneVerified Role State isActive',
                 lean: true,
-                limit: req.body.SetLimit || 10
+                limit: req.body.SetLimit || 10,
+				sort: { $natural: -1 }
             }
 
             if (!req.body.Pagination) {
@@ -247,7 +249,8 @@ Router.get('/test-drives', (req, res, next) => {
         page: req.body.PageNo || 1,
         select: 'createdAt FullName Email Phone VINum Status MakeModel',
         lean: true,
-        limit: req.body.SetLimit || 10
+        limit: req.body.SetLimit || 10,
+		sort: { $natural: -1 }
     }
 
     if (!req.body.Pagination) {
@@ -270,7 +273,8 @@ Router.get('/callback-requests', (req, res, next) => {
         page: req.body.PageNo || 1,
         select: 'createdAt FullName Email Phone VINum Status MakeModel',
         lean: true,
-        limit: req.body.SetLimit || 10
+        limit: req.body.SetLimit || 10,
+		sort: { $natural: -1 }
     }
 
     if (!req.body.Pagination) {
@@ -293,7 +297,8 @@ Router.get('/shipments', (req, res, next) => {
         page: req.body.PageNo || 1,
         select: 'createdAt FullName Email Phone VINum Status MakeModel',
         lean: true,
-        limit: req.body.SetLimit || 10
+        limit: req.body.SetLimit || 10,
+		sort: { $natural: -1 }
     }
 
     if (!req.body.Pagination) {
@@ -446,7 +451,8 @@ Router.get('/admin/test-drives', (req, res, next) => {
                 select: 'createdAt FullName Email Phone VINum Status MakeModel',
                 lean: true,
                 limit: req.body.SetLimit || 10,
-                populate: { path: 'Author', select: 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id' }
+                populate: { path: 'Author', select: 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id' },
+				sort: { $natural: -1 }
             }
 
             if (!req.body.Pagination) {
@@ -474,7 +480,8 @@ Router.get('/admin/callback-requests', (req, res, next) => {
                 select: 'createdAt FullName Email Phone VINum Status MakeModel',
                 lean: true,
                 limit: req.body.SetLimit || 10,
-                populate: { path: 'Author', select: 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id' }
+                populate: { path: 'Author', select: 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id' },
+				sort: { $natural: -1 }
             }
 
             if (!req.body.Pagination) {
@@ -502,7 +509,8 @@ Router.get('/admin/shipments', (req, res, next) => {
                 select: 'createdAt FullName Email Phone VINum Status MakeModel',
                 lean: true,
                 limit: req.body.SetLimit || 10,
-                populate: { path: 'Author', select: 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id' }
+                populate: { path: 'Author', select: 'FirstName LastName Email Phone DealershipEmail DealershipPhone DealershipName _id' },
+				sort: { $natural: -1 }
             }
 
             if (!req.body.Pagination) {
