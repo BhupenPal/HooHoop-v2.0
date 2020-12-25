@@ -160,9 +160,8 @@ Router.post("/register", (req, res, next) => {
 				if (doc)
 					return next(createError.Conflict("Phone number already exists"))
 				const SecretToken = GenerateOTP()
-				const EncryptedCore = await HashSalt(process.env.DEFAULT_CREDIT)
 				Password = await HashSalt(Password)
-				new UserModel({ FirstName, LastName, Email, Password, Phone, Address, State, Role, DealershipName, DealershipEmail, DealershipPhone, DealershipNZBN, SecretToken, EncryptedCore, GoogleID, FacebookID, Gender, DOB })
+				new UserModel({ FirstName, LastName, Email, Password, Phone, Address, State, Role, DealershipName, DealershipEmail, DealershipPhone, DealershipNZBN, SecretToken, GoogleID, FacebookID, Gender, DOB })
 					.save()
 					.then(() => {
 						SendMail(Email, "HooHoop Account Activation Email", AccActivationMail(FirstName, SecretToken))
@@ -217,9 +216,10 @@ Router.delete("/logout", verifyRefreshToken, async (req, res, next) => {
 Router.patch("/genmailotp", async (req, res, next) => {
 	try {
 		const SecretToken = GenerateOTP()
-		UserModel.findOne({ Email: req.body.Email }, "-LastName -Password -GoogleID -FacebookID -Gender -Role -isDeleted -EncryptedCore -updatedAt -PassResetToken")
+		UserModel.findOne({ Email: req.body.Email }, "-LastName -Password -GoogleID -FacebookID -Gender -Role -isDeleted -updatedAt -PassResetToken")
 			.then((user) => {
 				if (!user) return next(createError.NotFound("No matching email found"))
+				if (user.EmailVerified) return next(createError.Conflict("Email already verified"))
 				user.SecretToken = SecretToken
 				user.save().then((User) => {
 					SendMail(User.Email, "HooHoop Account Activation Email", AccActivationMail(User.FirstName, SecretToken))
@@ -253,7 +253,7 @@ Router.patch("/mailactivate", (req, res, next) => {
 Router.patch("/genphoneotp", verifyAccessToken, (req, res, next) => {
 	try {
 		const SecretToken = GenerateOTP()
-		UserModel.findById(req.payload.aud, "-LastName -Password -GoogleID -FacebookID -Gender -Role -isDeleted -EncryptedCore -updatedAt -PassResetToken")
+		UserModel.findById(req.payload.aud, "-LastName -Password -GoogleID -FacebookID -Gender -Role -isDeleted -updatedAt -PassResetToken")
 			.then((user) => {
 				if (!user) return next(createError.Forbidden())
 				user.SecretToken = SecretToken

@@ -24,12 +24,12 @@ Router.get('/profile', (req, res, next) => {
 })
 
 Router.put('/update/profile', (req, res, next) => {
-    let { FirstName, LastName, Address, State, Gender, DOB } = req.body;
+    let { FirstName, LastName, Address, State, Gender, DOB, UserID } = req.body;
     if (!FirstName && !LastName && !Address && !State && !Gender) return next(createError.BadRequest())
-    UserModel.findById(req.payload.aud, 'FirstName LastName Address Gender State Role DOB')
+    UserModel.findById(UserID, 'FirstName LastName Address Gender State Role DOB')
         .then(user => {
             if (!user) return next(createError.Forbidden())
-            if (user._id == req.payload.aud || user.Role === 'admin') {
+            if (user._id == req.payload.aud || req.payload.Role === 'admin') {
                 FirstName = (!FirstName) ? user.FirstName : FirstName
                 LastName = (!LastName) ? user.LastName : LastName
                 Address = (!Address) ? user.Address : Address
@@ -197,7 +197,7 @@ Router.get('/all-users', (req, res, next) => {
             if (user.Role !== 'admin') return next(createError.NotFound())
             let options = {
                 page: req.body.PageNo || 1,
-                select: 'FirstName LastName Email Phone EmailVerified PhoneVerified Role State isActive',
+                select: 'FirstName LastName Email Phone EmailVerified PhoneVerified Role State isActive _id',
                 lean: true,
                 limit: req.body.SetLimit || 10,
 				sort: { $natural: -1 }
@@ -220,9 +220,10 @@ Router.get('/all-users', (req, res, next) => {
 })
 
 Router.patch('/update/userstatus', (req, res, next) => {
-    UserModel.findById(req.payload.aud)
+	const { UserID } = req.body
+    UserModel.findById(UserID)
         .then(user => {
-            if (user.Role !== 'admin') return next(createError.NotFound())
+            if (req.payload.Role !== 'admin') return next(createError.NotFound())
             UserModel.findByIdAndUpdate(req.body.value, { $set: { isActive: req.body.SetStatus } })
                 .then(() => {
                     res.sendStatus(200)
