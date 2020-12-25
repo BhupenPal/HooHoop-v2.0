@@ -11,6 +11,7 @@ import SearchBox from './Inputs/SearchBox.jsx'
 import { logoutUser } from "../redux/actions/authActions"
 
 import PermIdentityIcon from '@material-ui/icons/PermIdentity'
+import { GetLSWithExpiry } from '../utils/validations'
 
 const HeaderStyles = makeStyles(theme => ({
   HeaderStyle: {
@@ -168,7 +169,7 @@ const Header = () => {
     }
   }
   useEffect(() => {
-    if(!auth.isAuthenticated){
+    if(!GetLSWithExpiry('isAuthenticated') && !auth.isAuthenticated){
       if(window.location.pathname.includes("user") || window.location.pathname === '/sell-car'){
         history.push(`/login?redirect=${window.location.pathname}`);
       }

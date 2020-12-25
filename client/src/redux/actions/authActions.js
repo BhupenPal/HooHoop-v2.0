@@ -8,20 +8,35 @@ import {
 	LOGOUT_SUCCESS,
 	LOGIN_FAIL,
 	AUTH_ERROR,
-	GET_ERRORS
+	GET_ERRORS,
+	STOP_USER_LOADING
 } from './types'
-import { successSnackbar } from '../../utils/showSnackbar'
+import { errorSnackbar, successSnackbar } from '../../utils/showSnackbar'
+import { makeErrorMessage } from '../../utils/makeErrorMessage'
 
+
+const startLoading = () => ({
+	type:USER_LOADING
+})
+
+const stopLoading = () => ({
+	type:STOP_USER_LOADING
+})
 // Register User
-export const registerUser = (userData, setError, history) => dispatch => {
+export const registerUser = (userData, history) => dispatch => {
+	dispatch(startLoading());
 	axios
 		.post('/api/user/register', userData)
 		.then(res => {
+		 dispatch(stopLoading());
 			successSnackbar("Registration Successful! Please check your email");
 			res.status === 200 ? history.push('/login') : null
+			
 		})
 		.catch(err => {
-			setError(err.response?.data?.error?.message || err.message)
+			dispatch(stopLoading());
+			const msg = err.response?.data?.error?.message || err.message;
+			errorSnackbar(makeErrorMessage(msg));
 			dispatch(returnErrors(err.response.data, err.response.status))
 			dispatch({
 				type: AUTH_ERROR
@@ -30,7 +45,9 @@ export const registerUser = (userData, setError, history) => dispatch => {
 }
 
 // Login get a user payload
-export const loginUser = (userData, setError) => dispatch => {
+export const loginUser = (userData) => dispatch => {
+	dispatch(startLoading());
+
 	axios
 		.post('/api/user/login', userData)
 		.then(res => {
@@ -38,7 +55,8 @@ export const loginUser = (userData, setError) => dispatch => {
 			dispatch(setCurrentUser(res.data))
 		})
 		.catch(err => {
-			setError(err.response?.data?.error?.message || err.message)
+			const msg = err.response?.data?.error?.message || err.message;
+			errorSnackbar(makeErrorMessage(msg))
 			dispatch(returnErrors(err.response.data, err.response.status))
 			dispatch({
 				type: AUTH_ERROR
@@ -69,6 +87,8 @@ export const socialLogin = decoded => dispatch => {
 	SetLSWithExpiry('isAuthenticated', 'true', parseInt(process.env.REFRESH_TOKEN_EXPIRE_IN))
 	dispatch(setCurrentUser(decoded))
 }
+
+
 
 // Set logged in user
 export const setCurrentUser = decoded => {
