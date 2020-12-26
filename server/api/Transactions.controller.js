@@ -14,8 +14,8 @@ const express = require('express'),
 	{ verifyAccessToken } = require('../helper/auth/JWT_service'),
 	{ PaypalClient } = require('../helper/payment/paypal')
 
-Router.post('/addcredits', verifyAccessToken, (req, res, next) => {
-	const { Amount, UserID, OrderID } = req.body;
+Router.post('/addcredits', verifyAccessToken, async (req, res, next) => {
+	const { Amount, UserID, OrderID } = req.body
 
 	const PayLoad = {
 		Type: 'Credits added to account',
@@ -29,15 +29,8 @@ Router.post('/addcredits', verifyAccessToken, (req, res, next) => {
 
 	if (req.payload.Role !== 'admin') {
 		// Call PayPal to get the transaction details of incoming OrderID
-		let request = new checkoutNodeJssdk.orders.OrdersGetRequest(OrderID);
-
-		let order;
-		try {
-			order = await payPalClient.client().execute(request);
-		} catch (err) {
-			console.error(err);
-			return res.send(500);
-		}
+		const request = new checkoutNodeJssdk.orders.OrdersGetRequest(OrderID),
+			order = await PaypalClient.client().execute(request);
 
 		// 5. Validate the transaction details are as expected
 		if (order.result.purchase_units[0].amount.value !== Amount.toFixed(2).toString()) {
@@ -49,18 +42,17 @@ Router.post('/addcredits', verifyAccessToken, (req, res, next) => {
 	new TxnModel(PayLoad)
 		.save()
 		.then(() => {
-			if (PayLoad.Status == 'Not verified by Paypal then declined by Hoohoop') {
-				return res.json(createError.Conflict('Payment rejected by server'))
+			if (PayLoad.Status !== 'Not verified by Paypal then declined by Hoohoop') {
+				UserModel
+					.findByIdAndUpdate(UserID, { $inc: { Credits: Amount } })
+					.then(() => {
+						return res.sendStatus(200)
+					})
 			}
-			UserModel
-				.findByIdAndUpdate(UserID, { $inc: { Credits: Amount } })
-				.then(() => {
-					res.sendStatus(200)
-				})
 		})
 		.catch((error) => {
 			console.log(error)
-			res.sendStatus(200)
+			return next(createError.InternalServerError('Please contact HooHoop'))
 		})
 })
 

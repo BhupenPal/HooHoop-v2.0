@@ -103,21 +103,6 @@ module.exports = {
         })
     },
 
-    decodeToken: (authHeader) => {
-        return new Promise((resolve, reject) => {
-            if (!authHeader) {
-                resolve(false)
-                return
-            }
-            const secret = process.env.JWT_ACCESS_TOKEN
-            const Token = authHeader.split(' ')[1]
-            JWT.verify(Token, secret, (err, payload) => {
-                if (err) resolve(false)
-                resolve(payload)
-            })
-        })
-    },
-
     decodeTrustedToken: BearerToken => {
         const Token = BearerToken.split(' ')[1]
         return JWT.decode(Token)
