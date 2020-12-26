@@ -176,7 +176,7 @@ const Header = () => {
     }
   },[auth.isAuthenticated])
   const renderSideBarToggler = () => {
-    if (auth.isAuthenticated) {
+    //if (auth.isAuthenticated) {
       return (
         <Box
           display={{ xs: 'block', md: 'none' }}
@@ -185,7 +185,7 @@ const Header = () => {
           <img src={ToggleIcon} alt='' />
         </Box>
       )
-    }
+   // }
   }
 
   return (

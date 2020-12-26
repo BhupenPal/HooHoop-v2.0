@@ -29,7 +29,7 @@ const CarSliderStyles = makeStyles(theme => ({
     },
     smMargin:{
         [theme.breakpoints.down('md')]: {
-            margin: '1rem 0 1rem 5rem',
+            margin: '1rem',
         }
     },
     HideBoxShadow: {
@@ -157,7 +157,8 @@ const settings = {
         {
             breakpoint: 480,
             settings: {
-                slidesToShow:  Math.min(data?.length || 1.1 ,1.1),
+                infinite: false,
+                slidesToShow:  Math.min(data?.length || 1.3 ,1.3),
                 slidesToScroll: 1,
                 arrows:false
             }

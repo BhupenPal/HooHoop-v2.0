@@ -23,7 +23,6 @@ const BuyCar = () => {
 
   const debouncedQuery = useDebounce(query, 1000);
 
-
   const fetchMoreCars = () => {
     if (debouncedQuery) {
       setLoader(true);
@@ -52,8 +51,20 @@ const BuyCar = () => {
   const renderSkeleton = () => {
     //if (!loader) return null;
     return (
-      <Grid item container xs={12} style={{ height: "fit-content", justifyContent:"center" }}>
-        {[1, 2, 3, 4, 5, 6].map(item => (
+      <Grid
+        // item
+        // container
+        // justify="center"
+        // xs={12}
+
+        item
+        container
+        xs={12}
+        style={{ height: "fit-content" }}
+        justify="center"
+     //   style={{ height: "fit-content", justifyContent: "center" }}
+      >
+        {[1, 2, 3, 4, 5, 6].map((item) => (
           <Grid
             item
             xs={12}
@@ -65,7 +76,7 @@ const BuyCar = () => {
           >
             <Skeleton
               variant="rect"
-              width={320}
+              width={"100%"}
               height={450}
               style={{ margin: "1rem" }}
             />
@@ -78,7 +89,7 @@ const BuyCar = () => {
     if (cars.length === 0 && !hasMore) {
       return (
         <Grid item xs={8}>
-          <div style={{ padding: "2rem",textAlign:"center" }}>
+          <div style={{ padding: "2rem", textAlign: "center" }}>
             <img width="100%" src={Empty} alt="Empty" />
             <Typography variant={"h3"}>0 Results Found</Typography>
           </div>
@@ -86,11 +97,7 @@ const BuyCar = () => {
       );
     }
     return cars.map((car, index) => (
-      <CardComponent
-        key={index}
-        index={index}
-        car={car}
-      />
+      <CardComponent key={index} index={index} car={car} />
     ));
   };
 
