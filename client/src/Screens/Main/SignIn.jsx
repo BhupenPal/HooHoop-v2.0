@@ -1,75 +1,46 @@
 import React from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../redux/actions/authActions";
 import {
   Grid,
   Typography,
-  TextField,
   Paper,
   Tabs,
   Tab,
-  FormControlLabel,
-  Checkbox,
-  Button,
-  Divider,
-  Box,
-  Snackbar,
-  InputAdornment,
-  IconButton
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { NavLink, useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import styles from "../../assets/material/LoginResgister";
-import { Alert } from "@material-ui/lab";
-import GoogleLoginButton from "../../Components/Buttons/GoogleLoginButton.jsx";
-import FacebookLoginButton from "../../Components/Buttons/FacebookLoginButton.jsx";
-import { useState } from "react";
+
 import { useEffect } from "react";
 import { activateEmail } from "../../services/emailVerifications";
 
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { successSnackbar } from "../../utils/showSnackbar";
+import Login from "../../Components/Forms/Login.jsx";
 
-const useStyles = makeStyles(styles)
+const useStyles = makeStyles(styles);
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
-const SignIn = ({inDialog,closeDialog}) => {
-  const [user,setUser] = useState({
-    Email:"",
-    Password:"",
-    Remember:false,
-    showPassword: false
-  })
-  // const [Errors,setErrors] = useState(null);
-  const query = useQuery()
+const SignIn = ({ inDialog, closeDialog }) => {
+  const query = useQuery();
 
-  const [loginError,setLoginError] = useState(false);
-  const [errorMessage,setErrorMessage] = useState("");
-  const [activationSuccess,setActivationSuccess] = useState(false);
   const auth = useSelector((store) => store.auth);
   const csrf = useSelector((store) => store.csrf);
 
-  const dispatch = useDispatch();
-  // const [showGoogleDialog,setGoogleDialog] = useState(false);
-  // const [showFacebookDialog,setFacebookDialog] = useState(false);
-  // const [socialLoginResult,setSocialLoginResult] = useState(null);
-  const classes  = useStyles();
+  const classes = useStyles();
   const history = useHistory();
- useEffect(() => {
-  if(csrf.csrfAvailable){
-    if(query.get('token')){
-      activateEmail(query.get('token'))
-      .then(() => {
-        setActivationSuccess(true);
-      })
-    }
-  }
- },[csrf.csrfAvailable])
   useEffect(() => {
-    
+    if (csrf.csrfAvailable) {
+      if (query.get("token")) {
+        activateEmail(query.get("token")).then(() => {
+          successSnackbar("Email Activated Successfully");
+        });
+      }
+    }
+  }, [csrf.csrfAvailable]);
+  useEffect(() => {
     if (!inDialog && auth.isAuthenticated) {
       history.push(query.get("redirect") || "/user/dashboard");
     }
@@ -77,60 +48,9 @@ const SignIn = ({inDialog,closeDialog}) => {
     if (inDialog && auth.isAuthenticated) {
       closeDialog();
     }
-  })
-  // useEffect(() => {
-  //   if (auth.isAuthenticated) {
-  //     history.push("/user/dashboard");
-  //   }
-    // if (nextProps.errors) {
-    //   this.setState({
-    //     Errors: nextProps.errors,
-    //   });
-    // }
-  // })
-  const showError = (message) => {
-    setLoginError(true);
-    setErrorMessage(message)
-  };
-  const hideError = () => {
-    setLoginError(false);
-    setErrorMessage("");
-  };
-  const hideSuccess = () => {
-    setActivationSuccess(false);
-  }
-  const handleChange = (e) => {
-    const isCheckbox = e.target.type === "checkbox";
-    setUser({
-      ...user,
-      [e.target.name]: isCheckbox ? e.target.checked : e.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const userData = {
-      Email: user.Email,
-      Password: user.Password,
-      LogWithPhone: isNaN(parseInt(user.Email)) ? false : true,
-    };
-
-    dispatch(loginUser(userData, showError));
-  };
-
+  });
   const handleRedirect = (e, value) => {
-    !value
-      ? history.push("/register")
-      : history.push("/login");
-  };
-
-  const handleClickShowPassword = () => {
-    setUser({ ...user, showPassword: !user.showPassword });
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
+    !value ? history.push("/register") : history.push("/login");
   };
 
   return (
@@ -148,7 +68,7 @@ const SignIn = ({inDialog,closeDialog}) => {
         justify="center"
         xs={10}
         md={12}
-        lg={inDialog ? 12: 5}
+        lg={inDialog ? 12 : 5}
         component={Paper}
         elevation={6}
         square
@@ -171,118 +91,14 @@ const SignIn = ({inDialog,closeDialog}) => {
               <Tab label="Login" />
             </Tabs>
           </Paper>
-          <form className={classes.form} onSubmit={handleSubmit}>
-            <TextField
-              margin="normal"
-              required
-              label="Email Address"
-              name="Email"
-              autoComplete="email"
-              value={user.Email}
-              onChange={handleChange}
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              name="Password"
-              label="Password"
-              type={user.showPassword ? 'text' : 'password'}
-              value={user.Password}
-              onChange={handleChange}
-              autoComplete="current-password"
-              InputProps={{
-                endAdornment: (
-                <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {user.showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                  )
-              }}
-            />
-            <Grid className={classes.split}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="Remember"
-                    value={user.Remember}
-                    color="primary"
-                    onChange={handleChange}
-                  />
-                }
-                label="Remember me"
-              />
-              <NavLink to="/forogot-password">
-                <Typography>Forgot Password?</Typography>
-              </NavLink>
-            </Grid>
-            <Button type="submit" className={classes.submit} 
-              style={{
-                background: 'linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%)',
-              }}
-            >
-              Login
-            </Button>
-            <Grid container className={classes.close}>
-              <Grid item xs={2}>
-                <Divider />
-              </Grid>
-              <Box ml={2} mr={2}>
-                <Typography align="center">or log in with</Typography>
-              </Box>
-              <Grid item xs={2}>
-                <Divider />
-              </Grid>
-            </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <GoogleLoginButton/>
-              </Grid>
-              <Grid item xs={6}>
-                <FacebookLoginButton/>
-              </Grid>
-            </Grid>
-            <Grid>
-              
-
-              <Typography align="center">
-                Are you a dealer? &nbsp;
-                <NavLink to="/register/dealer">Sign Up</NavLink>
-              </Typography>
-              <Snackbar
-                open={loginError}
-                autoHideDuration={6000}
-                onClose={hideError}
-              >
-                <Alert onClose={hideError} severity="error">
-                  {errorMessage}
-                </Alert>
-              </Snackbar>
-              <Snackbar
-                open={activationSuccess}
-                autoHideDuration={6000}
-                onClose={hideSuccess}
-              >
-                <Alert onClose={hideSuccess} severity="success">
-                  {"Email Activated Successfully"}
-                </Alert>
-              </Snackbar>
-            </Grid>
-          </form>
+          <Login />
         </Grid>
       </Grid>
       {/* RIGHT BANNER IMAGE */}
-      
+
       <Grid item md={false} lg={!inDialog && 7} className={classes.image} />
     </Grid>
   );
+};
 
-}
-
-export default (SignIn);
+export default SignIn;

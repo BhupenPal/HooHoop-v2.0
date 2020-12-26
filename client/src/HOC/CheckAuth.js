@@ -6,9 +6,11 @@ import { GetLSWithExpiry } from "../utils/validations";
 // import Layout from '../Layout/Layout';
 const CheckAuth = (OriginalComponent) => {
   class NewComponent extends React.Component {
-   
     render = () => {
-        if(GetLSWithExpiry('isAuthenticated')){
+      const status = GetLSWithExpiry('isAuthenticated');
+      console.log(status)
+
+      if(status){
             return <OriginalComponent {...this.props} />;
         }else{
 

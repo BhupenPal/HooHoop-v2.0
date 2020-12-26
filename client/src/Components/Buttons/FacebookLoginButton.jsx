@@ -27,7 +27,7 @@ function FacebookLoginButton(props) {
         throw new Error(authResult);
       }
     } catch (error) {
-      errorSnackbar(error?.message || "Something Went Wrong")
+      errorSnackbar("Unsuccessful sign in attempt")
     }
   };
   return (
