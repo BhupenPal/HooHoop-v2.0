@@ -66,8 +66,9 @@ const SignIn = ({ inDialog, closeDialog }) => {
         item
         container
         justify="center"
-        xs={10}
-        md={12}
+        xs={12}
+        //md={12}
+        spacing={3}
         lg={inDialog ? 12 : 5}
         component={Paper}
         elevation={6}
