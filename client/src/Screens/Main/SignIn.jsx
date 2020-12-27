@@ -60,7 +60,7 @@ const SignIn = ({ inDialog, closeDialog }) => {
       component="main"
       justify="center"
       className="fadeIn"
-      style={{ minHeight: "calc(100vh - 101px)" }}
+      style={{ minHeight: "calc(100vh - 105px)" }}
     >
       <Grid
         item
