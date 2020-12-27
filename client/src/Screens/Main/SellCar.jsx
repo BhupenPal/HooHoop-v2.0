@@ -45,6 +45,7 @@ import BodyTypeCodes from "../../assets/data/bodyTypes.js";
 import FuelTypeCodes from "../../assets/data/fuelTypes.js";
 import { useHistory } from "react-router-dom";
 import { errorSnackbar } from "../../utils/showSnackbar";
+import ShowBalanceModal from "../../Components/Modals/ShowBalanceModal.jsx";
 
 const SellCar = (props) => {
   const { classes } = props;
@@ -55,7 +56,7 @@ const SellCar = (props) => {
   const [preview, setPreview] = useState({
     Interior: null,
   });
-
+  const [showBalance,setShowBalance] = useState(false)
   const [dataobject, changedata] = useState({
     Make: "",
     Model: "",
@@ -221,15 +222,19 @@ const SellCar = (props) => {
           WOFExpiry: !!parseInt(res.data.expiry_date_of_last_successful_wof)
             ? new Date(parseInt(res.data.expiry_date_of_last_successful_wof))
             : "",
-          REGExpiry: !!parseInt(res.data.plates && res.data.plates[0].effective_date)
-            ? new Date(parseInt(res.data.plates && res.data.plates[0].effective_date))
+          REGExpiry: !!parseInt(
+            res.data.plates && res.data.plates[0].effective_date
+          )
+            ? new Date(
+                parseInt(res.data.plates && res.data.plates[0].effective_date)
+              )
             : "",
           FuelStar: res.data.safety_economy.fuel_stars,
           SafetyStar: res.data.safety_economy.driver_safety_stars,
         });
       })
       .catch((err) => {
-        errorSnackbar(err?.message || "Something went wrong")
+        errorSnackbar(err?.message || "Something went wrong");
       });
   };
   const validateForm = () => {
@@ -308,17 +313,23 @@ const SellCar = (props) => {
     }
     return true;
   };
+
+  const listCar = () => {
+    setLoader(true);
+
+    postSellCar(dataobject)
+      .then(() => {
+        setLoader(false);
+        history.push("/buy-car");
+      })
+      .catch((err) => {
+        setLoader(false);
+      });
+  };
   const handleSubmit = () => {
     if (validateForm()) {
-      setLoader(true);
-      postSellCar(dataobject)
-        .then(() => {
-          setLoader(false);
-          history.push("/buy-car");
-        })
-        .catch((err) => {
-          setLoader(false);
-        });
+      setShowBalance(true);
+      //listCar()
     }
   };
   const searchCar = (e) => {
@@ -606,16 +617,16 @@ const SellCar = (props) => {
                       name="DriveWheel4"
                       value={dataobject.DriveWheel4}
                       onChange={handleChange}
-                      style={{flexDirection:"row"}}
+                      style={{ flexDirection: "row" }}
                     >
                       <FormControlLabel
                         value={true}
-                        control={<Radio color={"primary"}/>}
+                        control={<Radio color={"primary"} />}
                         label="Yes"
                       />
                       <FormControlLabel
                         value={false}
-                        control={<Radio color={"primary"}/>}
+                        control={<Radio color={"primary"} />}
                         label="No"
                       />
                     </RadioGroup>
@@ -636,21 +647,23 @@ const SellCar = (props) => {
  */}
 
                   <FormControl component="fieldset">
-                    <FormLabel component="legend">On Road Cost Included</FormLabel>
+                    <FormLabel component="legend">
+                      On Road Cost Included
+                    </FormLabel>
                     <RadioGroup
                       name="ONRoadCost"
                       value={dataobject.ONRoadCost}
                       onChange={handleChange}
-                      style={{flexDirection:"row"}}
+                      style={{ flexDirection: "row" }}
                     >
                       <FormControlLabel
                         value={true}
-                        control={<Radio color={"primary"}/>}
+                        control={<Radio color={"primary"} />}
                         label="Yes"
                       />
                       <FormControlLabel
                         value={false}
-                        control={<Radio color={"primary"}/>}
+                        control={<Radio color={"primary"} />}
                         label="No"
                       />
                     </RadioGroup>
@@ -800,6 +813,7 @@ const SellCar = (props) => {
                 ) : null}
                 SUBMIT
               </Button>
+              <ShowBalanceModal open={showBalance} listCar={listCar} setModal={setShowBalance}/>
             </Box>
           </Grid>
         </Grid>

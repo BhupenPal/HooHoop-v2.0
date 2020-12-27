@@ -18,6 +18,9 @@ import AllListing from "../assets/img/sidebarIcons/all_listing.svg";
 import UserManagement from "../assets/img/sidebarIcons/user_management.svg";
 import MyClientManagement from "../assets/img/sidebarIcons/my_client_management.svg";
 import AllClientManagement from "../assets/img/sidebarIcons/all_client_management.svg";
+import SellIcon from "../assets/img/sidebarIcons/money.svg";
+import BuyCar from "../assets/img/sidebarIcons/car.svg";
+
 import MyOffers from "../assets/img/sidebarIcons/my_offers.svg";
 import NoDealCustomers from "../assets/img/sidebarIcons/no_ideal_customers.svg";
 import YourPayments from "../assets/img/sidebarIcons/your_payments.svg";
@@ -36,6 +39,8 @@ import { useDispatch, useSelector } from "react-redux";
 import OutsideAlerter from "../Hooks/OutsideAlerter.js";
 import { logoutUser } from "../redux/actions/authActions";
 import { useState } from "react";
+import useWindowDimensions from "../Hooks/WindowDimensions";
+import { hideSideBar, showSideBar } from "../redux/actions/sideBarActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,6 +67,9 @@ const useStyles = makeStyles((theme) => ({
       transition: "transform 0.2s",
     },
   },
+  hideDrawer: {
+    display: "none",
+  },
   listItem: {
     color: "#707D85",
   },
@@ -75,6 +83,14 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     backgroundColor: "#F4F6F8",
     height: "calc( 100vh - 7rem)",
+    overflow: "auto",
+  },
+
+  fullHeight:{
+
+    flex: 1,
+    backgroundColor: "#F4F6F8",
+    height: "100%",
     overflow: "auto",
   },
   active: {
@@ -136,23 +152,44 @@ function SideBar(props) {
   const classes = useStyles();
   const history = useHistory();
   const sideBar = useSelector((store) => store.sideBar);
+  const { width } = useWindowDimensions();
   const { user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
   const [Navs, setNavs] = useState(getNavs(user && user.Role === "admin"));
 
   useEffect(() => {
     setNavs(getNavs(user && user.Role === "admin"));
   }, [user]);
-
+  // useEffect(() => {
+  //   console.log(width, sideBar);
+  //   if (width > 600) {
+  //     dispatch(hideSideBar());
+  //   }
+  // }, [width]);
+  useEffect(() => {
+    if (!history.location.pathname.includes("/user/") && width > 480) {
+      dispatch(hideSideBar());
+    } else if (history.location.pathname.includes("/user/") && width > 480) {
+      dispatch(showSideBar());
+    } else if (width <= 480) {
+      dispatch(hideSideBar());
+    }
+  },[])
+  useEffect(() => {
+    return history.listen((location) => {
+      console.log(history.location)
+      if (!history.location.pathname.includes("/user/") && width > 480) {
+        dispatch(hideSideBar());
+      } else if (history.location.pathname.includes("/user/") && width > 480) {
+        dispatch(showSideBar());
+      } else if (width <= 480) {
+        dispatch(hideSideBar());
+      }
+    });
+  }, [history]);
   const isActive = (route) => {
     return history.location.pathname === route;
   };
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
   const handleLogout = () => {
     dispatch(logoutUser());
     history.push(`/login?redirect=${history.location.pathname}`);
@@ -163,6 +200,38 @@ function SideBar(props) {
       <List>
         <div className={classes.gap} />
 
+        <Box display={{ sm: "block", md: "none" }}>
+          <Link to={"/buy-car"}>
+            <ListItem
+              button
+              key={Object.keys(Navs).length + 1}
+              className={classes.listItem}
+            >
+              <ListItemIcon>
+                <img src={BuyCar} height="20rem" alt="nav item" />
+              </ListItemIcon>
+              <ListItemText
+                primary={<span className={classes.text}>{"Buy Car"}</span>}
+              />
+            </ListItem>
+          </Link>
+        </Box>
+        <Box display={{ sm: "block", md: "none" }}>
+          <Link to={"/sell-car"}>
+            <ListItem
+              button
+              key={Object.keys(Navs).length}
+              className={classes.listItem}
+            >
+              <ListItemIcon>
+                <img src={SellIcon} height="20rem" alt="nav item" />
+              </ListItemIcon>
+              <ListItemText
+                primary={<span className={classes.text}>{"Sell Car"}</span>}
+              />
+            </ListItem>
+          </Link>
+        </Box>
         {Object.keys(Navs).reduce((arr, text, index) => {
           if (!Navs[text]) {
             return arr;
@@ -209,74 +278,37 @@ function SideBar(props) {
             />
           </ListItem>
         </Box>
-        <Box display={{ sm: "block", md: "none" }}>
-          <Link to={"/sell-car"}>
-            <ListItem
-              button
-              key={Object.keys(Navs).length}
-              className={classes.listItem}
-            >
-              <ListItemIcon>
-                {/* <img src={} height="20rem" alt="nav item" /> */}
-              </ListItemIcon>
-              <ListItemText
-                primary={<span className={classes.text}>{"Sell Car"}</span>}
-              />
-            </ListItem>
-          </Link>
-        </Box>
-        <Box display={{ sm: "block", md: "none" }}>
-          <Link to={"/buy-car"}>
-            <ListItem
-              button
-              key={Object.keys(Navs).length + 1}
-              className={classes.listItem}
-            >
-              <ListItemIcon>
-                {/* <img src={} height="20rem" alt="nav item" /> */}
-              </ListItemIcon>
-              <ListItemText
-                primary={<span className={classes.text}>{"Buy Car"}</span>}
-              />
-            </ListItem>
-          </Link>
-        </Box>
       </List>
     </div>
   );
-        
+  const shouldHideSideBar = () => {
+    if (!history.location.pathname.includes("/user/") && width > 480) {
+      console.log("called");
+      return true;
+    }
+    return false;
+  };
+  // const renderContent = () => {
+  //   if (sideBar.active) {
+  //     return ;
+  //   } else {
+  //   }
+  // };
+  // if(!sideBar.active && width > 480){
+  //   return <div>{props.children}</div>;
+  // }
   return (
-    <div className={classes.root}>
+    <div className={`${classes.root}`}>
       <OutsideAlerter isActive={sideBar.active}>
         <Box
-          className={`${classes.drawer} ${
-            sideBar.active ? classes.activeSideBar : null
-          }`}
+          className={`${
+            !shouldHideSideBar() ? classes.drawer : classes.hideDrawer
+          } ${sideBar.active ? classes.activeSideBar : null}`}
         >
           {drawer()}
         </Box>
       </OutsideAlerter>
-      <div className={classes.content}>
-        {/* {props.children} */}
-        <Switch>
-          <Route path="/user/dashboard" component={Profile} />
-          <Route path="/user/my-favourites" component={Favourites} />
-          <Route path="/user/my-listing" component={MyListingScreen} />
-          <Route path="/user/all-listing" component={AllListingScreen} />
-          <Route
-            path="/user/user-management"
-            component={UserManagementScreen}
-          />
-          <Route
-            path="/user/my-client-management"
-            component={MyClientManagementScreen}
-          />
-          <Route
-            path="/user/all-client-management"
-            component={AllClientManagementScreen}
-          />
-        </Switch>
-      </div>
+      <div className={`${shouldHideSideBar() ? classes.fullHeight : classes.content} `}>{props.children}</div>
     </div>
   );
 }

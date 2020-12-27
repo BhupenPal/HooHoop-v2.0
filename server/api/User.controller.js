@@ -54,24 +54,24 @@ Router.post("/login", async (req, res, next) => {
 		if (!User.isActive)
 			throw createError.BadRequest("Your account is temporarily deactivated. Please contact HooHoop NZ")
 
-		bcrypt.compare(Password, User.Password, async (err, isMatch) => {
-			if (!isMatch) return next(createError.Forbidden("Password does not match"))
-			else {
-				//For making it compatible with JWT_SERVICES
-				User.aud = User.id
-				const accessToken = await signAccessToken(User)
-				const refreshToken = await signRefreshToken(User)
+		const isMatch = await bcrypt.compare(Password, User.Password)
 
-				res.cookie("accessToken", accessToken, { ...SecureCookieObj, maxAge: process.env.ACCESS_TOKEN_EXPIRE_IN })
-				res.cookie("refreshToken", refreshToken, { ...SecureCookieObj, maxAge: process.env.REFRESH_TOKEN_EXPIRE_IN })
+		if (!isMatch) throw createError.Forbidden('Password does not match')
 
-				const PayLoad = decodeTrustedToken(accessToken)
+		//For making it compatible with JWT_SERVICES
+		User.aud = User.id
 
-				res.status(200).json(PayLoad)
-			}
-		})
+		const accessToken = await signAccessToken(User)
+		const refreshToken = await signRefreshToken(User)
+
+		res.cookie("accessToken", accessToken, { ...SecureCookieObj, maxAge: process.env.ACCESS_TOKEN_EXPIRE_IN })
+		res.cookie("refreshToken", refreshToken, { ...SecureCookieObj, maxAge: process.env.REFRESH_TOKEN_EXPIRE_IN })
+
+		const PayLoad = decodeTrustedToken(accessToken)
+
+		res.status(200).json(PayLoad)
 	} catch (error) {
-		console.log("User Controller Login Catch: " + error.message)
+		console.log(error)
 		next(error)
 	}
 })
@@ -127,8 +127,9 @@ Router.post("/facebooklogin", ValidateFacebook, (req, res, next) => {
 	}
 })
 
-Router.post("/register", (req, res, next) => {
+Router.post("/register", async (req, res, next) => {
 	try {
+
 		let { FirstName, LastName, Email, Password, cPassword, Phone, Address, State, Role, DealershipName, DealershipEmail, DealershipPhone, DealershipNZBN, DOB, Gender, GoogleID, FacebookID } = req.body
 
 		if (!FirstName || !LastName || !Email || !Password || !cPassword || !Phone || !State) throw createError.BadRequest("Please fill in all the required fields")
@@ -154,26 +155,22 @@ Router.post("/register", (req, res, next) => {
 		if (!Gender) Gender = null
 		if (!DOB) DOB = null
 
-		UserModel.findOne({ Email }, (err, doc) => {
-			if (doc) return next(createError.Conflict("Email already exists"))
-			UserModel.findOne({ Phone }, async (err, doc) => {
-				if (doc)
-					return next(createError.Conflict("Phone number already exists"))
-				const SecretToken = GenerateOTP()
-				const EncryptedCore = await HashSalt(process.env.DEFAULT_CREDIT)
-				Password = await HashSalt(Password)
-				new UserModel({ FirstName, LastName, Email, Password, Phone, Address, State, Role, DealershipName, DealershipEmail, DealershipPhone, DealershipNZBN, SecretToken, EncryptedCore, GoogleID, FacebookID, Gender, DOB })
-					.save()
-					.then(() => {
-						SendMail(Email, "HooHoop Account Activation Email", AccActivationMail(FirstName, SecretToken))
-						res.sendStatus(200)
-					})
-					.catch((err) => {
-						console.log(err)
-						throw createError.ExpectationFailed()
-					})
-			})
-		})
+		const User = await UserModel.findOne({ $or: [{ Email }, { Phone }] })
+
+		if (User) {
+			if (User.Email === Email) throw createError.Conflict('Email already exists')
+			if (User.Phone === Phone) throw createError.Conflict('Username already exists')
+		}
+
+		const SecretToken = GenerateOTP()
+		Password = await HashSalt(Password)
+
+		await new UserModel({ FirstName, LastName, Email, Password, Phone, Address, State, Role, DealershipName, DealershipEmail, DealershipPhone, DealershipNZBN, SecretToken, GoogleID, FacebookID, Gender, DOB })
+			.save()
+
+		SendMail(Email, "HooHoop Account Activation Email", AccActivationMail(FirstName, SecretToken))
+		res.sendStatus(200)
+
 	} catch (error) {
 		console.log("User Controller Register Catch: " + error.message)
 		next(error)
@@ -209,7 +206,7 @@ Router.delete("/logout", verifyRefreshToken, async (req, res, next) => {
 			res.sendStatus(204)
 		})
 	} catch (error) {
-		console.log(error.message)
+		console.log(error)
 		next(error)
 	}
 })
@@ -217,9 +214,10 @@ Router.delete("/logout", verifyRefreshToken, async (req, res, next) => {
 Router.patch("/genmailotp", async (req, res, next) => {
 	try {
 		const SecretToken = GenerateOTP()
-		UserModel.findOne({ Email: req.body.Email }, "-LastName -Password -GoogleID -FacebookID -Gender -Role -isDeleted -EncryptedCore -updatedAt -PassResetToken")
+		UserModel.findOne({ Email: req.body.Email }, "-LastName -Password -GoogleID -FacebookID -Gender -Role -isDeleted -updatedAt -PassResetToken")
 			.then((user) => {
 				if (!user) return next(createError.NotFound("No matching email found"))
+				if (user.EmailVerified) return next(createError.Conflict("Email already verified"))
 				user.SecretToken = SecretToken
 				user.save().then((User) => {
 					SendMail(User.Email, "HooHoop Account Activation Email", AccActivationMail(User.FirstName, SecretToken))
@@ -253,7 +251,7 @@ Router.patch("/mailactivate", (req, res, next) => {
 Router.patch("/genphoneotp", verifyAccessToken, (req, res, next) => {
 	try {
 		const SecretToken = GenerateOTP()
-		UserModel.findById(req.payload.aud, "-LastName -Password -GoogleID -FacebookID -Gender -Role -isDeleted -EncryptedCore -updatedAt -PassResetToken")
+		UserModel.findById(req.payload.aud, "-LastName -Password -GoogleID -FacebookID -Gender -Role -isDeleted -updatedAt -PassResetToken")
 			.then((user) => {
 				if (!user) return next(createError.Forbidden())
 				user.SecretToken = SecretToken

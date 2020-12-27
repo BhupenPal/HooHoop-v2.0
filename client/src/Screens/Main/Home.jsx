@@ -125,8 +125,7 @@ function Home(props) {
           );
         })}
       </Slider>
-    
-      <Grid container justify="center" style={{ margin: "35px 0 35px 0" }}>
+     <Grid container justify="center" style={{ margin: "35px 0 35px 0" }}>
         <Grid item xs={12} md={10}>
           <Typography variant="h2" className="home-subhead">
             <span className="wt-600">Popular</span> Used Cars

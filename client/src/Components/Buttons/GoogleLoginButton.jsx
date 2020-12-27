@@ -7,6 +7,7 @@ import styles from "../../assets/material/LoginResgister";
 import { socialLogin } from "../../redux/actions/authActions.js";
 import { useDispatch } from "react-redux";
 import { errorSnackbar } from "../../utils/showSnackbar.js";
+import { makeErrorMessage } from "../../utils/makeErrorMessage.js";
 
 const useStyles = makeStyles(styles);
 function GoogleLoginButton(props) {
@@ -29,7 +30,8 @@ function GoogleLoginButton(props) {
         throw new Error(authResult);
       }
     } catch (error) {
-      errorSnackbar(error?.message || "Something Went Wrong")
+     // console.log(error)
+      errorSnackbar("Unsuccessful sign in attempt")
     }
   };
   return (

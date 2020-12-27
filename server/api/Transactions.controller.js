@@ -1,63 +1,59 @@
 //Dependencies
 const express = require('express'),
-    Router = express.Router(),
-    createError = require('http-errors'),
-    axios = require('axios'),
-    mongoose = require('mongoose'),
+	Router = express.Router(),
+	createError = require('http-errors'),
+	axios = require('axios'),
+	mongoose = require('mongoose'),
+	checkoutNodeJssdk = require('@paypal/checkout-server-sdk'),
 
-    //MongoDB Models
-    TxnModel = require('../models/Transaction.model.js'),
-    
-    //Helper and Services
-    { verifyAccessToken } = require('../helper/auth/JWT_service')
+	//MongoDB Models
+	TxnModel = require('../models/Transaction.model.js'),
+	UserModel = require('../models/User.model.js'),
 
-Router.post('/addcredits', verifyAccessToken, (req, res, next) => {
-    try {
-        const { Amount, CardDetails, Address, SavedCard } = req.body;
+	//Helper and Services
+	{ verifyAccessToken } = require('../helper/auth/JWT_service'),
+	{ PaypalClient } = require('../helper/payment/paypal')
 
-        const PayLoad = {
-            type: 'purchase',
-            amount: Amount,
-            amountSurcharge: 0,
-            currency: 'NZD',
-            clientType: 'internet'
-        }
+Router.post('/addcredits', verifyAccessToken, async (req, res, next) => {
+	const { Amount, UserID, OrderID } = req.body
 
-        new TxnModel({
-            Type: 'Credits Added To User Account',
-            Amount: Amount,
-            User: mongoose.Types.ObjectId(req.payload.aud),
+	const PayLoad = {
+		Type: 'Credits added to account',
+		Amount: Amount,
+		User: mongoose.Types.ObjectId(UserID)
+	}
 
-        })
-            .save()
-            .then((doc) => {
+	if (Amount < 0) {
+		PayLoad.Type = 'Deducted by Hoohoop NZ'
+	}
 
-                PayLoad.merchantReference = doc._id
-                PayLoad.notificationUrl = `/txn_result/${doc._id}`
+	if (req.payload.Role !== 'admin') {
+		// Call PayPal to get the transaction details of incoming OrderID
+		const request = new checkoutNodeJssdk.orders.OrdersGetRequest(OrderID),
+			order = await PaypalClient.client().execute(request);
 
-                if (!!CardDetails) {
-                    PayLoad.Card = CardDetails
-                }
+		// 5. Validate the transaction details are as expected
+		if (order.result.purchase_units[0].amount.value !== Amount.toFixed(2).toString()) {
+			PayLoad.Status = 'Not verified by Paypal then declined by Hoohoop'
+			res.json(createError.Conflict('Transaction declined by HooHoop'))
+		}
+	}
 
-                if (!!Address) {
-                    PayLoad.avs = {
-                        ...Address,
-                        avsAction: 0
-                    }
-                }
-
-                if (!!SavedCard) {
-
-                }
-
-                axios.post(`https://${process.env.WINDCAVE_ENV}.windcave.com/api/v1/transactions`, PayLoad)
-                    .then()
-                    .catch()
-            })
-            .catch()
-    } catch (error) {
-
-    }
+	new TxnModel(PayLoad)
+		.save()
+		.then(() => {
+			if (PayLoad.Status !== 'Not verified by Paypal then declined by Hoohoop') {
+				UserModel
+					.findByIdAndUpdate(UserID, { $inc: { Credits: Amount } })
+					.then(() => {
+						return res.sendStatus(200)
+					})
+			}
+		})
+		.catch((error) => {
+			console.log(error)
+			return next(createError.InternalServerError('Please contact HooHoop'))
+		})
 })
 
 Router.post('/txn_result/:TransactID', (req, res, next) => {
