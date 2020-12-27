@@ -7,6 +7,9 @@ import view360 from "../../assets/img/svgs/360.svg";
 import timer from "../../assets/img/svgs/timer.svg";
 import money from "../../assets/img/svgs/money.svg";
 import aboutImg from "../../assets/img/FooterPages/about_us.jpeg";
+import manaImg from "../../assets/img/team/Mana.jpg";
+import paulImg from "../../assets/img/team/Paul.jpg";
+import tonImg from "../../assets/img/team/Ton.jpg"
 const AboutUs = (props) => {
     const { classes } = props;
     useEffect(() => {
@@ -96,7 +99,11 @@ const AboutUs = (props) => {
                 <Grid item xs={6} sm={4}>
                     <Card className={classes.root}>
                         <CardContent className={classes.allCen}>
-                            <div className={classes.circle}></div>
+                            <div className={`${classes.circle}`}
+                            style={{
+                                backgroundImage:`url(${manaImg})`,
+                            }}>
+                            </div>
                             <Typography align='center' variant='h4'>Mana</Typography>
                             <Typography align='center'>CEO, Founder</Typography>
                             <Typography align='center' variant='h6' className={classes.compText}>
@@ -108,7 +115,12 @@ const AboutUs = (props) => {
                 <Grid item xs={6} sm={4}>
                     <Card className={classes.root}>
                         <CardContent className={classes.allCen}>
-                            <div className={classes.circle}></div>
+                            <div className={classes.circle}
+                            style={{
+                                backgroundImage:`url(${tonImg})`,
+                            }}>
+
+                            </div>
                             <Typography align='center' variant='h4'>Leighton</Typography>
                             <Typography align='center'>Head of Marketing</Typography>
                             <Typography align='center' variant='h6' className={classes.compText}>
@@ -120,7 +132,11 @@ const AboutUs = (props) => {
                 <Grid item xs={12} sm={4}>
                     <Card className={classes.root}>
                         <CardContent className={classes.allCen}>
-                            <div className={classes.circle}></div>
+                            <div className={classes.circle} style={{
+                                backgroundImage:`url(${paulImg})`,
+                            }}>
+
+                            </div>
                             <Typography align='center' variant='h4'>Paul Skene</Typography>
                             <Typography align='center'>Mentor</Typography>
                             <Typography align='center' variant='h6' className={classes.compText}>
