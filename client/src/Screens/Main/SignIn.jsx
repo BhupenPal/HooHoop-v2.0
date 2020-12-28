@@ -7,6 +7,7 @@ import {
   Paper,
   Tabs,
   Tab,
+  Box,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory, useLocation } from "react-router-dom";
@@ -68,13 +69,14 @@ const SignIn = ({ inDialog, closeDialog }) => {
         justify="center"
         xs={12}
         //md={12}
-        spacing={3}
+        //spacing={3}
         lg={inDialog ? 12 : 5}
         component={Paper}
         elevation={6}
         square
       >
         <Grid item sm={10} md={8}>
+          <Box style={{padding:"1rem"}}>
           <Typography component="h1" className={classes.heading}>
             Welcome Back
           </Typography>
@@ -93,6 +95,7 @@ const SignIn = ({ inDialog, closeDialog }) => {
             </Tabs>
           </Paper>
           <Login />
+          </Box>
         </Grid>
       </Grid>
       {/* RIGHT BANNER IMAGE */}
