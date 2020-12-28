@@ -104,7 +104,8 @@ const DashboardStyles = makeStyles(theme => ({
     color: '#708DC7',
     border: '1px solid #708DC7',
     padding: '0.2rem 1rem',
-    borderRadius: '0.5rem'
+    borderRadius: '0.5rem',
+    cursor:"pointer",
   },
   buttonPrimary: {
     background: 'linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%)',
@@ -112,7 +113,8 @@ const DashboardStyles = makeStyles(theme => ({
     color: '#fff',
     border: 'none',
     padding: '0.2rem 2rem',
-    borderRadius: '0.5rem'
+    borderRadius: '0.5rem',
+    cursor:"pointer",
   },
   transactionList:{
     margin:"1rem 0"

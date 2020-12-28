@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { deleteListing } from "../services/listings.js";
 import { getSmallThumbnailLink } from "../utils/getImagesUrl.js";
 import ListingOptions from "./Buttons/ListingOptions.jsx";
@@ -69,7 +70,7 @@ function Listing({ listings, listLoader, setListing }) {
       date: row.date,
       Make: <div>{renderVehicle({ VINum: row.VINum, name: row.Make })}</div>,
       ViewsCount: row.ViewsCount,
-      VINum: row.VINum,
+      VINum: <a target="_blank" style={{color:"black"}}  href={`/car/${row.VINum}`}>{row.VINum}</a>,
       Price: row.Price,
       Email: row.Author.Email || "Not Available",
       manage: renderOptions(index, row),
@@ -131,11 +132,11 @@ function Listing({ listings, listLoader, setListing }) {
   const renderVehicle = ({ VINum, name }) => {
     return (
       <div className={classes.vehicle}>
-        <img
+       <a target="_blank"  href={`/car/${VINum}`}> <img
           className={classes.vehicleImg}
-          height={"20rem"}
+          height={"30px"}
           src={getSmallThumbnailLink(VINum)}
-        />{" "}
+        /></a>{" "}
         {name}
       </div>
     );

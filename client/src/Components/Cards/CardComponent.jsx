@@ -24,7 +24,7 @@ import { Link } from "react-router-dom";
 import { getThumbnailLink } from "../../utils/getImagesUrl";
 import WishlistButton from "../Buttons/WishlistButton.jsx";
 
-const CardComponent = ({ classes, car, index }) => {
+const CardComponent = ({ classes, car, index, showLiked }) => {
    
     return (
       <Grid item xs={12} sm={4}  lg={3} xl={2} className={classes.cardContainer}>
@@ -110,7 +110,7 @@ const CardComponent = ({ classes, car, index }) => {
               View Details
             </Button>
             </Link>
-            <WishlistButton VINum={car.VINum} LikedBy={car.LikedBy}/>
+            <WishlistButton VINum={car.VINum} LikedBy={car.LikedBy || showLiked}/>
           </Box>
         </CardContent>
       </Card>

@@ -46,6 +46,7 @@ import FuelTypeCodes from "../../assets/data/fuelTypes.js";
 import { useHistory } from "react-router-dom";
 import { errorSnackbar } from "../../utils/showSnackbar";
 import ShowBalanceModal from "../../Components/Modals/ShowBalanceModal.jsx";
+import { useSelector } from "react-redux";
 
 const SellCar = (props) => {
   const { classes } = props;
@@ -56,6 +57,8 @@ const SellCar = (props) => {
   const [preview, setPreview] = useState({
     Interior: null,
   });
+  const {user} = useSelector(state => state.auth);
+  console.log(user)
   const [showBalance,setShowBalance] = useState(false)
   const [dataobject, changedata] = useState({
     Make: "",
