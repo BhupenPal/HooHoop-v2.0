@@ -8,7 +8,8 @@ module.exports = {
         return new Promise((resolve, reject) => {
             const Payload = {
                 FirstName: USER.FirstName,
-                LastName: USER.LastName,
+				LastName: USER.LastName,
+				State: USER.State,
                 Email: USER.Email,
                 Role: USER.Role,
                 DP: USER.DisplayPic
@@ -50,7 +51,8 @@ module.exports = {
         return new Promise((resolve, reject) => {
             const Payload = {
                 FirstName: USER.FirstName,
-                LastName: USER.LastName,
+				LastName: USER.LastName,
+				State: USER.State,
                 Email: USER.Email,
                 Role: USER.Role,
                 DP: USER.DisplayPic
