@@ -31,27 +31,6 @@ const UserSchema = mongoose.Schema({
         type: Number,
         unique: true
     },
-    PayCards: [{
-        cardHolderName: {
-            type: String,
-            required: true
-        },
-        cardNumber: {
-            type: String,
-            required: true
-        },
-        dateExpiryMonth: {
-            type: String,
-            required: true
-        },
-        dateExpiryYear: {
-            type: String,
-            required: true
-        },
-        windcaveRef: {
-            type: String
-        }
-    }],
     DisplayPic: {
         type: Boolean,
         default: false
@@ -76,7 +55,7 @@ const UserSchema = mongoose.Schema({
     Role: {
         type: String,
         required: true,
-        enum: ['admin', 'dealer', 'user'],
+        enum: ['admin', 'dealer', 'user', 'staff'],
         default: 'user'
     },
     DealershipName: {
@@ -124,10 +103,6 @@ const UserSchema = mongoose.Schema({
     CanSellNewCar: {
         type: Boolean,
         default: false
-    },
-    EncryptedCore: {
-        type: String,
-        required: true
     }
 },
 {

@@ -58,7 +58,7 @@ const SellCar = (props) => {
     Interior: null,
   });
   const {user} = useSelector(state => state.auth);
-  console.log(user)
+  //console.log(user)
   const [showBalance,setShowBalance] = useState(false)
   const [dataobject, changedata] = useState({
     Make: "",
@@ -74,7 +74,7 @@ const SellCar = (props) => {
     Description: "",
     KMsDriven: null,
     VINum: "",
-    State: "",
+    State: user.State,
     DoorCount: 5,
     SeatCount: null,
     REGExpiry: new Date(),

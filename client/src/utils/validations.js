@@ -5,22 +5,31 @@ export const validateEmail = email => {
 
 export const validPassword = password => {
 	// Minimum eight characters, at least one letter, one number and one special character
-	const re = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
+	const re = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?([^\w\s]|[_])).{8,16}$/
+//	const re = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
 	return re.test(password)
 }
 
 export const invalidPasswordMessage = password => {
-	const re = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-	const special = /^(.*[@$!%*#?&].*)$/;
-	const alphabet = /^(.*[A-Za-z].*)$/;
-	if(password.length < 8){
+	const special = /^(.*([^\w\s]|[_]).*)$/;
+	const alphabet = /^(.*[a-z].*)$/;
+	const uppercase = /^(.*[A-Z].*)$/;
+	const number = /^(.*[0-9].*)$/;
+
+	if(password.length < 8 || password.length > 16){
 		return "Password must have at least 8 characters"
 	}
 	else if(!special.test(password)){
 		return "Password must have an special character"
 	}
 	else if(!alphabet.test(password)){
-		return "Password must have an alphabet"
+		return "Password must have an lowercase letter"
+	}
+	else if(!uppercase.test(password)){
+		return "Password must have an uppercase letter"
+	}
+	else if(!number.test(password)){
+		return "Password must have an number (0-9)"
 	}
 	return "";
 }

@@ -8,7 +8,8 @@ module.exports = {
         return new Promise((resolve, reject) => {
             const Payload = {
                 FirstName: USER.FirstName,
-                LastName: USER.LastName,
+				LastName: USER.LastName,
+				State: USER.State,
                 Email: USER.Email,
                 Role: USER.Role,
                 DP: USER.DisplayPic
@@ -50,7 +51,8 @@ module.exports = {
         return new Promise((resolve, reject) => {
             const Payload = {
                 FirstName: USER.FirstName,
-                LastName: USER.LastName,
+				LastName: USER.LastName,
+				State: USER.State,
                 Email: USER.Email,
                 Role: USER.Role,
                 DP: USER.DisplayPic
@@ -99,21 +101,6 @@ module.exports = {
                 if (Token !== result) return next(createError.BadRequest())
                 req.payload = payload
                 next()
-            })
-        })
-    },
-
-    decodeToken: (authHeader) => {
-        return new Promise((resolve, reject) => {
-            if (!authHeader) {
-                resolve(false)
-                return
-            }
-            const secret = process.env.JWT_ACCESS_TOKEN
-            const Token = authHeader.split(' ')[1]
-            JWT.verify(Token, secret, (err, payload) => {
-                if (err) resolve(false)
-                resolve(payload)
             })
         })
     },

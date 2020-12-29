@@ -1,5 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import moment from "moment";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { deleteListing } from "../services/listings.js";
@@ -55,8 +56,8 @@ function Listing({ listings, listLoader, setListing }) {
       key: "Price",
     },
     {
-      title: "Author Email",
-      key: "Email",
+      title:"Leads",
+      key:"LeadsGenerated"
     },
     {
       title: "Manage",
@@ -67,12 +68,12 @@ function Listing({ listings, listLoader, setListing }) {
   const makeData = (rows) => {
     return rows.map((row, index) => ({
       sno: index + 1,
-      date: row.date,
+      date: moment  (row.createdAt).format('ll'),
       Make: <div>{renderVehicle({ VINum: row.VINum, name: row.Make })}</div>,
       ViewsCount: row.ViewsCount,
       VINum: <a target="_blank" style={{color:"black"}}  href={`/car/${row.VINum}`}>{row.VINum}</a>,
       Price: row.Price,
-      Email: row.Author.Email || "Not Available",
+      LeadsGenerated:row.LeadsGenerated,
       manage: renderOptions(index, row),
     }));
   };

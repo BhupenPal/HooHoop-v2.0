@@ -32,6 +32,8 @@ export const getMyListing = async () => {
       ONRoadCost: listing.ONRoadCost,
       Description: listing.Description,
       Visitors: listing.Visitors,
+      LeadsGenerated:listing.LeadsGenerated,
+      createdAt:listing.createdAt,
       Author: {
         Role: listing.Author?.Role,
         DealershipEmail: listing.Author?.DealershipEmail,
@@ -58,10 +60,12 @@ export const getAllListings = async () => {
     ViewsCount: listing.ViewsCount,
     isNewCar: listing.isNewCar,
     _id: listing._id,
+    createdAt:listing.createdAt,
     Make: listing.Make,
     Model: listing.Model,
     Price: listing.Price,
     VINum: listing.VINum,
+    LeadsGenerated: listing.LeadsGenerated,
     Author: {
       Role: listing.Author?.Role,
       DealershipEmail: listing.Author?.DealershipEmail,

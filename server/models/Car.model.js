@@ -120,7 +120,11 @@ const CarSchema = mongoose.Schema({
     ViewsCount: {
         type: Number,
         default: 0
-    },
+	},
+	LeadsGenerated: {
+		type: Number,
+        default: 0	
+	},
     isActive: {
         type: Boolean,
         default: true

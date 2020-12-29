@@ -32,8 +32,8 @@ const CardComponent = ({ classes, car, index, showLiked }) => {
       <Card className={`${classes.rootCard} fadeIn`}>
         <CardHeader
           
-          title={<p className={classes.cardTitle}>{car.Make} {car.Model}</p>}
-          subheader={<p className={classes.cardSubTitle}>{car.ModelYear} Model</p>}
+          title={<p className={classes.cardTitle}>{car.Make} {car.Model} </p>}
+          subheader={<p className={classes.cardSubTitle}>{car.ModelYear} Model ( {car.VINum.slice(-5)} )</p>}
         />
         <CardMedia className={classes.media} image={getThumbnailLink(car.VINum)} />
         <CardContent className={classes.cardContent}>
