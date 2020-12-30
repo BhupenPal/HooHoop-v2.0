@@ -352,6 +352,7 @@ Router.post('/add-user', verifyAccessToken, async (req, res, next) => {
 		const success = await new UserModel({
 			FirstName, LastName, Email, Password, cPassword, Phone, Address, State, DOB, Gender, Role, DealershipName, DealershipEmail, DealershipPhone, DealershipNZBN, PhoneVerified, EmailVerified, Credits
 		}).save()
+		
 
 		if (success) {
 			return res.sendStatus(200)
