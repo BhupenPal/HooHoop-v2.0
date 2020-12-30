@@ -93,7 +93,7 @@ Router.get('/my-favourites', (req, res, next) => {
 Router.get('/listings/', (req, res, next) => {
     let options = {
         page: req.body.PageNo || 1,
-        select: 'Make Model Price isNewCar VINum ViewsCount createdAt KMsDriven WOFExpiry Description',
+        select: 'Make Model Price isNewCar VINum ViewsCount createdAt LeadsGenerated',
         lean: true,
 		limit: req.body.SetLimit || 10,
 		sort: { $natural: -1 }
@@ -121,7 +121,7 @@ Router.get('/admin/listings', (req, res, next) => {
             if (user.Role !== 'admin') return next(createError.NotFound())
             let options = {
                 page: req.body.PageNo || 1,
-                select: 'Make Model Price isNewCar Featured VINum ViewsCount createdAt KMsDriven WOFExpiry Description',
+                select: 'Make Model Price isNewCar Featured VINum ViewsCount createdAt LeadsGenerated',
                 lean: true,
                 limit: req.body.SetLimit || 10,
                 populate: { path: 'Author', select: 'FirstName LastName Email Phone DealershipEmail DealershipPhone Role _id' }
