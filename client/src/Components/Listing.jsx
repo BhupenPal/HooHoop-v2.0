@@ -1,6 +1,8 @@
 import { makeStyles } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import moment from "moment";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { deleteListing } from "../services/listings.js";
 import { getSmallThumbnailLink } from "../utils/getImagesUrl.js";
 import ListingOptions from "./Buttons/ListingOptions.jsx";
@@ -54,8 +56,8 @@ function Listing({ listings, listLoader, setListing }) {
       key: "Price",
     },
     {
-      title: "Author Email",
-      key: "Email",
+      title:"Leads",
+      key:"LeadsGenerated"
     },
     {
       title: "Manage",
@@ -66,12 +68,12 @@ function Listing({ listings, listLoader, setListing }) {
   const makeData = (rows) => {
     return rows.map((row, index) => ({
       sno: index + 1,
-      date: row.date,
+      date: moment  (row.createdAt).format('ll'),
       Make: <div>{renderVehicle({ VINum: row.VINum, name: row.Make })}</div>,
       ViewsCount: row.ViewsCount,
-      VINum: row.VINum,
+      VINum: <a target="_blank" style={{color:"black"}}  href={`/car/${row.VINum}`}>{row.VINum}</a>,
       Price: row.Price,
-      Email: row.Author.Email || "Not Available",
+      LeadsGenerated:row.LeadsGenerated,
       manage: renderOptions(index, row),
     }));
   };
@@ -131,11 +133,11 @@ function Listing({ listings, listLoader, setListing }) {
   const renderVehicle = ({ VINum, name }) => {
     return (
       <div className={classes.vehicle}>
-        <img
+       <a target="_blank"  href={`/car/${VINum}`}> <img
           className={classes.vehicleImg}
-          height={"20rem"}
+          height={"30px"}
           src={getSmallThumbnailLink(VINum)}
-        />{" "}
+        /></a>{" "}
         {name}
       </div>
     );

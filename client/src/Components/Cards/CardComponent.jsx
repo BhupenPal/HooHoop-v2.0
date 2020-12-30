@@ -24,7 +24,7 @@ import { Link } from "react-router-dom";
 import { getThumbnailLink } from "../../utils/getImagesUrl";
 import WishlistButton from "../Buttons/WishlistButton.jsx";
 
-const CardComponent = ({ classes, car, index }) => {
+const CardComponent = ({ classes, car, index, showLiked }) => {
    
     return (
       <Grid item xs={12} sm={4}  lg={3} xl={2} className={classes.cardContainer}>
@@ -32,8 +32,8 @@ const CardComponent = ({ classes, car, index }) => {
       <Card className={`${classes.rootCard} fadeIn`}>
         <CardHeader
           
-          title={<p className={classes.cardTitle}>{car.Make} {car.Model}</p>}
-          subheader={<p className={classes.cardSubTitle}>{car.ModelYear} Model</p>}
+          title={<p className={classes.cardTitle}>{car.Make} {car.Model} </p>}
+          subheader={<p className={classes.cardSubTitle}>{car.ModelYear} Model ( {car.VINum.slice(-5)} )</p>}
         />
         <CardMedia className={classes.media} image={getThumbnailLink(car.VINum)} />
         <CardContent className={classes.cardContent}>
@@ -110,7 +110,7 @@ const CardComponent = ({ classes, car, index }) => {
               View Details
             </Button>
             </Link>
-            <WishlistButton VINum={car.VINum} LikedBy={car.LikedBy}/>
+            <WishlistButton VINum={car.VINum} LikedBy={car.LikedBy || showLiked}/>
           </Box>
         </CardContent>
       </Card>

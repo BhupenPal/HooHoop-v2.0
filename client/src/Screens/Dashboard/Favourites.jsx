@@ -36,6 +36,7 @@ const Favourites = (props) => {
                             index={car.VINum}
                             setWishlist={favourites}
                             car={car}
+                            showLiked={true}
                         />
                     )
                 })

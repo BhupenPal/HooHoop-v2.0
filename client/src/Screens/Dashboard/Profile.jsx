@@ -12,115 +12,117 @@ import { errorSnackbar } from '../../utils/showSnackbar'
 import AddMoneyModal from '../../Components/Modals/AddMoneyModal.jsx'
 
 const DashboardStyles = makeStyles(theme => ({
-	userDetails: {
-		boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.25)',
-		padding: '2rem',
-		borderRadius: 5,
-		boxSizing: 'border-box',
-		backgroundColor: '#fff',
-		marginTop: "2rem",
-	},
-	userImage: {
-		height: '7.5rem',
-		width: '7.5rem',
-		borderRadius: 10,
-		margin: '1rem'
-	},
-	user: {
-		display: 'flex'
-	},
-	userInfo: {
-		paddingTop: '1.5rem'
-	},
-	userContacts: {
-		display: 'flex',
-		justifyContent: 'space-between',
-		[theme.breakpoints.down('md')]: {
-			flexDirection: 'column'
-		}
-	},
-	userContact: {
-		flex: 1,
-		padding: '1rem 2rem'
-	},
-	contactHeading: {
-		marginBottom: '1rem',
-		position: 'relative',
-		'&::before': {
-			position: 'absolute',
-			top: '100%',
-			left: 6,
-			content: "''",
-			backgroundColor: '#000',
-			height: '0.2rem',
-			width: '3rem'
-		}
-	},
-	dob: {
-		fontSize: '0.9rem',
-		marginTop: '0.2rem'
-	},
-	otherOptions: {
-		width: '82%',
-		margin: '2rem auto',
-		display: 'flex',
-		justifyContent: 'space-between',
-		[theme.breakpoints.down('md')]: {
-			flexDirection: 'column'
-		}
-	},
-	walletCard: {
-		boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.25)',
-		width: '48%',
-		margin: '1rem',
-		padding: '2rem',
-		backgroundColor: '#fff',
-		[theme.breakpoints.down('md')]: {
-			width: '100%',
-			margin: '1rem 0'
-		}
-	},
-	walletCredits: {
-		display: 'flex',
-		justifyContent: 'center',
-		padding: '2rem 0'
-	},
-	sign: {
-		fontWeight: 500
-	},
-	amount: {
-		fontSize: '4rem',
-		margin: 0,
-		fontWeight: 500,
-		padding: '0 0.5rem',
-		lineHeight: '4rem'
-	},
-	walletActions: {
-		textAlign: 'center'
-	},
-	walletButton: {
-		margin: '0 1rem',
-		backgroundColor: '#fff',
-		color: '#708DC7',
-		border: '1px solid #708DC7',
-		padding: '0.2rem 1rem',
-		borderRadius: '0.5rem'
-	},
-	buttonPrimary: {
-		background: 'linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%)',
-		margin: '0 1rem',
-		color: '#fff',
-		border: 'none',
-		padding: '0.2rem 2rem',
-		borderRadius: '0.5rem'
-	},
-	transactionList: {
-		margin: "1rem 0"
-	},
-	transactionListItem: {
-		backgroundColor: "#eee",
-		padding: "0.5rem 0.5rem"
-	}
+  userDetails: {
+    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.25)',
+    padding: '2rem',
+    borderRadius: 5,
+    boxSizing: 'border-box',
+    backgroundColor: '#fff',
+    marginTop:"2rem",
+  },
+  userImage: {
+    height: '7.5rem',
+    width: '7.5rem',
+    borderRadius: 10,
+    margin: '1rem'
+  },
+  user: {
+    display: 'flex'
+  },
+  userInfo: {
+    paddingTop: '1.5rem'
+  },
+  userContacts: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    [theme.breakpoints.down('md')]: {
+      flexDirection: 'column'
+    }
+  },
+  userContact: {
+    flex: 1,
+    padding: '1rem 2rem'
+  },
+  contactHeading: {
+    marginBottom: '1rem',
+    position: 'relative',
+    '&::before': {
+      position: 'absolute',
+      top: '100%',
+      left: 6,
+      content: "''",
+      backgroundColor: '#000',
+      height: '0.2rem',
+      width: '3rem'
+    }
+  },
+  dob: {
+    fontSize: '0.9rem',
+    marginTop: '0.2rem'
+  },
+  otherOptions: {
+    width: '82%',
+    margin: '2rem auto',
+    display: 'flex',
+    justifyContent: 'space-between',
+    [theme.breakpoints.down('md')]: {
+      flexDirection: 'column'
+    }
+  },
+  walletCard: {
+    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.25)',
+    width: '48%',
+    margin: '1rem',
+    padding: '2rem',
+    backgroundColor: '#fff',
+    [theme.breakpoints.down('md')]: {
+      width: '100%',
+      margin: '1rem 0'
+    }
+  },
+  walletCredits: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: '2rem 0'
+  },
+  sign: {
+    fontWeight: 500
+  },
+  amount: {
+    fontSize: '4rem',
+    margin: 0,
+    fontWeight: 500,
+    padding: '0 0.5rem',
+    lineHeight: '4rem'
+  },
+  walletActions: {
+    textAlign: 'center'
+  },
+  walletButton: {
+    margin: '0 1rem',
+    backgroundColor: '#fff',
+    color: '#708DC7',
+    border: '1px solid #708DC7',
+    padding: '0.2rem 1rem',
+    borderRadius: '0.5rem',
+    cursor:"pointer",
+  },
+  buttonPrimary: {
+    background: 'linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%)',
+    margin: '0 1rem',
+    color: '#fff',
+    border: 'none',
+    padding: '0.2rem 2rem',
+    borderRadius: '0.5rem',
+    cursor:"pointer",
+  },
+  transactionList:{
+    margin:"1rem 0"
+  },
+  transactionListItem:{
+    backgroundColor:"#eee",
+    padding:"0.5rem 0.5rem"
+  }
 }))
 
 const Dashboard = () => {
