@@ -24,8 +24,8 @@ const TransactSchema = mongoose.Schema({
 	},
 	Status: {
 		type: String,
-		enum: ['Processed', 'Not verified by Paypal then declined by Hoohoop'],
-		default: 'Processed'
+		enum: ['Successful', 'Unsuccessful', 'Not verified by Paypal then declined by Hoohoop'],
+		default: 'Successful'
 	}
 },
 {
