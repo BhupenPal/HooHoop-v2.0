@@ -108,7 +108,7 @@ export default BuyCar => ({
         backgroundColor: "#fff"
     },
     expandedFilter:{
-        maxHeight: "15rem",
+       // maxHeight: "15rem",
         minHeight: "15rem",
         overflow: "auto"
     },

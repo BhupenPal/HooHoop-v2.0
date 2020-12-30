@@ -22,15 +22,17 @@ const CarSliderStyles = makeStyles(theme => ({
         borderRadius: 5,
         margin: '2rem auto',
         transition: 'box-shadow 0.2s',
+        display:"flex",
+        justifyContent:"center",
         boxShadow: '0 0.1rem 1rem rgba(0,0,0,0.2)',
         [theme.breakpoints.down('md')]: {
-            width: 250,
+            width: 250, 
         }
     },
     smMargin:{
-        [theme.breakpoints.down('md')]: {
-            margin: '1rem',
-        }
+        // [theme.breakpoints.down('md')]: {
+        //     margin: '1rem',
+        // }
     },
     HideBoxShadow: {
         boxShadow: 'none !important'
@@ -158,9 +160,11 @@ const settings = {
             breakpoint: 480,
             settings: {
                 infinite: false,
-                slidesToShow:  Math.min(data?.length || 1.3 ,1.3),
-                slidesToScroll: 1,
-                arrows:false
+                slidesToShow:  1,
+                slidesToScroll: 1,  
+                //centerMode:true,
+                accessibility:true,
+               // arrows:true
             }
         }
     ]
@@ -215,7 +219,7 @@ const settings = {
         return renderSkeletons();
     }
     return (
-        <div style={{ width: '100%', margin: '30px 0' }}>
+        <div style={{ width: '85%', margin: '30px auto' }}>
             <Slider {...settings}>
             
                 {

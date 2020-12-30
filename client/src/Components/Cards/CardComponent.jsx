@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router";
+import { useHistory, withRouter } from "react-router";
 import compose from "recompose/compose";
 import {
   Card,
@@ -25,7 +25,7 @@ import { getThumbnailLink } from "../../utils/getImagesUrl";
 import WishlistButton from "../Buttons/WishlistButton.jsx";
 
 const CardComponent = ({ classes, car, index, showLiked }) => {
-   
+   const history = useHistory();
     return (
       <Grid item xs={12} sm={4}  lg={3} xl={2} className={classes.cardContainer}>
 
@@ -35,7 +35,7 @@ const CardComponent = ({ classes, car, index, showLiked }) => {
           title={<p className={classes.cardTitle}>{car.Make} {car.Model} </p>}
           subheader={<p className={classes.cardSubTitle}>{car.ModelYear} Model ( {car.VINum.slice(-5)} )</p>}
         />
-        <CardMedia className={classes.media} image={getThumbnailLink(car.VINum)} />
+        <CardMedia className={classes.media} image={getThumbnailLink(car.VINum)} onClick={() => history.push(`/car/${car.VINum}`)} />
         <CardContent className={classes.cardContent}>
           <Box
             display="flex"

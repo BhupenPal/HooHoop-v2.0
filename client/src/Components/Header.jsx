@@ -235,7 +235,7 @@ const Header = () => {
               justifyContent='center'
               className='flex-jc-al-center'
             >
-              <Box display={{ md: 'block' }}>
+              <Box display={{ xs:"none",md: 'block',  }}>
                 <NavLink to='/'>
                   <Button
                     color='inherit'
@@ -245,7 +245,7 @@ const Header = () => {
 									</Button>
                 </NavLink>
               </Box>
-              <Box display={{ md: 'block' }}>
+              <Box display={{ xs:"none",md: 'block',  }}>
                 <NavLink to='/buy-car'>
                   <Button
                     color='inherit'
@@ -255,7 +255,7 @@ const Header = () => {
 									</Button>
                 </NavLink>
               </Box>
-              <Box display={{ md: 'block' }}>
+              <Box display={{ xs:"none",md: 'block',  }}>
                 <NavLink to='/sell-car'>
                   <Button
                     color='inherit'
@@ -265,7 +265,10 @@ const Header = () => {
 									</Button>
                 </NavLink>
               </Box>
+              <Box display={{ xs:"none",md: 'block' }}>
+
               {renderAuthButtons()}
+              </Box>
             </Box>
           </Box>
         </Box>

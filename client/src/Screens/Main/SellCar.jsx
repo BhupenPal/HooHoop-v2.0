@@ -57,9 +57,10 @@ const SellCar = (props) => {
   const [preview, setPreview] = useState({
     Interior: null,
   });
-  const {user} = useSelector(state => state.auth);
+  const { user } = useSelector((state) => state.auth);
   //console.log(user)
-  const [showBalance,setShowBalance] = useState(false)
+  const [showBalance, setShowBalance] = useState(false);
+  const [showForm, setForm] = useState(false);
   const [dataobject, changedata] = useState({
     Make: "",
     Model: "",
@@ -74,7 +75,7 @@ const SellCar = (props) => {
     Description: "",
     KMsDriven: null,
     VINum: "",
-    State: user.State,
+    State: user?.State,
     DoorCount: 5,
     SeatCount: null,
     REGExpiry: new Date(),
@@ -208,7 +209,7 @@ const SellCar = (props) => {
         document.querySelector("#PlateNumber").textContent = res.data.plate;
         document.querySelector("#Chassis").textContent = res.data.chassis;
         document.querySelector("#Seats").textContent = res.data.no_of_seats;
-
+        setForm(true);
         changedata({
           ...dataobject,
           Make: res.data.make.replaceAll("-", " "),
@@ -450,158 +451,174 @@ const SellCar = (props) => {
         md={10}
         justify="center"
       >
-        <Box className="PriceSetter" display="flex" alignItems="center">
-          <Typography component="h1" variant="h2">
-            Selling price details
-          </Typography>
-          <TextField
-            className="priceinputs"
-            type="number"
-            name="Price"
-            onChange={handleChange}
-            label="Preferred Selling Price"
-            variant="outlined"
-            error={showErrors && dataobject.Price <= 0}
-          />
-          <TextField
-            className="priceinputs"
-            type="number"
-            name="MinPrice"
-            onChange={handleChange}
-            label="Minimum Selling Price"
-            variant="outlined"
-            error={showErrors && dataobject.MinPrice <= 0}
-          />
+        <Box style={{ display: !showForm ? "block" : "none" }}>
+          <Button
+          style={{
+        background: 'linear-gradient(201.33deg, #E85513 1.75%, #FABF01 97.05%)',
+            color:"#fff",
+            padding:"1rem 4rem"
+          }}
+            onClick={() => {
+              console.log(showForm)
+              setForm(true);
+            }}
+          >
+            Add Data Manually
+          </Button>
         </Box>
-        <Grid item className={classes.FromFetch} xs={12}>
-          <Grid className="Fetched_Details">
-            <div className="BasicDetails">
-              <Typography component="h3" variant="h5">
-                Please Enter the details of your car
-              </Typography>
-              <div className="BasicDetails_form">
-                <SelectBox
-                  handleChange={handleSelectChange}
-                  type="autocomplete"
-                  name="Make"
-                  data={MakeModel.map(({ Make }) => Make) || []}
-                  value={dataobject.Make}
-                  required
-                  Label="Make"
-                  error={showErrors && dataobject.Make.length <= 0}
-                />
-                <SelectBox
-                  handleChange={handleSelectChange}
-                  name={"Model"}
-                  type="autocomplete"
-                  required
-                  data={modelOptions}
-                  value={dataobject.Model}
-                  error={showErrors && dataobject.Model.length <= 0}
-                  Label="Model"
-                />
-                <SelectBox
-                  handleChange={handleChange}
-                  name={"ModelYear"}
-                  data={getLast35Years()}
-                  value={dataobject.ModelYear}
-                  required={true}
-                  error={showErrors && dataobject.ModelYear.length <= 0}
-                  Label="Model Year"
-                />
-                <SelectBox
-                  handleChange={handleSelectChange}
-                  name={"BodyType"}
-                  type="autocomplete"
-                  data={bodyTypes}
-                  value={dataobject.BodyType}
-                  required={true}
-                  error={showErrors && dataobject.BodyType.length <= 0}
-                  Label="Body Type"
-                />
-                <SelectBox
-                  handleChange={handleSelectChange}
-                  name={"Transmission"}
-                  type="autocomplete"
-                  data={transmissionTypes}
-                  value={dataobject.Transmission}
-                  required={true}
-                  error={showErrors && dataobject.Transmission.length <= 0}
-                  Label="Transmission"
-                />
-                <TextField
-                  type="number"
-                  onChange={handleChange}
-                  name={"EngineSize"}
-                  value={dataobject.EngineSize ? dataobject.EngineSize : ""}
-                  inputProps={{ className: "digitsOnly" }}
-                  required={true}
-                  id="random"
-                  error={showErrors && dataobject.EngineSize <= 0}
-                  label="Engine Size"
-                />
-                <SelectBox
-                  handleChange={handleSelectChange}
-                  name={"FuelType"}
-                  data={["Don't Know", ...fuelTypes]}
-                  type="autocomplete"
-                  value={dataobject.FuelType}
-                  required={true}
-                  error={showErrors && dataobject.FuelType.length <= 0}
-                  Label="Fuel Type"
-                />
-                <TextField
-                  onChange={handleChange}
-                  type="number"
-                  name={"KMsDriven"}
-                  value={dataobject.KMsDriven ? dataobject.KMsDriven : ""}
-                  required={true}
-                  error={showErrors && dataobject.KMsDriven <= 0}
-                  label="Kilometers Ran"
-                />
-                <SelectBox
-                  handleChange={handleSelectChange}
-                  name={"Color"}
-                  data={colors}
-                  type="autocomplete"
-                  value={dataobject.Color}
-                  required={true}
-                  error={showErrors && dataobject.Color.length <= 0}
-                  Label="Color"
-                />
-                <TextField
-                  onChange={handleChange}
-                  name={"VINum"}
-                  value={dataobject.VINum}
-                  required={true}
-                  label="Number Plate"
-                  error={showErrors && dataobject.VINum.length <= 0}
-                />
-                <SelectBox
-                  handleChange={handleChange}
-                  name={"SeatCount"}
-                  data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]}
-                  value={dataobject.SeatCount}
-                  required={true}
-                  error={
-                    showErrors &&
-                    (dataobject.SeatCount <= 0 || dataobject.SeatCount > 11)
-                  }
-                  Label="Number of seats"
-                />
+        <Box style={{ display: showForm ? "block" : "none" }}>
+          <Box className="PriceSetter" display="flex" alignItems="center">
+            <Typography component="h1" variant="h2">
+              Selling price details
+            </Typography>
+            <TextField
+              className="priceinputs"
+              type="number"
+              name="Price"
+              onChange={handleChange}
+              label="Preferred Selling Price"
+              variant="outlined"
+              error={showErrors && dataobject.Price <= 0}
+            />
+            <TextField
+              className="priceinputs"
+              type="number"
+              name="MinPrice"
+              onChange={handleChange}
+              label="Minimum Selling Price"
+              variant="outlined"
+              error={showErrors && dataobject.MinPrice <= 0}
+            />
+          </Box>
+          <Grid item className={classes.FromFetch} xs={12}>
+            <Grid className="Fetched_Details">
+              <div className="BasicDetails">
+                <Typography component="h3" variant="h5">
+                  Please Enter the details of your car
+                </Typography>
+                <div className="BasicDetails_form">
+                  <SelectBox
+                    handleChange={handleSelectChange}
+                    type="autocomplete"
+                    name="Make"
+                    data={MakeModel.map(({ Make }) => Make) || []}
+                    value={dataobject.Make}
+                    required
+                    Label="Make"
+                    error={showErrors && dataobject.Make.length <= 0}
+                  />
+                  <SelectBox
+                    handleChange={handleSelectChange}
+                    name={"Model"}
+                    type="autocomplete"
+                    required
+                    data={modelOptions}
+                    value={dataobject.Model}
+                    error={showErrors && dataobject.Model.length <= 0}
+                    Label="Model"
+                  />
+                  <SelectBox
+                    handleChange={handleChange}
+                    name={"ModelYear"}
+                    data={getLast35Years()}
+                    value={dataobject.ModelYear}
+                    required={true}
+                    error={showErrors && dataobject.ModelYear.length <= 0}
+                    Label="Model Year"
+                  />
+                  <SelectBox
+                    handleChange={handleSelectChange}
+                    name={"BodyType"}
+                    type="autocomplete"
+                    data={bodyTypes}
+                    value={dataobject.BodyType}
+                    required={true}
+                    error={showErrors && dataobject.BodyType.length <= 0}
+                    Label="Body Type"
+                  />
+                  <SelectBox
+                    handleChange={handleSelectChange}
+                    name={"Transmission"}
+                    type="autocomplete"
+                    data={transmissionTypes}
+                    value={dataobject.Transmission}
+                    required={true}
+                    error={showErrors && dataobject.Transmission.length <= 0}
+                    Label="Transmission"
+                  />
+                  <TextField
+                    type="number"
+                    onChange={handleChange}
+                    name={"EngineSize"}
+                    value={dataobject.EngineSize ? dataobject.EngineSize : ""}
+                    inputProps={{ className: "digitsOnly" }}
+                    required={true}
+                    id="random"
+                    error={showErrors && dataobject.EngineSize <= 0}
+                    label="Engine Size"
+                  />
+                  <SelectBox
+                    handleChange={handleSelectChange}
+                    name={"FuelType"}
+                    data={["Don't Know", ...fuelTypes]}
+                    type="autocomplete"
+                    value={dataobject.FuelType}
+                    required={true}
+                    error={showErrors && dataobject.FuelType.length <= 0}
+                    Label="Fuel Type"
+                  />
+                  <TextField
+                    onChange={handleChange}
+                    type="number"
+                    name={"KMsDriven"}
+                    value={dataobject.KMsDriven ? dataobject.KMsDriven : ""}
+                    required={true}
+                    error={showErrors && dataobject.KMsDriven <= 0}
+                    label="Kilometers Ran"
+                  />
+                  <SelectBox
+                    handleChange={handleSelectChange}
+                    name={"Color"}
+                    data={colors}
+                    type="autocomplete"
+                    value={dataobject.Color}
+                    required={true}
+                    error={showErrors && dataobject.Color.length <= 0}
+                    Label="Color"
+                  />
+                  <TextField
+                    onChange={handleChange}
+                    name={"VINum"}
+                    value={dataobject.VINum}
+                    required={true}
+                    label="Number Plate"
+                    error={showErrors && dataobject.VINum.length <= 0}
+                  />
+                  <SelectBox
+                    handleChange={handleChange}
+                    name={"SeatCount"}
+                    data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]}
+                    value={dataobject.SeatCount}
+                    required={true}
+                    error={
+                      showErrors &&
+                      (dataobject.SeatCount <= 0 || dataobject.SeatCount > 11)
+                    }
+                    Label="Number of seats"
+                  />
 
-                <SelectBox
-                  handleChange={handleSelectChange}
-                  name={"State"}
-                  data={states}
-                  type="autocomplete"
-                  value={dataobject.State}
-                  required={true}
-                  error={showErrors && dataobject.State.length <= 0}
-                  Label="State"
-                />
-                <div style={{ padding: "0 1rem" }}>
-                  {/*                   
+                  <SelectBox
+                    handleChange={handleSelectChange}
+                    name={"State"}
+                    data={states}
+                    type="autocomplete"
+                    value={dataobject.State}
+                    required={true}
+                    error={showErrors && dataobject.State.length <= 0}
+                    Label="State"
+                  />
+                  <div style={{ padding: "0 1rem" }}>
+                    {/*                   
                 <FormControlLabel
 
                   control={
@@ -614,29 +631,29 @@ const SellCar = (props) => {
                   }
                   label="4 Drive Wheel"
                 /> */}
-                  <FormControl component="fieldset">
-                    <FormLabel component="legend">4 Drive Wheel</FormLabel>
-                    <RadioGroup
-                      name="DriveWheel4"
-                      value={dataobject.DriveWheel4}
-                      onChange={handleChange}
-                      style={{ flexDirection: "row" }}
-                    >
-                      <FormControlLabel
-                        value={true}
-                        control={<Radio color={"primary"} />}
-                        label="Yes"
-                      />
-                      <FormControlLabel
-                        value={false}
-                        control={<Radio color={"primary"} />}
-                        label="No"
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                </div>
-                <div style={{ padding: "0 1rem" }}>
-                  {/* <FormControlLabel
+                    <FormControl component="fieldset">
+                      <FormLabel component="legend">4 Drive Wheel</FormLabel>
+                      <RadioGroup
+                        name="DriveWheel4"
+                        value={dataobject.DriveWheel4}
+                        onChange={handleChange}
+                        style={{ flexDirection: "row" }}
+                      >
+                        <FormControlLabel
+                          value={true}
+                          control={<Radio color={"primary"} />}
+                          label="Yes"
+                        />
+                        <FormControlLabel
+                          value={false}
+                          control={<Radio color={"primary"} />}
+                          label="No"
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </div>
+                  <div style={{ padding: "0 1rem" }}>
+                    {/* <FormControlLabel
                     control={
                       <Checkbox
                         checked={dataobject.ONRoadCost}
@@ -649,177 +666,182 @@ const SellCar = (props) => {
                   />
  */}
 
-                  <FormControl component="fieldset">
-                    <FormLabel component="legend">
-                      On Road Cost Included
-                    </FormLabel>
-                    <RadioGroup
-                      name="ONRoadCost"
-                      value={dataobject.ONRoadCost}
-                      onChange={handleChange}
-                      style={{ flexDirection: "row" }}
-                    >
-                      <FormControlLabel
-                        value={true}
-                        control={<Radio color={"primary"} />}
-                        label="Yes"
-                      />
-                      <FormControlLabel
-                        value={false}
-                        control={<Radio color={"primary"} />}
-                        label="No"
-                      />
-                    </RadioGroup>
-                  </FormControl>
+                    <FormControl component="fieldset">
+                      <FormLabel component="legend">
+                        On Road Cost Included
+                      </FormLabel>
+                      <RadioGroup
+                        name="ONRoadCost"
+                        value={dataobject.ONRoadCost}
+                        onChange={handleChange}
+                        style={{ flexDirection: "row" }}
+                      >
+                        <FormControlLabel
+                          value={true}
+                          control={<Radio color={"primary"} />}
+                          label="Yes"
+                        />
+                        <FormControlLabel
+                          value={false}
+                          control={<Radio color={"primary"} />}
+                          label="No"
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="ExtraDetails">
-              <Typography component="h3" variant="h5">
-                Help us know more about your car
-              </Typography>
+              <div className="ExtraDetails">
+                <Typography component="h3" variant="h5">
+                  Help us know more about your car
+                </Typography>
 
-              <SelectBox
-                handleChange={handleChange}
-                name={"DoorCount"}
-                data={doorCounts}
-                value={dataobject.DoorCount}
-                Label="Number of doors"
-                error={showErrors && dataobject.DoorCount.length <= 0}
-              />
-              <SelectBox
-                handleChange={handleChange}
-                name={"ImportHistory"}
-                data={["New Zealand New", "Imported"]}
-                value={dataobject.ImportHistory}
-                Label="Import History"
-              />
-              <SelectBox
-                handleChange={handleChange}
-                name={"Accessories"}
-                multiple={true}
-                value={dataobject.Accessories}
-                data={accessories}
-                Label="Select Accessories"
-              />
-              <SelectBox
-                handleChange={handleChange}
-                name={"Cylinders"}
-                value={dataobject.Cylinders}
-                data={[
-                  "Don't Know",
-                  "Rotatary",
-                  "4 - Cylinder",
-                  "6 - Cylinder",
-                  "8 - Cylinder",
-                  "10 - Cylinder",
-                  "12 - Cylinder",
-                ]}
-                Label="Cylinders"
-              />
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  format="MM/dd/yyyy"
-                  margin="normal"
-                  id="reg"
-                  label="Registration Expiry"
-                  name="REGExpiry"
-                  value={dataobject.REGExpiry}
-                  onChange={(date) =>
-                    changedata({ ...dataobject, REGExpiry: date })
-                  }
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
+                <SelectBox
+                  handleChange={handleChange}
+                  name={"DoorCount"}
+                  data={doorCounts}
+                  value={dataobject.DoorCount}
+                  Label="Number of doors"
+                  error={showErrors && dataobject.DoorCount.length <= 0}
                 />
-                <KeyboardDatePicker
-                  format="MM/dd/yyyy"
-                  margin="normal"
-                  id="wof"
-                  label="WOF Expiry"
-                  name="WOFExpiry"
-                  value={dataobject.WOFExpiry}
-                  onChange={(date) =>
-                    changedata({ ...dataobject, WOFExpiry: date })
-                  }
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
+                <SelectBox
+                  handleChange={handleChange}
+                  name={"ImportHistory"}
+                  data={["New Zealand New", "Imported"]}
+                  value={dataobject.ImportHistory}
+                  Label="Import History"
                 />
-              </MuiPickersUtilsProvider>
-            </div>
-          </Grid>
-          <Grid>
-            <div className="Description">
-              <Typography component="h3" variant="h5">
-                Describe your car in 300-500 words
-              </Typography>
-              <div>
-                <RichTextEditor handleEditorChange={handleEditorChange} />
+                <SelectBox
+                  handleChange={handleChange}
+                  name={"Accessories"}
+                  multiple={true}
+                  value={dataobject.Accessories}
+                  data={accessories}
+                  Label="Select Accessories"
+                />
+                <SelectBox
+                  handleChange={handleChange}
+                  name={"Cylinders"}
+                  value={dataobject.Cylinders}
+                  data={[
+                    "Don't Know",
+                    "Rotatary",
+                    "4 - Cylinder",
+                    "6 - Cylinder",
+                    "8 - Cylinder",
+                    "10 - Cylinder",
+                    "12 - Cylinder",
+                  ]}
+                  Label="Cylinders"
+                />
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    id="reg"
+                    label="Registration Expiry"
+                    name="REGExpiry"
+                    value={dataobject.REGExpiry}
+                    onChange={(date) =>
+                      changedata({ ...dataobject, REGExpiry: date })
+                    }
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                  />
+                  <KeyboardDatePicker
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    id="wof"
+                    label="WOF Expiry"
+                    name="WOFExpiry"
+                    value={dataobject.WOFExpiry}
+                    onChange={(date) =>
+                      changedata({ ...dataobject, WOFExpiry: date })
+                    }
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
               </div>
-            </div>
-            <div className="FileUpload">
-              <Typography component="h3" variant="h5">
-                Upload Car Images
-              </Typography>
-              <div className="InteriorImages">
+            </Grid>
+            <Grid>
+              <div className="Description">
                 <Typography component="h3" variant="h5">
-                  Upload Interior Images
+                  Describe your car in 300-500 words
                 </Typography>
                 <div>
-                  <FileInput
-                    accept="image/*"
-                    name="Interior"
-                    id="Interior"
-                    label="360 Interior"
-                    onChange={handleFileUpload}
-                    previewUrl={preview.Interior}
-                  />
+                  <RichTextEditor handleEditorChange={handleEditorChange} />
                 </div>
               </div>
-              <Divider orientation="vertical" flexItem />
-              <div className="ExteriorImages">
+              <div className="FileUpload">
                 <Typography component="h3" variant="h5">
-                  Upload Exterior Images
+                  Upload Car Images
                 </Typography>
-                <div>
-                  <MultiFileInput
-                    label="Slider"
-                    onChange={handleMultiFileUpload}
-                    filesUploaded={dataobject.ExteriorSlider}
-                  />
-                  <FileInput
-                    accept="video/*"
-                    name="ExteriorVideo"
-                    id="ExteriorVideo"
-                    type="video"
-                    label="Video"
-                    type="video"
-                    currentValue={dataobject.ExteriorVideo}
-                    onChange={handleVideoUpload}
-                  />
+                <div className="InteriorImages">
+                  <Typography component="h3" variant="h5">
+                    Upload Interior Images
+                  </Typography>
+                  <div>
+                    <FileInput
+                      accept="image/*"
+                      name="Interior"
+                      id="Interior"
+                      label="360 Interior"
+                      onChange={handleFileUpload}
+                      previewUrl={preview.Interior}
+                    />
+                  </div>
+                </div>
+                <Divider orientation="vertical" flexItem />
+                <div className="ExteriorImages">
+                  <Typography component="h3" variant="h5">
+                    Upload Exterior Images
+                  </Typography>
+                  <div>
+                    <MultiFileInput
+                      label="Slider"
+                      onChange={handleMultiFileUpload}
+                      filesUploaded={dataobject.ExteriorSlider}
+                    />
+                    <FileInput
+                      accept="video/*"
+                      name="ExteriorVideo"
+                      id="ExteriorVideo"
+                      type="video"
+                      label="Video"
+                      type="video"
+                      currentValue={dataobject.ExteriorVideo}
+                      onChange={handleVideoUpload}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <Box display="flex" justifyContent="flex-end">
-              <Button
-                disabled={loader}
-                className={classes.LoginButton}
-                onClick={handleSubmit}
-              >
-                {loader ? (
-                  <CircularProgress
-                    className={classes.circularProgress}
-                    size={20}
-                    style={{ margin: "0 1rem" }}
-                  />
-                ) : null}
-                SUBMIT
-              </Button>
-              <ShowBalanceModal open={showBalance} listCar={listCar} setModal={setShowBalance}/>
-            </Box>
+              <Box display="flex" justifyContent="flex-end">
+                <Button
+                  disabled={loader}
+                  className={classes.LoginButton}
+                  onClick={handleSubmit}
+                >
+                  {loader ? (
+                    <CircularProgress
+                      className={classes.circularProgress}
+                      size={20}
+                      style={{ margin: "0 1rem" }}
+                    />
+                  ) : null}
+                  SUBMIT
+                </Button>
+                <ShowBalanceModal
+                  open={showBalance}
+                  listCar={listCar}
+                  setModal={setShowBalance}
+                />
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
+        </Box>
       </Grid>
     </Grid>
   );

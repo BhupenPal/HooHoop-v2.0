@@ -4,3 +4,9 @@ export const activateEmail = async (value) => {
     value,
   });
 };
+
+export const resendOTP = async (Email) => {
+  return axios.patch("/api/user/genmailotp", {
+    Email
+  })
+}

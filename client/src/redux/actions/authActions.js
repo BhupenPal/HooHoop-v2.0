@@ -13,6 +13,7 @@ import {
 } from './types'
 import { errorSnackbar, successSnackbar } from '../../utils/showSnackbar'
 import { makeErrorMessage } from '../../utils/makeErrorMessage'
+import { resendOTP } from '../../services/emailVerifications'
 
 
 const startLoading = () => ({
@@ -29,7 +30,13 @@ export const registerUser = (userData, history) => dispatch => {
 		.post('/api/user/register', userData)
 		.then(res => {
 		 dispatch(stopLoading());
-			successSnackbar("Registration Successful! Please check your email");
+		 const action = {
+			 message:"Resend Email",
+			 task: () => {
+				 resendOTP(userData.Email);
+			 }
+		 }
+			successSnackbar("Registration Successful! Please check your email",action);
 			res.status === 200 ? history.push('/login') : null
 			
 		})
