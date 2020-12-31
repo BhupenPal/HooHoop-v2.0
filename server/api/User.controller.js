@@ -69,10 +69,10 @@ Router.post("/login", async (req, res, next) => {
 
 		const PayLoad = decodeTrustedToken(accessToken)
 
-		res.status(200).json(PayLoad)
+		return res.status(200).json(PayLoad)
 	} catch (error) {
 		console.log(error)
-		next(error)
+		return next(error)
 	}
 })
 
@@ -91,14 +91,20 @@ Router.post("/googlelogin", ValidateGoogle, (req, res, next) => {
 					User.aud = User.id
 					const accessToken = await signAccessToken(User)
 					const refreshToken = await signRefreshToken(User)
-					res.status(200).json({ accessToken, refreshToken })
+					
+					res.cookie("accessToken", accessToken, { ...SecureCookieObj, maxAge: process.env.ACCESS_TOKEN_EXPIRE_IN })
+					res.cookie("refreshToken", refreshToken, { ...SecureCookieObj, maxAge: process.env.REFRESH_TOKEN_EXPIRE_IN })
+			
+					const PayLoad = decodeTrustedToken(accessToken)
+			
+					return res.status(200).json(PayLoad)
 				} else {
-					res.status(201).json({ FirstGoogleLogin: true, Email, FirstName, LastName, GoogleID })
+					return res.status(201).json({ FirstGoogleLogin: true, Email, FirstName, LastName, GoogleID })
 				}
 			})
 	} catch (error) {
 		console.log("User Controller Google Login Catch: " + error.message)
-		next(error)
+		return next(error)
 	}
 })
 
@@ -116,14 +122,20 @@ Router.post("/facebooklogin", ValidateFacebook, (req, res, next) => {
 				User.aud = User.id
 				const accessToken = await signAccessToken(User)
 				const refreshToken = await signRefreshToken(User)
-				res.status(200).json({ accessToken, refreshToken })
+				
+				res.cookie("accessToken", accessToken, { ...SecureCookieObj, maxAge: process.env.ACCESS_TOKEN_EXPIRE_IN })
+				res.cookie("refreshToken", refreshToken, { ...SecureCookieObj, maxAge: process.env.REFRESH_TOKEN_EXPIRE_IN })
+		
+				const PayLoad = decodeTrustedToken(accessToken)
+		
+				return res.status(200).json(PayLoad)
 			} else {
-				res.status(201).json({ FirstFacebookLogin: true, Email, FirstName, LastName, GoogleID })
+				return res.status(201).json({ FirstFacebookLogin: true, Email, FirstName, LastName, GoogleID })
 			}
 		})
 	} catch (error) {
 		console.log("User Controller Google Login Catch: " + error.message)
-		next(error)
+		return next(error)
 	}
 })
 
@@ -329,6 +341,28 @@ Router.patch("/forgot-password/confirm", (req, res, next) => {
 
 		})
 	})
+})
+
+Router.post('/add-user', verifyAccessToken, async (req, res, next) => {
+	try {
+		if (req.payload.Role !== 'admin') throw createError.Unauthorized()
+
+		const { FirstName, LastName, Email, Password, cPassword, Phone, Address, State, DOB, Gender, Role, DealershipName, DealershipEmail, DealershipPhone, DealershipNZBN, PhoneVerified, EmailVerified, Credits } = req.body
+
+		const success = await new UserModel({
+			FirstName, LastName, Email, Password, cPassword, Phone, Address, State, DOB, Gender, Role, DealershipName, DealershipEmail, DealershipPhone, DealershipNZBN, PhoneVerified, EmailVerified, Credits
+		}).save()
+		
+
+		if (success) {
+			return res.sendStatus(200)
+		} else {
+			throw createError.ExpectationFailed()
+		}
+	} catch (error) {
+		console.log(error)
+		return next(error)
+	}
 })
 
 //Sell Form Routes

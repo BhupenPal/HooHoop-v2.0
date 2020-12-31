@@ -14,7 +14,58 @@ const express = require('express'),
 	{ verifyAccessToken } = require('../helper/auth/JWT_service'),
 	{ PaypalClient } = require('../helper/payment/paypal')
 
-Router.post('/addcredits', verifyAccessToken, async (req, res, next) => {
+Router.use(verifyAccessToken)
+
+Router.get('/latest-five', (req, res, next) => {
+	TxnModel.find({ User: mongoose.Types.ObjectId(req.payload.aud) })
+		.sort({ $natural: -1 })
+		.limit(5)
+		.select('Type Amount createdAt')
+		.lean()
+		.then((doc) => {
+			return res.json(doc)
+		})
+		.catch((error) => {
+			console.log(error)
+			return next(createError.InternalServerError())
+		})
+})
+
+Router.get('/all/:PageNo/:size', (req, res, next) => {
+	const { SortData } = req.query
+	let { PageNo, size } = req.params
+
+	// Making Sure Page Number IS NOT LESS THAN OR EQUAL TO 0
+	PageNo = Math.max(1, PageNo)
+
+	let options = {
+		page: PageNo || 1,
+		select: 'TID Type Amount Status createdAt',
+		lean: true,
+		limit: size || 15,
+		sort: { $natural: -1 }
+	}
+
+	// Basic Filter For All Queries
+	let Filters = {
+		User: mongoose.Types.ObjectId(req.payload.aud)
+	}
+
+	// Sorting Data
+	if (SortData === 'LatestFirst') options.sort = { createdAt: -1 }
+	else if (SortData === 'OldestFirst') options.sort = { createdAt: 1 }
+
+	TxnModel.paginate(Filters, options)
+		.then((doc) => {
+			return res.json(doc)
+		})
+		.catch((error) => {
+			console.log(error)
+			return next(createError.InternalServerError())
+		})
+})
+
+Router.post('/addcredits', async (req, res, next) => {
 	const { Amount, UserID, OrderID } = req.body
 
 	const PayLoad = {
@@ -56,8 +107,4 @@ Router.post('/addcredits', verifyAccessToken, async (req, res, next) => {
 		})
 })
 
-Router.post('/txn_result/:TransactID', (req, res, next) => {
-
-})
-
-module.exports = Router;
+module.exports = Router
