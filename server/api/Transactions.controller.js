@@ -33,10 +33,10 @@ Router.get('/latest-five', (req, res, next) => {
 
 Router.get('/all/:PageNo/:size', (req, res, next) => {
 	const { SortData } = req.query
-	let { PageNo, size } = req.params,
+	let { PageNo, size } = req.params
 
 	// Making Sure Page Number IS NOT LESS THAN OR EQUAL TO 0
-	const PageNo = Math.max(1, PageNo)
+	PageNo = Math.max(1, PageNo)
 
 	let options = {
 		page: PageNo || 1,
