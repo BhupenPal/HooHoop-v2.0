@@ -10,6 +10,7 @@ import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined"
 import EditCarModal from "../../Components/Modals/EditCarModal.jsx";
 import DeleteDialog from "../../Components/Modals/DeleteListingModal.jsx";
 import EditUserModel from "../../Components/Modals/EditUserModel.jsx";
+import SortBy from "../../Components/Inputs/SortBy.jsx";
 
 const useStyles = makeStyles((theme) => ({
   vehicle: {
@@ -20,8 +21,16 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "200rem",
     marginRight: "0.5rem",
   },
+
+  options:{
+    color:"#999999",
+    cursor:"pointer",
+    margin:"0 0.1rem",
+  }
 }));
-function UserManagement(props) {
+const sortingOptions = ["Created At","Name", "Email"]
+
+function UserManagement(props) {  
   const classes = useStyles();
   const [allUsers, setAllUsers] = useState([]);
   const [listLoader, setListLoader] = useState(false);
@@ -30,6 +39,11 @@ function UserManagement(props) {
   const [openEditDialog, setEditDialog] = useState(false);
   const [openDialog, setDialog] = useState(false);
 
+  const [sortBy,setSortBy] = useState("Created At");
+
+  const handleChange = (e) => {
+    setSortBy(e.target.value);
+  }
   useEffect(() => {
     setListLoader(true);
     getUsers()
@@ -114,7 +128,10 @@ function UserManagement(props) {
   const renderOptions = (index,user) => {
     return (
       <div>
+        <span className={classes.options}>
+
         <InfoOutlinedIcon />
+        </span>
         <span className={classes.options} onClick={() => showEditDialog(user)}>
           <EditOutlinedIcon />
         </span>
@@ -130,9 +147,11 @@ function UserManagement(props) {
   return (
     <div className="dashboard">
       <div className="dashboard__header">
-        <h1 className={"dashboard__heading"}>All Users</h1>
+        <h2 className={"dashboard__heading"}>All Users</h2>
         <p className={"dashboard__heading"}>{allUsers.length} Total</p>
-        <p className={"dashboard__heading"}>Sort by :</p>
+        <p className={"dashboard__heading dashboard__sort"}>
+          <SortBy options={sortingOptions} handleChange={handleChange} sortBy={sortBy}/>
+        </p>
       </div>
 
       <EditUserModel

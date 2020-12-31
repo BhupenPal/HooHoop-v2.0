@@ -8,8 +8,15 @@
         align-items: baseline;
     }
     &__heading{
-        margin: 0 1rem,
-
+        margin: 0 1rem;
+        color:#333333;
+    }
+    &__sort{
+        display: flex;
+        align-items: flex-end;
+        // label + .MuiInput-formControl{
+        //     margin-top: 0;
+        // }
     }
     
 }

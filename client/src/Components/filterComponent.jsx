@@ -368,25 +368,26 @@ const filterComponent = (props) => {
 
         <div className="filterClass">
           <div className="filterHead">
-            <Typography variant="h6" component="h6">
+            <Typography variant="h6" style={{marginBottom:"1rem"}} component="h6">
               Model Year
             </Typography>
           </div>
           <Slider
             value={yearRange}
             onChange={handleYearChange}
-            valueLabelDisplay="auto"
+            getAriaValueText={90}
             aria-labelledby="range-slider"
             getAriaValueText={valuetext}
             className="rangeSlider"
             min={currentYear - 30}
             max={currentYear}
+            valueLabelDisplay="on"
           />
         </div>
 
         <div className="filterClass">
           <div className="filterHead">
-            <Typography variant="h6" component="h6">
+            <Typography variant="h6" style={{marginBottom:"1rem"}} component="h6">
               Price Range
             </Typography>
           </div>
@@ -399,6 +400,8 @@ const filterComponent = (props) => {
             getAriaValueText={rangetextSet}
             step={1000}
             className="rangeSlider"
+            valueLabelDisplay="on"
+
             min={0}
             max={100000}
           />
@@ -406,7 +409,7 @@ const filterComponent = (props) => {
 
         <div className="filterClass">
           <div className="filterHead">
-            <Typography variant="h6" component="h6">
+            <Typography variant="h6" style={{marginBottom:"1rem"}} component="h6">
               Kilometers Driven
             </Typography>
           </div>
@@ -418,6 +421,8 @@ const filterComponent = (props) => {
             getAriaValueText={kilometerstextSet}
             valueLabelFormat={(value) => <div>{numFormatter(value)}</div>}
             className="rangeSlider"
+            valueLabelDisplay="on"
+
             min={0}
             max={200000}
           />

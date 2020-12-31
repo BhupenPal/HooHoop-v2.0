@@ -14,11 +14,19 @@ const useStyles = makeStyles((theme) => ({
   vehicle: {
     display: "flex",
     alignItems: "center",
+    ["& a"]:{
+      display:"flex",
+    }
   },
   vehicleImg: {
     borderRadius: "200rem",
     marginRight: "0.5rem",
   },
+  options:{
+    color:"#999999",
+    cursor:"pointer",
+    margin:"0 0.1rem",
+  }
 }));
 
 function Listing({ listings, listLoader, setListing }) {

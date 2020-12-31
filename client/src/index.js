@@ -47,6 +47,7 @@ import AllListingScreen from "./Screens/Dashboard/AllListings.jsx";
 import UserManagementScreen from "./Screens/Dashboard/UserManagements.jsx";
 import MyClientManagementScreen from "./Screens/Dashboard/MyClientManagement.jsx";
 import AllClientManagementScreen from "./Screens/Dashboard/AllClientsManagement.jsx";
+import Payments from "./Screens/Dashboard/Payments.jsx";
 const App = () => {
   useEffect(() => {
     CheckLoginOnRender();
@@ -88,6 +89,11 @@ const App = () => {
               <Route
                 path="/user/all-client-management"
                 component={CheckAuth(AllClientManagementScreen)}
+              />
+
+              <Route
+                path="/user/your-payments"
+                component={CheckAuth(Payments)}
               />
               <Route path="/privacy-policy" component={PrivacyPolicy} />
               <Route path="/terms-and-conditions" component={TermsConditions} />

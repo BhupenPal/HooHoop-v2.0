@@ -13,7 +13,8 @@ const useStyles = makeStyles((theme) => ({
   },
   tabBody: {
     background: "#EEEEEE",
-    minHeight: "80vh",
+    minHeight: "60vh",
+    padding:"0 1rem"
   },
 }));
 function AllClientManagement(props) {
@@ -110,6 +111,12 @@ function AllClientManagement(props) {
   }
   return (
     <div className={classes.root}>
+       <div className={"dashboard__header"}>
+          <h2 className={"dashboard__heading"}>All Client Management</h2>
+          <p className={"dashboard__heading"}>{shipments.length} Total</p>
+          <p className={"dashboard__heading dashboard__sort"}>  
+          </p>
+        </div>
       <AppBar position="static" className={classes.appBar}>
         <Tabs
           value={activeTab}

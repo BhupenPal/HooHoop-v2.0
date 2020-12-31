@@ -7,7 +7,11 @@ function ListingOptions({car,showEditDialog,showDeleteDialog,classes}) {
   return (
     
       <div>
+        <span className={classes.options}>
         <InfoOutlinedIcon />
+
+        </span>
+
         <span className={classes.options} onClick={() => showEditDialog(car)}>
           <EditOutlinedIcon />
         </span>

@@ -19,15 +19,28 @@ const useStyles = makeStyles({
     borderSpacing: "0 0.5rem",
   },
   header:{
-
+    color:"#999999",
+    fontWeight:"500"
   },
   row:{
+     // display:"block",
       backgroundColor:"#fff",
-      borderRadius:5,
+      borderRadius:"0.5rem !important",
       margin:"1rem",
+      ['& td:first-child']:{
+        borderRadius:"0.5rem 0 0 0.5rem !important",
+
+      },
+
+      ['& td:last-child']:{
+        borderRadius:"0 0.5rem 0.5rem 0 !important",
+
+      }
   },
+
   cell:{
-    border:"none"      
+    border:"none",
+    padding:"0.8rem"      
   }
 
 });
@@ -38,9 +51,9 @@ export default function CustomTable({header,rows}) {
   return (
     <TableContainer className={classes.tableContainer} component={Paper}>
       <Table className={classes.table} aria-label="simple table">
-        <TableHead className={classes.header}>
+        <TableHead >
           <TableRow>
-            {header.map(({title}) => <TableCell className={classes.cell}>{title}</TableCell>)} 
+            {header.map(({title}) => <TableCell className={`${classes.cell} ${classes.header}`}>{title}</TableCell>)} 
           </TableRow>
         </TableHead>
         <TableBody>  
