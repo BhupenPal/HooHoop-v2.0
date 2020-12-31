@@ -3,7 +3,8 @@ import { OPEN_SNACKBAR,CLOSE_SNACKBAR } from "../actions/types";
 const initialState = {
   message:"",  
   severity:null,
-  open:false
+  open:false,
+  action: null,
 };
 
 export default function (state = initialState, action) {
@@ -12,6 +13,7 @@ export default function (state = initialState, action) {
       return {
         message:action.payload.message,
         severity:action.payload.severity,
+        action: action.payload.action,
         open:true
       };
 
@@ -19,6 +21,7 @@ export default function (state = initialState, action) {
       return {
         message:"",
         severity: state.severity,
+        action: null,
         open:false
       };
 

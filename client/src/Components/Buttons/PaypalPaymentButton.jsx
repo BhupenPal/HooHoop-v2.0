@@ -13,7 +13,6 @@ const PaypalPaymentButton = ({ toPay, onSuccess, transactionError, transactionCa
 
 	const onCancel = (data) => {
 		// User pressed "cancel" or close Paypal's popup!
-		console.log('The payment was cancelled!', data);
 		// You can bind the "data" object's value to your state or props or whatever here, please see below for sample returned data
 
 		// Calling our sucess prop and passing the payment details
@@ -22,7 +21,6 @@ const PaypalPaymentButton = ({ toPay, onSuccess, transactionError, transactionCa
 
 	const onError = (err) => {
 		// The main Paypal's script cannot be loaded or somethings block the loading of that script!
-		console.log("Error!", err);
 		// Because the Paypal's main script is loaded asynchronously from "https://www.paypalobjects.com/api/checkout.js"
 		// => sometimes it may take about 0.5 second for everything to get set, or for the button to appear
 

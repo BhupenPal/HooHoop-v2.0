@@ -18,7 +18,6 @@ function AddMoneyModal({ open, setModal }) {
   const onSuccess = (data) => {
     alert("Success");
     setModal(false)
-    console.log(data);
     const payload = {};
   };
   const handleChange = (e) => {

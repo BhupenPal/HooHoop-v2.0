@@ -278,11 +278,11 @@ const filterComponent = (props) => {
 
   return (
     <Box className="filterContainer fadeIn">
-      <div>
+      <Box style={{display:!showFilters ? "block" : "none"}}>
         <Button startIcon={<FilterList/>} onClick={toggleFilterVisiblity}>
-      
-          Add Filters</Button>
-      </div>
+          Add Filters
+          </Button>
+      </Box>
       <Box
         className="fadeIn"
         style={{

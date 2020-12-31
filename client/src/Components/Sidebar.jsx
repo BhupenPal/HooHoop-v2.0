@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flex: 1,
     backgroundColor: "#F4F6F8",
-    height: "calc( 100vh - 7rem)",
+    minHeight: "calc( 100vh - 7rem)",
     overflow: "auto",
   },
 
@@ -148,12 +148,14 @@ const getNavs = (isAdmin) => ({
   //   component: Logout,
   // },
 });
+
+const breakpoint = 960;
 function SideBar(props) {
   const classes = useStyles();
   const history = useHistory();
   const sideBar = useSelector((store) => store.sideBar);
   const { width } = useWindowDimensions();
-  const { user } = useSelector((store) => store.auth);
+  const { user,isAuthenticated } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const [Navs, setNavs] = useState(getNavs(user && user.Role === "admin"));
 
@@ -167,22 +169,22 @@ function SideBar(props) {
   //   }
   // }, [width]);
   useEffect(() => {
-    if (!history.location.pathname.includes("/user/") && width > 480) {
+    if (!history.location.pathname.includes("/user/") && width > breakpoint) {
       dispatch(hideSideBar());
-    } else if (history.location.pathname.includes("/user/") && width > 480) {
+    } else if (history.location.pathname.includes("/user/") && width > breakpoint) {
       dispatch(showSideBar());
-    } else if (width <= 480) {
+    } else if (width <= breakpoint) {
       dispatch(hideSideBar());
     }
   },[])
   useEffect(() => {
     return history.listen((location) => {
-      console.log(history.location)
-      if (!history.location.pathname.includes("/user/") && width > 480) {
+    
+      if (!history.location.pathname.includes("/user/") && width > breakpoint) {
         dispatch(hideSideBar());
-      } else if (history.location.pathname.includes("/user/") && width > 480) {
+      } else if (history.location.pathname.includes("/user/") && width > breakpoint) {
         dispatch(showSideBar());
-      } else if (width <= 480) {
+      } else if (width <= breakpoint) {
         dispatch(hideSideBar());
       }
     });
@@ -194,7 +196,51 @@ function SideBar(props) {
     dispatch(logoutUser());
     history.push(`/login?redirect=${history.location.pathname}`);
   };
+  const renderLogoutButton = () => {
+    if(isAuthenticated){
+      return (
 
+        <Box display={{ sm: "none" }}>
+          <ListItem
+            button
+            key={Object.keys(Navs).length}
+            className={classes.listItem}
+            onClick={handleLogout}
+          >
+            <ListItemIcon>
+              <img src={Logout} height="20rem" alt="nav item" />
+
+              {/* <img src={} height="20rem" alt="nav item" /> */}
+            </ListItemIcon>
+            <ListItemText
+              primary={<span className={classes.text}>{"Logout"}</span>}
+            />
+          </ListItem>
+        </Box>
+      )
+    }else{
+      return (
+
+        <Box>
+          <ListItem
+            button
+            key={Object.keys(Navs).length}
+            className={classes.listItem}
+            onClick={() => history.push(`/login`)}
+          >
+            <ListItemIcon>
+              <img src={Logout} height="20rem" alt="nav item" />
+
+              {/* <img src={} height="20rem" alt="nav item" /> */}
+            </ListItemIcon>
+            <ListItemText
+              primary={<span className={classes.text}>{"Sign In"}</span>}
+            />
+          </ListItem>
+        </Box>
+      )
+    }
+  }
   const drawer = () => (
     <div>
       <List>
@@ -233,7 +279,7 @@ function SideBar(props) {
           </Link>
         </Box>
         {Object.keys(Navs).reduce((arr, text, index) => {
-          if (!Navs[text]) {
+          if (!Navs[text] || !isAuthenticated) {
             return arr;
           }
           arr.push(
@@ -260,30 +306,12 @@ function SideBar(props) {
           );
           return arr;
         }, [])}
-
-        <Box display={{ sm: "block" }}>
-          <ListItem
-            button
-            key={Object.keys(Navs).length}
-            className={classes.listItem}
-            onClick={handleLogout}
-          >
-            <ListItemIcon>
-              <img src={Logout} height="20rem" alt="nav item" />
-
-              {/* <img src={} height="20rem" alt="nav item" /> */}
-            </ListItemIcon>
-            <ListItemText
-              primary={<span className={classes.text}>{"Logout"}</span>}
-            />
-          </ListItem>
-        </Box>
+        {renderLogoutButton()}
       </List>
     </div>
   );
   const shouldHideSideBar = () => {
-    if (!history.location.pathname.includes("/user/") && width > 480) {
-      console.log("called");
+    if (!history.location.pathname.includes("/user/") && width > breakpoint) {
       return true;
     }
     return false;
@@ -294,7 +322,7 @@ function SideBar(props) {
   //   } else {
   //   }
   // };
-  // if(!sideBar.active && width > 480){
+  // if(!sideBar.active && width > breakpoint){
   //   return <div>{props.children}</div>;
   // }
   return (

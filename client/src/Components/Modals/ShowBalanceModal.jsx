@@ -80,9 +80,6 @@ return (<>
         </TableHead>
         <TableBody>
             <StyledTableRow key={0}>
-              {/* <StyledTableCell component="th" scope="row">
-                {row.name}
-              </StyledTableCell> */}
               <StyledTableCell align="center">{credits}</StyledTableCell>
               <StyledTableCell align="center">{listingAmount}</StyledTableCell>
               <StyledTableCell align="center">{credits - listingAmount}</StyledTableCell>

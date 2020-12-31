@@ -36,7 +36,11 @@ function WishlistButton({ VINum,LikedBy }) {
       showLoginModel();
     }
   };
-  
+  useEffect(() => {
+    if(!isAuthenticated){
+      setLike(false);
+    }
+  },[isAuthenticated])
   useEffect(() => {
     setLike(LikedBy)
   }, [LikedBy])

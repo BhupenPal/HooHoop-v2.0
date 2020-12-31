@@ -8,7 +8,6 @@ const CheckAuth = (OriginalComponent) => {
   class NewComponent extends React.Component {
     render = () => {
       const status = GetLSWithExpiry('isAuthenticated');
-      console.log(status)
 
       if(status){
             return <OriginalComponent {...this.props} />;
