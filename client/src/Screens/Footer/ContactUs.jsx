@@ -28,25 +28,37 @@ const ContactUS = (props) => {
 		FullName: '',
 		Email: '',
 		Subject: '',
-		Message: ''
+		Message: '',
+		Verified: false
 	})
 
 	const FormSubmitHandle = (e) => {
 		e.preventDefault()
 
-		contactFormSubmit(payload)
-			.then((response) => {
-				successSnackbar(`Your response has been recorded.`)
-			})
-			.catch((error) => {
-				errorSnackbar("Unsuccessful sign in attempt")
-			})
+		if (payload.Verified) {
+			contactFormSubmit(payload)
+				.then((response) => {
+					successSnackbar(`Your response has been recorded`)
+				})
+				.catch((error) => {
+					errorSnackbar("Error submitting your response")
+				})
+		} else {
+			errorSnackbar("Please verify your respone using Google ReCaptcha")
+		}	
 	}
 
 	const handleChange = (e) => {
 		setPayload({
 			...payload,
 			[e.target.name]: e.target.value,
+		})
+	}
+
+	const verifyCaptchaCallback = (response) => {
+		setPayload({
+			...payload,
+			Verified: true
 		})
 	}
 
@@ -115,6 +127,7 @@ const ContactUS = (props) => {
 									sitekey={process.env.CAPTCHA_KEY_V2}
 									render="invisible"
 									type="reCAPTCHA v2"
+									verifyCallback={verifyCaptchaCallback}
 								/>
 							</div>
 							<Button type="submit" className={classes.contactButton}>

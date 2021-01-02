@@ -1,10 +1,10 @@
-import React from "react"
+import React, { Fragment } from "react"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItemText from "@material-ui/core/ListItemText"
-import { makeStyles, useTheme } from "@material-ui/core/styles"
-import { Route, Switch, Link, useRouteMatch, useHistory } from "react-router-dom"
+import { makeStyles } from "@material-ui/core/styles"
+import { Link, useHistory } from "react-router-dom"
 import ProfileIcon from "../assets/img/sidebarIcons/profile.svg"
 import MyFavourites from "../assets/img/sidebarIcons/favourites.svg"
 import MyListing from "../assets/img/sidebarIcons/listing.svg"
@@ -15,17 +15,8 @@ import AllClientManagement from "../assets/img/sidebarIcons/all_client_managemen
 import SellIcon from "../assets/img/sidebarIcons/money.svg"
 import BuyCar from "../assets/img/sidebarIcons/car.svg"
 
-import MyOffers from "../assets/img/sidebarIcons/my_offers.svg"
-import NoDealCustomers from "../assets/img/sidebarIcons/no_ideal_customers.svg"
 import YourPayments from "../assets/img/sidebarIcons/your_payments.svg"
 import Logout from "../assets/img/sidebarIcons/logout.svg"
-import Profile from "../Screens/Dashboard/Profile.jsx"
-import Favourites from "../Screens/Dashboard/Favourites.jsx"
-import MyListingScreen from "../Screens/Dashboard/MyListing.jsx"
-import AllListingScreen from "../Screens/Dashboard/AllListings.jsx"
-import UserManagementScreen from "../Screens/Dashboard/UserManagements.jsx"
-import MyClientManagementScreen from "../Screens/Dashboard/MyClientManagement.jsx"
-import AllClientManagementScreen from "../Screens/Dashboard/AllClientsManagement.jsx"
 import "../assets/css/dashboard.scss"
 import { useEffect } from "react"
 import { Box } from "@material-ui/core"
@@ -71,13 +62,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 	content: {
 		flex: 1,
-		// backgroundColor: "#F4F6F8",
+		backgroundColor: "#F4F6F8",
 		minHeight: "calc( 100vh - 7rem)",
 		overflow: "auto",
 	},
 	fullHeight: {
 		flex: 1,
-		// backgroundColor: "#F4F6F8",
+		backgroundColor: "#F4F6F8",
 		height: "100%",
 		overflow: "auto",
 	},
@@ -306,16 +297,6 @@ function SideBar(props) {
 		}
 		return false
 	}
-
-	// const renderContent = () => {
-	//   if (sideBar.active) {
-	//     return 
-	//   } else {
-	//   }
-	// }
-	// if(!sideBar.active && width > breakpoint){
-	//   return <div>{props.children}</div>
-	// }
 
 	return (
 		<div className={`${classes.root}`}>
