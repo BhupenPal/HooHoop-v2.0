@@ -373,7 +373,7 @@ Router.get("/car-data-fetch/:CarPlate", verifyAccessToken, async (req, res, next
 		const response = await axios.get(
 			`https://carjam.co.nz/a/vehicle:abcd?key=${process.env.CARJAM_API_KEY}&plate=${req.params.CarPlate}`
 		)
-		res.send(response.data)
+		res.status(200).send(response.data)
 	} catch (error) {
 		console.error(error.message)
 		next(createError.InternalServerError())

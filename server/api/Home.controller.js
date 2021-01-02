@@ -158,7 +158,7 @@ Router.post('/contact', (req, res, next) => {
 		.save()
 		.then(() => {
 			SendMail('contact@hoohoop.co.nz', `#${ComplaintNum}: ${Subject}`, ContactMail(Email, Subject, FullName, Message))
-			return res.statusCode(200).send(ComplaintNum)
+			return res.sendStatus(200)
 		})
 		.catch((error) => {
 			console.log(error)
