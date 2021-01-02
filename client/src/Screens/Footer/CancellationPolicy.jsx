@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { withStyles, Paper, Grid, Typography } from "@material-ui/core";
+import { withStyles, Grid, Typography } from "@material-ui/core";
 import styles from '../../assets/material/FooterPages';
 import classNames from 'classnames'
 
@@ -10,7 +10,7 @@ const CancellationPolicy = (props) => {
         document.documentElement.scrollTop = 0;
     },[])
     return (
-        <Grid container component='main' xs={12} className={classNames(classes.root, classes.marginBT90)}>
+        <Grid container component='main' className={classNames(classes.root, classes.marginBT90)} style={{ backgroundColor: '#fff' }}>
             <Grid item xs={12}>
                 <Typography variant='h1'>
                     Cancellation Policy

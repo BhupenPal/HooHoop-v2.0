@@ -101,7 +101,8 @@ const AboutUs = (props) => {
                         <CardContent className={classes.allCen}>
                             <div className={`${classes.circle}`}
                             style={{
-                                backgroundImage:`url(${manaImg})`,
+								backgroundImage:`url(${manaImg})`,
+								border: 0
                             }}>
                             </div>
                             <Typography align='center' variant='h4'>Mana</Typography>
@@ -117,7 +118,8 @@ const AboutUs = (props) => {
                         <CardContent className={classes.allCen}>
                             <div className={classes.circle}
                             style={{
-                                backgroundImage:`url(${tonImg})`,
+								backgroundImage:`url(${tonImg})`,
+								border: 0
                             }}>
 
                             </div>
@@ -133,7 +135,8 @@ const AboutUs = (props) => {
                     <Card className={classes.root}>
                         <CardContent className={classes.allCen}>
                             <div className={classes.circle} style={{
-                                backgroundImage:`url(${paulImg})`,
+								backgroundImage:`url(${paulImg})`,
+								border: 0
                             }}>
 
                             </div>

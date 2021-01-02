@@ -22,7 +22,7 @@ const FAQ = (props) => {
                 </div>
             </Grid>
             <Grid item xs={12} sm={8} className={classes.marginBT90}>
-                <Accordion>
+                <Accordion style={{ backgroundColor: '#F4F6F8' }}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"
@@ -37,7 +37,7 @@ const FAQ = (props) => {
                     </AccordionDetails>
                 </Accordion>
                 <Divider />
-                <Accordion>
+                <Accordion style={{ backgroundColor: '#F4F6F8' }}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel2a-content"
@@ -52,7 +52,7 @@ const FAQ = (props) => {
                     </AccordionDetails>
                 </Accordion>
                 <Divider />
-                <Accordion>
+                <Accordion style={{ backgroundColor: '#F4F6F8' }}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel3a-content"
@@ -74,7 +74,7 @@ const FAQ = (props) => {
                     </AccordionDetails>
                 </Accordion>
                 <Divider />
-                <Accordion>
+                <Accordion style={{ backgroundColor: '#F4F6F8' }}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel4a-content"
@@ -89,7 +89,7 @@ const FAQ = (props) => {
                     </AccordionDetails>
                 </Accordion>
                 <Divider />
-                <Accordion>
+                <Accordion style={{ backgroundColor: '#F4F6F8' }}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel5a-content"
@@ -104,7 +104,7 @@ const FAQ = (props) => {
                     </AccordionDetails>
                 </Accordion>
                 <Divider />
-                <Accordion>
+                <Accordion style={{ backgroundColor: '#F4F6F8' }}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel6a-content"
@@ -119,7 +119,7 @@ const FAQ = (props) => {
                     </AccordionDetails>
                 </Accordion>
                 <Divider />
-                <Accordion>
+                <Accordion style={{ backgroundColor: '#F4F6F8' }}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel7a-content"
@@ -134,7 +134,7 @@ const FAQ = (props) => {
                     </AccordionDetails>
                 </Accordion>
                 <Divider />
-                <Accordion>
+                <Accordion style={{ backgroundColor: '#F4F6F8' }}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel8a-content"
@@ -149,7 +149,7 @@ const FAQ = (props) => {
                     </AccordionDetails>
                 </Accordion>
                 <Divider />
-                <Accordion>
+                <Accordion style={{ backgroundColor: '#F4F6F8' }}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel9a-content"
@@ -164,7 +164,7 @@ const FAQ = (props) => {
                     </AccordionDetails>
                 </Accordion>
                 <Divider />
-                <Accordion>
+                <Accordion style={{ backgroundColor: '#F4F6F8' }}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel10a-content"
@@ -179,7 +179,7 @@ const FAQ = (props) => {
                     </AccordionDetails>
                 </Accordion>
                 <Divider />
-                <Accordion>
+                <Accordion style={{ backgroundColor: '#F4F6F8' }}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel11a-content"

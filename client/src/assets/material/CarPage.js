@@ -3,7 +3,7 @@ import { BorderBottom } from "@material-ui/icons";
 export default theme =>({
     pageDefault: {
       //  minHeight: "100vh",
-        backgroundColor:"#F4F6F8",
+        // backgroundColor:"#F4F6F8",
         padding:"2rem 10%",
         [theme.breakpoints.down('md')]: {
             padding:"0rem",
