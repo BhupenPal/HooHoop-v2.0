@@ -20,6 +20,7 @@ const CarSliderStyles = makeStyles(theme => ({
 		margin: '2rem auto',
 		transition: 'box-shadow 0.2s',
 		display: "flex",
+		flexDirection: 'column',
 		justifyContent: "center",
 		boxShadow: '0 0.1rem 1rem rgba(0,0,0,0.2)',
 		[theme.breakpoints.down('md')]: {
@@ -28,7 +29,7 @@ const CarSliderStyles = makeStyles(theme => ({
 	},
 	smMargin: {
 		[theme.breakpoints.down('md')]: {
-		    margin: '1rem',
+			margin: '1rem',
 		}
 	},
 	HideBoxShadow: {
@@ -128,8 +129,8 @@ const CarSlider = ({ data, loading, giveMargin }) => {
 				<Slider {...settings}>
 					{
 						[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => (
-							<div key={item * 100}>
-								<div className={`${classes.SliderCar} ${classes.HideBoxShadow} `}>
+							<div key={item}>
+								<div className={classNames(classes.SliderCar, classes.HideBoxShadow)}>
 									<Skeleton
 										variant='rect'
 										height={250}
@@ -166,9 +167,11 @@ const CarSlider = ({ data, loading, giveMargin }) => {
 		)
 
 	}
+
 	if (loading) {
 		return renderSkeletons();
 	}
+
 	return (
 		<div style={{ width: '100%', margin: '30px 0' }}>
 			<Slider {...settings}>
