@@ -9,6 +9,7 @@ const express = require('express'),
 	CarModel = require('../models/Car.model'),
 	LeadsGeneratedModel = require('../models/GeneratedLead.model'),
 	UserModel = require('../models/User.model'),
+	VirtualTour = require('../models/VirtualTour.model'),
 
 	//Helper and Services
 	{ GenerateOTP, SearchRegex, RangeBasedFilter } = require('../helper/service'),
@@ -359,6 +360,51 @@ Router.post('/car/leads/submission', verifyAccessToken, (req, res, next) => {
 		.save()
 		.then(() => {
 			return res.sendStatus(200)
+		})
+		.catch((error) => {
+			console.log(error)
+			return next(createError.InternalServerError())
+		})
+})
+
+Router.get('/virtual-tours/:PageNo/:size?', async (req, res, next) => {
+	const { SortData, State, SearchedTour } = req.query
+	let { PageNo, size } = req.params
+
+	// Making Sure Page Number IS NOT LESS THAN OR EQUAL TO 0
+	PageNo = Math.max(1, PageNo)
+
+	let options = {
+		page: PageNo || 1,
+		select: 'Name State Partner isActive State Brand APID',
+		lean: true,
+		limit: size || 15,
+		sort: { $natural: -1 }
+	}
+
+	// Basic Filter For All Queries
+	let Filters = {
+		isActive: true
+	}
+
+	// Selected Filters
+	if (State) Filters.State = State
+
+	// Sorting Data
+	if (SortData === 'CheapestFirst') options.sort = { Price: 1 }
+	else if (SortData === 'ExpensiveFirst') options.sort = { Price: -1 }
+	else if (SortData === 'OldestFirst') options.sort = { createdAt: 1 }
+
+	// For Search Field Make Model VINum
+	if (SearchedTour) {
+		const RegExTour = new RegExp(SearchRegex(SearchedTour), 'gi')
+		Filters.$or = [{ Name: RegExTour }]
+	}
+
+	VirtualTour.paginate(Filters, options)
+		.then((tours) => {
+			console.log(tours)
+			return res.json(tours)
 		})
 		.catch((error) => {
 			console.log(error)

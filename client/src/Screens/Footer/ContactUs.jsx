@@ -45,7 +45,7 @@ const ContactUS = (props) => {
 				})
 		} else {
 			errorSnackbar("Please verify your respone using Google ReCaptcha")
-		}	
+		}
 	}
 
 	const handleChange = (e) => {
@@ -56,10 +56,12 @@ const ContactUS = (props) => {
 	}
 
 	const verifyCaptchaCallback = (response) => {
-		setPayload({
-			...payload,
-			Verified: true
-		})
+		if (response) {
+			setPayload({
+				...payload,
+				Verified: true
+			})
+		}
 	}
 
 	return (
@@ -81,23 +83,23 @@ const ContactUS = (props) => {
 						<Typography className={classes.contactSubHeading}>ADDRESS</Typography>
 						<Typography className={classes.contactText}>
 							Christchurch Central, Christchurch 8011, New Zealand
-            </Typography>
+            			</Typography>
 					</Grid>
 					<Grid item xs={12} md={6} className={classes.contactDetails}>
 						<Typography className={classes.contactSubHeading}>PHONE</Typography>
 						<Typography className={classes.contactText}>
 
 							<PhoneRoundedIcon /> (642) 111 43347
-            </Typography>
+            			</Typography>
 					</Grid>
 					<Grid item xs={12} md={6} className={classes.contactDetails}>
 						<Typography className={classes.contactSubHeading}>Online Services</Typography>
 						<Typography className={classes.contactText}>
 							<LanguageIcon /> www.hoohoop.co.nz
-            </Typography>
+            			</Typography>
 						<Typography className={classes.contactText}>
 							<MailOutlineRoundedIcon /> contact@hoohoop.co.nz
-            </Typography>
+            			</Typography>
 					</Grid>
 				</Grid>
 				<Grid item xs={12} md={6} className={classes.contactContainers}>

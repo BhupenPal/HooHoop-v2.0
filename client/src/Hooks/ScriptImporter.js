@@ -1,10 +1,16 @@
 import { useEffect } from 'react'
 
-const importScript = resourceUrl => {
+const ScriptImporter = (resourceUrl, dataTags) => {
 
 	useEffect(() => {
 		const script = document.createElement('script')
 		script.src = resourceUrl
+
+		// Generating data tags for script
+		for (let [key, value] of Object.entries(dataTags)) {
+			script.setAttribute(`data-${key}`, value)
+		}
+
 		script.async = true
 		document.body.appendChild(script)
 		return () => {
@@ -14,4 +20,4 @@ const importScript = resourceUrl => {
 
 }
 
-export default importScript
+export default ScriptImporter

@@ -53,6 +53,11 @@ export default BuyCar => ({
 		fontWeight: '500 !important',
 		fontSize: 16
 	},
+	cardLocationLeft: {
+		textAlign: 'left',
+		fontWeight: '500 !important',
+		fontSize: 16
+	},
 	iconCirclePrimary: {
 		backgroundColor: '#F5F5F5',
 		color: '#333333',
