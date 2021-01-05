@@ -1,4 +1,4 @@
-import React, { Fragment } from "react"
+import React from "react"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemIcon from "@material-ui/core/ListItemIcon"
@@ -13,6 +13,7 @@ import UserManagement from "../assets/img/sidebarIcons/user_management.svg"
 import MyClientManagement from "../assets/img/sidebarIcons/my_client_management.svg"
 import AllClientManagement from "../assets/img/sidebarIcons/all_client_management.svg"
 import SellIcon from "../assets/img/sidebarIcons/money.svg"
+import VTourIcon from "../assets/img/sidebarIcons/VTour.svg"
 import BuyCar from "../assets/img/sidebarIcons/car.svg"
 
 import YourPayments from "../assets/img/sidebarIcons/your_payments.svg"
@@ -209,8 +210,6 @@ function SideBar(props) {
 					>
 						<ListItemIcon>
 							<img src={Logout} height="20rem" alt="nav item" />
-
-							{/* <img src={} height="20rem" alt="nav item" /> */}
 						</ListItemIcon>
 						<ListItemText
 							primary={<span className={classes.text}>{"Sign In"}</span>}
@@ -254,6 +253,22 @@ function SideBar(props) {
 							</ListItemIcon>
 							<ListItemText
 								primary={<span className={classes.text}>{"Sell Car"}</span>}
+							/>
+						</ListItem>
+					</Link>
+				</Box>
+				<Box display={{ sm: "block", md: "none" }}>
+					<Link to={"/virtual-tours"}>
+						<ListItem
+							button
+							key={Object.keys(Navs).length}
+							className={classes.listItem}
+						>
+							<ListItemIcon>
+								<img src={VTourIcon} height="20rem" alt="nav item" />
+							</ListItemIcon>
+							<ListItemText
+								primary={<span className={classes.text}>{"V-Tours"}</span>}
 							/>
 						</ListItem>
 					</Link>

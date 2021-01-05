@@ -22,9 +22,9 @@ const TourPage = () => {
 		>
 			<Grid item container xs={12} style={{ height: 'fit-content' }}>
 				<iframe
-					style={{ width: '100%', height: '90vh', border: 'none', maxWidth: '100%' }}
+					className='ku-embed' style={{ width: '100%', height: '90vh', border: 'none', maxWidth: '100%' }}
 					frameBorder='0' allowFullScreen allow='xr-spatial-tracking; gyroscope; accelerometer' scrolling='no'
-					src={`https://kuula.co/share/collection/${APID}?fs=1&vr=1&sd=1&thumbs=1&info=0&logo=1&logosize=96`}
+					src={`https://kuula.co/share/collection/${APID}?fs=1&vr=0&thumbs=-1&alpha=0.80&info=0&logo=-1`}
 				/>
 			</Grid>
 		</Grid>

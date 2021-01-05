@@ -17,7 +17,6 @@ const TourCard = ({ classes, tour }) => {
 
 	return (
 		<Grid item xs={12} sm={4} lg={3} xl={2} className={classes.cardContainer}>
-
 			<Card className={`${classes.rootCard} fadeIn`}>
 				<CardHeader
 					title={<p className={classes.cardTitle}>{tour.Name}</p>}

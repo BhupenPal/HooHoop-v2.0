@@ -403,7 +403,6 @@ Router.get('/virtual-tours/:PageNo/:size?', async (req, res, next) => {
 
 	VirtualTour.paginate(Filters, options)
 		.then((tours) => {
-			console.log(tours)
 			return res.json(tours)
 		})
 		.catch((error) => {

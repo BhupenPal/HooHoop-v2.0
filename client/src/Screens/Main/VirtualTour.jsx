@@ -117,7 +117,7 @@ const VirtualTour = () => {
 			{/* <Grid item container xs={12} sm={3}>
 				<FilterComponent setQuery={setQuery} />
 			</Grid> */}
-			<Grid item container xs={12} sm={9} style={{ height: 'fit-content' }}>
+			<Grid item container xs={12} style={{ height: 'fit-content' }}>
 				<InfiniteScroll
 					dataLength={tours.length}
 					next={() => setPage(page + 1)}
